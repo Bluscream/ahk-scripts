@@ -1,17 +1,3 @@
-﻿
-If (A_PtrSize == 4) {
-    SplitPath A_AhkPath,, AhkDir
-    AhkPath := AhkDir . "\AutoHotkeyU64.exe"
-    Run "%AhkPath%" "%A_ScriptFullPath%"
-    ExitApp
-}
-
-If !(A_IsUnicode) {
-    SplitPath A_AhkPath,, AhkDir
-    AhkPath := AhkDir . "\AutoHotkey" . (A_Is64bitOS ? "U64" : "U32") . ".exe"
-    Run "%AhkPath%" "%A_ScriptFullPath%"
-    ExitApp
-}
 #Include <bluscream>
 #Include <logtail>
 #NoEnv
