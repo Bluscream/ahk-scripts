@@ -28,7 +28,8 @@ scriptlog(msg, timestamp := "") {
 PostClick(hwnd, X, Y, Count=1, Delay=50)
 { ; By Infogulch
 	p := y << 16 | (x & 0xffff)
-	Loop, %Count% {
+	Loop, %Count%
+    {
 		PostMessage, 0x201, 1, p, , ahk_id %hwnd%
 		If (Delay)
 			Sleep Delay
@@ -36,4 +37,33 @@ PostClick(hwnd, X, Y, Count=1, Delay=50)
 		If (Delay)
 			Sleep Delay
 	}
+}
+HexToString(String) { 
+   local Length, CharStr, RetString 
+   If !String 
+      Return 0 
+   Length := StrLen(String)//2 
+   Loop, %Length%
+   { 
+      StringMid, CharStr, String, A_Index*2 - 1, 2 
+      CharStr = 0x%CharStr%
+      RetString .= Chr(CharStr) 
+      
+      } 
+   Return RetString 
+   }
+StringToHex(String, spaces := true) {
+	local Old_A_FormatInteger, CharHex, HexString
+	If !String
+		Return 0
+	Old_A_FormatInteger := A_FormatInteger
+	SetFormat, INTEGER, H
+	Loop, Parse, String 
+    {
+		CharHex := Asc(A_LoopField)
+		StringTrimLeft, CharHex, CharHex, 2
+		HexString .= CharHex . (spaces ? " " : "") 
+    }
+	SetFormat, INTEGER, %Old_A_FormatInteger%
+	Return HexString
 }

@@ -26,7 +26,10 @@ global system_pattern := "^\[(.*)\] (.*)$"
 global others_kick_pattern := "^Player (.*)\((\d+)\) has been kicked\.$"
 global afk_warning := "Please move! If you will not move within next minute you will be automatically kicked!"
 global kick_pattern := "^You have been kicked from the server\. Reason: (.*)$"
+global headlights_warning := "*** Turn on your headlights! If you will not enable them, you will be kicked within 15 seconds! ***"
 
+;[07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck).
+;[07:57:37] Server closed the connection. To connect again restart game.
 
 global chat_key := GetChatKey()
 global server := ""
