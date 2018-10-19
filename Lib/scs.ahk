@@ -68,12 +68,12 @@ GetChatKey() {
         return "{SC15}" ;(QUERTY)
     }
 }
-setLights(set_enabled, is_park, is_low) {
-    already_on := set_enabled && is_low
-    already_off := !set_enabled && (!is_park && !is_low)
+setLights(enabled, is_park, is_low) {
+    already_on := enabled && is_low
+    already_off := !enabled && (!is_park && !is_low)
     if (already_on or already_off)
         return
-    if (set_enabled) {
+    if (enabled) {
         if (!is_park) {
             sends := 2
         } else if (is_park) {
@@ -91,4 +91,22 @@ setLights(set_enabled, is_park, is_low) {
         SendInput, {L}
         Sleep, 50
     }
+}
+setGear(gear, data) {
+    ; if (data.truck.displayedGear == gear)
+    ;    return
+    while (data.truck.displayedGear != gear) {
+        scriptlog("displayedGear " . data.truck.displayedGear . " | gear " . gear)
+        if (data.truck.displayedGear > gear)
+            Send, {LControl}
+        else
+            Send, {LShift}
+        Sleep, 50
+    }
+    data := requestTelemetry()
+}
+setBeacon(enabled, lightsBeaconOn) {
+    if ((enabled && lightsBeaconOn) ||(!enabled && lightsBeaconOn))
+        Return
+    Send, O
 }

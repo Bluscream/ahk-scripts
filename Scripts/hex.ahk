@@ -1,1 +1,0 @@
-G:/Steam/steamapps/common/Euro Truck Simulator 2/profiles/hex.ahk

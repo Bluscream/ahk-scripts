@@ -84,11 +84,17 @@ OnNewLine(FileLine) {
         scriptlog("Found server: " . server)
     }  else if (RegExMatch(msg2, queue_pattern, result)) {
         queue := result1
-        if (queue > 1)
+        if (queue > 5)
             WinMinimize, %game_title_mp%
         scriptlog("Found queue: " . queue)
     } else if (msg2 == joined_msg) {
         TrayTip, %game_shortname_mp%, You joined %server% (%queue%)
+    } else if (msg2 == headlights_warning) {
+        data := requestTelemetry()
+        setLights(true, data.truck.lightsParkingOn, data.truck.lightsBeamLowOn)
+        Sleep, 3000
+        data := requestTelemetry()
+        setLights(false, data.truck.lightsParkingOn, data.truck.lightsBeamLowOn)
     } else if (msg2 == afk_warning) {
         scriptlog("We were warned for being AFK, let's pretend we're not `;)")
         if !(WinActive(game_title_mp)) {
