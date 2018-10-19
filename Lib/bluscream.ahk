@@ -22,6 +22,7 @@ scriptlog(msg, timestamp := "") {
     ControlGetText, Edit1Text, Edit1, ahk_class AutoHotkey
     if (!timestamp)
         FormatTime, timestamp, A_Now, hh:mm:ss
+    msg := StrReplace(msg, "\n" , "`n")
     ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
 }
