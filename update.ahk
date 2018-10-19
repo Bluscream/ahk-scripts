@@ -5,6 +5,9 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
+MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
+; Return
+
 Scripts := Array()
 Loop, Scripts\*.ahk
 {
@@ -22,23 +25,25 @@ Loop % Scripts.Length() {
     Binaries .= binary . "|"
 }
 
-scriptlog("")
-RunWait, git add .
-FormatTime, commit,, MM\dd\yy hh:mm:ss
-RunWait, git commit -m "UPDATE %commit%"
-RunWait, git push
-log := RunWaitOne("git log")
-scriptlog(log)
+RunWaitOne("git add .")
+FormatTime, commit,, MM/dd/yy hh:mm:ss
+RunWaitOne("git commit -m ""UPDATE " . commit . "")
+RunWaitOne("git push")
+gitlog := RunWaitOne("git log", false)
+MsgBox % gitlog
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
 FormatTime, tag,, MM\dd\yyyy
-RunWait, powershell release.ps1 -token %GitHubToken% -tag '%tag%' -name '%name%' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '%Binaries%'
+RunWaitOne("powershell '%A_ScriptDir%\release.ps1' -token %GitHubToken% -tag '%tag%' -name '%name%' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '%Binaries%'")
 
 Return
 
-RunWaitOne(command) {
+RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
     exec := shell.Exec(ComSpec " /C " command)
-    return exec.StdOut.ReadAll()
+    result := exec.StdOut.ReadAll()
+    if (print)
+        scriptlog(command . ": " . result)
+    return result
 }
