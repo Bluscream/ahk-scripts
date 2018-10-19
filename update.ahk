@@ -35,9 +35,9 @@ gitlog := RunWaitOne("git log", false)
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
-FormatTime, tag,, MM\dd\yyyy
+FormatTime, tag,, MM/dd/yyyy
 dir := StrReplace(A_ScriptDir, " " , "`` ")
-cmd := "Powershell.exe -NoExit '" . dir . "\release.ps1'"
+cmd := "Powershell.exe -NoExit -Command '" . dir . "\release.ps1'"
 params := "-token '" . GitHubToken . "' -tag '" . tag . "' -name '" . tag . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'"
 scriptlog(cmd)
 scriptlog(params)
