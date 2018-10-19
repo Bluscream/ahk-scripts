@@ -22,6 +22,7 @@ Loop % Scripts.Length() {
     binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
     scriptlog("Into " . binary)
     RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 0
+    binary := StrReplace(binary, " " , "`` ")
     Binaries .= binary . "|"
 }
 
