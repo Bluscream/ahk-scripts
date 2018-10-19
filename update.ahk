@@ -22,17 +22,18 @@ Loop % Scripts.Length() {
     Binaries .= binary . "|"
 }
 
+scriptlog("")
 RunWait, git add .
 FormatTime, commit,, MM\dd\yy hh:mm:ss
-RunWait, git commit -m "UPDATE %date% %time%"
+RunWait, git commit -m "UPDATE %commit%"
 RunWait, git push
 log := RunWaitOne("git log")
-MsgBox % log
+scriptlog(log)
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
 FormatTime, tag,, MM\dd\yyyy
-RunWait, release.ps1 -token %GitHubToken% -tag '%tag%' -name '%name%' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '%Binaries%'
+RunWait, powershell release.ps1 -token %GitHubToken% -tag '%tag%' -name '%name%' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '%Binaries%'
 
 Return
 
