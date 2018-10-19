@@ -2,18 +2,17 @@
 #Include <scs>
 #Include <bluscream>
 #Include <logtail>
-#NoEnv
+; #NoEnv
 #Persistent
-#InstallKeybdHook
+; #InstallKeybdHook
 #SingleInstance Force
-#UseHook On
-SendMode Input
+; #UseHook On
+; SendMode Input
 Process Priority,, Below Normal
 SetWorkingDir %A_ScriptDir%
 ; SetFormat, Integer, H
 
-global ui := false
-; global noui := false
+global noui := true
 scriptlog("Started logging here...")
 global antiafk_msg := "/p"
 global player_name := "Bluscream"
@@ -77,13 +76,13 @@ OnNewLine(FileLine) {
         } else {
             scriptlog("System Message: " . system2)
         }
-    }  else if (RegExMatch(msg2, server_pattern, server)) {
-        server := server1
+    }  else if (RegExMatch(msg2, server_pattern, result)) {
+        server := result1
         scriptlog("Found server: " . server)
-    }  else if (RegExMatch(msg2, queue_pattern, queue)) {
-        queue := queue2
-        server := server1
-        WinMinimize, %game_title_mp%
+    }  else if (RegExMatch(msg2, queue_pattern, result)) {
+        queue := result1
+        if (queue > 1)
+            WinMinimize, %game_title_mp%
         scriptlog("Found queue: " . queue)
     } else if (msg2 == joined_msg) {
         TrayTip, %game_shortname_mp%, You joined %server% (%queue%)
@@ -92,9 +91,13 @@ OnNewLine(FileLine) {
         if !(WinActive(game_title_mp)) {
             minimized := true
             TrayTip, AutoHotKey, Bringing %game_shortname_mp% to front for AntiAFK...
+            ToolTip, Sleep 1000, 0, 0
+            SetTimer, RemoveToolTip, 1000
             Sleep, 1000
             WinActivate, %game_title_mp%
             WinWaitActive, %game_title_mp%
+            ToolTip, Sleep 100, 0, 0
+            SetTimer, RemoveToolTip, 100
             Sleep, 100
         } else if (A_TimeIdle < interval){
             Return
@@ -107,22 +110,32 @@ OnNewLine(FileLine) {
         if (data.game.paused) {
             paused := "{F1}"
             Send, %paused%
+            ToolTip, Sleep 100, 0, 0
+            SetTimer, RemoveToolTip, 100
             Sleep, 100
             data := requestTelemetry()
             if (data.game.paused) {
                 paused := "{Esc}"
                 Send, %paused%
+                ToolTip, Sleep 2000, 0, 0
+                SetTimer, RemoveToolTip, 2000
                 Sleep, 2000
                 data := requestTelemetry()
                 if (data.game.paused) {
                     Send, %paused%
+                    ToolTip, Sleep 2000 2, 0, 0
+                    SetTimer, RemoveToolTip, 2000
                     Sleep, 2000
                 }
             }
         }
         SendInput, %chat_key%
+        ToolTip, Sleep 50, 0, 0
+        SetTimer, RemoveToolTip, 50
         Sleep, 50
         SendInput, %antiafk_msg%
+        ToolTip, Sleep 50 2, 0, 0
+        SetTimer, RemoveToolTip, 50
         Sleep, 50
         SendInput, {Enter}
         scriptlog("Was paused: " . paused . " minimized: " . minimized)

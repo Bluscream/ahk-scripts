@@ -24,7 +24,7 @@ Process Priority,, Below Normal
 ; scriptlog("Started logging here...")
 
 ; SETTINGS START
-interval := 3000 ; Region will be scanned each "interval" millseconds
+interval := 5000 ; Region will be scanned each "interval" millseconds
 regionX := [100,750] ;[820,302] ; The region to scan (left number is the horizontal start and right number the width)
 regionY := [100,500] ;[341,315] ; The region to scan (left number is the horizontal start and right number the length)
 threshold := 50 ; How low the avarage detected color must be to assume it's dark

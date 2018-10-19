@@ -1,5 +1,4 @@
 ﻿; Version 10/18/2018
-global noui := False
 global ui := False
 startsWith(string, substring){
     return InStr(string, substring) == 1
@@ -12,8 +11,8 @@ RegExEscape(String)
 	return "\Q" StrReplace(String, "\E", "\E\\E\Q") "\E"
 }
 scriptlog(msg, timestamp := "") {
-    ; if(noui == true)
-    ;     return
+    if(noui == true)
+        return
     if(ui == false){
         ListVars
         WinWait ahk_class AutoHotkey

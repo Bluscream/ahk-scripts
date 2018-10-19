@@ -3,6 +3,7 @@ Scripts/*.lnk
 Scripts/*.exe
 Scripts/*_TransMAP_*.txt
 Scripts/temp/
+Scripts/bin/
 
 Lib/_Struct.ahk
 Lib/DateParse.ahk
@@ -23,4 +24,8 @@ AutoHotkey*
 crypt.*
 *.chm
 *.7z
+*.ps1
+*.bat
 license.txt
+WindowSpy.ahk
+Installer.ahk
