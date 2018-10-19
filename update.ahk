@@ -35,7 +35,7 @@ gitlog := RunWaitOne("git log", false)
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
 FormatTime, tag,, MM\dd\yyyy
-RunWaitOne("powershell '" . A_ScriptDir . "\release.ps1' -token " . GitHubToken . " -tag '" . tag . "' -name '" . name . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'")
+RunWaitOne("powershell '" . A_ScriptDir . "\release.ps1' -token " . GitHubToken . " -tag '" . tag . "' -name '" . tag . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'")
 
 Return
 
