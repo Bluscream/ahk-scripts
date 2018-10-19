@@ -21,7 +21,7 @@ Loop % Scripts.Length() {
     binary := StrReplace(binary, ".ahk" , ".exe")
     binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
     scriptlog("Into " . binary)
-    RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 0
+    RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
     binary := StrReplace(binary, " " , "`` ")
     Binaries .= binary . "|"
 }
@@ -35,11 +35,10 @@ gitlog := RunWaitOne("git log", false)
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
-; FormatTime, tag,, MM\dd\yyyy
-tag := "PSTEST"
+FormatTime, tag,, MM\dd\yyyy
 dir := StrReplace(A_ScriptDir, " " , "`` ")
-cmd := "Powershell.exe -NoExit -Command '" . dir . "\release.ps1'"
-params := "-token " . GitHubToken . " -tag '" . tag . "' -name '" . tag . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'"
+cmd := "Powershell.exe -NoExit -Command '""" . dir . "\release.ps1'"
+params := "-token '" . GitHubToken . "' -tag '" . tag . "' -name '" . tag . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'"""
 scriptlog(cmd)
 scriptlog(params)
 Run %cmd% %params%
