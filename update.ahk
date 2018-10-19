@@ -5,7 +5,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
-MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
+; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return
 
 Scripts := Array()
@@ -21,7 +21,7 @@ Loop % Scripts.Length() {
     binary := StrReplace(binary, ".ahk" , ".exe")
     binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
     scriptlog("Into " . binary)
-    RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
+    RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 0
     Binaries .= binary . "|"
 }
 
@@ -30,12 +30,12 @@ FormatTime, commit,, MM/dd/yy hh:mm:ss
 RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
 gitlog := RunWaitOne("git log", false)
-MsgBox % gitlog
+; MsgBox % gitlog
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
 FormatTime, tag,, MM\dd\yyyy
-RunWaitOne("powershell '%A_ScriptDir%\release.ps1' -token %GitHubToken% -tag '%tag%' -name '%name%' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '%Binaries%'")
+RunWaitOne("powershell '" . A_ScriptDir . "\release.ps1' -token " . GitHubToken . " -tag '" . tag . "' -name '" . name . "' -descr 'Release created with AutoHotKey and Powershell' -user 'Bluscream' -project 'ahk-scripts' -file '" . Binaries . "'")
 
 Return
 
