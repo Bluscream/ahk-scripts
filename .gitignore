@@ -1,0 +1,26 @@
+Scripts/* - Copy.*
+Scripts/*.lnk
+Scripts/*.exe
+Scripts/*_TransMAP_*.txt
+Scripts/temp/
+
+Lib/_Struct.ahk
+Lib/DateParse.ahk
+Lib/Gdip*.ahk
+Lib/gdiplus.dll
+Lib/JSON.ahk
+Lib/region.ahk
+Lib/sizeof.ahk
+Lib/WatchDirectory.ahk
+
+AHKStudio/
+AutoGUI/
+Autohotkey-Obfuscator/
+Compiler/
+ScriptUp/
+
+AutoHotkey*
+crypt.*
+*.chm
+*.7z
+license.txt
