@@ -1,0 +1,1 @@
+../../../Windows/ShellNew/Template.ahk
