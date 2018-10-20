@@ -16,20 +16,28 @@ global noui := false
 scriptlog("Started logging here...")
 global antiafk_msg := "/p"
 global player_name := "Bluscream"
+global rec_counter := 0
 
 global log_pattern := "^\[(\d{2}:\d{2}:\d{2})\] (.*)$"
 global msg_pattern := "^(.*) \((\d+)\): (.*)$"
 global server_pattern := "^Connecting to (.*) server\.\.\.$"
 global queue_pattern := "^Connection established \(position in queue: (\d+)\)\.$"
 global joined_msg := "Connection established!"
+
 global system_pattern := "^\[(.*)\] (.*)$"
-global others_kick_pattern := "^Player (.*)\((\d+)\) has been kicked\.$"
-global afk_warning := "Please move! If you will not move within next minute you will be automatically kicked!"
+global others_kick_pattern := "^(.*)\((\d+)\) has been kicked\.$"
+global pm_pattern_from := "^Message from (.*)\((\d+)\): (.*)$"
+global pm_pattern_to := "^Message to (.*)\((\d+)\): (.*)$"
+
 global kick_pattern := "^You have been kicked from the server\. Reason: (.*)$"
 global connection_lost_msg := "Server closed the connection. To connect again restart game."
+global afk_warning := "Please move! If you will not move within next minute you will be automatically kicked!"
 global headlights_pattern := "^\*\*\* Turn on your headlights! If you will not enable them, you will be kicked within (\d+) seconds! \*\*\*$"
 
 ;[07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck).
+;[07:44:27] System Message: Message from KartalHD(737): ım go to duisburg hotel ?
+;[07:44:28] Message from Bluscream (ID: 45):  /r where are you?
+;[07:44:34] System Message: Message to KartalHD(737): lol
 
 global chat_key := GetChatKey()
 global server := ""
@@ -62,10 +70,22 @@ OnNewLine(FileLine) {
         ; scriptlog("INVALID: " . fileline)
         return
     } else if (RegExMatch(msg2, msg_pattern, message)){
-        if (InStr(message2,player_name)) {
+        lower := Format("{:L}", message3)
+        if (InStr(lower,player_name))
             TrayTip, Mentioned in %game_shortname_mp%, %message3%
+        if (InStr(lower,"rec"))
+            rec_counter += 1
+        scriptlog("Message from """ . message1 . """ (ID: " . message2 . "): " . message3 . " [REC COUNTER: " . rec_counter . "]")
+    }  else if (RegExMatch(msg2, system_pattern, system)) {
+        if (RegExMatch(system2, pm_pattern_from, msg_from)){
+            scriptlog("Private Message from """ . msg_from1 . """ (ID: " . msg_from2 . "): " . msg_from3)
+            TrayTip, Message from %msg_from1%, %msg_from3%
+        } else if (RegExMatch(system2, pm_pattern_to, msg_to)) {
+            scriptlog("Private Message to """ . msg_to1 . """ (ID: " . msg_to2 . "): " . msg_to3)
+        } else if (RegExMatch(system2, others_kick_pattern, kicked_player)){
+            scriptlog("""" . kicked_player1 . """ (ID: " . kicked_player2 . ") has been kicked from the server.")
         } else {
-            scriptlog("Message from " . message1 . " (ID: " . message2 . "): " . message3)
+            scriptlog(system1  . " Message: " . system2)
         }
     } else if (RegExMatch(msg2, kick_pattern, reason)){
         scriptlog("We got kicked for """ . reason1 . """, restarting game...")
@@ -75,12 +95,6 @@ OnNewLine(FileLine) {
         scriptlog("Connection closed by server, restarting game...")
         restartGame()
         Return
-    }  else if (RegExMatch(msg2, system_pattern, system)) {
-        if (RegExMatch(system2, others_kick_pattern, kicked_player)){
-            scriptlog(kicked_player1 . " (ID: " . kicked_player2 . ") has been kicked from the server.")
-        } else {
-            scriptlog("System Message: " . system2)
-        }
     }  else if (RegExMatch(msg2, server_pattern, result)) {
         server := result1
         scriptlog("Found server: " . server)

@@ -14,7 +14,7 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 #Include <bluscream>
 #SingleInstance Force
 #NoEnv
-#Persistent
+; #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
