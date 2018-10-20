@@ -3,8 +3,7 @@
 #SingleInstance Force
 Process Priority,, Below Normal
 min_detections := 3
-SetTimer, Loop, 100
-detections := 0
+SetTimer, Loop, 500
 TrayTip, AutoHotKey, "Started " . game_shortname . " Auto Parking Brake Disengage",
 Return
 Loop:
@@ -12,11 +11,6 @@ Loop:
     data := requestTelemetry()
     if (data.game.paused || !data.truck.engineOn)
         return
-	if (data.truck.parkBrakeOn && data.truck.userThrottle) {
-		detections += 1
-		if(detections >= min_detections)
-			Send, {Space}
-	} else if (detections > 0){
-		detections := 0
-	}	
+	if (data.truck.parkBrakeOn && data.truck.userThrottle)
+        Send, {Space}
     Return
