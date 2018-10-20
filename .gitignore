@@ -3,7 +3,6 @@ Scripts/*.lnk
 Scripts/*.exe
 Scripts/*_TransMAP_*.txt
 Scripts/temp/
-Scripts/bin/
 
 Lib/_Struct.ahk
 Lib/DateParse.ahk

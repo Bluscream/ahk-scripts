@@ -26,7 +26,7 @@ Loop, Scripts\*.ahk
 {
       Scripts.Push(A_LoopFileLongPath)
 }
-Binaries := ""
+; Binaries := ""
 Loop % Scripts.Length() {
     script := Scripts[A_Index]
     scriptlog("Compiling " . script)
@@ -35,16 +35,18 @@ Loop % Scripts.Length() {
     binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
     scriptlog("Into " . binary)
     RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
-    binary := StrReplace(binary, " " , "`` ")
-    Binaries .= binary . "|"
+    ; binary := StrReplace(binary, " " , "`` ")
+    ; Binaries .= binary . "|"
 }
 
 RunWaitOne("git add .")
 FormatTime, commit,, MM/dd/yy hh:mm:ss
 RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
-gitlog := RunWaitOne("git log", false)
+; gitlog := RunWaitOne("git log", false)
 ; MsgBox % gitlog
+
+Return
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
@@ -55,8 +57,6 @@ params := "-token " . GitHubToken . " -tag '" . tag . "' -name '" . tag . "' -de
 command := cmd . " " . params
 scriptlog(command)
 Run %cmd%
-
-Return
 
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
