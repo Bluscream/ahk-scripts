@@ -12,7 +12,7 @@ Process Priority,, Below Normal
 SetWorkingDir %A_ScriptDir%
 ; SetFormat, Integer, H
 
-global noui := true
+global noui := false
 scriptlog("Started logging here...")
 global antiafk_msg := "/p"
 global player_name := "Bluscream"
@@ -74,7 +74,7 @@ OnNewLine(FileLine) {
         startMP()
         Return
     }  else if (RegExMatch(msg2, system_pattern, system)) {
-        if (RegExMatch(msg2, others_kick_pattern, kicked_player)){
+        if (RegExMatch(system2, others_kick_pattern, kicked_player)){
             scriptlog(kicked_player1 . " (ID: " . kicked_player2 . ") has been kicked from the server.")
         } else {
             scriptlog("System Message: " . system2)

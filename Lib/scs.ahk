@@ -18,12 +18,13 @@ global gamefolder := "G:`\Steam`\steamapps`\common`\Euro Truck Simulator 2`\"
 global noui := true
 
 requestTelemetry() {
-    URL := "http://localhost:25555/api/ets2/telemetry"
+    URL := "http://127.0.0.1:25555/api/ets2/telemetry"
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
     HttpObj.Open("GET", URL, 0)
     HttpObj.SetRequestHeader("Content-Type", "application/json")
-    HttpObj.Send()
+    Wait := HttpObj.Send()
     Result := HttpObj.ResponseText
+    Result := StrReplace(Result, "2E-" , "")
     return JSON.Load(Result)
 }
 getLatestLog(type := "chat") {
@@ -44,6 +45,7 @@ startMP(servertojoin := 0) {
     WinWait, %launcher_title_mp%
     WinActivate, %launcher_title_mp%
     WinWaitActive, %launcher_title_mp%
+    Sleep, 50
     CoordMode, Mouse, Screen
     Click, 1365, 662
     Sleep, 10
@@ -109,4 +111,7 @@ setBeacon(enabled, lightsBeaconOn) {
     if ((enabled && lightsBeaconOn) ||(!enabled && lightsBeaconOn))
         Return
     Send, O
+}
+setEngine(on, electricOn, engineOn) {
+    
 }
