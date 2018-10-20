@@ -67,15 +67,19 @@ return
 OnNewLine(FileLine) {
     validLine := RegExMatch(FileLine, log_pattern, msg)
     if (!validLine){
-        ; scriptlog("INVALID: " . fileline)
-        return
+        scriptlog("INVALID: " . fileline)
+        Return
     } else if (RegExMatch(msg2, msg_pattern, message)){
         lower := Format("{:L}", message3)
-        if (InStr(lower,player_name))
-            TrayTip, Mentioned in %game_shortname_mp%, %message3%
-        if (InStr(lower,"rec"))
+        if (InStr(lower,player_name)){
+            TrayTip, Mentioned by %message1%, %message3%
+            scriptlog("Mention from """ . message1 . """ (ID: " . message2 . "): " . message3)
+        } else if (InStr(lower,"rec")) {
             rec_counter += 1
-        scriptlog("Message from """ . message1 . """ (ID: " . message2 . "): " . message3 . " [REC COUNTER: " . rec_counter . "]")
+        } else {
+            ; scriptlog("Message from """ . message1 . """ (ID: " . message2 . "): " . message3 . " [REC COUNTER: " . rec_counter . "]")
+        }
+        Return
     }  else if (RegExMatch(msg2, system_pattern, system)) {
         if (RegExMatch(system2, pm_pattern_from, msg_from)){
             scriptlog("Private Message from """ . msg_from1 . """ (ID: " . msg_from2 . "): " . msg_from3)
