@@ -26,10 +26,10 @@ global system_pattern := "^\[(.*)\] (.*)$"
 global others_kick_pattern := "^Player (.*)\((\d+)\) has been kicked\.$"
 global afk_warning := "Please move! If you will not move within next minute you will be automatically kicked!"
 global kick_pattern := "^You have been kicked from the server\. Reason: (.*)$"
-global headlights_warning := "*** Turn on your headlights! If you will not enable them, you will be kicked within 15 seconds! ***"
+global connection_lost_msg := "Server closed the connection. To connect again restart game."
+global headlights_pattern := "^\*\*\* Turn on your headlights! If you will not enable them, you will be kicked within (\d+) seconds! \*\*\*$"
 
 ;[07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck).
-;[07:57:37] Server closed the connection. To connect again restart game.
 
 global chat_key := GetChatKey()
 global server := ""
@@ -68,10 +68,12 @@ OnNewLine(FileLine) {
             scriptlog("Message from " . message1 . " (ID: " . message2 . "): " . message3)
         }
     } else if (RegExMatch(msg2, kick_pattern, reason)){
-        scriptlog("We got kicked for """ . reason1 . """")
-        WinClose, %game_title_mp%
-        WinWaitClose, %game_title_mp%
-        startMP()
+        scriptlog("We got kicked for """ . reason1 . """, restarting game...")
+        restartGame()
+        Return
+    } else if (msg2 == connection_lost_msg) {
+        scriptlog("Connection closed by server, restarting game...")
+        restartGame()
         Return
     }  else if (RegExMatch(msg2, system_pattern, system)) {
         if (RegExMatch(system2, others_kick_pattern, kicked_player)){
@@ -89,12 +91,13 @@ OnNewLine(FileLine) {
         scriptlog("Found queue: " . queue)
     } else if (msg2 == joined_msg) {
         TrayTip, %game_shortname_mp%, You joined %server% (%queue%)
-    } else if (msg2 == headlights_warning) {
-        data := requestTelemetry()
-        setLights(true, data.truck.lightsParkingOn, data.truck.lightsBeamLowOn)
-        Sleep, 3000
-        data := requestTelemetry()
-        setLights(false, data.truck.lightsParkingOn, data.truck.lightsBeamLowOn)
+    } else if (RegExMatch(msg2, headlights_pattern, result)) {
+        scriptlog(result1 . " seconds left to enable low beams!")
+        if (result1 == 5) {
+            data := requestTelemetry()
+            setLights(true, data.truck.lightsParkingOn, data.truck.lightsBeamLowOn)
+            Return
+        }
     } else if (msg2 == afk_warning) {
         scriptlog("We were warned for being AFK, let's pretend we're not `;)")
         if !(WinActive(game_title_mp)) {
@@ -163,3 +166,9 @@ RemoveToolTip:
     SetTimer, RemoveToolTip, Off
     ToolTip
     return
+    
+restartGame(){
+    WinClose, %game_title_mp%
+    WinWaitClose, %game_title_mp%
+    startMP()
+}

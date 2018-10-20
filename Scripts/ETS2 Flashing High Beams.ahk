@@ -1,35 +1,28 @@
 ﻿#Include <scs>
 #Persistent
 #SingleInstance Force
-Process Priority,, Below Normal
-min_detections := 3
-SetTimer, Loop, 500
-detections := 0
+; Process Priority,, Below Normal
+SetTimer, Loop, 1000
 TrayTip, AutoHotKey, "Started " . game_shortname . " Flashing High Beams",
 Return
 Loop:
-    WinWaitActive, %game_title%
+    if (!WinActive(game_title))
+        Return
     data := requestTelemetry()
     if (data.game.paused || !data.truck.electricOn || !data.truck.lightsBeaconOn)
         Return
-    Sleep, 300
-	wait := setHighBeams(true)
-    Sleep, 10
-	wait := setHighBeams(false)
-    Sleep, 300
-    wait := setHighBeams(true)
-    Sleep, 10
-	wait := setHighBeams(false)
+	wait := flashHighBeams(data.truck.lightsBeamHighOn)
+    Sleep, 100
+    if (!WinActive(game_title))
+        Return
+    wait := flashHighBeams()
     Return
 Return
-setHighBeams(enabled) {
-    data := requestTelemetry()
-    if (data.game.paused || !data.truck.electricOn || !data.truck.lightsBeaconOn)
-        Return
-    if (enabled && !data.truck.lightsBeamHighOn) {
+
+flashHighBeams(lightsBeamHighOn := false) {
+    if (!lightsBeamHighOn){
         Send, K
+        Sleep, 10
     }
-    else if (!enabled && !data.truck.lightsBeamHighOn) {
-        Send, K
-    }
+	Send, K
 }

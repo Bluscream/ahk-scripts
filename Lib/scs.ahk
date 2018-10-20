@@ -24,7 +24,7 @@ requestTelemetry() {
     HttpObj.SetRequestHeader("Content-Type", "application/json")
     Wait := HttpObj.Send()
     Result := HttpObj.ResponseText
-    Result := StrReplace(Result, "2E-" , "")
+    Result := StrReplace(Result, "E-" , "")
     return JSON.Load(Result)
 }
 getLatestLog(type := "chat") {
@@ -111,6 +111,17 @@ setBeacon(enabled, lightsBeaconOn) {
     if ((enabled && lightsBeaconOn) ||(!enabled && lightsBeaconOn))
         Return
     Send, O
+}
+setHighBeams(enabled) {
+    data := requestTelemetry()
+    if (data.game.paused || !data.truck.electricOn || !data.truck.lightsBeaconOn)
+        Return
+    if (enabled && !data.truck.lightsBeamHighOn) {
+        Send, K
+    }
+    else if (!enabled && !data.truck.lightsBeamHighOn) {
+        Send, K
+    }
 }
 setEngine(on, electricOn, engineOn) {
     
