@@ -25,7 +25,7 @@ global queue_pattern := "^Connection established \(position in queue: (\d+)\)\.$
 global joined_msg := "Connection established!"
 
 global system_pattern := "^\[(.*)\] (.*)$"
-global others_kick_pattern := "^(.*)\((\d+)\) has been kicked\.$"
+global others_kick_pattern := "^Player (.*)\((\d+)\) has been kicked\.$"
 global pm_pattern_from := "^Message from (.*)\((\d+)\): (.*)$"
 global pm_pattern_to := "^Message to (.*)\((\d+)\): (.*)$"
 
@@ -35,9 +35,6 @@ global afk_warning := "Please move! If you will not move within next minute you 
 global headlights_pattern := "^\*\*\* Turn on your headlights! If you will not enable them, you will be kicked within (\d+) seconds! \*\*\*$"
 
 ;[07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck).
-;[07:44:27] System Message: Message from KartalHD(737): ım go to duisburg hotel ?
-;[07:44:28] Message from Bluscream (ID: 45):  /r where are you?
-;[07:44:34] System Message: Message to KartalHD(737): lol
 
 global chat_key := GetChatKey()
 global server := ""

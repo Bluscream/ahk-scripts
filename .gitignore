@@ -4,14 +4,11 @@ Scripts/*.exe
 Scripts/*_TransMAP_*.txt
 Scripts/temp/
 
-Lib/_Struct.ahk
-Lib/DateParse.ahk
-Lib/Gdip*.ahk
-Lib/gdiplus.dll
-Lib/JSON.ahk
-Lib/region.ahk
-Lib/sizeof.ahk
-Lib/WatchDirectory.ahk
+Lib/
+!Lib/bluscream.ahk
+!Lib/logtail.ahk
+!Lib/region.ahk
+!Lib/scs.ahk
 
 AHKStudio/
 AutoGUI/
