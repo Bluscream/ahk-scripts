@@ -11,7 +11,7 @@ SetTitleMatchMode, 2
 titles := ["Real Desktop 2.0 - Angebote"]
 classes := ["ClassAdvert", "MainFrameInstall", "RarReminder"]
 binaries := ["airdroid.exe", "error_report.exe", "setup_clvupdsp.exe", "wefault.exe", "wermgr.exe", "vsjitdebugger.exe"]
-texts := ["Purchase now", "The trial license has expired. If you wish to continue using all features of this application, then you must buy a license.","Contribute to NetSpeedMonitor","Steam is not running. Please start Steam then run this tool again."]
+texts := ["Purchase now", "The trial license has expired. If you wish to continue using all features of this application, then you must buy a license.","Contribute to NetSpeedMonitor","Steam is not running. Please start Steam then run this tool again.", "Network error, please try connection to http://devxdevelopment.com","DragDrop registration did not succeed.","please let us know about the problem (devxdevelopment@gmail.com),","System.InvalidOperationException: Starting a second message loop on a single thread is not a valid operation. Use Form.ShowDialog instead.","Error on init, details in Debug.txt","Please restart app","Proxy Authentication"]
 ;<=====  Setup our timer  =====================================================>
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>

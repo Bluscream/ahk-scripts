@@ -26,6 +26,10 @@ Loop, Scripts\*.ahk
 {
       Scripts.Push(A_LoopFileLongPath)
 }
+Loop, *.ahk
+{
+      Scripts.Push(A_LoopFileLongPath)
+}
 ; Binaries := ""
 Loop % Scripts.Length() {
     script := Scripts[A_Index]
@@ -60,9 +64,11 @@ Run %cmd%
 
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
+    if (print)
+        scriptlog(command)
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
-        scriptlog(command . ": " . result)
+        scriptlog(result)
     return result
 }

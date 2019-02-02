@@ -12,17 +12,25 @@ Loop:
     if (data.game.paused || !data.truck.electricOn || !data.truck.lightsBeaconOn)
         Return
 	wait := flashHighBeams(data.truck.lightsBeamHighOn)
-    Sleep, 100
+    Sleep, 150
     if (!WinActive(game_title))
         Return
     wait := flashHighBeams()
+    dings()
     Return
 Return
+
+dings(){
+    Sleep, 100
+    data := requestTelemetry()
+    if (data.truck.lightsBeamHighOn)
+        Send, K
+}
 
 flashHighBeams(lightsBeamHighOn := false) {
     if (!lightsBeamHighOn){
         Send, K
-        Sleep, 10
+        Sleep, 20
     }
 	Send, K
 }

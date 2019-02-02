@@ -1,4 +1,4 @@
-﻿; Version 10/18/2018
+﻿; Date 10/18/2018
 #Include <bluscream>
 #Include <JSON>
 
@@ -56,7 +56,7 @@ startMP(servertojoin := 0) {
     WinWaitActive, %game_title_mp%
     Sleep, 1000
     SendInput, {Esc}
-    Sleep, 1000
+    Sleep, 1500
     SendInput, {Esc}
     Return
 }

@@ -1,16 +1,18 @@
-﻿; Version 10/18/2018
+﻿; Date 10/18/2018
 global ui := False
-startsWith(string, substring){
+startsWith(string, substring) {
     return InStr(string, substring) == 1
 }
-endsWith(string, substring){
+endsWith(string, substring) {
     return string ~= RegExEscape(substring) . "$"
 }
-RegExEscape(String)
-{
+RegExEscape(String) {
 	return "\Q" StrReplace(String, "\E", "\E\\E\Q") "\E"
 }
-scriptlog(msg, timestamp := "") {
+StrStrip(string) {
+    return RegexReplace(string, "^\s+|\s+$")
+}
+scriptlog(msg, timestamp := "", append := false) {
     if(noui == true)
         return
     if(ui == false){
@@ -23,7 +25,11 @@ scriptlog(msg, timestamp := "") {
     if (!timestamp)
         FormatTime, timestamp, A_Now, hh:mm:ss
     msg := StrReplace(msg, "\n" , "`n")
-    ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
+    if (append) {
+        ControlSetText Edit1, %Edit1Text%%msg%, ahk_class AutoHotkey
+    } else {
+        ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
+    }
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
 }
 PostClick(hwnd, X, Y, Count=1, Delay=50)

@@ -1,4 +1,4 @@
-﻿; Version 10/18/2018
+﻿; Date 10/18/2018
 #Include <scs>
 #Include <bluscream>
 #Include <logtail>
@@ -40,8 +40,8 @@ global chat_key := GetChatKey()
 global server := ""
 global queue := 0
 
-lt_chat := new LogTailer(getLatestLog("chat"), Func("OnNewLine"), true, "CP1200")
-; lt_client := new LogTailer(getLatestLog("client"), Func("OnNewLine"), true, "CP1200")
+lt_chat := new LogTailer(getLatestLog("chat"), Func("OnNewChatLine"), true, "CP1200")
+lt_client := new LogTailer(getLatestLog("client"), Func("OnNewClientLine"), true, "CP1200")
 ; lt_spawn := new LogTailer(getLatestLog("log_spawning"), Func("OnNewLine"), true, "CP1200")
 ; lt_launcher := new LogTailer(mpfolder . "launcher.log", Func("OnNewLine"), true, "CP1200")
 ; lt_crash_mp := new LogTailer(mpfolder . "last_crash.log", Func("OnNewLine"), true, "CP1200")
@@ -61,10 +61,14 @@ lt_chat := new LogTailer(getLatestLog("chat"), Func("OnNewLine"), true, "CP1200"
 TrayTip, AutoHotKey, Started %game_shortname_mp% Anti-AFK,
 return
 
-OnNewLine(FileLine) {
+OnNewClientLine(FileLine) {
+    scriptlog("[CLIENT] " . FileLine)
+}
+
+OnNewChatLine(FileLine) {
     validLine := RegExMatch(FileLine, log_pattern, msg)
     if (!validLine){
-        scriptlog("INVALID: " . fileline)
+        scriptlog("INVALID: " . FileLine)
         Return
     } else if (RegExMatch(msg2, msg_pattern, message)){
         lower := Format("{:L}", message3)
@@ -89,11 +93,11 @@ OnNewLine(FileLine) {
             scriptlog(system1  . " Message: " . system2)
         }
     } else if (RegExMatch(msg2, kick_pattern, reason)){
-        scriptlog("We got kicked for """ . reason1 . """, restarting game...")
+        scriptlog("We got kicked for """ . reason1 . """!")
         restartGame()
         Return
     } else if (msg2 == connection_lost_msg) {
-        scriptlog("Connection closed by server, restarting game...")
+        scriptlog("Connection closed by server!")
         restartGame()
         Return
     }  else if (RegExMatch(msg2, server_pattern, result)) {
@@ -105,7 +109,7 @@ OnNewLine(FileLine) {
             WinMinimize, %game_title_mp%
         scriptlog("Found queue: " . queue)
     } else if (msg2 == joined_msg) {
-        TrayTip, %game_shortname_mp%, You joined %server% (%queue%)
+        TrayTip, %game_shortname_mp%, You joined %server% (Queue: %queue%)
     } else if (RegExMatch(msg2, headlights_pattern, result)) {
         scriptlog(result1 . " seconds left to enable low beams!")
         if (result1 == 5) {
@@ -118,13 +122,9 @@ OnNewLine(FileLine) {
         if !(WinActive(game_title_mp)) {
             minimized := true
             TrayTip, AutoHotKey, Bringing %game_shortname_mp% to front for AntiAFK...
-            ToolTip, Sleep 1000, 0, 0
-            SetTimer, RemoveToolTip, 1000
             Sleep, 1000
             WinActivate, %game_title_mp%
             WinWaitActive, %game_title_mp%
-            ToolTip, Sleep 100, 0, 0
-            SetTimer, RemoveToolTip, 100
             Sleep, 100
         } else if (A_TimeIdle < interval){
             Return
@@ -137,32 +137,22 @@ OnNewLine(FileLine) {
         if (data.game.paused) {
             paused := "{F1}"
             Send, %paused%
-            ToolTip, Sleep 100, 0, 0
-            SetTimer, RemoveToolTip, 100
             Sleep, 100
             data := requestTelemetry()
             if (data.game.paused) {
                 paused := "{Esc}"
                 Send, %paused%
-                ToolTip, Sleep 2000, 0, 0
-                SetTimer, RemoveToolTip, 2000
                 Sleep, 2000
                 data := requestTelemetry()
                 if (data.game.paused) {
                     Send, %paused%
-                    ToolTip, Sleep 2000 2, 0, 0
-                    SetTimer, RemoveToolTip, 2000
                     Sleep, 2000
                 }
             }
         }
         SendInput, %chat_key%
-        ToolTip, Sleep 50, 0, 0
-        SetTimer, RemoveToolTip, 50
         Sleep, 50
         SendInput, %antiafk_msg%
-        ToolTip, Sleep 50 2, 0, 0
-        SetTimer, RemoveToolTip, 50
         Sleep, 50
         SendInput, {Enter}
         scriptlog("Was paused: " . paused . " minimized: " . minimized)
@@ -183,6 +173,7 @@ RemoveToolTip:
     return
     
 restartGame(){
+    scriptlog("Closing game...")
     WinClose, %game_title_mp%
     WinWaitClose, %game_title_mp%
     startMP()

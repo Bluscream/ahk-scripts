@@ -1,5 +1,4 @@
-﻿; Version 10/18/2018
-#Include <scs>
+﻿#Include <scs>
 #Include <region>
 #Include <JSON>
 #NoEnv

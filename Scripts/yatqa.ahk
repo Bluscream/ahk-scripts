@@ -10,8 +10,8 @@ suffix := " [Modded]"
 WinGetTitle, window_title, %yatqa%
 window_title := StrReplace(window_title, suffix, "")
 WinSetTitle, %yatqa%,, %window_title%%suffix%
-; ControlSetText, TButton5, YANNIK, %yatqa%
-; Control, Add, Penis, TListView1
+ControlSetText, TButton5, YANNI, %yatqa%
+Control, Add, Penis, TListView1
 ; ControlMove, TButton5, 100, 100, 50,50,%yatqa%
 MButton::
     

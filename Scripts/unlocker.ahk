@@ -1,6 +1,6 @@
 ﻿; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-unlocker-ahk
 #SingleInstance, Force
-#NoTrayIcon
+; #NoTrayIcon
 #NoEnv
 RETURN ; end of auto-execute section.
 
