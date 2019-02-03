@@ -7,11 +7,12 @@ SetWorkingDir %A_ScriptDir%
 #Warn
 #Persistent
 SetKeyDelay, 150
+; SetBatchLines, -1
 game_name := "LEGO" ; LEGO Jurassic World
 game_title := "ahk_class TTalesWindow" ; ahk_exe LEGOJurassicWorld_DX11.EXE
 
 ; chars := "ABCDEFGHIJKLMNOPQR|STUVWXYZ0123456789"
-chars := { "B" : "{Up}", "C" : "{Up 2}", "D" : "{Up 3}", "E" : "{Up 4}", "F" : "{Up 5}", "G" : "{Up 6}", "H" : "{Up 7}", "I" : "{Up 8}", "J" : "{Up 9}", "K" : "{Up 10}", "L" : "{Up 11}", "M" : "{Up 12}", "N" : "{Up 13}", "O" : "{Up 14}", "P" : "{Up 15}", "Q" : "{Up 16}", "R" : "{Up 17}", "S" : "{Down 18}", "T" : "{Down 17}", "U" : "{Down 16}", "V" : "{Down 15}", "W" : "{Down 14}", "X" : "{Down 13}", "Y" : "{Down 12}", "Z" : "{Down 11}", "0" : "{Down 10}", "1" : "{Down 9}", "2" : "{Down 8}", "3" : "{Down 7}", "4" : "{Down 6}", "5" : "{Down 5}", "6" : "{Down 4}", "7" : "{Down 3}", "8" : "{Down 2}", "9" : "{Down}" }
+; chars := { "B" : "{Up}", "C" : "{Up 2}", "D" : "{Up 3}", "E" : "{Up 4}", "F" : "{Up 5}", "G" : "{Up 6}", "H" : "{Up 7}", "I" : "{Up 8}", "J" : "{Up 9}", "K" : "{Up 10}", "L" : "{Up 11}", "M" : "{Up 12}", "N" : "{Up 13}", "O" : "{Up 14}", "P" : "{Up 15}", "Q" : "{Up 16}", "R" : "{Up 17}", "S" : "{Down 18}", "T" : "{Down 17}", "U" : "{Down 16}", "V" : "{Down 15}", "W" : "{Down 14}", "X" : "{Down 13}", "Y" : "{Down 12}", "Z" : "{Down 11}", "0" : "{Down 10}", "1" : "{Down 9}", "2" : "{Down 8}", "3" : "{Down 7}", "4" : "{Down 6}", "5" : "{Down 5}", "6" : "{Down 4}", "7" : "{Down 3}", "8" : "{Down 2}", "9" : "{Down}" }
 
 ; code := "ABCDEF" ; 28SPSR
 file := "codes.txt"
@@ -37,15 +38,24 @@ Loop, % codes.MaxIndex()
     FormatTime, timestamp, A_Now, hh:mm:ss
     scriptlog("[" . timestamp . "] Now processing code: " . code . " [" . length . "] (`r`n", "", true)
     splitted_code := StrSplit(code)
-    for i, char in splitted_code {
-        tosend := chars[char]
-        scriptlog("i:" . i . " char:" . char . " tosend:" . tosend . "`r`n", "", true)
-        if (tosend){
-            ; scriptlog(tosend . ", ", "", true)
-            SendEvent, % tosend
+    for k, letter in splitted_code {
+        if (k - 1) {
+            ; Move the letter we are changing one to the right (unless this is the first letter)
+            Send, {Right}
         }
-        if (i < length)
-            SendInput, {Right}
+        SendCount := (letter ~= "[A-R]" ; If letter one we go up for, the number of times to send up is just what number that letter is in the alphabet
+                    ? Ord(letter) - 65 
+                    : (letter ~= "[S-Z]" ; Else if the letter is not 0-9 and one we go down for, the number of times to go up for is the number of the letter, added to -36 to create an offset
+                        ? -36 + (Ord(letter) - 65) 
+                        : -10 + (Ord(letter) - 48))) ; By here the letter can only be a number, but I don't know how I got this to work, if you want to know how just ask and I'll try to figure it out
+        scriptlog("k:" . k . " letter:" . letter . " SendCount:" . SendCount . "`r`n", "", true)
+        SendUpDown(SendCount)
+        if (k = StrLen(code)) {
+            loop, % k {
+                ; Move the letter we are changing back to the leftmost if we are at the end of the code
+                Send, {Left}
+            }
+        }
     }
     scriptlog(")`r`n","",true)
     SendInput, {Enter}
