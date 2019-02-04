@@ -1,4 +1,4 @@
-/*
+﻿/*
 MousePrecise.ahk from Jack's AutoHotkey Blog 
 https://jacksautohotkeyblog.wordpress.com/2016/05/05/autohotkey-script-for-precision-hotkey-mouse-movement-in-windows-graphics-programs-beginning-hotkeys-part-15/ and 
 https://jacksautohotkeyblog.wordpress.com/2016/05/13/autohotkey-script-for-precision-hotkey-mouse-movement-in-windows-graphics-programs-continued-beginning-hotkeys-part-16/)
@@ -34,7 +34,7 @@ To temporarily add a window to the group right-click on the system tray icon and
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-FileInstall, Mouse2.ico, Mouse2.ico
+; FileInstall, Mouse2.ico, Mouse2.ico
 
 ; add to auto-execute section of script
 GroupAdd, Graphics, ahk_class Microsoft-Windows-Tablet-SnipperToolbar
@@ -47,7 +47,7 @@ GroupAdd, Graphics, ahk_class MSPaintApp
 Hotkey, NumpadEnter, off
 Menu, tray, add, Add Window Class (CTRL+NumpadDel), AddClass
 Menu, tray, add, Reload, Reload
-Menu, tray, Icon, Mouse2.ico
+; Menu, tray, Icon, Mouse2.ico
 		
 ; Add the following directives and Hotkeys toward the end of the script
 

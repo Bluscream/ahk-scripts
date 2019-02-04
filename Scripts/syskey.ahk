@@ -5,7 +5,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 Menu,TRAY,NoIcon
-Menu Tray, Icon, C:\Users\blusc\Downloads\IconGroup32512.ico
+; Menu Tray, Icon, C:\Users\blusc\Downloads\IconGroup32512.ico
 CommandLine := DllCall("GetCommandLine", "Str")
 
 If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
