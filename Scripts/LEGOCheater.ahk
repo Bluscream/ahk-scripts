@@ -2,36 +2,44 @@
 #SingleInstance Force
 Process Priority,, Below Normal
 SetWorkingDir %A_ScriptDir%
-#Warn
 #Persistent
 SetKeyDelay, 150
 
 game_name := "LEGO"
 game_title := "ahk_class TTalesWindow"
 file := "codes.txt"
+file_done := "codes_done.txt"
+key_next := "{NumpadAdd}"
 
 global noui := false
 scriptlog("Started logging here...")
 
-codes := FileOpen(file, "r `n")
-scriptlog("Codes: " . codes)
+FileRead, LoadedText, %file%
+codes := StrSplit(LoadedText, "`n", "`r")
+codes_length := codes.MaxIndex()
+; codes := FileOpen(file, "r `n")
+scriptlog("Loaded " . codes_length . " codes from " . file . ": " . Join(", ", codes*))
 
-While !(codes.AtEOF)
+Loop, % codes_length
 {
     if !(WinActive(game_title)) {
         TrayTip, AutoHotKey, Bringing %game_name% to front to enter code...
         ; WinWaitActive, %game_title%
     }
+    scriptlog("Ready to process next code, press " . key_next . " to start!")
+    KeyWait, NumpadAdd, D
     Sleep, 1000
-    code := codes.ReadLine()
+    code := codes[A_Index]
     code := StrStrip(code)
-    length := StrLen(code)
-    if (length < 1) {
+    code_length := StrLen(code)
+    code_count := "(" . A_Index . "/" . codes_length . ")"
+    if (code_length < 1) {
         Continue
-    }
+ 
+ }
     FormatTime, timestamp, A_Now, hh:mm:ss
     
-    scriptlog("[" . timestamp . "] Now processing code: " . code . " [" . length . "] (`r`n", "", true)   
+    scriptlog("[" . timestamp . "] " . code_count . " Now processing code: " . code . " [" . code_length . "] {`r`n", "", true)   
     
     for k, letter in StrSplit(code) {
         if (k - 1) {
@@ -44,16 +52,16 @@ While !(codes.AtEOF)
                         : -10 + (Ord(letter) - 48)))
         scriptlog("`tk:" . k . " letter:" . letter . " SendCount:" . SendCount . "`r`n", "", true)
         SendUpDown(SendCount)
-        if (k = length) {
+        if (k = code_length) {
             loop, % k {
                 Send, {Left}
             }
         }
     }
-    scriptlog(")`r`n","",true)
+    scriptlog("}`r`n","",true)
     SendInput, {Enter}
-    scriptlog("Finished processing ")
-    KeyWait, NumpadAdd, D
+    scriptlog(code_count . " Finished processing Code: " . code)
+    FileAppend, %code%`n, %file_done%
     /*SetKeyDelay, 125
     SendEvent, {Esc 2}
     SendEvent, {Down 2}
@@ -61,7 +69,7 @@ While !(codes.AtEOF)
     */
 }
 
-codes.Close()
+; codes.Close()
 
 SendUpDown(SendCount) {
 	if (SendCount = Abs(SendCount)) {

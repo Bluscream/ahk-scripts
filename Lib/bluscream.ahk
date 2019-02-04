@@ -13,7 +13,8 @@ StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
 }
 Join(sep, params*) {
-    for index,param in params
+    str := ""
+    for i,param in params
         str .= sep . param
     return SubStr(str, StrLen(sep)+1)
 }
