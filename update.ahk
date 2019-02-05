@@ -61,6 +61,7 @@ params := "-token " . GitHubToken . " -tag '" . tag . "' -name '" . tag . "' -de
 command := cmd . " " . params
 scriptlog(command)
 Run %cmd%
+scriptlog("Finished")
 
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")

@@ -3,6 +3,7 @@ Scripts/*.lnk
 Scripts/*.exe
 Scripts/*_TransMAP_*.txt
 Scripts/temp/
+Scripts/codes*.txt
 
 Lib/
 !Lib/bluscream.ahk
