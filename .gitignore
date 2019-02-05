@@ -9,7 +9,7 @@ Lib/
 !Lib/logtail.ahk
 !Lib/region.ahk
 !Lib/scs.ahk
-!Lib/LEGO/
+!Lib/LEGO/*.ahk
 
 AHKStudio/
 AutoGUI/
