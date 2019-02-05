@@ -49,7 +49,7 @@ RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
 ; gitlog := RunWaitOne("git log", false)
 ; MsgBox % gitlog
-
+scriptlog("Pushed to origin/master")
 Return
 
 StringTrimRight, Binaries, Binaries, 1
@@ -61,7 +61,7 @@ params := "-token " . GitHubToken . " -tag '" . tag . "' -name '" . tag . "' -de
 command := cmd . " " . params
 scriptlog(command)
 Run %cmd%
-scriptlog("Finished")
+scriptlog("Finished Releases")
 
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
