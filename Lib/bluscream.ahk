@@ -38,19 +38,6 @@ scriptlog(msg, timestamp := "", append := false) {
     }
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
 }
-PostClick(hwnd, X, Y, Count=1, Delay=50)
-{ ; By Infogulch
-	p := y << 16 | (x & 0xffff)
-	Loop, %Count%
-    {
-		PostMessage, 0x201, 1, p, , ahk_id %hwnd%
-		If (Delay)
-			Sleep Delay
-		PostMessage, 0x202, 0, p, , ahk_id %hwnd%
-		If (Delay)
-			Sleep Delay
-	}
-}
 HexToString(String) { 
    local Length, CharStr, RetString 
    If !String 
@@ -79,4 +66,35 @@ StringToHex(String, spaces := true) {
     }
 	SetFormat, INTEGER, %Old_A_FormatInteger%
 	Return HexString
+}
+PostClick(hwnd, X, Y, Count=1, Delay=50)
+{ ; By Infogulch
+	p := y << 16 | (x & 0xffff)
+	Loop, %Count%
+    {
+		PostMessage, 0x201, 1, p, , ahk_id %hwnd%
+		If (Delay)
+			Sleep Delay
+		PostMessage, 0x202, 0, p, , ahk_id %hwnd%
+		If (Delay)
+			Sleep Delay
+	}
+}
+AnyKeyWait() {
+   Input, L, L1
+}
+AnyKeyWait2() {
+    Input, SingleKey, L1, {LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{Capslock}{Numlock}{PrintScreen}{Pause}
+}
+WaitForKey(msg="", key="NumpadAdd"){
+    scriptlog(msg . "Press " . key . " When ready!")
+    KeyWait, % key, D
+}
+PressKey(key, presses=1, sleepms=80, keyms=20) {
+    loop, % presses {
+        Send, % "{" key " down}"
+        Sleep, %keyms%
+        Send, % "{" key " up}"
+        Sleep, %sleepms%
+    }
 }

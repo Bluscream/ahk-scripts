@@ -1,4 +1,4 @@
-Scripts/* - Copy.*
+﻿Scripts/* - Copy.*
 Scripts/*.lnk
 Scripts/*.exe
 Scripts/*_TransMAP_*.txt
@@ -9,6 +9,7 @@ Lib/
 !Lib/logtail.ahk
 !Lib/region.ahk
 !Lib/scs.ahk
+!Lib/LEGO/
 
 AHKStudio/
 AutoGUI/
