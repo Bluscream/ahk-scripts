@@ -1,7 +1,6 @@
 ﻿; #InstallKeybdHook
 ; #UseHook On
 #Include <bluscream>
-#Include <LEGO/JurassicPark>
 #SingleInstance Force
 #Persistent
 DetectHiddenWindows Off
@@ -22,11 +21,14 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
     ExitApp
 }
 */
-
 game_name := "LEGO"
 game_title := "ahk_class TTalesWindow"
+#Include <LEGO/JurassicPark>
+Menu, tray, add
+Menu, tray, add, Start %game_name%, StartGame
 
 global noui := false
+global key_special_inuse := false
 scriptlog("Started logging here. Using SendMode " . A_SendMode)
 
 ^k::
@@ -36,11 +38,43 @@ scriptlog("Started logging here. Using SendMode " . A_SendMode)
     StartGame()
     LoadGame()
  
-NumpadAdd::
+/*NumpadAdd::
     EnterCodes()
  
 NumpadSub::
     ActivateAllExtras()
+*/
+
+~+ä::
+    ToggleSpecial("holding")
+    Return
+
+^ä::
+    ToggleSpecial("repeating")
+    Return
+
+ToggleSpecial(mode) {
+    key_special_inuse := !key_special_inuse
+    if (!key_special_inuse) {
+        SetTimer RepeatSpecial, Off
+        Send, % "{" key_special " Up}"
+    } else if (mode == "repeating") {
+        SetTimer RepeatSpecial, 500
+    } else if (mode == "holding") {
+        Send, % "{" key_special " Down}"
+    }
+    scriptlog(((!key_special_inuse) ? "No longer " : "") . mode . " special key (" . key_special . ") ")
+}
+
+RepeatSpecial:
+    PressKey("ä",1,50)
+    Return
+
+StartGame:
+    CloseGame()
+    StartGame()
+    LoadGame()
+    Return
 
 ActivateAllExtras() {
     ToExtrasMenu()

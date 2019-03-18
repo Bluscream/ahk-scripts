@@ -1,5 +1,11 @@
 ﻿; Date 10/18/2018
 global ui := False
+InList(haystack, needles*)
+{
+    for i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)
+        if (haystack = needle)
+            return true
+}
 startsWith(string, substring) {
     return InStr(string, substring) == 1
 }
@@ -80,17 +86,21 @@ PostClick(hwnd, X, Y, Count=1, Delay=50)
 			Sleep Delay
 	}
 }
-AnyKeyWait() {
-   Input, L, L1
-}
-AnyKeyWait2() {
-    Input, SingleKey, L1, {LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{Capslock}{Numlock}{PrintScreen}{Pause}
+SleepS(seconds) {
+    Sleep, seconds * 1000
 }
 WaitForKey(msg="", key="NumpadAdd"){
     scriptlog(msg . "Press " . key . " When ready!")
-    KeyWait, % key, D
+    if (key == "any key") {
+        Input, L, L1   
+    } else if (key == "any key") {
+        Input, SingleKey, L1, {LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{Capslock}{Numlock}{PrintScreen}{Pause}
+    } else {
+        KeyWait, % key, D
+    }
 }
-PressKey(key, presses=1, sleepms=80, keyms=20) {
+PressKey(key, presses=1, sleepms=80, keyms=20, verbose=false, msg="") {
+    if (verbose) scriptlog("Pressing key " . key . " " . (times > 1 ? presses . " times (interval: " . keyms . " " : "(") . "delay: " . sleepms . ")" . (msg ? ": " . msg : ""))
     loop, % presses {
         Send, % "{" key " down}"
         Sleep, %keyms%
