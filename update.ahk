@@ -52,12 +52,13 @@ RunWaitOne("git add .")
 FormatTime, commit,, MM/dd/yy hh:mm:ss
 RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
-RunWaitOne("git log") ; gitlog := 
-; MsgBox % gitlog
 RunWaitOne("git remote -v")
 scriptlog("Pushed to origin/master")
 WaitForKey("Finished, you can close this window now or ", key="Enter")
-Return
+RunWaitOne("git log") ; gitlog := 
+; MsgBox % gitlog
+WaitForKey("", key="Enter")
+Exit
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
