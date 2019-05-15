@@ -18,29 +18,34 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
+compile := false
+
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return
-
-Scripts := Array()
-Loop, Scripts\*.ahk
-{
-      Scripts.Push(A_LoopFileLongPath)
-}
-Loop, *.ahk
-{
-      Scripts.Push(A_LoopFileLongPath)
-}
-; Binaries := ""
-Loop % Scripts.Length() {
-    script := Scripts[A_Index]
-    scriptlog("Compiling " . script)
-    SplitPath, script, binary
-    binary := StrReplace(binary, ".ahk" , ".exe")
-    binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
-    scriptlog("Into " . binary)
-    RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
-    ; binary := StrReplace(binary, " " , "`` ")
-    ; Binaries .= binary . "|"
+if (compile) {
+    Scripts := Array()
+    Loop, Scripts\*.ahk
+    {
+          Scripts.Push(A_LoopFileLongPath)
+    }
+    Loop, *.ahk
+    {
+          Scripts.Push(A_LoopFileLongPath)
+    }
+    ; Binaries := ""
+    Loop % Scripts.Length() {
+        script := Scripts[A_Index]
+        scriptlog("Compiling " . script)
+        SplitPath, script, binary
+        binary := StrReplace(binary, ".ahk" , ".exe")
+        binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
+        scriptlog("Into " . binary)
+        RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
+        ; binary := StrReplace(binary, " " , "`` ")
+        ; Binaries .= binary . "|"
+    }   
+} else {
+    scriptlog("Skipping compiler...")
 }
 
 RunWaitOne("git add .")
@@ -68,7 +73,7 @@ scriptlog("Finished Releases")
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
     if (print)
-        scriptlog(command)
+        scriptlog(command . ":")
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
