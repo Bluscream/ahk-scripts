@@ -44,11 +44,15 @@ scriptlog(msg, timestamp := "", append := false) {
         ui := true
     }
     ControlGetText, Edit1Text, Edit1, ahk_class AutoHotkey
-    if (!timestamp)
+    if (!timestamp) {
         FormatTime, timestamp, A_Now, hh:mm:ss
+    }
     msg := StrReplace(msg, "\n" , "`n")
-    if (timestamp == " ") {
+    if (timestamp == "append") {
         ControlSetText Edit1, %Edit1Text%%msg%, ahk_class AutoHotkey
+    } else if (timestamp == "inline") {
+        FormatTime, timestamp, A_Now, hh:mm:ss
+        ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%, ahk_class AutoHotkey
     } else {
         ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
     }
