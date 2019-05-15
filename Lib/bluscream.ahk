@@ -13,6 +13,9 @@ InList(haystack, needles*)
         if (haystack = needle)
             return true
 }
+NewLine(){
+    return "`r`n"
+}
 startsWith(string, substring) {
     return InStr(string, substring) == 1
 }
