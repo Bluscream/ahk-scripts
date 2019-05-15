@@ -46,7 +46,7 @@ if (compile) {
         ; Binaries .= binary . "|"
     }
 } else {
-    scriptlog("Skipped compiling of " . scripts_count . " scripts!")
+    scriptlog("Skipped compilation of " . scripts_count . " scripts!")
 }
 
 RunWaitOne("git add .")
@@ -75,10 +75,10 @@ scriptlog("Finished Releases")
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
     if (print)
-        scriptlog("Executing """ . command . """:")
+        scriptlog("Executing """ . command . """: ")
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
-        scriptlog(result)
+        scriptlog(result, "", true)
     return result
 }
