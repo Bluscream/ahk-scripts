@@ -47,7 +47,7 @@ scriptlog(msg, timestamp := "", append := false) {
     if (!timestamp)
         FormatTime, timestamp, A_Now, hh:mm:ss
     msg := StrReplace(msg, "\n" , "`n")
-    if (append) {
+    if (timestamp == " ") {
         ControlSetText Edit1, %Edit1Text%%msg%, ahk_class AutoHotkey
     } else {
         ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey

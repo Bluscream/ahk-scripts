@@ -79,6 +79,6 @@ RunWaitOne(command, print := true) {
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
-        scriptlog(result, "")
+        scriptlog(result, " ")
     return result
 }
