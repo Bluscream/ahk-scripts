@@ -75,10 +75,10 @@ scriptlog("Finished Releases")
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
     if (print)
-        scriptlog("Executing """ . command . """: ")
+        scriptlog("Executing """ . command . """: ", "", true)
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
-        scriptlog(result, "", true)
+        scriptlog(result, "")
     return result
 }
