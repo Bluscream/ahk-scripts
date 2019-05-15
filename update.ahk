@@ -13,7 +13,7 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 }
 #Include <bluscream>
 #SingleInstance Force
-#NoEnv
+; #NoEnv
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -22,18 +22,19 @@ compile := false
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return
+Scripts := Array()
+Loop, Scripts\*.ahk
+{
+      Scripts.Push(A_LoopFileLongPath)
+}
+Loop, *.ahk
+{
+      Scripts.Push(A_LoopFileLongPath)
+}
+; Binaries := ""
+scripts_count := Scripts.Length()
 if (compile) {
-    Scripts := Array()
-    Loop, Scripts\*.ahk
-    {
-          Scripts.Push(A_LoopFileLongPath)
-    }
-    Loop, *.ahk
-    {
-          Scripts.Push(A_LoopFileLongPath)
-    }
-    ; Binaries := ""
-    Loop % Scripts.Length() {
+    Loop % scripts_count {
         script := Scripts[A_Index]
         scriptlog("Compiling " . script)
         SplitPath, script, binary
@@ -43,9 +44,9 @@ if (compile) {
         RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
         ; binary := StrReplace(binary, " " , "`` ")
         ; Binaries .= binary . "|"
-    }   
+    }
 } else {
-    scriptlog("Skipping compiler...")
+    scriptlog("Skipped compiling of " . scripts_count . " scripts!")
 }
 
 RunWaitOne("git add .")
@@ -74,7 +75,7 @@ scriptlog("Finished Releases")
 RunWaitOne(command, print := true) {
     shell := ComObjCreate("WScript.Shell")
     if (print)
-        scriptlog(command . ":")
+        scriptlog("Executing """ . command . """:")
     exec := shell.Exec(ComSpec " /C " command)
     result := exec.StdOut.ReadAll()
     if (print)
