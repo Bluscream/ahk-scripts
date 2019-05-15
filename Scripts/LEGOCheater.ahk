@@ -23,7 +23,8 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 */
 game_name := "LEGO"
 game_title := "ahk_class TTalesWindow"
-#Include <LEGO/JurassicPark>
+; #Include <LEGO/JurassicPark>
+#Include <LEGO/CityUndercover>
 Menu, tray, add
 Menu, tray, add, Start %game_name%, StartGame
 

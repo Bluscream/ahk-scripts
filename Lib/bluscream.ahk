@@ -1,5 +1,12 @@
 ﻿; Date 10/18/2018
 global ui := False
+ObjectCount(object) {
+    count := 0
+    for index, value in object {
+        count++
+    }
+    return count
+}
 InList(haystack, needles*)
 {
     for i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)
@@ -43,6 +50,19 @@ scriptlog(msg, timestamp := "", append := false) {
         ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
     }
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
+}
+WriteToFile(path, String) {
+    if !String {
+        return
+    }
+    file := FileOpen(path, "w", "UTF-8")
+    if !IsObject(file)
+    {
+        MsgBox Can't open "%path%" for writing.
+        return
+    }
+    file.Write(String)
+    file.Close()
 }
 HexToString(String) { 
    local Length, CharStr, RetString 
@@ -91,7 +111,7 @@ SleepS(seconds) {
 }
 WaitForKey(msg="", key="NumpadAdd"){
     scriptlog(msg . "Press " . key . " When ready!")
-    if (key == "any key") {
+    if (key == "anything") {
         Input, L, L1   
     } else if (key == "any key") {
         Input, SingleKey, L1, {LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{Capslock}{Numlock}{PrintScreen}{Pause}
