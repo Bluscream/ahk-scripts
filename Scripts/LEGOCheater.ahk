@@ -21,8 +21,6 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
     ExitApp
 }
 */
-game_name := "LEGO"
-game_title := "ahk_class TTalesWindow"
 ; #Include <LEGO/JurassicPark>
 #Include <LEGO/CityUndercover>
 Menu, tray, add
@@ -31,7 +29,41 @@ Menu, tray, add, Start %game_name%, StartGame
 global noui := false
 global key_special_inuse := false
 scriptlog("Started logging here. Using SendMode " . A_SendMode)
+scriptlog("game_name " . game_name)
+scriptlog("game_title " . game_title)
+scriptlog("game_class " . game_class)
+scriptlog("game_window " . game_window)
+scriptlog("game_dir  " . game_dir)
+scriptlog("game_exe  " . game_exe)
+scriptlog("game_id  " . game_id)
+scriptlog("game_extras  " . game_extras)
+scriptlog("key_special  " . key_special)
+; #IfWinActive, game_window
+global wasactive := false
+SetTimer CheckActive, 1000
 
+CheckActive() {
+    active := WinActive(game_window)
+    if (active != wasactive) {
+        wasactive := active
+        activestr := active ? "now active" : "no longer active"
+        scriptlog(game_window . " is " . activestr . " (" . active . ")")
+        ; if (active) {
+            ; Hotkey, ^k, On
+            ; Hotkey, space, On
+            ; Hotkey, ~+ä, On
+            ; Hotkey, ^ä, On
+        ; } else {
+            ; Hotkey, ^k, Off
+            ; Hotkey, space, Off
+            ; Hotkey, ~+ä, Off
+            ; Hotkey, ^ä, Off
+        ; }
+    }
+}
+
+; region Keybinds
+#if WinActive(game_window)
 ^k::
     ToEscMenu(true)
     ToMainMenu()
@@ -41,27 +73,25 @@ scriptlog("Started logging here. Using SendMode " . A_SendMode)
  
 /*NumpadAdd::
     EnterCodes()
- 
+
 NumpadSub::
     ActivateAllExtras()
 */
 
-~+ä::
-    ToggleSpecial("holding")
-    Return
-
-^ä::
-    ToggleSpecial("repeating")
-    Return
+space::ö ; space => ö
+~+ä::ToggleSpecial("hold") ; Shift + Ä
+^ä::ToggleSpecial("repeat") ; Control + Ä
+#if
+; endregion Keybinds
 
 ToggleSpecial(mode) {
     key_special_inuse := !key_special_inuse
     if (!key_special_inuse) {
         SetTimer RepeatSpecial, Off
         Send, % "{" key_special " Up}"
-    } else if (mode == "repeating") {
+    } else if (mode == "repeat") {
         SetTimer RepeatSpecial, 500
-    } else if (mode == "holding") {
+    } else if (mode == "hold") {
         Send, % "{" key_special " Down}"
     }
     scriptlog(((!key_special_inuse) ? "No longer " : "") . mode . " special key (" . key_special . ") ")
