@@ -1,5 +1,4 @@
 ﻿; Date 10/18/2018
-global ui := False
 ObjectCount(object) {
     count := 0
     for index, value in object {
@@ -34,6 +33,15 @@ Join(sep, params*) {
         str .= sep . param
     return SubStr(str, StrLen(sep)+1)
 }
+JoinArray(strArray)
+{
+  s := ""
+  for i,v in strArray
+    s .= ", " . v
+  return substr(s, 3)
+}
+
+global ui := False
 scriptlog(msg, timestamp := "", append := false) {
     if(noui == true)
         return
@@ -47,7 +55,8 @@ scriptlog(msg, timestamp := "", append := false) {
     if (!timestamp) {
         FormatTime, timestamp, A_Now, hh:mm:ss
     }
-    msg := StrReplace(msg, "\n" , "`n")
+    msg := StrReplace(msg, "\n" , "`r`n")
+    msg := StrReplace(msg, "\t" , "`t")
     if (timestamp == "append") {
         ControlSetText Edit1, %Edit1Text%%msg%, ahk_class AutoHotkey
     } else if (timestamp == "inline") {
@@ -57,6 +66,14 @@ scriptlog(msg, timestamp := "", append := false) {
         ControlSetText Edit1, %Edit1Text%[%timestamp%] %msg%`r`n, ahk_class AutoHotkey
     }
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
+}
+global lastToolTip := ""
+ShowToolTip(msg){
+    if (msg == lastToolTip) {
+        return
+    }
+    lastToolTip := msg
+    ToolTip, %msg%
 }
 WriteToFile(path, String) {
     if !String {
@@ -127,11 +144,45 @@ WaitForKey(msg="", key="NumpadAdd"){
     }
 }
 PressKey(key, presses=1, sleepms=80, keyms=20, verbose=false, msg="") {
-    if (verbose) scriptlog("Pressing key " . key . " " . (times > 1 ? presses . " times (interval: " . keyms . " " : "(") . "delay: " . sleepms . ")" . (msg ? ": " . msg : ""))
+    if (verbose) scriptlog("Pressing key " . key . " " . (presses > 1 ? presses . " times (interval: " . keyms . " " : "(") . "delay: " . sleepms . ")" . (msg ? ": " . msg : ""))
     loop, % presses {
         Send, % "{" key " down}"
         Sleep, %keyms%
         Send, % "{" key " up}"
         Sleep, %sleepms%
     }
+}
+PressKeyDLL(key, presses=1, keyms=20){
+    key_vk := GetKeyVK(key)
+    key_sc := GetKeySC(Key)
+    loop, % presses {
+        dllcall("keybd_event", "UChar", key_vk, "UChar", key_sc, "UInt", 0, "Ptr", 0)
+        Sleep, %keyms%
+        dllcall("keybd_event", "UChar", key_vk, "UChar", key_sc, "UInt", 0x2, "Ptr", 0)
+    }
+}
+
+#Include <AutoHotInterception>
+global AHI := false
+PressKeyAHI(key, presses=1, keyms=100){
+    if (!AHI) {
+        AHI := new AutoHotInterception()
+    }
+    loop, % presses {
+        AHI.SendKeyEvent(1, GetKeySC(key), 1)
+        Sleep, %keyms%
+        AHI.SendKeyEvent(1, GetKeySC(key), 0)
+    }
+}
+DownKeyAHI(key){
+    if (!AHI) {
+        AHI := new AutoHotInterception()
+    }
+    AHI.SendKeyEvent(1, GetKeySC(key), 1)
+}
+UpKeyAHI(key){
+    if (!AHI) {
+        AHI := new AutoHotInterception()
+    }
+    AHI.SendKeyEvent(1, GetKeySC(key), 0)
 }
