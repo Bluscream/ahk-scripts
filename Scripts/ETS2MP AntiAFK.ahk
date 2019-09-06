@@ -34,7 +34,7 @@ global connection_lost_msg := "Server closed the connection. To connect again re
 global afk_warning := "Please move! If you will not move within next minute you will be automatically kicked!"
 global headlights_pattern := "^\*\*\* Turn on your headlights! If you will not enable them, you will be kicked within (\d+) seconds! \*\*\*$"
 
-; [07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck).
+; "[07:57:37] You have been kicked from the server. Reason: Invalid accessory set detected. Sorry, you're not a Game Moderator! (NetTruck)."
 
 global chat_key := GetChatKey()
 global server := ""
