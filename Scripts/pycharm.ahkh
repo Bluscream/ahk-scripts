@@ -1,33 +1,23 @@
-﻿#SingleInstance, Force
+﻿#SingleInstance Force
 ; #NoTrayIcon
 #Persistent
-#NoEnv
-SetTitleMatchMode, 2
-CoordMode, Mouse, Client
+SetTitleMatchMode 2
+CoordMode(Mouse, Client)
 
 path := "P:\Jetbrains\apps\PhpStorm\ch-0\191.7479.51\bin\phpstorm64.exe"
 title := "Evaluation License Expired ahk_class SunAwtDialog ahk_exe phpstorm64.exe"
 
 Loop{
-    Sleep, 500
-    WinWait, %title%
-    if !WinActive(title){
-        WinActivate, %title%
-        Sleep, 50
-    }
+    Sleep(500)
+    WinWaitActive(%startwindow%)
 	Click(523, 75)
-    Sleep, 200
-    if WinExist(title) {
-        Click(267, 67)
-        Sleep, 1000
-        Run, %path%
-    }     
 }
 
-Click(x,y){
-    MouseGetPos, oldX, oldY
-    Click, %x%, %y%
-    MouseMove, oldX, oldY
+Loop{
+    Sleep(500)
+    WinWaitActive(%endwindow%)
+	Click(267, 67)
+    Run(%path%)
 }
 
 ; Screen:	555, 640 (less often used)

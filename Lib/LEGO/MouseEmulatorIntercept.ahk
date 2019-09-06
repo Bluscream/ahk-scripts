@@ -48,12 +48,17 @@ FormatHex(num){
 ResetCursor(){
     Monitor.SendMouseMoveAbsolute(Mouse, winMiddleX, winMiddleY)
 }
+
+MouseStopped:
+    StopMovement()
+
 ; global eventcnt := 0
 global stopped := false
 global same := 0
 global lastX := 0
 global lastY := 0
 MouseMoveEvent(x, y){
+    SetTimer, MouseStopped, -100
     if (x == lastX && y == lastY) {
         same += 1
         if (same > 10){
@@ -65,7 +70,7 @@ MouseMoveEvent(x, y){
     ; if (eventcnt < 10) {
         ; return
     ; }
-    eventcnt := 0
+    ; eventcnt := 0
     lastX := x
     lastY := y
     ; ttext := "X:" . x . " Y:" . y . "`n"

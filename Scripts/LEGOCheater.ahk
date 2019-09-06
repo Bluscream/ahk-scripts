@@ -31,17 +31,19 @@ Menu, tray, add, Start %game_name%, StartGame
 global noui := false
 global key_special_inuse := false
 scriptlog("Started logging here. Using SendMode " . A_SendMode)
-scriptlog("Name: " . game_name)
-scriptlog("Window: " . game_window)
-scriptlog("Path:  " . game_dir . "\\" . game_exe)
-scriptlog("Steam AppID:  " . game_id)
-scriptlog("Extras  " . game_extras)
-scriptlog("Special Key  " . key_special)
-scriptlog("Hotkeys: \n"
+scriptlog("Name:\t" . game_name)
+scriptlog("Window:\t" . game_window)
+scriptlog("Path:\t" . game_dir . game_exe)
+scriptlog("Steam AppID:\t" . game_id)
+scriptlog("Extras:\t" . game_extras)
+scriptlog("Special Key:\t" . key_special)
+scriptlog("Hotkeys:\n"
 . "Ctrl+K\t\tRestart Game\n"                  
 . "Ctrl+Esc\tDisable Hooks\n"              
-. "Control + Ä\tRepeat Special\n"
+. "Control + #\tRepeat Special\n"
 . "Shift + Ä\tToggle Special\n"
+. "# Numpad+\tEnter Codes\n"
+. "# Numpad-\tActivateAllExtras\n"
 . "Space => Ö\n")
 GetKeyboardAndMouse()
 ; scriptlog(ScriptHotkeys(A_ScriptFullPath))
@@ -67,7 +69,7 @@ CheckActive() {
             ; SetTimer, WatchCursor, 20
             ; SetTimer, ResetCursor, 20
         } else {
-            ; UnsubscribeHID() ; TODO: FIX
+            UnsubscribeHID() ; TODO: FIX
             ; SetTimer, StopCursor, Off
             ; SetTimer, WatchCursor, Off
             ; SetTimer, ResetCursor, Off

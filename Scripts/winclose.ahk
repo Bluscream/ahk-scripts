@@ -46,9 +46,9 @@ closeWindow(title, text){
     WinClose, %title%, %text%
     ; MsgBox, , "ErrorLevel", %ErrorLevel%
     if(ErrorLevel == 0) {
-        TrayTip, Closed %title%, , 1
+        ; TrayTip, Closed %title%, , 1
     } else {
-        TrayTip, "Error while closing %title%", "Hiding it instead", 1
+        ; TrayTip, "Error while closing %title%", "Hiding it instead", 1
         WinHide, %title%, %text%
     }
 }

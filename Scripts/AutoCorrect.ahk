@@ -30,6 +30,7 @@ Process Priority,, Low
 ::youd::you'd
 ::atleast::at least
 ; ::id::I'd
+::lmao::Laughing my ass off
 
 ;-------------------------------------------------------------------------------
 ;  Dates

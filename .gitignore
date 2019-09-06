@@ -27,3 +27,5 @@ crypt.*
 license.txt
 WindowSpy.ahk
 Installer.ahk
+Intercept*
+AutoHotInterception/

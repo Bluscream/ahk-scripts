@@ -5,8 +5,7 @@
 SetTitleMatchMode, 2
 CoordMode, Mouse, Client
 
-path := "P:\Jetbrains\apps\PhpStorm\ch-0\191.7479.51\bin\phpstorm64.exe"
-title := "Evaluation License Expired ahk_class SunAwtDialog ahk_exe phpstorm64.exe"
+title := "Your Windows license will expire soon ahk_class Shell_SystemDialog ahk_exe LicensingUI.exe"
 
 Loop{
     Sleep, 500
@@ -15,13 +14,8 @@ Loop{
         WinActivate, %title%
         Sleep, 50
     }
-	Click(523, 75)
-    Sleep, 200
-    if WinExist(title) {
-        Click(267, 67)
-        Sleep, 1000
-        Run, %path%
-    }     
+	Click(619, 128)
+    Sleep, 200 
 }
 
 Click(x,y){
