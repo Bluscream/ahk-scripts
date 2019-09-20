@@ -1,5 +1,4 @@
 ﻿; Credits go to Joseph#9048 from the AHK Discord
-
 #SingleInstance Force
 #NoEnv
 #NoTrayIcon
