@@ -5,13 +5,6 @@ Scripts/*_TransMAP_*.txt
 Scripts/temp/
 Scripts/codes*.txt
 
-Lib/
-!Lib/bluscream.ahk
-!Lib/logtail.ahk
-!Lib/region.ahk
-!Lib/scs.ahk
-!Lib/LEGO/*.ahk
-
 AHKStudio/
 AutoGUI/
 Autohotkey-Obfuscator/
