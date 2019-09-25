@@ -1,4 +1,6 @@
-﻿#SingleInstance Force
+﻿
+#SingleInstance, Force
+#NoTrayIcon
 
 #Include <translate>
 #Include <obj2str>
@@ -41,7 +43,7 @@ translateActiveWindow(){
         MsgBox,, % win_title, % "No Text to translate"
         return
     }
-    MsgBox % totranslate
+    ; MsgBox % totranslate
     trresult := GoogleTranslate(totranslate)
     if (!trresult){
         MsgBox,, % win_title, % "Error while translating!"
@@ -52,7 +54,7 @@ translateActiveWindow(){
     cntrl_texts_translated := ObjFullyClone(cntrl_texts)
     For cntrl, value in cntrl_texts
         cntrl_texts_translated[cntrl] = cntrl_translated[A_Index]
-    MsgBox % obj2str(cntrl_texts) . "`n`n" . obj2str(cntrl_texts_translated) . "`n`n" . trresult[4]
+    MsgBox % totranslate . "`n`n" . obj2str(cntrl_texts) . "`n`n" . obj2str(cntrl_texts_translated) . "`n`n" . trresult[4]
     For cntrl, value in cntrl_texts_translated
         setText(title, cntrl, value)
 }
