@@ -20,6 +20,8 @@ Process Priority,, Low
 ::theres::there's
 ::arent::aren't 
 ::ive::i've
+::alot::a lot
+::thats::that's
 ; ::im::i'm
 ; ::i::I
 ::whats::what's
