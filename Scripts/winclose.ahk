@@ -55,9 +55,10 @@ titles.push({title: "ahk_class CNotificationWindow_Class ahk_exe SUPERANTISPYWAR
 titles.push({title: "Connection Error ahk_class vguiPopupWindow ahk_exe steam.exe", text: "", action: "Click:X105 Y234"})
 titles.push({title: "Error ahk_class #32770 ahk_exe wallpaper64.exe", text: "Wallpaper Engine was possibly crashed by another application.", action: "CloseWindow"})
 titles.push({title: "SUPERAntiSpyware Professional Evaluation Period Expired ahk_class #32770 ahk_exe SUPERANTISPYWARE.EXE", text: "", action: "CloseWindow"})
-titles.push({title: "Message ahk_class #32770 ahk_exe Sam2017.exe", text: "Do you want to start in safe mode?", action: "ClickButton:&No"})
-titles.push({title: "Croteam crash reporter ahk_class CrashReporterWindowClass ahk_exe Sam2017_Unrestricted.exe", text: "", action: "ClickButton:Exit"})
-titles.push({title: "Message ahk_class #32770 ahk_exe Sam2017_Unrestricted.exe", text: "The application has malfunctioned and it will now close.", action: "CloseWindow"})
+titles.push({title: "Message ahk_class #32770", text: "Do you want to start in safe mode?", action: "ClickButton:&No"})
+titles.push({title: "Croteam crash reporter ahk_class CrashReporterWindowClass", text: "", action: "ClickButton:Exit"})
+titles.push({title: "Message ahk_class #32770", text: "The application has malfunctioned and it will now close.", action: "CloseWindow"})
+titles.push({title: "Crash Report ahk_class SALFRAME ahk_exe soffice.bin", text: "", action: "Click:X554 Y118"})
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
 ;<=====  Setup our timer  =====================================================>

@@ -3,6 +3,7 @@
 #NoEnv
 #NoTrayIcon
 #Persistent
+; #Hotstring k10 SE
 SetWorkingDir %A_ScriptDir%
 Process Priority,, Low
 ;-------------------------------------------------------------------------------
@@ -56,3 +57,11 @@ Process Priority,, Low
 :*:october::October
 :*:november::November
 :*:december::December
+
+::lenny::( ͡° ͜ʖ ͡°)
+::shrug::‾\_(ツ)_/‾
+::flip::/ (╯°□°）╯︵ ┻━┻
+
+:k5 SE:gg::Good Game
+:k5 SE:gl hf:: Good Luck^nHave Fun!
+:k5 SE:friendly:: Friendly Mode by IRLININ [1P/3P] [GER]
