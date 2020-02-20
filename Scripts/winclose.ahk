@@ -28,11 +28,12 @@ titles.push({title: "Purchase now",                 text: "",   action: "CloseWi
 titles.push({title: "Contribute to NetSpeedMonitor",text: "",   action: "CloseWindow"})
 titles.push({title: "Please restart app",           text: "",   action: "CloseWindow"})
 titles.push({title: "Proxy Authentication",         text: "",   action: "CloseWindow"})
+titles.push({title: "C:\WINDOWS\system32\cmd.exe (Admin) ahk_class #32770 ahk_exe ConEmu64.exe",text: "WaitNamedPipe failed", action: "CloseWindow"})
 titles.push({title: "",                             text: "Error OnTimer", action: "CloseWindow"})
 titles.push({title: "",                             text: "Assertion: ConEmu ", action: "ClickButton:&Ignore"})
+titles.push({title: "",                             text: "Available ConEmu GUI window not found!", action: "ClickButton:&Retry"}) ; ahk_class #32770 ahk_exe ConEmu64.exe
 titles.push({title: "",                             text: "Error on init, details in Debug.txt", action: "CloseWindow"})
 titles.push({title: "",                             text: "DragDrop registration did not succeed.", action: "CloseWindow"})
-titles.push({title: "",                             text: "Available ConEmu GUI window not found!", action: "ClickButton:&Retry"}) ; ahk_class #32770 ahk_exe ConEmu64.exe
 titles.push({title: "",                             text: "Steam is not running. Please start Steam then run this tool again.", action: "CloseWindow"})
 titles.push({title: "",                             text: "Network error, please try connection to http://devxdevelopment.com", action: "CloseWindow"})
 titles.push({title: "",                             text: "please let us know about the problem (devxdevelopment@gmail.com),", action: "CloseWindow"})
@@ -43,11 +44,16 @@ titles.push({title: "GetISteam ahk_class #32770 ahk_exe h1_sp64_ship.exe", text:
 titles.push({title: "Error Applying Security ahk_class #32770 ahk_exe explorer.exe", text: "", action: "ClickButton:&Continue"})
 titles.push({title: "Fehler ahk_class TMessageForm ahk_exe yatqa.exe", text: "", action: "ClickButton:&Ignorieren"})
 titles.push({title: "Your Windows license will expire soon ahk_class Shell_SystemDialog ahk_exe LicensingUI.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Donate to MyPhoneExplorer! ahk_class ThunderRT6FormDC ahk_exe MyPhoneExplorer.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Strony nie znaleziono - Gesundheit Real Desktop 3D – Desktop for Windows ahk_class #32770 ahk_exe rdesc.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Can’t reach this page (Not Responding) ahk_class Ghost ", text: "", action: "CloseWindow"})
+
+titles.push({title: "TC4Shell ahk_class TTrialForm", text: "", action: "ClickButton:&Continue"})
+
 
 titles.push({title: "Evaluation Feedback ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Evaluation License Expired ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
 titles.push({title: "PhpStorm Evaluation ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
-
 titles.push({title: "7-Zip ahk_class #32770 ahk_exe 7zFM.exe", text: "Unspecified error", action: "CloseWindow"})
 titles.push({title: "TC4Shell ahk_class TTrialForm ahk_exe Explorer.EXE", text: "", action: "CloseWindow"})
 titles.push({title: "taskkill.exe - Application Error ahk_class #32770", text: "The application was unable to start correctly", action: "CloseWindow"})
@@ -59,6 +65,10 @@ titles.push({title: "Message ahk_class #32770", text: "Do you want to start in s
 titles.push({title: "Croteam crash reporter ahk_class CrashReporterWindowClass", text: "", action: "ClickButton:Exit"})
 titles.push({title: "Message ahk_class #32770", text: "The application has malfunctioned and it will now close.", action: "CloseWindow"})
 titles.push({title: "Crash Report ahk_class SALFRAME ahk_exe soffice.bin", text: "", action: "Click:X554 Y118"})
+titles.push({title: "Upgrade To Pro ahk_class ThunderRT6FormDC ahk_exe Repair_Windows.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Tweaking.com - Windows Repair - Thank You! ahk_class ThunderRT6FormDC ahk_exe Repair_Windows.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", text: "Thank you for evaluating the Bluetooth Stack for Windows by Toshiba", action: "CloseWindow"})
+
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
 ;<=====  Setup our timer  =====================================================>

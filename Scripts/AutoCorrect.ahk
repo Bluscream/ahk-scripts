@@ -63,5 +63,7 @@ Process Priority,, Low
 ::flip::/ (╯°□°）╯︵ ┻━┻
 
 :k5 SE:gg::Good Game
-:k5 SE:gl hf:: Good Luck^nHave Fun!
-:k5 SE:friendly:: Friendly Mode by IRLININ [1P/3P] [GER]
+:k5 SE:bg::Bad Game
+:k5 SE:hg::Hard Game
+:k5 SE:gl hf:: Good Luck Have Fun!
+:k1 SE:fs:: Friendly Mode by IRLININ [1P/3P] [GER]
