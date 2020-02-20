@@ -28,21 +28,12 @@ getCallStatus() {
 
 onTextChanged(hHook, event, hWnd, idObject, idChild, eventThread, eventTime) {
     acc := Acc_ObjectFromEvent(_idChild_, hWnd, idObject, idChild)
-    ; ScriptLog("Name: " . acc.accName(0) . " Role: " . acc.accRole(0) . " IsText: " . (acc.accRole(0) == 41))
     try {
         if (acc.accRole(0) == 41) {
-            call_status := acc.accName(0) ;getCallStatus()
-            ;for k,v in texts
-            ;   ScriptLog(k . " == " . call_status . ": " . texts.HasKey(call_status))
+            call_status := acc.accName(0)
             if (texts.HasKey(call_status) == 1) {
                 onCallStatusChanged(call_status)
             }
-            ; Loop % texts.Length() {
-            ;   MsgBox % """" . call_status . """`n""" . texts[A_Index] . """"
-            ;   if (call_status == texts[A_Index]) {
-            ;         MsgBox % call_status
-            ;   }
-            ; }
         }
     } catch e {
         ScriptLog("Failed onTextChanged: " . e)
@@ -69,11 +60,9 @@ ReCheckCallStatus:
     }
 
 hook() {
-    ; acc := Acc_Get("Object", "4.1.10", 0, vc_title)
     pCallback := RegisterCallback("onTextChanged")
     Acc_SetWinEventHook(0x800C, 0x800C, pCallback)
     ScriptLog("Hooked onTextChanged to " . pCallback)
-    ; vc_hook := acc.SetWinEventHook(0x800C, 0x800C, checkCallStatus)
 }
 unhook() {
     Acc_UnhookWinEvent(pCallback)

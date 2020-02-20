@@ -18,7 +18,7 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
-compile := true
+compile := false
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return
