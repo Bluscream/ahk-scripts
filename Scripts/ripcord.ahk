@@ -50,7 +50,6 @@ OnNewLogLine(FileLine) {
     } else if (RegExMatch(msg4, msg_pattern, message)){
         ; lower := Format("{:L}", message2)
         if (RegExMatch(message2,error_pattern, error)){
-            MsgBox % error2
             json := JSON.Load(error2)
             MsgBox, 0x10, % "Ripcord - " . error1 , % error4 . " (" . json.message . ")`r`n`r`n" . error3
         } else {
