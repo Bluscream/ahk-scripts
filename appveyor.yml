@@ -1,6 +1,6 @@
 version: 1.0.{build}
 
-install: 
+install:
   - cinst autohotkey.install
 
 build: off
@@ -8,5 +8,5 @@ build: off
 before_test:
   - cmd: cd tests
 
-test_script: 
+test_script:
   - test.bat
