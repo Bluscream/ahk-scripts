@@ -18,14 +18,17 @@ global gamefolder := "G:`\Steam`\steamapps`\common`\Euro Truck Simulator 2`\"
 global noui := true
 
 requestTelemetry() {
-    URL := "http://127.0.0.1:25555/api/ets2/telemetry"
-    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    HttpObj.Open("GET", URL, 0)
-    HttpObj.SetRequestHeader("Content-Type", "application/json")
-    Wait := HttpObj.Send()
-    Result := HttpObj.ResponseText
-    Result := StrReplace(Result, "E-" , "")
-    return JSON.Load(Result)
+    Try
+    {
+        URL := "http://127.0.0.1:25555/api/ets2/telemetry"
+        HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        HttpObj.Open("GET", URL, 0)
+        HttpObj.SetRequestHeader("Content-Type", "application/json")
+        Wait := HttpObj.Send()
+        Result := HttpObj.ResponseText
+        Result := StrReplace(Result, "E-" , "")
+        return JSON.Load(Result)
+    }
 }
 getLatestLog(type := "chat") {
     Loop, %logfolder%%type%_*

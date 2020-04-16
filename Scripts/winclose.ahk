@@ -8,6 +8,7 @@
 SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 SetTitleMatchMode, 2
+DetectHiddenWindows, Off
 CoordMode, Mouse, Client
 ;<=====  Set up our arrays  ===================================================>
 titles := []
@@ -49,8 +50,10 @@ titles.push({title: "Strony nie znaleziono - Gesundheit Real Desktop 3D – Desk
 titles.push({title: "Can’t reach this page (Not Responding) ahk_class Ghost ", text: "", action: "CloseWindow"})
 
 titles.push({title: "TC4Shell ahk_class TTrialForm", text: "", action: "ClickButton:&Continue"})
+titles.push({title: "OpenVR Advanced Settings Overlay - Advanced Settings ahk_class Qt5QWindowIcon ahk_exe AdvancedSettings.exe", text: "", action: "CloseWindow"})
 
 
+titles.push({title: "WindowMenuPlus ahk_class #32770 ahk_exe WindowMenuPlus.exe", text: "The configuration is available from TaskTray icon menu.", action: "CloseWindow"})
 titles.push({title: "Evaluation Feedback ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Evaluation License Expired ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
 titles.push({title: "PhpStorm Evaluation ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
