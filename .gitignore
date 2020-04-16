@@ -22,5 +22,3 @@ WindowSpy.ahk
 Installer.ahk
 Intercept*
 AutoHotInterception/
-
-!tests/
