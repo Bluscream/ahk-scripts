@@ -2,14 +2,16 @@
 #Include <JSON>
 #INCLUDE <Acc>
 #Include <logtail>
+#Include <Class_SQLiteDB>
 
 #SingleInstance, Force
 #NoEnv
 #Persistent
 global rc_dir := "C:\Users\blusc\AppData\Local\Ripcord\"
 global rc_exe := "Ripcord.exe"
+global rc_db := "discord_client.ripdb"
 Menu, Tray, Icon, % rc_dir . rc_exe, 1
-; #NoTrayIcon
+#NoTrayIcon
 SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 ;
@@ -27,9 +29,60 @@ global check_delay_s := 5000
 
 lt_chat := new LogTailer(rc_dir . "ripcord.log", Func("OnNewLogLine"), true) ; , "CP1200")
 
+global DB := New SQLiteDB
+global SQL := "SELECT * FROM message WHERE UPPER(content) LIKE UPPER('%"
+global sql_result := ""
+global guisize_exec := 0
+if (!DB.OpenDB(rc_dir . rc_db)) {
+   MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
+   ExitApp
+}
+
 hook()
 OnExit, ExitSub
-return
+
+#IfWinActive ahk_exe Ripcord.exe
+^f::
+    InputBox, UserInput, Search Message, , , 400, 100
+    if (ErrorLevel) {
+        return
+    }
+    _sql := SQL . UserInput . "%');"
+    if (!DB.GetTable(_sql, sql_result)) {
+        MsgBox, 16, SQLite Error: GetTable, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
+    } else {
+       Gui, Destroy
+       Gui, +Resize
+       ; Gui, Add, Text, xm, % "RowCount: " . sql_result.RowCount
+       ; Gui, Add, Text, xm, % "ColumnCount: " . sql_result.ColumnCount
+       ; Gui, Add, Text, xm, % "sql: " . _sql
+       columns := "|".Join(sql_result.ColumnNames)
+       ; Gui, Add, Text, xm, % "Columns: " . columns
+       Gui, Add, ListView, w500 h300 vMyListView Grid -ReadOnly, % columns
+       GuiControl, -Redraw, MyListView
+        For Each, Row In sql_result.Rows
+            LV_Add("", Row*)
+        ; Loop, % sql_result.ColumnCount {
+            ; LV_ModifyCol(A_Index,100)
+        ; }
+        GuiControl, +Redraw, MyListView
+        LV_ModifyCol()
+        Gui, Show, AutoSize Center, % "Found " . sql_result.RowCount . " Messages for """ . UserInput . """"
+    }
+
+; DB.CloseDB()
+Return
+
+GuiSize:
+    if (A_EventInfo = 1) {
+        return
+    }
+    if (guisize_exec < 3) {
+        guisize_exec++
+        return
+    }
+    GuiControl, Move, MyListView, % "w" . (A_GuiWidth - 20) . " h" . (A_GuiHeight - 20)
+    return
 
 ExitSub:
     unhook()
@@ -81,7 +134,7 @@ onTextChanged(hHook, event, hWnd, idObject, idChild, eventThread, eventTime) {
             }
         }
     } catch e {
-        ScriptLog("Failed onTextChanged: " . e)
+        ; ScriptLog("Failed onTextChanged: " . e)
     }
 }
 

@@ -27,11 +27,17 @@ RegExEscape(String) {
 StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
 }
-Join(sep, params*) {
-    str := ""
-    for i,param in params
-        str .= sep . param
-    return SubStr(str, StrLen(sep)+1)
+Join(s,p*){
+  static _:="".base.Join:=Func("Join")
+  for k,v in p
+  {
+    if isobject(v)
+      for k2, v2 in v
+        o.=s v2
+    else
+      o.=s v
+  }
+  return SubStr(o,StrLen(s)+1)
 }
 JoinArray(strArray)
 {
@@ -159,6 +165,71 @@ PressKeyDLL(key, presses=1, keyms=20){
         dllcall("keybd_event", "UChar", key_vk, "UChar", key_sc, "UInt", 0, "Ptr", 0)
         Sleep, %keyms%
         dllcall("keybd_event", "UChar", key_vk, "UChar", key_sc, "UInt", 0x2, "Ptr", 0)
+    }
+}
+Process_Suspend(PID_or_Name, resume=false){
+    PrID := (InStr(PID_or_Name,".")) ? ProcessExists(PID_or_Name) : PID_or_Name
+    h := DllCall("OpenProcess", "uInt", 0x1F0FFF, "Int", 0, "Int", PrID)
+    if (!h) {
+       Return 1
+    }
+    tmp_ := "ntdll.dll\Nt" . (resume ? "Resume" : "Suspend") . "Process"
+    ret := DllCall(tmp_, "Int", h)
+    MsgBox, % tmp_ . " | " . h
+    DllCall("CloseHandle", "Int", h)
+    return ret
+}
+SplashScreen(title, text="", time=1000) {
+    SplashImage, , b FM18 fs12, % title, % text
+    Sleep, % time
+    SplashImage, Off
+}
+ProcessExists(PID_or_Name){
+   Process, Exist, % PID_or_Name
+   Return Errorlevel
+}
+ProcessCPULoad(PID_or_Name) {
+    PID := (InStr(PID_or_Name,".")) ? ProcessExists(PID_or_Name) : PID_or_Name
+    Static oldKrnlTime, oldUserTime
+    Static newKrnlTime, newUserTime
+
+    oldKrnlTime := newKrnlTime
+    oldUserTime := newUserTime
+
+    hProc := DllCall("OpenProcess", "Uint", 0x400, "int", 0, "Uint", PID)
+    DllCall("GetProcessTimes", "Uint", hProc, "int64P", CreationTime, "int64P"
+           , ExitTime, "int64P", newKrnlTime, "int64P", newUserTime)
+
+    DllCall("CloseHandle", "Uint", hProc)
+Return (newKrnlTime-oldKrnlTime + newUserTime-oldUserTime)/10000000 * 100   
+}
+CPULoad() { ; By SKAN, CD:22-Apr-2014 / MD:05-May-2014. Thanks to ejor, Codeproject: http://goo.gl/epYnkO
+Static PIT, PKT, PUT                           ; http://ahkscript.org/boards/viewtopic.php?p=17166#p17166
+  IfEqual, PIT,, Return 0, DllCall( "GetSystemTimes", "Int64P",PIT, "Int64P",PKT, "Int64P",PUT )
+
+  DllCall( "GetSystemTimes", "Int64P",CIT, "Int64P",CKT, "Int64P",CUT )
+, IdleTime := PIT - CIT,    KernelTime := PKT - CKT,    UserTime := PUT - CUT
+, SystemTime := KernelTime + UserTime 
+
+Return ( ( SystemTime - IdleTime ) * 100 ) // SystemTime,    PIT := CIT,    PKT := CKT,    PUT := CUT 
+}
+class Window
+{
+    title := ""
+    class := ""
+    exe := ""
+    
+    __New(title, class, exe)
+    {
+        this.title := title
+        this.class := class
+        this.exe := exe
+    }
+
+
+    str()
+    {
+        return this.title . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "")
     }
 }
 

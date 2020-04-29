@@ -58,6 +58,7 @@
 ;------------------------------------------------------------------------------
 #NoEnv ; For security
 #SingleInstance force
+#NoTrayIcon
 
 ;------------------------------------------------------------------------------
 ; AUto-COrrect TWo COnsecutive CApitals.
