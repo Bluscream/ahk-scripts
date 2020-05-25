@@ -30,19 +30,22 @@ global check_delay_s := 5000
 lt_chat := new LogTailer(rc_dir . "ripcord.log", Func("OnNewLogLine"), true) ; , "CP1200")
 
 global DB := New SQLiteDB
+global db_connected := false
 global SQL := "SELECT * FROM message WHERE UPPER(content) LIKE UPPER('%"
 global sql_result := ""
 global guisize_exec := 0
-if (!DB.OpenDB(rc_dir . rc_db)) {
-   MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
-   ExitApp
-}
 
 hook()
 OnExit, ExitSub
 
 #IfWinActive ahk_exe Ripcord.exe
 ^f::
+    if (!db_connected) {
+        if (!DB.OpenDB(rc_dir . rc_db, "R", false)) {
+           MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
+           ExitApp
+        }
+    }
     InputBox, UserInput, Search Message, , , 400, 100
     if (ErrorLevel) {
         return

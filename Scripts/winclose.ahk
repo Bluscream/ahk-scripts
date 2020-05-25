@@ -29,6 +29,7 @@ titles.push({title: "Purchase now",                 text: "",   action: "CloseWi
 titles.push({title: "Contribute to NetSpeedMonitor",text: "",   action: "CloseWindow"})
 titles.push({title: "Please restart app",           text: "",   action: "CloseWindow"})
 titles.push({title: "Proxy Authentication",         text: "",   action: "CloseWindow"})
+titles.push({title: "Error... ahk_class #32770 ahk_exe MyPhoneExplorer.exe",         text: "",   action: "CloseWindow"}) ; ClickButton:&OK
 titles.push({title: "C:\WINDOWS\system32\cmd.exe (Admin) ahk_class #32770 ahk_exe ConEmu64.exe",text: "WaitNamedPipe failed", action: "CloseWindow"})
 titles.push({title: "",                             text: "Error OnTimer", action: "CloseWindow"})
 titles.push({title: "",                             text: "Assertion: ConEmu ", action: "ClickButton:&Ignore"})
@@ -71,6 +72,8 @@ titles.push({title: "Crash Report ahk_class SALFRAME ahk_exe soffice.bin", text:
 titles.push({title: "Upgrade To Pro ahk_class ThunderRT6FormDC ahk_exe Repair_Windows.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Tweaking.com - Windows Repair - Thank You! ahk_class ThunderRT6FormDC ahk_exe Repair_Windows.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", text: "Thank you for evaluating the Bluetooth Stack for Windows by Toshiba", action: "CloseWindow"})
+titles.push({title: "PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.exe", text: "To run this application, you must install .NET Core", action: "ClickButton:&No"})
+titles.push({title: "PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
