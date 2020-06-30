@@ -5,7 +5,7 @@
 SetTitleMatchMode, 2
 CoordMode, Mouse, Client
 
-path := "P:\Jetbrains\apps\PhpStorm\ch-0\191.7479.51\bin\phpstorm64.exe"
+path := "%userprofile%\PATH\PhpStorm.cmd"
 title := "Evaluation License Expired ahk_class SunAwtDialog ahk_exe phpstorm64.exe"
 
 Loop{

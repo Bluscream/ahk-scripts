@@ -21,7 +21,9 @@ global vc_title := "Ripcord Voice Chat " . rc_title
 global log_pattern := "^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2}\.\d{3})\s+(\w+)\s(.*)$"
 global msg_pattern := "^(\w+):\s+(.*)$"
 global error_pattern := "^(.*): (\{.*\}) --- Error transferring (.*) - server replied: (.*)$"
+global error_pattern_ws := "^Voice WebSocket disconnected with code (\d+) and reason (.*)$"
 
+global error_codes_ws := { "4001": "Unknown opcode", "4003": "Not authenticated", "4004": "Authentication failed", "4005": "Already authenticated", "4006": "Session no longer valid", "4009": "Session timeout", "4011": "Server not found", "4012": "Unknown protocol", "4014": "Disconnected (channel was deleted or you were kicked)", "4015": "Voice server crashed", "4016": "Unknown encryption mode" }
 global texts := { "Waiting for server":0, "Opening WebSocket":0, "Connected":0, "Disconnected":0 }
 global old_status := ""
 
@@ -45,6 +47,7 @@ OnExit, ExitSub
            MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
            ExitApp
         }
+        db_connected := true
     }
     InputBox, UserInput, Search Message, , , 400, 100
     if (ErrorLevel) {
@@ -108,6 +111,9 @@ OnNewLogLine(FileLine) {
             error2 := error2
             json := JSON.Load(error2)
             MsgBox, 0x10, % "Ripcord - " . error1 , % error4 . " (" . json.message . ")`r`n`r`n" . error3
+        } else if (RegExMatch(message2,error_pattern_ws, error)) {
+            MsgBox, 0x10, % "Ripcord - " . error1 , % error2
+            MsgBox, 0x10, % "rc", % error_codes_ws[error1]
         } else {
             ; scriptlog("msg4 " . msg4)
         }
