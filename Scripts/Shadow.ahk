@@ -15,32 +15,37 @@ fixedY := A_ScreenHeight/2
 
 global shadow := new Window("Shadow", "Shadow-Window-Class", "Shadow.exe")
 
-CreateInterval()
-
 global min_time_minutes := 20
 global max_time_minutes := 29
 global interval_seconds := 30
 
+CreateInterval()
+
 SetTimer, CheckForShadow, % 1000*interval_seconds
+AntiAFK()
 
 CheckForShadow:
     if (ShadowExists()) {
         if (A_TimeIdle > interval) {
             SplashScreen("A_TimeIdle (" . ConvertTime(A_TimeIdle) . ") > interval (" . ConvertTime(interval) . ")", "", 1000)
-            if !(ShadowInFocus()) {
-                ; SplashScreen("ShadowInFocus()", "", 1000)
-                was_minimized := ShadowMinimized()
-                WinActivate, % shadow.str()
-                WinWaitActive, % shadow.str()
-                Sleep, 500
-            } 
-            MoveMouse()
-            CreateInterval()            
-            if (was_minimized) {
-                WinMinimize, % shadow.str()
-            }
+            AntiAFK()
         }
+}
+
+AntiAFK() {
+    if !(ShadowInFocus()) {
+        ; SplashScreen("ShadowInFocus()", "", 1000)
+        was_minimized := ShadowMinimized()
+        WinActivate, % shadow.str()
+        WinWaitActive, % shadow.str()
+        Sleep, 1000
+    } 
+    MoveMouse()
+    CreateInterval()            
+    if (was_minimized) {
+        WinMinimize, % shadow.str()
     }
+}
     
 CreateInterval() {
     global interval

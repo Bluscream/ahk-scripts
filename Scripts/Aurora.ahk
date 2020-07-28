@@ -1,6 +1,6 @@
 ﻿#Include <bluscream>
 #SingleInstance, Force
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 #NoEnv
 
