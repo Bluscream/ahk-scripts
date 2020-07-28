@@ -2516,7 +2516,7 @@ return  ; This makes the above hotstrings do nothing so that they override the i
 ::haviest::heaviest
 ::heidelburg::Heidelberg
 ::hieght::height
-::hier::heir
+; ::hier::heir
 ::heirarchy::heirarchy
 ::helment::helmet
 ::halp::help
@@ -5310,4 +5310,4 @@ return  ; This makes the above hotstrings do nothing so that they override the i
 :k5 SE:gl hf:: Good Luck Have Fun!
 :k1 SE:fs:: Friendly Mode by IRLININ [1P/3P] [GER]
 
-::binds::cl_disablehtmlmotd "1"; cl_showfps "1"; bind "v" "sv_cheats 1;noclip"; bind "b" "sv_cheats 1;impulse 101"; bind "PGUP" "sv_cheats 1;host_timescale 20"; bind "PGDN" "host_timescale 1"; bind "PAUSE" "sv_pausable 1;pause"; bind "DEL" "ent_fire !picker kill"; bind "F1" "toggleconsole"; bind "F11" "disconnect"; bind "F12" "quit";
+::hlbinds::cl_disablehtmlmotd "1"; cl_showfps "1"; bind "v" "sv_cheats 1;noclip"; bind "b" "sv_cheats 1;impulse 101"; bind "PGUP" "sv_cheats 1;host_timescale 20"; bind "PGDN" "host_timescale 1"; bind "PAUSE" "sv_pausable 1;pause"; bind "DEL" "ent_fire !picker kill"; bind "F1" "toggleconsole"; bind "F11" "disconnect"; bind "F12" "quit";
