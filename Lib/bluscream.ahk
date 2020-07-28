@@ -188,6 +188,19 @@ ProcessExists(PID_or_Name){
    Process, Exist, % PID_or_Name
    Return Errorlevel
 }
+EnforceAdmin() {
+    CommandLine := DllCall("GetCommandLine", "Str")
+    If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
+        Try {
+            If (A_IsCompiled) {
+                Run *RunAs "%A_ScriptFullPath%" /restart
+            } Else {
+                Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+            }
+        }
+        ExitApp
+    }
+}
 ProcessCPULoad(PID_or_Name) {
     PID := (InStr(PID_or_Name,".")) ? ProcessExists(PID_or_Name) : PID_or_Name
     Static oldKrnlTime, oldUserTime
