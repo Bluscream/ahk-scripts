@@ -74,7 +74,7 @@ titles.push({title: "Tweaking.com - Windows Repair - Thank You! ahk_class Thunde
 titles.push({title: "Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", text: "Thank you for evaluating the Bluetooth Stack for Windows by Toshiba", action: "CloseWindow"})
 titles.push({title: "PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.exe", text: "To run this application, you must install .NET Core", action: "ClickButton:&No"})
 titles.push({title: "PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
-titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Allow access"})
+titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
 
 ; ":2\"
 

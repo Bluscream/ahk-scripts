@@ -1,6 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 ; #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -28,7 +28,7 @@ OnNewLogLine(FileLine) {
 }
 
 startLauncher() {
-    Run, % path . "binaries\" . launcher.exe
+    Run, % "steam://rungameid/550650" ;path . "binaries\" . launcher.exe
     winstr := launcher.str()
     Sleep, 5000
     WinWait, % winstr
