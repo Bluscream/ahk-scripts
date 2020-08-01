@@ -56,7 +56,7 @@ isRunning() {
 
 switch(on := true) {
     if (isRunning() && on) {
-        ; ControlClick, % button_startstop, % winstr,,, 2
+        ControlClick, % button_startstop, % winstr,,, 2
     } else {
         ControlClick, % button_startstop, % winstr
     }
