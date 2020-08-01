@@ -64,7 +64,7 @@ OnExit, ExitSub
        ; Gui, Add, Text, xm, % "sql: " . _sql
        columns := "|".Join(sql_result.ColumnNames)
        ; Gui, Add, Text, xm, % "Columns: " . columns
-       Gui, Add, ListView, w500 h300 vMyListView Grid -ReadOnly, % columns
+       Gui, Add, ListView, w500 h300 gMyListView vMyListView Grid -ReadOnly, % columns
        GuiControl, -Redraw, MyListView
         For Each, Row In sql_result.Rows
             LV_Add("", Row*)
@@ -78,6 +78,21 @@ OnExit, ExitSub
 
 ; DB.CloseDB()
 Return
+
+MyListView:
+    If !(A_GuiEvent == "RightClick") {
+        Return
+    }
+    Gui, Submit, Nohide
+    LV_GetText(c1, A_EventInfo , 1)
+    LV_GetText(c2, A_EventInfo , 2)
+    LV_GetText(c3, A_EventInfo , 3)
+    LV_GetText(c4, A_EventInfo , 3)
+    LV_GetText(c5, A_EventInfo , 3)
+    LV_GetText(c6, A_EventInfo , 3)
+    LV_GetText(c7, A_EventInfo , 3)
+    clipboard := c1 . "|" . c2 . "|" . c3 . "|" . c4 . "|" . c5 . "|" . c6 . "|" . c7
+    Return
 
 GuiSize:
     if (A_EventInfo = 1) {
@@ -112,8 +127,7 @@ OnNewLogLine(FileLine) {
             json := JSON.Load(error2)
             MsgBox, 0x10, % "Ripcord - " . error1 , % error4 . " (" . json.message . ")`r`n`r`n" . error3
         } else if (RegExMatch(message2,error_pattern_ws, error)) {
-            MsgBox, 0x10, % "Ripcord - " . error1 , % error2
-            MsgBox, 0x10, % "rc", % error_codes_ws[error1]
+            MsgBox, 0x10, % "Ripcord - " . error1 , % error2 . " " error_codes_ws[error1]
         } else {
             ; scriptlog("msg4 " . msg4)
         }

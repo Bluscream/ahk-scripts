@@ -201,6 +201,29 @@ EnforceAdmin() {
         ExitApp
     }
 }
+RestartScript(asAdmin := true) {
+    CommandLine := DllCall("GetCommandLine", "Str")
+    if (RegExMatch(CommandLine, " /restart(?!\S)")) {
+        return
+    }
+    Try {
+        If (A_IsCompiled) {
+            if (asAdmin) {
+                Run *RunAs "%A_ScriptFullPath%" /restart
+            } else {
+                Run "%A_ScriptFullPath%" /restart
+            }
+        } Else {
+            if (asAdmin) {
+                Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+            } else {
+                Run "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+            }
+            
+        }
+    }
+    ExitApp
+}
 ProcessCPULoad(PID_or_Name) {
     PID := (InStr(PID_or_Name,".")) ? ProcessExists(PID_or_Name) : PID_or_Name
     Static oldKrnlTime, oldUserTime

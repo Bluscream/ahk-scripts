@@ -5304,10 +5304,14 @@ return  ; This makes the above hotstrings do nothing so that they override the i
 ::shrenny::‾\_( ͡° ͜ʖ ͡°)_/‾
 ::dab::ヽ( •_)ᕗ
 
-:k5 SE:gg::Good Game
-:k5 SE:bg::Bad Game
+:k5 SE:nt::Nice Try, Comrade 👍
+:k5 SE:gg::Good Game 🎉
+:k5 SE:bg::Bad Game 😞
 :k5 SE:hg::Hard Game
-:k5 SE:gl hf:: Good Luck Have Fun!
-:k1 SE:fs:: Friendly Mode by IRLININ [1P/3P] [GER]
+:k5 SE:gl::Good Luck, boooizzz 🍀
+:k5 SE:hf::Have Fun
+:k5 SE:glhf::Good Luck Have Fun!
+:k5 SE:rip::Rest in Peperoni 🍕
+;:k1 SE:fs:: Friendly Mode by IRLININ [1P/3P] [GER]
 
 ::hlbinds::cl_disablehtmlmotd "1"; cl_showfps "1"; bind "v" "sv_cheats 1;noclip"; bind "b" "sv_cheats 1;impulse 101"; bind "PGUP" "sv_cheats 1;host_timescale 20"; bind "PGDN" "host_timescale 1"; bind "PAUSE" "sv_pausable 1;pause"; bind "DEL" "ent_fire !picker kill"; bind "F1" "toggleconsole"; bind "F11" "disconnect"; bind "F12" "quit";
