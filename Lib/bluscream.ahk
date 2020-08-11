@@ -1,4 +1,18 @@
 ﻿; Date 10/18/2018
+#Include <JSON>
+GetJson(url) {
+    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    HttpObj.Open("GET", url, 0)
+    HttpObj.SetRequestHeader("Content-Type", "application/json")
+    Wait := HttpObj.Send()
+    return JSON.Load(HttpObj.ResponseText)
+}
+GetString(url) {
+    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    HttpObj.Open("GET", url, 0)
+    Wait := HttpObj.Send()
+    return HttpObj.ResponseText
+}
 ObjectCount(object) {
     count := 0
     for index, value in object {
@@ -136,6 +150,31 @@ PostClick(hwnd, X, Y, Count=1, Delay=50)
 			Sleep Delay
 	}
 }
+Paste(text) {
+    clipboard_backup := clipboard
+    Sleep, 10
+    clipboard := text
+    Sleep, 10
+    Send, ^v
+    Sleep, 10
+    clipboard := clipboard_backup
+}
+EscapeCurly(text) {
+    ; str := StrReplace(str, "{", "{{}" ; Sends {
+    ; str := StrReplace(str, "}", "{}}" ; Sends }
+    ; return StrReplace(str, "{}", "{{}{}}" ; Sends {}
+    Loop, Parse, text              ; retrieves each character from the variable, one at a time
+    {
+        if (A_LoopField == "{") {
+            str .= "{{}"
+        } else if (A_LoopField == "}") {
+            str .= "{}}"
+        } else {
+            str .= A_LoopField
+        }
+    }
+    return str
+}
 SleepS(seconds) {
     Sleep, seconds * 1000
 }
@@ -249,26 +288,37 @@ Static PIT, PKT, PUT                           ; http://ahkscript.org/boards/vie
 
 Return ( ( SystemTime - IdleTime ) * 100 ) // SystemTime,    PIT := CIT,    PKT := CKT,    PUT := CUT 
 }
-class Window
-{
+class Window {
     title := ""
     class := ""
     exe := ""
     
-    __New(title, class, exe)
-    {
+    __New(title, class, exe) {
         this.title := title
         this.class := class
         this.exe := exe
     }
 
 
-    str()
-    {
-        return this.title . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "")
+    str() {
+        return (this.title ? this.title : "") . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "")
+    }
+    
+    exists() {
+        return WinExist(this.str())
+    }
+    isActive() {
+        return WinActive(this.str())
+    }
+    isMinimized() {
+        WinGet MMX, MinMax, % this.str()
+        return (MMX == -1)
+    }
+    activate() {
+        WinActivate, % this.str()
+        WinWaitActive, % this.str()
     }
 }
-
 #Include <AutoHotInterception>
 global AHI := false
 PressKeyAHI(key, presses=1, keyms=100){

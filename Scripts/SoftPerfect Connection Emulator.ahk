@@ -7,7 +7,7 @@ SetBatchLines -1
 #Include <bluscream>
 EnforceAdmin()
 
-global window := new Window("SoftPerfect Connection Emulator Std", "TSimulatorForm", "consim.exe")
+global window := new Window("SoftPerfect Connection Emulator", "TSimulatorForm", "consim.exe")
 global winstr := window.str()
 global button_startstop := "TButton1"
 global txt_ping := "TlabeledEdit1"
@@ -22,23 +22,23 @@ F1::
     return
     
 F2::
-    setPing(123)
+    setPing(123-8)
     return
     
 F3::
-    setPing(420)
+    setPing(420-8)
     return
     
 F4::
-    setPing(888)
+    setPing(888-8)
     return
     
 F5::
-    setPing(999)
+    setPing(999-8)
     return
     
 F6::
-    setPing(1500)
+    setPing(1500-8)
     return
     
 F10::

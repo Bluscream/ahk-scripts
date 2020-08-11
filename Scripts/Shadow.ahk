@@ -1,6 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -13,11 +13,17 @@ CoordMode, mouse, Client
 toggle := 0
 fixedY := A_ScreenHeight/2
 
+global shadow_launcher := new Window("Shadow", "Chrome_WidgetWin_1")
 global shadow := new Window("Shadow", "Shadow-Window-Class", "Shadow.exe")
 
 global min_time_minutes := 20
 global max_time_minutes := 29
 global interval_seconds := 30
+
+; Screen:	622, 643 (less often used)
+; Window:	528, 616 (default)
+; Client:	528, 616 (recommended)
+; Color:	FD7643 (Red=FD Green=76 Blue=43)
 
 CreateInterval()
 
@@ -30,7 +36,9 @@ CheckForShadow:
             SplashScreen("A_TimeIdle (" . ConvertTime(A_TimeIdle) . ") > interval (" . ConvertTime(interval) . ")", "", 1000)
             AntiAFK()
         }
-}
+    } else {
+        ; RunWait 
+    }
 
 AntiAFK() {
     if !(ShadowInFocus()) {
