@@ -1,15 +1,13 @@
 ﻿#SingleInstance Force
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
-; SendMode, Input
 #Include <bluscream>
-; #Include <JSON>
 #Warn
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
@@ -20,6 +18,7 @@ global steam_login_refresh_2fa := new Window("Steam - Authenticator Code", "vgui
 global steam_2fa := new Window("Steam Guard - Computer Authorization Required", "vguiPopupWindow", "Steam.exe")
 FileRead, logins, % "C:\Users\blusc\Desktop\steam.json"
 global logins := JSON.Load(logins)
+global main := logins.accounts[1]
 
 ; SetTimer, CheckForWindow, % 1000*5
 
@@ -28,31 +27,30 @@ global logins := JSON.Load(logins)
 while(true) {
     if (steam_login_refresh.exists()) {
         steam_login_refresh.activate()
-        SendString(steam_login_refresh, steam_login_refresh.controls.password, logins[1].password)
+        SendString(steam_login_refresh, steam_login_refresh.controls.password, main.password)
         Send, % "{Enter}" 
         WinWait, % steam_login_refresh_2fa.str(),, 10
         if !(ErrorLevel) {
             steam_login_refresh_2fa.activate()
             Send, % "{Enter}"
-            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, Get2FACode(logins[1].botname))
+            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, Get2FACode(main.botname))
         }
         Send, % "{Enter}" 
         WinWaitDisappear(steam_login_refresh)
     } else if (steam_login.exists()) {
         steam_login.activate()
-        SendString(steam_login, steam_login.controls.username, logins[1].username)
-        SendString(steam_login, steam_login.controls.password, logins[1].password)
+        SendString(steam_login, steam_login.controls.username, main.username)
+        SendString(steam_login, steam_login.controls.password, main.password)
         ClickControl(steam_login, steam_login.controls.save)
         ; Send, % "{Enter}"
         WinWait, % steam_2fa.str(),, 10
         if !(ErrorLevel) {
             steam_2fa.activate()
-            paste(Get2FACode(logins[1].botname))
+            paste(Get2FACode(main.botname))
             Send, % "{Enter}"
         }
         WinWaitDisappear(steam_login)
     } 
-    ; RunWait, "D:\Downloads\WinAuth.exe"
     Sleep, % 1000*5
 }
 return
@@ -85,5 +83,5 @@ ClickControl(win, control) {
 }
 
 Get2FACode(name) {
-    return GetJson("http://192.168.2.38:1242/Api/Bot/" . name . "/TwoFactorAuthentication/Token").result[name].result
+    return GetJson(logins.asf.url . "/Api/Bot/" . name . "/TwoFactorAuthentication/Token?password=" . logins.asf.token).result[name].result
 }

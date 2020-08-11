@@ -14,6 +14,7 @@ CoordMode, Mouse, Client
 titles := []
 ; titles.push({title: "DF ahk_class #32770 ahk_exe df.exe", text: "", action: "CloseWindow"}
 ; titles.push({title: "ConEmu [64] ahk_class #32770 ahk_exe ConEmu64.exe", text: "", action: "ClickButton:&Ignore"}
+titles.push({title: "Anwendungsfehler ahk_class #32770",        text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class ClassAdvert",        text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class MainFrameInstall",   text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class RarReminder",        text: "",   action: "CloseWindow"})

@@ -1,9 +1,12 @@
 ﻿; Date 10/18/2018
 #Include <JSON>
-GetJson(url) {
+GetJson(url, auth := "") {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
     HttpObj.Open("GET", url, 0)
     HttpObj.SetRequestHeader("Content-Type", "application/json")
+    if (auth != "") {
+        HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+    }
     Wait := HttpObj.Send()
     return JSON.Load(HttpObj.ResponseText)
 }
