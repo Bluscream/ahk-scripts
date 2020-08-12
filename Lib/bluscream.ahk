@@ -16,6 +16,9 @@ GetString(url) {
     Wait := HttpObj.Send()
     return HttpObj.ResponseText
 }
+toJson(object) {
+    return JSON.Dump(object)
+}
 ObjectCount(object) {
     count := 0
     for index, value in object {
@@ -77,6 +80,9 @@ scriptlog(msg, timestamp := "", append := false) {
     ControlGetText, Edit1Text, Edit1, ahk_class AutoHotkey
     if (!timestamp) {
         FormatTime, timestamp, A_Now, hh:mm:ss
+    }
+    if (msg == "") {
+        msg := toJson(msg)
     }
     msg := StrReplace(msg, "\n" , "`r`n")
     msg := StrReplace(msg, "\t" , "`t")
@@ -180,6 +186,10 @@ EscapeCurly(text) {
 }
 SleepS(seconds) {
     Sleep, seconds * 1000
+}
+
+GetIdleTimes() {
+    return { "all": A_TimeIdle, "physical": A_TimeIdlePhysical, "keyboard": A_TimeIdleKeyboard, "mouse": A_TimeIdleMouse }
 }
 WaitForKey(msg="", key="NumpadAdd"){
     scriptlog(msg . "Press " . key . " When ready!")
@@ -317,9 +327,22 @@ class Window {
         WinGet MMX, MinMax, % this.str()
         return (MMX == -1)
     }
+    minimize() {
+        WinMinimize, % this.str()
+    }
     activate() {
         WinActivate, % this.str()
         WinWaitActive, % this.str()
+    }
+    pos() {
+       ;WinGetPos, X, Y, Width, Height, WinTitle, WinText, ExcludeTitle, ExcludeText]
+        WinGetPos,x,y,w,h, % this.str()
+        cw := w
+        ch := h
+        ch /= 2 
+        cw -= 1
+        cw /= 2
+        return { "x": x, "y": y, "w": w, "h": h, "center": { "w": cw, "h": ch } }
     }
 }
 #Include <AutoHotInterception>

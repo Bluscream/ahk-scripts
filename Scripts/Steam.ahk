@@ -16,6 +16,7 @@ global steam_login_refresh := new Window("Steam - Refresh Login", "vguiPopupWind
 steam_login_refresh["controls"] := { "password": { "x": 231, "y": 147 }, "2fa": { "x": 230, "y": 183 } }
 global steam_login_refresh_2fa := new Window("Steam - Authenticator Code", "vguiPopupWindow", "Steam.exe")
 global steam_2fa := new Window("Steam Guard - Computer Authorization Required", "vguiPopupWindow", "Steam.exe")
+global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "steam.exe")
 FileRead, logins, % "C:\Users\blusc\Desktop\steam.json"
 global logins := JSON.Load(logins)
 global main := logins.accounts[1]
@@ -25,7 +26,10 @@ global main := logins.accounts[1]
 
 ; CheckForWindow:
 while(true) {
-    if (steam_login_refresh.exists()) {
+    if (steam_login_error.exists()) {
+        steam_login_error.activate()
+        Send, % "{Enter}"
+    } else if (steam_login_refresh.exists()) {
         steam_login_refresh.activate()
         SendString(steam_login_refresh, steam_login_refresh.controls.password, main.password)
         Send, % "{Enter}" 

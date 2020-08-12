@@ -18,76 +18,63 @@ global shadow := new Window("Shadow", "Shadow-Window-Class", "Shadow.exe")
 
 global min_time_minutes := 20
 global max_time_minutes := 29
-global interval_seconds := 30
-
-; Screen:	622, 643 (less often used)
-; Window:	528, 616 (default)
-; Client:	528, 616 (recommended)
-; Color:	FD7643 (Red=FD Green=76 Blue=43)
+global interval_seconds := 300
+global interval
 
 CreateInterval()
 
 SetTimer, CheckForShadow, % 1000*interval_seconds
-AntiAFK()
+; AntiAFK()
 
 CheckForShadow:
-    if (ShadowExists()) {
-        if (A_TimeIdle > interval) {
-            SplashScreen("A_TimeIdle (" . ConvertTime(A_TimeIdle) . ") > interval (" . ConvertTime(interval) . ")", "", 1000)
+    if (shadow.exists()) {
+        ; if (A_TimeIdle > interval) {
+            times := GetIdleTimes()
+            times["interval"] := interval
+            scriptlog(A_Now . " > " . toJson(times))
+            SplashScreen(ConvertTime(interval), "", 1000)
             AntiAFK()
-        }
+        ; }
     } else {
-        ; RunWait 
+        ; Run % "C:\Users\blusc\AppData\Local\Programs\shadow-preprod\resources\app.asar.unpacked\release\native\Shadow.exe"
     }
 
 AntiAFK() {
-    if !(ShadowInFocus()) {
+    if !(shadow.exists()) {
+        Return
+    }
+    if !(shadow.isActive()) {
         ; SplashScreen("ShadowInFocus()", "", 1000)
-        was_minimized := ShadowMinimized()
-        WinActivate, % shadow.str()
-        WinWaitActive, % shadow.str()
+        was_minimized := shadow.isMinimized()
+        shadow.activate()
         Sleep, 1000
     } 
     MoveMouse()
     CreateInterval()            
     if (was_minimized) {
-        WinMinimize, % shadow.str()
+        shadow.minimize()
     }
 }
     
 CreateInterval() {
-    global interval
     Random, interval, 1000*60*min_time_minutes, 1000*60*max_time_minutes ; global interval := 10000
     SplashScreen("New Interval: " . ConvertTime(interval), "", 1000)
 }
     
 ConvertTime(time_ms) {
-    return (time_ms / 1000 / 60) . " min"
-}
-
-ShadowExists() {
-    return WinExist(shadow.str())
-}
-ShadowInFocus() {
-    return WinActive(shadow.str())
-}
-ShadowMinimized() {
-    WinGet MMX, MinMax, % shadow.str()
-    return (MMX == -1)
+    return Round(time_ms / 1000 / 60) . " min"
 }
 
 MoveMouse() {
     CoordMode, Mouse, Screen
     MouseGetPos, MouseX, MouseY
-   ;WinGetPos, X, Y, Width, Height, WinTitle, WinText, ExcludeTitle, ExcludeText]
-    WinGetPos,  ,  , Width, Height, % shadow.str()
-	Height /= 2 
-	Width -= 1 ; The full value goes past the window
-    Width /= 2 
+    pos := shadow.pos()
+    scriptlog(toJson(pos))
+    center := pos.center
     CoordMode, Mouse, Client
-	MouseMove, Width + 3, Height - 2
+	MouseMove, center.w + 3, center.h - 2
     Sleep, 10
-	MouseMove, Width + 2, Height - 3
+	MouseMove, center.w + 2, center.h - 3
     Sleep, 15
     CoordMode, Mouse, Screen
     MouseMove, MouseX, MouseY
