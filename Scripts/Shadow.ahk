@@ -21,7 +21,7 @@ global max_time_minutes := 29
 global interval_seconds := 300
 global interval
 
-CreateInterval()
+; CreateInterval()
 
 SetTimer, CheckForShadow, % 1000*interval_seconds
 ; AntiAFK()
@@ -29,14 +29,11 @@ SetTimer, CheckForShadow, % 1000*interval_seconds
 CheckForShadow:
     if (shadow.exists()) {
         ; if (A_TimeIdle > interval) {
-            times := GetIdleTimes()
-            times["interval"] := interval
-            scriptlog(A_Now . " > " . toJson(times))
-            SplashScreen(ConvertTime(interval), "", 1000)
+            scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
             AntiAFK()
         ; }
     } else {
-        ; Run % "C:\Users\blusc\AppData\Local\Programs\shadow-preprod\resources\app.asar.unpacked\release\native\Shadow.exe"
+        ; Run % "AppData\Local\Programs\shadow-preprod\resources\app.asar.unpacked\release\native\Shadow.exe"
     }
 
 AntiAFK() {
@@ -50,7 +47,7 @@ AntiAFK() {
         Sleep, 1000
     } 
     MoveMouse()
-    CreateInterval()            
+    ; CreateInterval()            
     if (was_minimized) {
         shadow.minimize()
     }
@@ -58,7 +55,9 @@ AntiAFK() {
     
 CreateInterval() {
     Random, interval, 1000*60*min_time_minutes, 1000*60*max_time_minutes ; global interval := 10000
-    SplashScreen("New Interval: " . ConvertTime(interval), "", 1000)
+    txt := "New Interval: " . ConvertTime(interval)
+    SplashScreen(txt, "", 1000)
+    scriptlog(txt . "(" . interval . ")")
 }
     
 ConvertTime(time_ms) {

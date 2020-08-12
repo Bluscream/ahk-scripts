@@ -59,7 +59,7 @@ WaitForKey("Finished, you can close this window now or ", key="Enter")
 RunWaitOne("git log") ; gitlog := 
 ; MsgBox % gitlog
 WaitForKey("", key="Enter")
-Exit
+ExitApp
 
 StringTrimRight, Binaries, Binaries, 1
 EnvGet, GitHubToken, GitHubToken
