@@ -3,6 +3,7 @@
 
 FileRead, steam_logins, % A_Desktop . "\steam.json"
 global steam_logins := JSON.Load(steam_logins)
+global steam_key_pattern := "((?![^0-9\?]{12,}|[^A-z\?]{12,})([A-z0-9\?]{4,5}-?[A-z0-9\?]{4,5}-?[A-z0-9\?]{4,5}(-?[A-z0-9\?]{4,5}(-?[A-z0-9\?]{4,5})?)?))"
 
 GetRedeemedKeys() {
     keys := Array()
@@ -18,10 +19,17 @@ GetRedeemedKeys() {
     }
     return keys
 }
-RedeemKeys(keys) {
+RedeemKeys(keys, guess := false) {
+    guess_dict := "abcdefghijklmnopqrstuvwxyz0123456789"
     request := { "GamesToRedeemInBackground": { } }
-    for i, k in keys {
-        request["GamesToRedeemInBackground"][k] := k
+    for i, key in keys {
+        if (guess && InStr(key, "?")) {
+            Loop, parse, guess_dict
+                key := StrReplace(key, "?", A_LoopField)
+                request["GamesToRedeemInBackground"][key] := key
+        } else {
+            request["GamesToRedeemInBackground"][key] := key
+        }
     }
     return PostJson(steam_logins.asf.url . "/Api/Bot/asf/GamesToRedeemInBackground?password=" . steam_logins.asf.token, request)
 }
@@ -36,4 +44,14 @@ Get2FACodes() {
         codes[account] := data.result
     }
     return codes
+}
+
+ParseSteamKeys(text) {
+    keys := []
+    for i, m in RxMatches(text, "O)" . steam_key_pattern) {
+       if (keys.indexOf(m.Value) = -1) {
+            keys.Push(m.Value)
+       }
+    }
+    return keys
 }

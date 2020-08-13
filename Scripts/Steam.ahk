@@ -18,13 +18,14 @@ global steam_login_refresh_2fa := new Window("Steam - Authenticator Code", "vgui
 global steam_2fa := new Window("Steam Guard - Computer Authorization Required", "vguiPopupWindow", "Steam.exe")
 global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "steam.exe")
 global main := steam_logins.accounts[1]
+global logged_in := false
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%
   Menu, Tray, Icon, %I_Icon%
 Menu, tray, add, % "--- Steam ---", void
 Menu, tray, add, % "Get 2FA Code", Get2FACode
-Menu, tray, add, % "Redeem Key", RedeemKey
+Menu, tray, add, % "Redeem Keys", RedeemKeys
 
 
 ; SetTimer, CheckForWindow, % 1000*5
@@ -50,7 +51,10 @@ while(true) {
         SendString(steam_login, steam_login.controls.username, main.username)
         SendString(steam_login, steam_login.controls.password, main.password)
         ClickControl(steam_login, steam_login.controls.save)
-        ; Send, % "{Enter}"
+        if !(logged_in) {
+            Send, % "{Enter}"
+            logged_in := true
+        }
         WinWait, % steam_2fa.str(),, 10
         if !(ErrorLevel) {
             steam_2fa.activate()
@@ -66,14 +70,23 @@ return
 
 Get2FACode:
     code := Get2FACode(main.botname)
-    ToolTip, % code
     Clipboard := code
-    Sleep 2500
-    Tooltip
+    SplashScreen(main.username, code, 2500)
+    return
 
-RedeemKey:
-    InputBox, key, % "Redeem Steam Key", % "Enter Steam Key in the format XXXX-XXXX-XXXX"
-    MsgBox % toJson(RedeemKeys([key]))
+RedeemKeys:
+    ; InputBox, key, % "Redeem Steam Key", % "Enter Steam Key in the format XXXX-XXXX-XXXX"
+    ; MultiLineInputBox("Hello World:", "stuff, more stuff", "Custom Caption")
+    text := MultiLineInput("Redeem Steam Keys")
+    MsgBox % text
+    keys := ParseSteamKeys(text)
+    MsgBox % toJson(keys)
+    if (keys.Count() < 1) {
+        MsgBox % "Could not find any valid Steam keys :("
+        return
+    } 
+    MsgBox % toJson(RedeemKeys(keys))
+    return
 
 void:
     return

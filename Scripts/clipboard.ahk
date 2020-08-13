@@ -6,7 +6,6 @@ SetBatchLines, -1
 #Include <bluscream>
 #Include <asf>
 
-global steam_key_pattern := "((?![^0-9]{12,}|[^A-z]{12,})([A-z0-9]{4,5}-?[A-z0-9]{4,5}-?[A-z0-9]{4,5}(-?[A-z0-9]{4,5}(-?[A-z0-9]{4,5})?)?))"
 FileRead, logins, % "C:\Users\blusc\Desktop\steam.json"
 global logins := JSON.Load(logins)
 
@@ -36,12 +35,11 @@ ClipChanged(type) {
         clipboard := txt
     } else if (RegExMatch(clipboard, steam_key_pattern)) {
         keys := []
-        for i, m in RxMatches(clipboard, "O)" . steam_key_pattern) {
-            if (already_used.indexOf(m.Value) = -1) {
-               already_used.Push(m.Value)
-               if (keys.indexOf(m.Value) = -1) {
-                    keys.Push(m.Value)
-               }
+        _keys := ParseSteamKeys(clipboard)
+        for i, key in _keys {
+            if (already_used.indexOf(key) = -1) {
+               already_used.Push(key)
+               keys.Push(key)
             }
         }
         key_count := keys.Count()
