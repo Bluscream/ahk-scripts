@@ -1,5 +1,5 @@
 ﻿#Persistent
-; #NoTrayIcon
+#NoTrayIcon
 #NoEnv
 #SingleInstance, Force
 SetBatchLines, -1
@@ -44,7 +44,7 @@ ClipChanged(type) {
                }
             }
         }
-        key_count := keys.Count() ; ObjectCount(keys)
+        key_count := keys.Count()
         if (key_count < 1) {
             return
         }
@@ -63,7 +63,4 @@ ClipChanged(type) {
             MsgBox, % toJson(RedeemKeys(keys))
         }
     }
-}
-
-
 }

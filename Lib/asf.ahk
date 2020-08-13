@@ -1,7 +1,7 @@
 ﻿#Include <bluscream>
 #Include <JSON>
 
-FileRead, steam_logins, % "C:\Users\blusc\Desktop\steam.json"
+FileRead, steam_logins, % A_Desktop . "\steam.json"
 global steam_logins := JSON.Load(steam_logins)
 
 GetRedeemedKeys() {
@@ -26,6 +26,14 @@ RedeemKeys(keys) {
     return PostJson(steam_logins.asf.url . "/Api/Bot/asf/GamesToRedeemInBackground?password=" . steam_logins.asf.token, request)
 }
 
-Get2FACode(name) {
+Get2FACode(name := "") {
     return GetJson(steam_logins.asf.url . "/Api/Bot/" . name . "/TwoFactorAuthentication/Token?password=" . steam_logins.asf.token).result[name].result
+}
+
+Get2FACodes() {
+    codes := {}
+    for account, data in response.result {
+        codes[account] := data.result
+    }
+    return codes
 }

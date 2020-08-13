@@ -1,6 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -19,9 +19,15 @@ global steam_2fa := new Window("Steam Guard - Computer Authorization Required", 
 global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "steam.exe")
 global main := steam_logins.accounts[1]
 
+I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
+IfExist, %I_Icon%
+  Menu, Tray, Icon, %I_Icon%
+Menu, tray, add, % "--- Steam ---", void
+Menu, tray, add, % "Get 2FA Code", Get2FACode
+Menu, tray, add, % "Redeem Key", RedeemKey
+
+
 ; SetTimer, CheckForWindow, % 1000*5
-
-
 ; CheckForWindow:
 while(true) {
     if (steam_login_error.exists()) {
@@ -56,6 +62,21 @@ while(true) {
     Sleep, % 1000*5
 }
 return
+
+
+Get2FACode:
+    code := Get2FACode(main.botname)
+    ToolTip, % code
+    Clipboard := code
+    Sleep 2500
+    Tooltip
+
+RedeemKey:
+    InputBox, key, % "Redeem Steam Key", % "Enter Steam Key in the format XXXX-XXXX-XXXX"
+    MsgBox % toJson(RedeemKeys([key]))
+
+void:
+    return
 
 WinWaitDisappear(window) {
     while (window.exists()) {
