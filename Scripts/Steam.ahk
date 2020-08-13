@@ -78,14 +78,12 @@ RedeemKeys:
     ; InputBox, key, % "Redeem Steam Key", % "Enter Steam Key in the format XXXX-XXXX-XXXX"
     ; MultiLineInputBox("Hello World:", "stuff, more stuff", "Custom Caption")
     text := MultiLineInput("Redeem Steam Keys")
-    MsgBox % text
-    keys := ParseSteamKeys(text)
-    MsgBox % toJson(keys)
+    keys := ParseSteamKeys(text, true)
     if (keys.Count() < 1) {
         MsgBox % "Could not find any valid Steam keys :("
         return
     } 
-    MsgBox % toJson(RedeemKeys(keys))
+    MsgBox % "`n".Join(keys) ; toJson(RedeemKeys(keys))
     return
 
 void:

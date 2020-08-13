@@ -12,6 +12,13 @@ ObjectCount(object) {
     }
     return count
 }
+mid$(input, startPos, replacement) {
+ Return, SubStr(input,1,startPos-1) . replacement . SubStr(input,startPos+StrLen(replacement))
+}
+ReplaceAtPos(String, pos, Replacement) {
+    IfGreater, Pos, % StrLen(String), Return, String
+    Return, SubStr(String, 1, pos - 1) Replacement SubStr(String, pos + 1)
+}
 InList(haystack, needles*)
 {
     for i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)
@@ -411,12 +418,25 @@ class Window {
     }
 }
 class _{
-static _:="".base.base:=_
-Join(p*){
-for k,v in p
-s.=this v
-return SubStr(s,StrLen(this)+1)
-}}
+    static _:="".base.base:=_
+    Join(p*) {
+        for k,v in p {
+            s .= this v
+        }
+        return SubStr(s,StrLen(this)+1)
+    }
+    scramble() {
+        s := this.insertDelims(this, "|")
+        Sort, s, Random, D|
+        return StrReplace(s, "|")
+    }
+    insertDelimiters(str, delim) {
+            for k,v in StrSplit(str) {
+                Result .= delim v
+            }
+            Return, Result
+    }
+}
 Array(prms*) {
 	prms.base := _Array
 	return prms

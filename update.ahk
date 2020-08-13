@@ -55,6 +55,7 @@ RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
 RunWaitOne("git remote -v")
 scriptlog("Pushed to origin/master")
+scriptlog("https://github.com/bluscream/commits/master")
 WaitForKey("Finished, you can close this window now or ", "Enter")
 RunWaitOne("git log") ; gitlog := 
 ; MsgBox % gitlog
