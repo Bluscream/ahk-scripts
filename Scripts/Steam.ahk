@@ -8,7 +8,7 @@ SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
 #Include <bluscream>
-#Warn
+#Include <asf>
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
 steam_login["controls"] := { "username": { "x": 269, "y": 100 }, "password": { "x": 260, "y": 133 }, "save": { "x": 123, "y": 163 } }
@@ -17,9 +17,7 @@ steam_login_refresh["controls"] := { "password": { "x": 231, "y": 147 }, "2fa": 
 global steam_login_refresh_2fa := new Window("Steam - Authenticator Code", "vguiPopupWindow", "Steam.exe")
 global steam_2fa := new Window("Steam Guard - Computer Authorization Required", "vguiPopupWindow", "Steam.exe")
 global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "steam.exe")
-FileRead, logins, % "C:\Users\blusc\Desktop\steam.json"
-global logins := JSON.Load(logins)
-global main := logins.accounts[1]
+global main := steam_logins.accounts[1]
 
 ; SetTimer, CheckForWindow, % 1000*5
 
@@ -84,8 +82,4 @@ ClickControl(win, control) {
     if !(win.isActive())
         win.activate()
     MouseClick,,% control.x, % control.y
-}
-
-Get2FACode(name) {
-    return GetJson(logins.asf.url . "/Api/Bot/" . name . "/TwoFactorAuthentication/Token?password=" . logins.asf.token).result[name].result
 }

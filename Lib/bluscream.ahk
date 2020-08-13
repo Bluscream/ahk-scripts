@@ -1,23 +1,9 @@
 ﻿; Date 10/18/2018
-#Include <JSON>
-GetJson(url, auth := "") {
-    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    HttpObj.Open("GET", url, 0)
-    HttpObj.SetRequestHeader("Content-Type", "application/json")
-    if (auth != "") {
-        HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
-    }
-    Wait := HttpObj.Send()
-    return JSON.Load(HttpObj.ResponseText)
-}
 GetString(url) {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
     HttpObj.Open("GET", url, 0)
     Wait := HttpObj.Send()
     return HttpObj.ResponseText
-}
-toJson(object) {
-    return JSON.Dump(object)
 }
 ObjectCount(object) {
     count := 0
@@ -32,6 +18,24 @@ InList(haystack, needles*)
         if (haystack = needle)
             return true
 }
+singlePush(array, item) {
+    if (array.indexOf(item) = -1) {
+       array.push(item)
+    }
+}
+RemoveDup(obj) {
+	for i, value in obj
+		str.=value "`n"
+	nodupArray:={}
+	nodup:= "`n" 									; Added delimiter
+	loop parse, str, `n
+		if !InStr(nodup,  "`n"  A_LoopField "`n" )	; Added delimiter
+		{
+			nodup.=A_LoopField "`n"
+			nodupArray.Push(A_LoopField)
+		}
+	Return nodupArray
+}
 NewLine(){
     return "`r`n"
 }
@@ -43,6 +47,19 @@ endsWith(string, substring) {
 }
 RegExEscape(String) {
 	return "\Q" StrReplace(String, "\E", "\E\\E\Q") "\E"
+}
+RxMatches(Haystack, Needle) { ;from https://autohotkey.com/board/topic/88466-regexmatch-how-to-get-all-matches/#entry610223
+	Result := []
+	start = 1
+	loop
+    {
+		if(!RegexMatch(haystack, needle, M, start)) {
+			break
+        }
+		Result.Insert(M)
+		start := M.Pos + M.Len
+	}
+	return Result
 }
 StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
@@ -344,6 +361,58 @@ class Window {
         cw /= 2
         return { "x": x, "y": y, "w": w, "h": h, "center": { "w": cw, "h": ch } }
     }
+}
+class _{
+static _:="".base.base:=_
+Join(p*){
+for k,v in p
+s.=this v
+return SubStr(s,StrLen(this)+1)
+}}
+Array(prms*) {
+	prms.base := _Array
+	return prms
+}
+class _Array {
+	singlePush(param_value) {
+		if (this.indexOf(param_value) = -1) {
+			this.Push("" item)
+		}
+	}
+	indexOf(searchElement, fromIndex:=0) {	
+		len := this.Count()
+		if (fromIndex > 0)
+			start := fromIndex - 1    ; Include starting index going forward
+		else if (fromIndex < 0)
+			start := len + fromIndex  ; Count backwards from end
+		else
+			start := fromIndex
+		loop, % len - start
+			if (this[start + A_Index] = searchElement)
+				return start + A_Index
+		return -1
+	}
+}
+#Include <JSON>
+toJson(object) {
+    return JSON.Dump(object)
+}
+GetJson(url, auth := "") {
+    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    HttpObj.Open("GET", url, 0)
+    HttpObj.SetRequestHeader("Content-Type", "application/json")
+    if (auth != "") {
+        HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+    }
+    Wait := HttpObj.Send()
+    return JSON.Load(HttpObj.ResponseText)
+}
+PostJson(url, request) {
+    HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    HttpObj.Open("POST", url, 0)
+    HttpObj.SetRequestHeader("Content-Type", "application/json")
+    Wait := HttpObj.Send(toJson(request))
+    return JSON.Load(HttpObj.ResponseText)
 }
 #Include <AutoHotInterception>
 global AHI := false

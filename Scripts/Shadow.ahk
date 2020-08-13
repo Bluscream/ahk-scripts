@@ -1,6 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -57,7 +57,7 @@ CreateInterval() {
     Random, interval, 1000*60*min_time_minutes, 1000*60*max_time_minutes ; global interval := 10000
     txt := "New Interval: " . ConvertTime(interval)
     SplashScreen(txt, "", 1000)
-    scriptlog(txt . "(" . interval . ")")
+    scriptlog(txt . " (" . interval . ")")
 }
     
 ConvertTime(time_ms) {
@@ -71,10 +71,12 @@ MoveMouse() {
     scriptlog(toJson(pos))
     center := pos.center
     CoordMode, Mouse, Client
-	MouseMove, center.w + 3, center.h - 2
-    Sleep, 10
-	MouseMove, center.w + 2, center.h - 3
-    Sleep, 15
+	MouseMove, center.w, center.h
+    MouseClick
+    MouseClickDrag, Right, center.w, center.h, 5,5,, R
+    ;Sleep, 10
+	;MouseMove, center.w + 2, center.h - 3
+    ;Sleep, 15
     CoordMode, Mouse, Screen
     MouseMove, MouseX, MouseY
 }

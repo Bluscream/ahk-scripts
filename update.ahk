@@ -55,10 +55,10 @@ RunWaitOne("git commit -m ""UPDATE " . commit . "")
 RunWaitOne("git push")
 RunWaitOne("git remote -v")
 scriptlog("Pushed to origin/master")
-WaitForKey("Finished, you can close this window now or ", key="Enter")
+WaitForKey("Finished, you can close this window now or ", "Enter")
 RunWaitOne("git log") ; gitlog := 
 ; MsgBox % gitlog
-WaitForKey("", key="Enter")
+WaitForKey("", "Enter")
 ExitApp
 
 StringTrimRight, Binaries, Binaries, 1
