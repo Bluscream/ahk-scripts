@@ -15,10 +15,13 @@ paste("`n".join(GuessSteamKey("1?B2C-D3FGH-456I?")))
 ExitApp
 )
 
+GetRedeemedKeysRaw() {
+    return GetJson(steam_logins.asf.url . "/Api/Bot/asf/GamesToRedeemInBackground?password=" . steam_logins.asf.token).result
+}
 GetRedeemedKeys() {
     keys := Array()
-    response := GetJson(steam_logins.asf.url . "/Api/Bot/asf/GamesToRedeemInBackground?password=" . steam_logins.asf.token)
-    for account, data in response.result {
+    response := GetRedeemedKeysRaw()
+    for account, data in response {
         ; MsgBox, % toJson(account) . " : " . toJson(v)
         for key, name in data.usedkeys {
             ; MsgBox % key
@@ -81,7 +84,6 @@ ParseSteamKeys(text, guess := false) {
     asked := false
     for i, m in RxMatches(text, "O)" . (guess ? steam_key_pattern_guess : steam_key_pattern)) {
         key := m.Value
-        scriptlog("1 > key: " . key)
         if (guess && InStr(key, "?")) {
             if !(asked) {
                 asked := true

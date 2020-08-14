@@ -49,14 +49,11 @@ ClipChanged(type) {
         txt := "Found " . key_count . " steam keys in your clipboard, do you want to activate them?"
         txt_keys := "`n".Join(keys)
         if (key_count > 30) {
-            run, Notepad.exe,,, notePadPID
-            WinWait, ahk_pid %notepadPID%
-            WinActivate, ahk_pid %notepadPID%
-            paste(txt_keys)
+            PasteToNotepad(txt_keys)
         } else {
             txt .= "`n`n" . txt_keys
         }
-        MsgBox 0x24, % "Steam keys found", % txt
+        MsgBox 0x24, % "Steam keys found", % txt, 30
         IfMsgBox Yes, {
             MsgBox, % toJson(RedeemKeys(keys))
         }

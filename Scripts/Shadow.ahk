@@ -5,10 +5,11 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-
+global noui := true
 #Include <bluscream>
-
 CoordMode, mouse, Client
+
+#Warn
 
 toggle := 0
 fixedY := A_ScreenHeight/2
@@ -40,13 +41,18 @@ AntiAFK() {
     if !(shadow.exists()) {
         Return
     }
+    was_minimized := false
     if !(shadow.isActive()) {
         ; SplashScreen("ShadowInFocus()", "", 1000)
         was_minimized := shadow.isMinimized()
         shadow.activate()
         Sleep, 1000
     } 
-    MoveMouse()
+    ; MoveMouse()
+    ; Send % "{Alt}"
+    ; Send ^!{Delete}
+    Send {AppsKey}
+    Send {AppsKey}
     ; CreateInterval()            
     if (was_minimized) {
         shadow.minimize()

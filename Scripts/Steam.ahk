@@ -9,6 +9,7 @@ DetectHiddenWindows On
 CoordMode Mouse, Client
 #Include <bluscream>
 #Include <asf>
+#Include <JSON_Beautify>
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
 steam_login["controls"] := { "username": { "x": 269, "y": 100 }, "password": { "x": 260, "y": 133 }, "save": { "x": 123, "y": 163 } }
@@ -23,9 +24,11 @@ global logged_in := false
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%
   Menu, Tray, Icon, %I_Icon%
-Menu, tray, add, % "--- Steam ---", void
-Menu, tray, add, % "Get 2FA Code", Get2FACode
+Menu, tray, add, % "--- Steam ---", StartSteam
+Menu, tray, add, % "Get 2FA Code (main)", Get2FACode
+Menu, tray, add, % "Get 2FA Code (alt)", Get2FACodeAlt
 Menu, tray, add, % "Redeem Keys", RedeemKeys
+Menu, tray, add, % "Redeemed Keys", GetRedeemedKeys
 
 
 ; SetTimer, CheckForWindow, % 1000*5
@@ -67,26 +70,34 @@ while(true) {
 }
 return
 
-
 Get2FACode:
     code := Get2FACode(main.botname)
     Clipboard := code
     SplashScreen(main.username, code, 2500)
     return
 
+Get2FACodeAlt:
+    code := Get2FACode(steam_logins.accounts[2].botname)
+    Clipboard := code
+    SplashScreen(steam_logins.accounts[2].username, code, 2500)
+    return
+
 RedeemKeys:
-    ; InputBox, key, % "Redeem Steam Key", % "Enter Steam Key in the format XXXX-XXXX-XXXX"
-    ; MultiLineInputBox("Hello World:", "stuff, more stuff", "Custom Caption")
     text := MultiLineInput("Redeem Steam Keys")
     keys := ParseSteamKeys(text, true)
     if (keys.Count() < 1) {
         MsgBox % "Could not find any valid Steam keys :("
         return
     } 
-    MsgBox % "`n".Join(keys) ; toJson(RedeemKeys(keys))
+    MsgBox % toJson(RedeemKeys(keys)) ; "`n".Join(keys)
     return
 
-void:
+GetRedeemedKeys:
+    PasteToNotepad(JSON_Beautify(GetRedeemedKeysRaw()))
+    return
+
+StartSteam:
+    Run % "steam://open/console"
     return
 
 WinWaitDisappear(window) {

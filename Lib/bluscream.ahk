@@ -184,6 +184,19 @@ Paste(text) {
     Sleep, 10
     clipboard := clipboard_backup
 }
+PasteToNotepad(text, bin := "notepad", paste := true) {
+    run, % bin,,, notePadPID
+    WinWait, ahk_pid %notepadPID%
+    WinActivate, ahk_pid %notepadPID%
+    WinWaitActive, ahk_pid %notepadPID%
+    if !(paste) {
+        SetKeyDelay -1
+        SetBatchLines -1
+        SendInput % text
+        return
+    }
+    paste(text)
+}
 EscapeCurly(text) {
     ; str := StrReplace(str, "{", "{{}" ; Sends {
     ; str := StrReplace(str, "}", "{}}" ; Sends }
