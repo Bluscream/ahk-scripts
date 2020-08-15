@@ -22,6 +22,10 @@ class Bot {
     getRedeemedKeys() {
         return this._asf.getRedeemedKeys(this.data.botname)
     }
+
+    get2FACode() {
+        return this._asf.get2FACode(this.data.botname)
+    }
 }
 
 ; global _asf := new ASF()
