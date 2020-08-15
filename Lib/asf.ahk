@@ -3,31 +3,31 @@
 #Include <JSON>
 
 class Bot {
-    ; _asf := Object()
+    _asf := Object()
     data := Object()
     cfg := Object()
 
     __New(asf, data := "", config := "") {
         VarSetCapacity(asf.bots,0)
-        ; this._asf := asf
+        this._asf := asf
         this.data := data
         this.cfg := config
         
     }
 
     getAPIUrl(endpoint) {
-        return _asf.config.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . _asf.config.token
+        return this._asf.config.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . this._asf.config.token
     }
 
     getRedeemedKeys() {
-        return _asf.getRedeemedKeys(this.data.botname)
+        return this._asf.getRedeemedKeys(this.data.botname)
     }
 }
 
-global _asf := new ASF()
+; global _asf := new ASF()
 ; for i, bot in _asf.bots {
-    resp := _asf.bots
-    MsgBox % resp . " <> " . JSON_Beautify(resp)
+    ; resp := _asf.bots
+    ; MsgBox % resp . " <> " . JSON_Beautify(resp)
 ; }
 
 class ASF {
@@ -44,18 +44,53 @@ class ASF {
         this.logins := logins
         this.config := logins.asf
         for botname, data in this.getBots() {
-            bot := new Bot()
+            _bot := new Bot()
             if (logins.accounts[botname]) {
-                bot := new Bot(this, data, logins.accounts[botname])
+                _bot := new Bot(this, data, logins.accounts[botname])
             } else {
-                bot := new Bot(this, data)
+                _bot := new Bot(this, data)
             }
-            this.bots.Push(bot)
+            this.bots.Push(_bot)
         }
     }
 
     getBots() {
         return this.get()
+    }
+
+    getBotByNickName(nickname) {
+        for i, _bot in this.bots {
+            if (_bot.data.nickname == nickname) {
+                return _bot
+            }
+        }
+    }
+    getBotByUserName(username) {
+        for i, _bot in this.bots {
+            if (_bot.cfg.username == username) {
+                return _bot
+            }
+        }
+    }
+    getBotBySteamId(steamid64) {
+        for i, _bot in this.bots {
+            if (_bot.data.SteamID == steamid64) {
+                return _bot
+            }
+        }
+    }
+    getBotById(steamid64) {
+        return this.getBotBySteamId(steamid64)
+    }
+    getBotByBotName(botname) {
+        for i, _bot in this.bots {
+            if (_bot.data.botName == botname) {
+                return _bot
+            }
+        }
+    }
+    getBot(botname) {
+        return this.getBotByBotName(botname)
     }
 
     getAPIUrl(endpoint := "", bot := "asf") {
