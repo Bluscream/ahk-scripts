@@ -1,7 +1,38 @@
-﻿#Include <bluscream>
+﻿; #SingleInstance, Force
+#Include <bluscream>
 #Include <JSON>
 
+class Bot {
+    ; _asf := Object()
+    data := Object()
+    cfg := Object()
+
+    __New(asf, data := "", config := "") {
+        VarSetCapacity(asf.bots,0)
+        ; this._asf := asf
+        this.data := data
+        this.cfg := config
+        
+    }
+
+    getAPIUrl(endpoint) {
+        return _asf.config.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . _asf.config.token
+    }
+
+    getRedeemedKeys() {
+        return _asf.getRedeemedKeys(this.data.botname)
+    }
+}
+
+global _asf := new ASF()
+; for i, bot in _asf.bots {
+    resp := _asf.bots
+    MsgBox % resp . " <> " . JSON_Beautify(resp)
+; }
+
 class ASF {
+    config := Object()
+    bots := []
     logins := Object()
 
     __New(logins := "") {
@@ -9,17 +40,36 @@ class ASF {
             logins := A_Desktop . "\steam.json"
         }
         FileRead, logins, % logins
-        this.logins := JSON.Load(logins)
+        logins := JSON.Load(logins)
+        this.logins := logins
+        this.config := logins.asf
+        for botname, data in this.getBots() {
+            bot := new Bot()
+            if (logins.accounts[botname]) {
+                bot := new Bot(this, data, logins.accounts[botname])
+            } else {
+                bot := new Bot(this, data)
+            }
+            this.bots.Push(bot)
+        }
     }
 
-    getAPIUrl(endpoint, bot := "asf") {
-        return this.logins.asf.url . "/Api/" . ((bot == "_" ? "" : "Bot/" . bot . "/")) . endpoint . "?password=" . this.logins.asf.token
+    getBots() {
+        return this.get()
+    }
+
+    getAPIUrl(endpoint := "", bot := "asf") {
+        return this.config.url . "/Api/" . ((bot == "_" ? "" : "Bot/" . bot)) . (endpoint ? "/" . endpoint : "" ) . "?password=" . this.config.token
+    }
+    test() {
+        MsgBox % "test"
     }
     http(method, endpoint, payload, bot := "asf") {
         if (bot == "") {
             bot := "asf"
         }
         url := this.getAPIUrl(endpoint, bot)
+        ; MsgBox % url
         _json := ""
         if (method == "POST") {
             _json := PostJson(url, payload).result
@@ -31,10 +81,10 @@ class ASF {
         }
         return _json
     }
-    get(endpoint, bot := "asf") {
+    get(endpoint := "", bot := "asf") {
         return this.http("GET", endpoint, "", bot)
     }
-    post(endpoint, payload, bot := "asf") {
+    post(endpoint := "", payload := "", bot := "asf") {
         return this.http("POST", endpoint, payload, bot)
     }
     
