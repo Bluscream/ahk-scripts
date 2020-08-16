@@ -488,7 +488,9 @@ GetJson(url, auth := "") {
     if (auth != "") {
         HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
     }
-    Wait := HttpObj.Send()
+    HttpObj.SetTimeouts(0,30000,30000,120000)
+    HttpObj.Send()
+    HttpObj.WaitForResponse()
     _json := JSON.Load(HttpObj.ResponseText)
     if !(_json) {
         MsgBox % "GetJson ResponseText:"
@@ -507,7 +509,9 @@ PostJson(url, payload) {
         _json := json_fromobj(payload)
     }
     ; MsgBox % toJson(_json)
-    Wait := HttpObj.Send(_json)
+    HttpObj.SetTimeouts(0,999999,999999,999999)
+    HttpObj.Send(_json)
+    HttpObj.WaitForResponse()
     _json := JSON.Load(HttpObj.ResponseText)
     if !(_json) {
         MsgBox % "PostJson ResponseText:"
