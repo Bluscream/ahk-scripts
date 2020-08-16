@@ -76,12 +76,15 @@ class ASF {
             }
         }
     }
-    getBotBySteamId(steamid64) {
+    getBotBySteamId64(steamid64) {
         for i, _bot in this.bots {
             if (_bot.data.SteamID == steamid64) {
                 return _bot
             }
         }
+    }
+    getBotBySteamId(steamid64) {
+        return this.getBotBySteamId64(steamid64)
     }
     getBotById(steamid64) {
         return this.getBotBySteamId(steamid64)
@@ -98,7 +101,9 @@ class ASF {
     }
 
     getAPIUrl(endpoint := "", bot := "asf") {
-        return this.config.url . "/Api/" . ((bot == "_" ? "" : "Bot/" . bot)) . (endpoint ? "/" . endpoint : "" ) . "?password=" . this.config.token
+        bot := (bot == "_" ? "" : "/Bot/" . bot)
+        endpoint := (endpoint ? "/" . endpoint : "")
+        return this.config.url . "/Api" . bot . endpoint . "?password=" . this.config.token
     }
     test() {
         MsgBox % "test"
@@ -165,7 +170,23 @@ class ASF {
     }
     
     customCommand(command) {
-        return this.post("Command", { "Command": command }, "_")
+        response := this.post("Command", { "Command": command }, "_")
+        res := {}
+        Loop, Parse, response, `n, `r
+        {
+            line := Trim(A_LoopField)
+            if !(line)
+                continue
+            ismatch := RegExMatch(A_LoopField, "^<(.*)> (.*)$", m)
+            if !(ismatch)
+                return response
+            if res.HasKey(m1) {
+                res[m1].push(m2)
+            } else {
+                res[m1] := [m2]
+            }
+        }
+        return res
     }
 
     guessSteamKey(key) {
@@ -219,5 +240,42 @@ class ASF {
             }
         }
         return keys
+    }
+    addLicenses(ids) {
+        if (IsObject(ids))
+            if (ids.Count() < 1)
+                return
+            ids := ",".join(ids)
+        return this.customCommand("addlicense asf " . ids)
+    }
+    addLicensesOld(ids) { ; Deprecated
+        ret := ""
+        cnt := ids.Count()
+        for id, name in ids {
+            SplashImage, , b FM14 fs10, % name . " (" . id . ") ", % "Processing " . A_Index . " / " . cnt
+            resp := this.addLicense(id)
+            ret .= "`nActivating """ . name . """ (" . id . "): " . toJson(resp)
+        }
+        SplashImage, Off
+        return ret
+    }
+    parseLicenses(text) {
+        ids := []
+        for i, m in RxMatches(text, "O)" . "(\d{5,7})") {
+            ids.push(m.Value)
+        }
+        return ids
+    }
+    parseLicensesOld(text) {
+        
+        ids := {}
+        Loop, Parse, text, `n, `r
+        {
+            ismatch := RegExMatch(A_LoopField, "(\d+),\s*\/\/\s*(.+)", m)
+            if !(ismatch)
+                continue
+            ids[m1] := m2
+        }
+        return ids
     }
 }

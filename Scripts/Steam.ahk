@@ -26,12 +26,14 @@ global main := asf.logins.accounts[1]
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%
   Menu, Tray, Icon, %I_Icon%
+Menu, Tray, NoStandard
 Menu, tray, add, % "--- Steam ---", StartSteam
 for i, bot in asf.bots {
     if (bot.data.HasMobileAuthenticator)
         Menu, tray, add, % "2FA Code (" . bot.data.nickname . ")", Get2FACode
 }
 Menu, tray, add, % "Redeem Keys", RedeemKeys
+Menu, tray, add, % "Free Games", FreeGames
 
 
 ; SetTimer, CheckForWindow, % 1000*5
@@ -81,12 +83,33 @@ Get2FACode:
     SplashScreen(txt, code, 2500)
     return
 
+FreeGames:
+        if !(WinExist("Free Packages · SteamDB - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")) {
+            Run % "chrome.exe ""https://steamdb.info/freepackages"""
+        }
+        txt := MultiLineInput("Enter content")
+        if !(txt) {
+            return
+        }
+        ; for i, m in RxMatches(txt, "O)" . "^\t\t(\d+)\, \/\/  (.*)$") { ; \t\t(\d+)\, \/\/\s+(.*)") {
+            ; MsgBox % "m1: " . m[1] . "`nm2: " . m[2] . "`nm3: " . m[3] . "`n"
+            ; name := m[2]
+            ; ids[name] := m[1]
+        ; }
+        ids := asf.parseLicenses(txt)
+        if (ids.Count() < 1) {
+            MsgBox % "Could not find any valid license IDs :("
+            return
+        }
+        PasteToNotepad(JSON_Beautify(asf.addLicenses(ids)))
+        return
+
 RedeemKeys:
     #InstallKeybdHook
     if (GetKeyState("Ctrl", "P")) {
         PasteToNotepad(JSON_Beautify(asf.GetRedeemedKeys()))
     } else if (GetKeyState("Shift", "P")) {
-        PasteToNotepad(JSON_Beautify(toJson(asf.GetAllRedeemedKeys())))
+        PasteToNotepad(JSON_Beautify(asf.GetAllRedeemedKeys()))
     } else {
         text := MultiLineInput("Redeem Steam Keys")
         if !(text) {

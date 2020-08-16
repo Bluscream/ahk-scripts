@@ -4,11 +4,14 @@
 #Warn
 
 _asf := new ASF()
-txt := [ _asf.getBotByNickname("red").data.botname]
-txt.Push(_asf.getBotByNickname("blu").data.botname)
-txt.Push(_asf.getBotById(76561198022446661).cfg.password)
-txt.Push(_asf.getBotById(76561198022446661).get2FACode())
-txt.Push(_asf.customCommand("playnite_licensedates"))
+txt := [ _asf.getBotByNickname("blu").data.botname]
+; txt.Push(_asf.getBotByNickname("red").data.botname)
+; txt.Push(_asf.getBotById(76561198022446661).cfg.password)
+; txt.Push(_asf.getBotById(76561198022446661).get2FACode())
+; txt.Push(_asf.customCommand("playnite_licensedates"))
+; txt.Push(_asf.customCommand("addlicense asf 486740"))
+txt.Push(toJson(_asf.addLicense([1, 486740])))
+txt.Push(toJson(_asf.addLicense(486740)))
 MsgBox % "`n".join(txt) 
 ExitApp
 MsgBox % toJson(asf.get2FACode())

@@ -498,6 +498,7 @@ GetJson(url, auth := "") {
 }
 PostJson(url, payload) {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    ; MsgBox % url
     HttpObj.Open("POST", url, 0)
     HttpObj.SetRequestHeader("Content-Type", "application/json")
     _json := JSON.Dump(payload)
