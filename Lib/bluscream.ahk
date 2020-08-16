@@ -21,7 +21,7 @@ ReplaceAtPos(String, pos, Replacement) {
 }
 InList(haystack, needles*)
 {
-    for i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)
+    for _i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)
         if (haystack = needle)
             return true
 }
@@ -31,7 +31,7 @@ singlePush(array, item) {
     }
 }
 RemoveDup(obj) {
-	for i, value in obj
+	for _i, value in obj
 		str.=value "`n"
 	nodupArray:={}
 	nodup:= "`n" 									; Added delimiter
@@ -87,7 +87,7 @@ Join(s,p*){
 JoinArray(strArray)
 {
   s := ""
-  for i,v in strArray
+  for _i,v in strArray
     s .= ", " . v
   return substr(s, 3)
 }

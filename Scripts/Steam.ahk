@@ -8,8 +8,8 @@ SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
 #Include <bluscream>
-#Include <asf>
 #Include <JSON_Beautify>
+#Include <asf>
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
 steam_login["controls"] := { "username": { "x": 269, "y": 100 }, "password": { "x": 260, "y": 133 }, "save": { "x": 123, "y": 163 } }
@@ -21,12 +21,12 @@ global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "stea
 
 global logged_in := false
 global asf := new ASF()
-global main := asf.logins.accounts[1]
+global main := asf.getBotByUsername("omitomit10")
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%
   Menu, Tray, Icon, %I_Icon%
-Menu, Tray, NoStandard
+; Menu, Tray, NoStandard
 Menu, tray, add, % "--- Steam ---", StartSteam
 for i, bot in asf.bots {
     if (bot.data.HasMobileAuthenticator)
@@ -44,20 +44,20 @@ while(true) {
         Send, % "{Enter}"
     } else if (steam_login_refresh.exists()) {
         steam_login_refresh.activate()
-        SendString(steam_login_refresh, steam_login_refresh.controls.password, main.password)
+        SendString(steam_login_refresh, steam_login_refresh.controls.password, main.cfg.password)
         Send, % "{Enter}" 
         WinWait, % steam_login_refresh_2fa.str(),, 10
         if !(ErrorLevel) {
             steam_login_refresh_2fa.activate()
             Send, % "{Enter}"
-            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, asf.Get2FACode(main.botname))
+            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, main.cfg.Get2FACode)
         }
         Send, % "{Enter}" 
         WinWaitDisappear(steam_login_refresh)
     } else if (steam_login.exists()) {
         steam_login.activate()
-        SendString(steam_login, steam_login.controls.username, main.username)
-        SendString(steam_login, steam_login.controls.password, main.password)
+        SendString(steam_login, steam_login.controls.username, main.cfg.username)
+        SendString(steam_login, steam_login.controls.password, main.cfg.password)
         ClickControl(steam_login, steam_login.controls.save)
         if !(logged_in) {
             Send, % "{Enter}"
@@ -66,7 +66,7 @@ while(true) {
         WinWait, % steam_2fa.str(),, 10
         if !(ErrorLevel) {
             steam_2fa.activate()
-            paste(asf.Get2FACode(main.botname))
+            paste(main.Get2FACode())
             Send, % "{Enter}"
         }
         WinWaitDisappear(steam_login)
@@ -112,6 +112,7 @@ RedeemKeys:
         PasteToNotepad(JSON_Beautify(asf.GetAllRedeemedKeys()))
     } else {
         text := MultiLineInput("Redeem Steam Keys")
+        redeem_for_all := GetKeyState("Shift", "P")
         if !(text) {
             return
         }
@@ -119,8 +120,14 @@ RedeemKeys:
         if (keys.Count() < 1) {
             MsgBox % "Could not find any valid Steam keys :("
             return
-        } 
-        MsgBox % toJson(asf.RedeemKeys(keys)) ; "`n".Join(keys)
+        }
+        res := {}
+        if (redeem_for_all) {
+            res := asf.RedeemKeys(keys)
+        } else {
+            res := asf.getBotByUsername("omitomit10").RedeemKeysNow(keys)
+        }
+        MsgBox % toJson(res) ; "`n".Join(keys)
     }
     return
 

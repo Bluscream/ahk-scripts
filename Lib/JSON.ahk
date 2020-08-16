@@ -100,16 +100,16 @@ class JSON
 					
 					} else {
 						if (ch == quot) {
-							i := pos
-							while (i := InStr(text, quot,, i+1)) {
-								value := StrReplace(SubStr(text, pos+1, i-pos-1), "\\", "\u005c")
+							_i := pos
+							while (_i := InStr(text, quot,, _i+1)) {
+								value := StrReplace(SubStr(text, pos+1, _i-pos-1), "\\", "\u005c")
 
 								static tail := A_AhkVersion<"2" ? 0 : -1
 								if (SubStr(value, tail) != "\")
 									break
 							}
 
-							if (!i)
+							if (!_i)
 								this.ParseError("'", text, pos)
 
 							  value := StrReplace(value,  "\/",  "/")
@@ -120,16 +120,16 @@ class JSON
 							, value := StrReplace(value,  "\r", "`r")
 							, value := StrReplace(value,  "\t", "`t")
 
-							pos := i ; update pos
+							pos := _i ; update pos
 							
-							i := 0
-							while (i := InStr(value, "\",, i+1)) {
+							_i := 0
+							while (_i := InStr(value, "\",, _i+1)) {
 								if !(SubStr(value, i+1, 1) == "u")
-									this.ParseError("\", text, pos - StrLen(SubStr(value, i+1)))
+									this.ParseError("\", text, pos - StrLen(SubStr(value, _i+1)))
 
-								uffff := Abs("0x" . SubStr(value, i+2, 4))
+								uffff := Abs("0x" . SubStr(value, _i+2, 4))
 								if (A_IsUnicode || uffff < 0x100)
-									value := SubStr(value, 1, i-1) . Chr(uffff) . SubStr(value, i+6)
+									value := SubStr(value, 1, _i-1) . Chr(uffff) . SubStr(value, _i+6)
 							}
 
 							if (is_key) {
@@ -138,7 +138,7 @@ class JSON
 							}
 						
 						} else {
-							value := SubStr(text, pos, i := RegExMatch(text, "[\]\},\s]|$",, pos)-pos)
+							value := SubStr(text, pos, _i := RegExMatch(text, "[\]\},\s]|$",, pos)-pos)
 
 							static number := "number", integer :="integer"
 							if value is %number%
@@ -155,7 +155,7 @@ class JSON
 							; but that's just too much extra work.
 								this.ParseError(next, text, pos, i)
 
-							pos += i-1
+							pos += _i-1
 						}
 
 						next := holder==root ? "" : is_array ? ",]" : ",}"
@@ -269,8 +269,8 @@ class JSON
 				; identifying array-like objects. Due to the use of a for-loop
 				; sparse arrays such as '[1,,3]' are detected as objects({}). 
 					if (!is_array) {
-						for i in value
-							is_array := i == A_Index
+						for _i in value
+							is_array := _i == A_Index
 						until !is_array
 					}
 

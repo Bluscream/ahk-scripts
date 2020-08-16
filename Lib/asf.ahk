@@ -26,6 +26,14 @@ class Bot {
     get2FACode() {
         return this._asf.get2FACode(this.data.botname)
     }
+
+    redeemKeys(keys) {
+        return this._asf.redeemKeys(this.data.botname)
+    }
+
+    redeemKeysNow(keys) {
+        return this._asf.redeemKeysNow(this.data.botname)
+    }
 }
 
 ; global _asf := new ASF()
@@ -63,21 +71,21 @@ class ASF {
     }
 
     getBotByNickName(nickname) {
-        for i, _bot in this.bots {
+        for _i, _bot in this.bots {
             if (_bot.data.nickname == nickname) {
                 return _bot
             }
         }
     }
     getBotByUserName(username) {
-        for i, _bot in this.bots {
+        for _i, _bot in this.bots {
             if (_bot.cfg.username == username) {
                 return _bot
             }
         }
     }
     getBotBySteamId64(steamid64) {
-        for i, _bot in this.bots {
+        for _i, _bot in this.bots {
             if (_bot.data.SteamID == steamid64) {
                 return _bot
             }
@@ -90,7 +98,7 @@ class ASF {
         return this.getBotBySteamId(steamid64)
     }
     getBotByBotName(botname) {
-        for i, _bot in this.bots {
+        for _i, _bot in this.bots {
             if (_bot.data.botName == botname) {
                 return _bot
             }
@@ -136,25 +144,32 @@ class ASF {
         return this.get("GamesToRedeemInBackground", bot)
     }
     getAllRedeemedKeys() {
-        keys := Array()
+        _keys := Array()
         response := this.getRedeemedKeys()
         for account, data in response {
             ; MsgBox, % toJson(account) . " : " . toJson(v)
             for key, name in data.usedkeys {
                 ; MsgBox % key
-                if (keys.indexOf(key) = -1) {
-                    keys.Push(key)
+                if (_keys.indexOf(key) = -1) {
+                    _keys.Push(key)
                 }
             }
         }
-        return keys
+        return _keys
     }
-    redeemKeys(keys, bot := "asf") {
+    redeemKeys(_keys, bot := "asf") {
         request := { "GamesToRedeemInBackground": { } }
-        for i, key in keys {
+        for _i, key in _keys {
             request["GamesToRedeemInBackground"][key] := key
         }
         return this.post("GamesToRedeemInBackground", request, bot)
+    }
+    redeemKeysNow(_keys, bot := "asf") {
+        request := { "KeysToRedeem": [] }
+        for _i, key in _keys {
+            request["KeysToRedeem"].push(key)
+        }
+        return this.post("Redeem", request, bot)
     }
 
     get2FACode(bot := "asf") {
@@ -171,7 +186,7 @@ class ASF {
     
     customCommand(command) {
         response := this.post("Command", { "Command": command }, "_")
-        res := {}
+        _res := {}
         Loop, Parse, response, `n, `r
         {
             line := Trim(A_LoopField)
@@ -180,17 +195,17 @@ class ASF {
             ismatch := RegExMatch(A_LoopField, "^<(.*)> (.*)$", m)
             if !(ismatch)
                 return response
-            if res.HasKey(m1) {
-                res[m1].push(m2)
+            if _res.HasKey(m1) {
+                _res[m1].push(m2)
             } else {
-                res[m1] := [m2]
+                _res[m1] := [m2]
             }
         }
-        return res
+        return _res
     }
 
     guessSteamKey(key) {
-        keys := []
+        _keys := []
         guess_dict := "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         index := 0
         Loop, parse, key
@@ -208,20 +223,20 @@ class ASF {
                     _key := this.GuessSteamKey(_key)
                 }
                 ; scriptlog("3 > key: " . key . " A_Index: " . A_Index . " A_LoopField: " . A_LoopField)
-                if (keys.indexOf(_key) = -1) {
-                    keys.Push(_key)
+                if (_keys.indexOf(_key) = -1) {
+                    _keys.Push(_key)
                 }
             }
         }
-        return keys
+        return _keys
     }
     steam_key_pattern := "((?![^0-9]{12,}|[^A-z]{12,})([A-z0-9]{4,5}-?[A-z0-9]{4,5}-?[A-z0-9]{4,5}(-?[A-z0-9]{4,5}(-?[A-z0-9]{4,5})?)?))"
     parseSteamKeys(text, guess := false) {
-        keys := []
+        _keys := []
         asked := false
         key_pattern_guess := "((?![^0-9\?]{12,}|[^A-z\?]{12,})([A-z0-9\?]{4,5}-?[A-z0-9\?]{4,5}-?[A-z0-9\?]{4,5}(-?[A-z0-9\?]{4,5}(-?[A-z0-9\?]{4,5})?)?))"
         pattern := (guess ? key_pattern_guess : this.steam_key_pattern)
-        for i, m in RxMatches(text, "O)" . pattern) {
+        for _i, m in RxMatches(text, "O)" . pattern) {
             key := m.Value
             if (guess && InStr(key, "?")) {
                 if !(asked) {
@@ -235,23 +250,23 @@ class ASF {
                 } else {
                     this.GuessSteamKey(key)
                 }
-            } else if (keys.indexOf(m.Value) = -1) {
-                keys.Push(m.Value)
+            } else if (_keys.indexOf(m.Value) = -1) {
+                _keys.Push(m.Value)
             }
         }
-        return keys
+        return _keys
     }
-    addLicenses(ids) {
-        if (IsObject(ids))
-            if (ids.Count() < 1)
+    addLicenses(_ids) {
+        if (IsObject(_ids))
+            if (_ids.Count() < 1)
                 return
-            ids := ",".join(ids)
-        return this.customCommand("addlicense asf " . ids)
+            _ids := ",".join(_ids)
+        return this.customCommand("addlicense asf " . _ids)
     }
-    addLicensesOld(ids) { ; Deprecated
+    addLicensesOld(_ids) { ; Deprecated
         ret := ""
-        cnt := ids.Count()
-        for id, name in ids {
+        cnt := _ids.Count()
+        for id, name in _ids {
             SplashImage, , b FM14 fs10, % name . " (" . id . ") ", % "Processing " . A_Index . " / " . cnt
             resp := this.addLicense(id)
             ret .= "`nActivating """ . name . """ (" . id . "): " . toJson(resp)
@@ -260,22 +275,22 @@ class ASF {
         return ret
     }
     parseLicenses(text) {
-        ids := []
-        for i, m in RxMatches(text, "O)" . "(\d{5,7})") {
-            ids.push(m.Value)
+        _ids := []
+        for _i, m in RxMatches(text, "O)" . "(\d{5,7})") {
+            _ids.push(m.Value)
         }
-        return ids
+        return _ids
     }
     parseLicensesOld(text) {
         
-        ids := {}
+        _ids := {}
         Loop, Parse, text, `n, `r
         {
             ismatch := RegExMatch(A_LoopField, "(\d+),\s*\/\/\s*(.+)", m)
             if !(ismatch)
                 continue
-            ids[m1] := m2
+            _ids[m1] := m2
         }
-        return ids
+        return _ids
     }
 }
