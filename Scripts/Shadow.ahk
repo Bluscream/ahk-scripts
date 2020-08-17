@@ -1,6 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
@@ -8,8 +8,18 @@ DetectHiddenWindows On
 global noui := true
 #Include <bluscream>
 CoordMode, mouse, Client
+EnvGet, path, % "LOCALAPPDATA"
+channels := [ new File(path . "\Programs\shadow\Shadow.exe") ]
+channels.push(new File(path . "\Programs\shadow-preprod\Shadow Beta.exe"))
+channels.push(new File(path . "\Programs\shadow-testing\Shadow Alpha.exe"))
+if (channels[1].exists()) {
+    Menu, Tray, Icon, % channels[1].path
+}
+for i, channel in channels {
+    Menu, tray, add, % "Start " . channel.name, StartShadow
+}
 
-#Warn
+; #Warn
 
 toggle := 0
 fixedY := A_ScreenHeight/2
@@ -26,6 +36,16 @@ global interval
 
 SetTimer, CheckForShadow, % 1000*interval_seconds
 ; AntiAFK()
+return
+
+StartShadow:
+    txt := StrReplace(A_ThisMenuItem, "Start ", "")
+    for i, channel in channels {
+        if (channel.name != txt)
+            continue
+        Run % channel.path
+    }
+    return
 
 CheckForShadow:
     if (shadow.exists()) {
@@ -36,6 +56,7 @@ CheckForShadow:
     } else {
         ; Run % "AppData\Local\Programs\shadow-preprod\resources\app.asar.unpacked\release\native\Shadow.exe"
     }
+    return
 
 AntiAFK() {
     if !(shadow.exists()) {
@@ -47,12 +68,14 @@ AntiAFK() {
         was_minimized := shadow.isMinimized()
         shadow.activate()
         Sleep, 1000
-    } 
-    ; MoveMouse()
-    ; Send % "{Alt}"
-    ; Send ^!{Delete}
+    }
+    Random, rand, 0, 1
+    if (rand)
+        MoveMouse()
     Send {AppsKey}
-    Send {AppsKey}
+    Random, rand, 0, 1
+    if (rand)
+        Send % "{Alt}"
     ; CreateInterval()            
     if (was_minimized) {
         shadow.minimize()

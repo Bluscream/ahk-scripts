@@ -60,7 +60,7 @@ while(true) {
         SendString(steam_login, steam_login.controls.password, main.cfg.password)
         ClickControl(steam_login, steam_login.controls.save)
         if !(logged_in) {
-            Send, % "{Enter}"
+            ; Send, % "{Enter}"
             logged_in := true
         }
         WinWait, % steam_2fa.str(),, 10
@@ -84,7 +84,7 @@ Get2FACode:
     return
 
 FreeGames:
-        if !(WinExist("Free Packages · SteamDB - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")) {
+        if !(WinExist("Free Packages · SteamDB")) {
             Run % "chrome.exe ""https://steamdb.info/freepackages"""
         }
         txt := MultiLineInput("Enter content")

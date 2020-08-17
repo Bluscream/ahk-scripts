@@ -388,6 +388,40 @@ Static PIT, PKT, PUT                           ; http://ahkscript.org/boards/vie
 
 Return ( ( SystemTime - IdleTime ) * 100 ) // SystemTime,    PIT := CIT,    PKT := CKT,    PUT := CUT 
 }
+class Directory {
+    drive := ""
+    path := ""
+    __New(path) {
+        this.path := path
+        SplitPath,path,,,,, drive
+        this.drive := drive
+    }
+}
+class File {
+    name := ""
+    fullname := ""
+    extension := ""
+    drive := ""
+    path := ""
+    directory := new Directory()
+    __New(parts*) {
+        path := "\".join(parts)
+        SplitPath, % path, fullname, dir, extension, name, drive
+        this.path := path
+        this.fullname := fullname
+        this.extension := extension
+        this.name := name
+        this.drive := drive
+        this.directory := new Directory(dir)
+    }
+    SplitPath() {
+        SplitPath, % this.path, name, dir, ext, name_no_ext, drive
+        return { "FullFileName": this.path, "name": name, "dir": dir, "ext": ext, "name_no_ext": name_no_ext, "drive": drive }
+    }
+    exists() {
+        return FileExist(this.path)
+    }
+}
 class Window {
     title := ""
     class := ""
@@ -477,7 +511,10 @@ class _Array {
 	}
 }
 #Include <JSON>
-toJson(object) {
+#Include <JSON_Beautify>
+toJson(object, beautify := false) {
+    if (beautify)
+        return JSON_Beautify(object)
     return JSON.Dump(object)
 }
 #Include <json_toobj>
