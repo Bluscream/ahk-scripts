@@ -8,7 +8,6 @@ SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
 #Include <bluscream>
-#Include <JSON_Beautify>
 #Include <asf>
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
@@ -21,7 +20,8 @@ global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "stea
 
 global logged_in := false
 global asf := new ASF()
-global main := asf.getBotByUsername("omitomit10")
+global main := asf.getBotByNickname("blu")
+global alt := asf.getBotByNickname("red")
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%
@@ -84,32 +84,34 @@ Get2FACode:
     return
 
 FreeGames:
-        if !(WinExist("Free Packages · SteamDB")) {
-            Run % "chrome.exe ""https://steamdb.info/freepackages"""
-        }
-        txt := MultiLineInput("Enter content")
-        if !(txt) {
-            return
-        }
-        ; for i, m in RxMatches(txt, "O)" . "^\t\t(\d+)\, \/\/  (.*)$") { ; \t\t(\d+)\, \/\/\s+(.*)") {
-            ; MsgBox % "m1: " . m[1] . "`nm2: " . m[2] . "`nm3: " . m[3] . "`n"
-            ; name := m[2]
-            ; ids[name] := m[1]
-        ; }
-        ids := asf.parseLicenses(txt)
-        if (ids.Count() < 1) {
-            MsgBox % "Could not find any valid license IDs :("
-            return
-        }
-        PasteToNotepad(JSON_Beautify(asf.addLicenses(ids)))
+    if !(WinExist("Free Packages · SteamDB")) {
+        Run % "chrome.exe ""https://steamdb.info/freepackages"""
+    }
+    
+    result := asf.botInput("Add licenses", "Blufriend")
+    if !(result[2]) {
         return
+    }
+    ; for i, m in RxMatches(txt, "O)" . "^\t\t(\d+)\, \/\/  (.*)$") { ; \t\t(\d+)\, \/\/\s+(.*)") {
+        ; MsgBox % "m1: " . m[1] . "`nm2: " . m[2] . "`nm3: " . m[3] . "`n"
+        ; name := m[2]
+        ; ids[name] := m[1]
+    ; }
+    ids := asf.parseLicenses(result[2])
+    if (ids.Count() < 1) {
+        MsgBox % "Could not find any valid license IDs :("
+        return
+    }
+    PasteToNotepad(toJson(asf.addLicenses(ids, result[1], true)))
+    return
+
 
 RedeemKeys:
     #InstallKeybdHook
     if (GetKeyState("Ctrl", "P")) {
-        PasteToNotepad(JSON_Beautify(asf.GetRedeemedKeys()))
+        PasteToNotepad(toJson(asf.GetRedeemedKeys(), true))
     } else if (GetKeyState("Shift", "P")) {
-        PasteToNotepad(JSON_Beautify(asf.GetAllRedeemedKeys()))
+        PasteToNotepad(toJson(asf.GetAllRedeemedKeys(), true))
     } else {
         text := MultiLineInput("Redeem Steam Keys")
         redeem_for_all := GetKeyState("Shift", "P")
@@ -125,7 +127,7 @@ RedeemKeys:
         if (redeem_for_all) {
             res := asf.RedeemKeys(keys)
         } else {
-            res := asf.getBotByUsername("omitomit10").RedeemKeysNow(keys)
+            res := main.RedeemKeysNow(keys)
         }
         MsgBox % toJson(res) ; "`n".Join(keys)
     }

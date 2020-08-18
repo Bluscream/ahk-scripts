@@ -28,11 +28,15 @@ class Bot {
     }
 
     redeemKeys(keys) {
-        return this._asf.redeemKeys(this.data.botname)
+        return this._asf.redeemKeys(keys, this.data.botname)
     }
 
     redeemKeysNow(keys) {
-        return this._asf.redeemKeysNow(this.data.botname)
+        return this._asf.redeemKeysNow(keys, this.data.botname)
+    }
+
+    addLicenses(ids) {
+        return this._asf.addLicenses(ids, this.data.botname)
     }
 }
 
@@ -68,6 +72,15 @@ class ASF {
 
     getBots() {
         return this.get()
+    }
+
+    getBotsDropDown(default := "asf") {
+        _lst := "All (asf)" . ("asf" == default ? "|" : "")
+        for i, bot in this.bots {
+            _lst .= "|" . (bot.data.nickname ? bot.data.nickname . " " : "") . "(" . bot.data.botname . ")" . (bot.data.botname == default ? "|" : "")
+            ; MsgBox % toJson(_lst)
+        }
+        return _lst ; .join("|")
     }
 
     getBotByNickName(nickname) {
@@ -256,12 +269,12 @@ class ASF {
         }
         return _keys
     }
-    addLicenses(_ids) {
+    addLicenses(_ids, bot := "asf") {
         if (IsObject(_ids))
             if (_ids.Count() < 1)
                 return
             _ids := ",".join(_ids)
-        return this.customCommand("addlicense asf " . _ids)
+        return this.customCommand("addlicense " . bot . " " . _ids)
     }
     addLicensesOld(_ids) { ; Deprecated
         ret := ""
@@ -292,5 +305,29 @@ class ASF {
             _ids[m1] := m2
         }
         return _ids
+    }
+    botInput(title:="", default := "") {
+        Global BotInput_Edit
+        Global BotInput_Bot
+        Global BotInput_Bot
+        Gui New, +LabelBotInput +hWndhBotInputWnd -MinimizeBox -MaximizeBox +AlwaysOnTop, FreeLicenses
+        Gui Color, 0x808080
+        Gui Add, Edit, vBotInput_Edit x16 y40 w331 h216 +Multi
+        Gui Add, DropDownList, vBotInput_Bot x48 y8 w205, % this.getBotsDropDown(default)
+        Gui Add, Text, x16 y8 w26 h23 +0x200, Bot:
+        Gui Add, Button, gBtnSubmit x264 y8 w80 h23 +Default, &Submit
+        Gui Show, w355 h265, % title
+        Goto, BotInput_Wait
+        BtnSubmit:
+            GuiControlGet, BotInput_Bot
+            GuiControlGet, BotInput_Edit
+        BotInputEscape:
+        BotInputClose:
+            ReturnNow := True
+        BotInput_Wait:
+            While (!ReturnNow)
+                Sleep, 100
+        Gui, Destroy
+        Return % [MatchBetween(BotInput_Bot,"(",")").last(), BotInput_Edit]
     }
 }

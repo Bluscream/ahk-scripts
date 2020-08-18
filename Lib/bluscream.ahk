@@ -68,6 +68,12 @@ RxMatches(Haystack, Needle) { ;from https://autohotkey.com/board/topic/88466-reg
 	}
 	return Result
 }
+MatchBetween(Haystack,char1,char2) {
+    Matches := [] , pos := 1
+    while (pos1 := InStr(Haystack, char1,, pos)) && (pos2 := InStr(Haystack, char2,, pos))
+        Matches.push(SubStr(Haystack,pos1+1,pos2-pos1-1)) , pos := pos2 + 1
+    return Matches
+}
 StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
 }
@@ -466,8 +472,11 @@ class Window {
         return { "x": x, "y": y, "w": w, "h": h, "center": { "w": cw, "h": ch } }
     }
 }
-class _{
-    static _:="".base.base:=_
+Array(prms*) {
+	prms.base := _Array
+	return prms
+}
+class _Array {
     Join(p*) {
         for k,v in p {
             s .= this v
@@ -485,12 +494,6 @@ class _{
             }
             Return, Result
     }
-}
-Array(prms*) {
-	prms.base := _Array
-	return prms
-}
-class _Array {
 	singlePush(param_value) {
 		if (this.indexOf(param_value) = -1) {
 			this.Push("" item)
@@ -509,6 +512,9 @@ class _Array {
 				return start + A_Index
 		return -1
 	}
+    last() {
+        return this[this.MaxIndex()]
+    }
 }
 #Include <JSON>
 #Include <JSON_Beautify>
