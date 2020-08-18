@@ -88,7 +88,7 @@ FreeGames:
         Run % "chrome.exe ""https://steamdb.info/freepackages"""
     }
     
-    result := asf.botInput("Add licenses", "Blufriend")
+    result := asf.botInput("Add licenses")
     if !(result[2]) {
         return
     }
@@ -102,7 +102,7 @@ FreeGames:
         MsgBox % "Could not find any valid license IDs :("
         return
     }
-    PasteToNotepad(toJson(asf.addLicenses(ids, result[1], true)))
+    PasteToNotepad(toJson(asf.addLicenses(ids, result[1]), true))
     return
 
 
@@ -113,23 +113,17 @@ RedeemKeys:
     } else if (GetKeyState("Shift", "P")) {
         PasteToNotepad(toJson(asf.GetAllRedeemedKeys(), true))
     } else {
-        text := MultiLineInput("Redeem Steam Keys")
-        redeem_for_all := GetKeyState("Shift", "P")
-        if !(text) {
+        result := asf.botInput("Redeem Steam Keys")
+        redeem_now := GetKeyState("Shift", "P")
+        if !(result[2]) {
             return
         }
-        keys := asf.ParseSteamKeys(text, true)
+        keys := asf.ParseSteamKeys(result[2], true)
         if (keys.Count() < 1) {
             MsgBox % "Could not find any valid Steam keys :("
             return
         }
-        res := {}
-        if (redeem_for_all) {
-            res := asf.RedeemKeys(keys)
-        } else {
-            res := main.RedeemKeysNow(keys)
-        }
-        MsgBox % toJson(res) ; "`n".Join(keys)
+        MsgBox % toJson(redeem_now ? asf.RedeemKeysNow(keys, result[1]) : asf.RedeemKeys(keys, result[1]), true) ; "`n".Join(keys)
     }
     return
 

@@ -5,11 +5,9 @@
 SetBatchLines, -1
 #Include <bluscream>
 #Include <asf>
+
 global asf := new ASF()
-
 global already_used := asf.getAllRedeemedKeys()
-
-; MsgBox % toJson(already_used)
 
 OnClipboardChange("ClipChanged")
 
@@ -52,8 +50,9 @@ ClipChanged(type) {
             txt .= "`n`n" . txt_keys
         }
         MsgBox 0x24, % "Steam keys found", % txt, 30
-        IfMsgBox Yes, {
-            MsgBox, % toJson(asf.redeemKeys(keys))
+        use_main := GetKeyState("Shift", "P")
+        IfMsgBox, Yes, {
+            MsgBox, % toJson((use_main ? asf.getbot("bluscream").redeemKeysNow(keys) : asf.redeemKeys(keys)), true)
         }
     }
 }

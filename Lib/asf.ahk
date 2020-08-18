@@ -52,9 +52,7 @@ class ASF {
     logins := Object()
 
     __New(logins := "") {
-        if (logins == "") {
             logins := A_Desktop . "\steam.json"
-        }
         FileRead, logins, % logins
         logins := JSON.Load(logins)
         this.logins := logins
@@ -85,14 +83,14 @@ class ASF {
 
     getBotByNickName(nickname) {
         for _i, _bot in this.bots {
-            if (_bot.data.nickname == nickname) {
+            if (_bot.data.nickname = nickname) {
                 return _bot
             }
         }
     }
     getBotByUserName(username) {
         for _i, _bot in this.bots {
-            if (_bot.cfg.username == username) {
+            if (_bot.cfg.username = username) {
                 return _bot
             }
         }
@@ -112,7 +110,7 @@ class ASF {
     }
     getBotByBotName(botname) {
         for _i, _bot in this.bots {
-            if (_bot.data.botName == botname) {
+            if (_bot.data.botName = botname) {
                 return _bot
             }
         }
@@ -126,15 +124,12 @@ class ASF {
         endpoint := (endpoint ? "/" . endpoint : "")
         return this.config.url . "/Api" . bot . endpoint . "?password=" . this.config.token
     }
-    test() {
-        MsgBox % "test"
-    }
     http(method, endpoint, payload, bot := "asf") {
         if (bot == "") {
             bot := "asf"
         }
         url := this.getAPIUrl(endpoint, bot)
-        ; MsgBox % url
+        ; MsgBox % "asf.http(" . method . " " . url
         _json := ""
         if (method == "POST") {
             _json := PostJson(url, payload).result
@@ -142,6 +137,8 @@ class ASF {
             _json := GetJson(url).result
         }
         if (bot != "asf" && bot != "_") {
+            if (endpoint = "redeem")
+                return _json[bot]
             return _json[bot].result
         }
         return _json
@@ -306,7 +303,7 @@ class ASF {
         }
         return _ids
     }
-    botInput(title:="", default := "") {
+    botInput(title:="", default := "asf") {
         Global BotInput_Edit
         Global BotInput_Bot
         Global BotInput_Bot
