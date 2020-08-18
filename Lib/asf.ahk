@@ -303,13 +303,16 @@ class ASF {
         }
         return _ids
     }
-    botInput(title:="", default := "asf") {
+    botInput(title:="", default := "asf", text := "", readonly := false) {
         Global BotInput_Edit
         Global BotInput_Bot
         Global BotInput_Bot
         Gui New, +LabelBotInput +hWndhBotInputWnd -MinimizeBox -MaximizeBox +AlwaysOnTop, FreeLicenses
         Gui Color, 0x808080
-        Gui Add, Edit, vBotInput_Edit x16 y40 w331 h216 +Multi
+        if (readonly)
+            Gui Add, Edit, vBotInput_Edit x16 y40 w331 h216 +Multi +ReadOnly, % text
+        else
+            Gui Add, Edit, vBotInput_Edit x16 y40 w331 h216 +Multi, % text
         Gui Add, DropDownList, vBotInput_Bot x48 y8 w205, % this.getBotsDropDown(default)
         Gui Add, Text, x16 y8 w26 h23 +0x200, Bot:
         Gui Add, Button, gBtnSubmit x264 y8 w80 h23 +Default, &Submit

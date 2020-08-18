@@ -42,17 +42,12 @@ ClipChanged(type) {
         if (key_count < 1) {
             return
         }
-        txt := "Found " . key_count . " steam keys in your clipboard, do you want to activate them?"
-        txt_keys := "`n".Join(keys)
-        if (key_count > 30) {
-            PasteToNotepad(txt_keys)
-        } else {
-            txt .= "`n`n" . txt_keys
+        result := asf.botInput("Redeem Steam Keys", "asf", "`n".join(keys))
+        redeem_now := GetKeyState("Shift", "P")
+        if !(result[2]) {
+            return
         }
-        MsgBox 0x24, % "Steam keys found", % txt, 30
-        use_main := GetKeyState("Shift", "P")
-        IfMsgBox, Yes, {
-            MsgBox, % toJson((use_main ? asf.getbot("bluscream").redeemKeysNow(keys) : asf.redeemKeys(keys)), true)
-        }
+        keys := StrSplit(result[2], "`n", "`r")
+        MsgBox % toJson(redeem_now ? asf.RedeemKeysNow(keys, result[1]) : asf.RedeemKeys(keys, result[1]), true) ; "`n".Join(keys)
     }
 }
