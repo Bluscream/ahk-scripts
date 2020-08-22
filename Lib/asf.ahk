@@ -267,11 +267,18 @@ class ASF {
         return _keys
     }
     addLicenses(_ids, bot := "asf") {
-        if (IsObject(_ids))
-            if (_ids.Count() < 1)
-                return
-            _ids := ",".join(_ids)
-        return this.customCommand("addlicense " . bot . " " . _ids)
+        responses = []
+        if (!IsObject(_ids) || _ids.Count() < 1)
+            return
+        chunks := _ids.chunks(50)
+        PasteToNotepad(toJson(chunks, true))
+        for i, chunk in chunks {
+            chunk := ",".join(chunk)
+            responses.push(this.customCommand("addlicense " . bot . " " . chunk))
+            if (chunks > 1)
+                Sleep 3600000
+        }
+        return responses
     }
     addLicensesOld(_ids) { ; Deprecated
         ret := ""

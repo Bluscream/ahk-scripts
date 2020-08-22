@@ -14,7 +14,6 @@ CoordMode, Mouse, Client
 titles := []
 ; titles.push({title: "DF ahk_class #32770 ahk_exe df.exe", text: "", action: "CloseWindow"}
 ; titles.push({title: "ConEmu [64] ahk_class #32770 ahk_exe ConEmu64.exe", text: "", action: "ClickButton:&Ignore"}
-titles.push({title: "Anwendungsfehler ahk_class #32770",        text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class ClassAdvert",        text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class MainFrameInstall",   text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class RarReminder",        text: "",   action: "CloseWindow"})
@@ -62,6 +61,8 @@ titles.push({title: "PhpStorm Evaluation ahk_class SunAwtDialog ahk_exe phpstorm
 titles.push({title: "7-Zip ahk_class #32770 ahk_exe 7zFM.exe", text: "Unspecified error", action: "CloseWindow"})
 titles.push({title: "TC4Shell ahk_class TTrialForm ahk_exe Explorer.EXE", text: "", action: "CloseWindow"})
 titles.push({title: "taskkill.exe - Application Error ahk_class #32770", text: "The application was unable to start correctly", action: "CloseWindow"})
+titles.push({title: "taskkill.exe - Anwendungsfehler ahk_class #32770", text: "Die Anwendung konnte nicht korrekt gestartet werden", action: "CloseWindow"})
+; titles.push({title: "Anwendungsfehler ahk_class #32770",        text: "",   action: "CloseWindow"})
 titles.push({title: "ahk_class CNotificationWindow_Class ahk_exe SUPERANTISPYWARE.EXE", text: "Professional Trial Expires", action: "CloseWindow"} )
 titles.push({title: "Connection Error ahk_class vguiPopupWindow ahk_exe steam.exe", text: "", action: "Click:X105 Y234"})
 titles.push({title: "Error ahk_class #32770 ahk_exe wallpaper64.exe", text: "Wallpaper Engine was possibly crashed by another application.", action: "CloseWindow"})

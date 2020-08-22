@@ -131,14 +131,14 @@ WriteToFile(path, String) {
     if !String {
         return
     }
-    file := FileOpen(path, "w", "UTF-8")
-    if !IsObject(file)
+    _file := FileOpen(path, "w", "UTF-8")
+    if !IsObject(_file)
     {
         MsgBox Can't open "%path%" for writing.
         return
     }
-    file.Write(String)
-    file.Close()
+    _file.Write(String)
+    _file.Close()
 }
 HexToString(String) { 
    local Length, CharStr, RetString 
@@ -477,7 +477,7 @@ Array(prms*) {
 	return prms
 }
 class _Array {
-    Join(p*) {
+    join(p*) {
         for k,v in p {
             s .= this v
         }
@@ -514,6 +514,25 @@ class _Array {
 	}
     last() {
         return this[this.MaxIndex()]
+    }
+    chunks(max:=1) {
+        if (this.Count() > max)
+            return this
+        if (max < 1)
+            return
+        l_array := []
+        param_array := this.Clone()
+        while (param_array.Count() > 0) {
+            l_InnerArr := []
+            loop, % max {
+                if (param_array.Count() == 0) {
+                    break
+                }
+                l_InnerArr.push(param_array.RemoveAt(1))
+            }
+        l_array.push(l_InnerArr)
+        }
+        return l_array
     }
 }
 #Include <JSON>

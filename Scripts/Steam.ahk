@@ -50,7 +50,7 @@ while(true) {
         if !(ErrorLevel) {
             steam_login_refresh_2fa.activate()
             Send, % "{Enter}"
-            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, main.cfg.Get2FACode)
+            SendString(steam_login_refresh, steam_login_refresh.controls.2fa, main.Get2FACode())
         }
         Send, % "{Enter}" 
         WinWaitDisappear(steam_login_refresh)
