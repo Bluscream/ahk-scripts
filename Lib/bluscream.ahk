@@ -516,11 +516,11 @@ class _Array {
         return this[this.MaxIndex()]
     }
     chunks(max:=1) { ; https://www.autohotkey.com/boards/viewtopic.php?f=76&t=80157
-        if (this.Count() > max)
-            return this
+        if (max > this.Count())
+            return [this]
+        l_array := Array()
         if (max < 1)
-            return
-        l_array := []
+            return l_array
         param_array := this.Clone()
         while (param_array.Count() > 0) {
             l_InnerArr := []
