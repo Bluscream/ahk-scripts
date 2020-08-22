@@ -515,7 +515,7 @@ class _Array {
     last() {
         return this[this.MaxIndex()]
     }
-    chunks(max:=1) {
+    chunks(max:=1) { ; https://www.autohotkey.com/boards/viewtopic.php?f=76&t=80157
         if (this.Count() > max)
             return this
         if (max < 1)
