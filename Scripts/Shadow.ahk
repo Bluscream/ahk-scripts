@@ -8,10 +8,8 @@ DetectHiddenWindows On
 global noui := true
 #Include <bluscream>
 CoordMode, mouse, Client
-EnvGet, path, % "LOCALAPPDATA"
-channels := [ new File(path . "\Programs\shadow\Shadow.exe") ]
-channels.push(new File(path . "\Programs\shadow-preprod\Shadow Beta.exe"))
-channels.push(new File(path . "\Programs\shadow-testing\Shadow Alpha.exe"))
+dir := new Paths.User().localappdata.combine("Programs")
+channels := [dir.combineFile("shadow", "Shadow.exe"), dir.combineFile("shadow-preprod", "Shadow Beta.exe"), dir.combineFile("shadow-testing", "Shadow Alpha.exe")]
 if (channels[1].exists()) {
     Menu, Tray, Icon, % channels[1].path
 }
@@ -25,7 +23,7 @@ toggle := 0
 fixedY := A_ScreenHeight/2
 
 global shadow_launcher := new Window("Shadow", "Chrome_WidgetWin_1")
-global shadow := new Window("Shadow", "Shadow-Window-Class", "Shadow.exe")
+global shadow := new Window("Shadow", "Shadow-Window-Class", channels[1].fullname)
 
 global min_time_minutes := 20
 global max_time_minutes := 29

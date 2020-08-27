@@ -467,18 +467,51 @@ class File {
     exists() {
         return FileExist(this.path)
     }
+    size(units := "B") {
+        FileGetSize, size, % this.path, % units
+        return size 
+    }
+    open(destination, flags := "r", encoding := "UTF-8") {
+        return FileOpen(this.path, flags, encoding)
+    }
+    play(wait := 0) {
+        SoundPlay, % this.path, % wait
+    }
+    read() {
+        FileRead, ret, % this.path
+        return ret
+    }
+    readlines() {
+        lines := ()
+        Loop, Read, % this.path
+            lines.push(A_LoopReadLine)
+        return lines
+    }
+    append(txt, encoding := "UTF-8") {
+        FileAppend, % txt, % this.path, % encoding
+    }
+    copy(destination, overwrite := false) {
+        FileCopy, % this.path , % destination, % overwrite
+    }
+    move(destination, overwrite := false) {
+        FileMove, % this.path , % destination, % overwrite
+    }
+    setAttributes(attributes) {
+        FileSetAttrib, % attributes, % this.path
+    }
 }
 class Window {
     title := ""
     class := ""
     exe := ""
+    file := new File()
     
-    __New(title, class, exe) {
+    __New(title := "", class := "", exe :="", path := "") {
         this.title := title
         this.class := class
         this.exe := exe
+        this.file := path ? new File(path) : new File(exe)
     }
-
 
     str() {
         return (this.title ? this.title : "") . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "")
