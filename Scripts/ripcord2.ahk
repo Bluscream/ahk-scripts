@@ -6,13 +6,15 @@ SetBatchLines -1
 #Include <bluscream>
 #Include <Class_SQLiteDB>
 
-Menu Tray, Icon, C:\Users\blusc\AppData\Local\RIPCord\Ripcord.exe
-global dbfile := "C:\Users\blusc\AppData\Local\RIPCord\discord_client.ripdb"
+dir := new Paths.User().localappdata.combine("ripcord")
+exe := dir.combineFile("Ripcord.exe")
+Menu Tray, Icon, % exe.path
+global dbfile := dir.combineFile("discord_client.ripdb")
 
 global DB := New SQLiteDB
 global SQL := "SELECT * FROM message WHERE UPPER(content) LIKE UPPER('%"
 global Result := ""
-if (!DB.OpenDB(dbfile)) {
+if (!DB.OpenDB(dbfile.path)) {
    MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
    ExitApp
 }

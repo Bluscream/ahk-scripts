@@ -131,10 +131,16 @@ class ASF {
         url := this.getAPIUrl(endpoint, bot)
         ; MsgBox % "asf.http(" . method . " " . url
         _json := ""
-        if (method == "POST") {
-            _json := PostJson(url, payload).result
-        } else {
-            _json := GetJson(url).result
+        try {
+            if (method == "POST") {
+                _json := PostJson(url, payload).result
+            } else {
+                _json := GetJson(url).result
+            }
+        }
+        if (!_json) {
+            MsgBox 0x10, % "AutoHotKey - Error", % "ASF server not found, exiting..."
+            ExitApp
         }
         if (bot != "asf" && bot != "_") {
             if (endpoint = "redeem")

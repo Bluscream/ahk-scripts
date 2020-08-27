@@ -7,15 +7,15 @@
 #SingleInstance, Force
 #NoEnv
 #Persistent
-global rc_dir := "C:\Users\blusc\AppData\Local\Ripcord\"
-global rc_exe := "Ripcord.exe"
-global rc_db := "discord_client.ripdb"
-Menu, Tray, Icon, % rc_dir . rc_exe, 1
+dir := new Paths.User().localappdata.combine("ripcord")
+exe := dir.combineFile("Ripcord.exe")
+Menu, Tray, Icon, % exe.path, 1
+global dbfile := dir.combineFile("discord_client.ripdb")
 #NoTrayIcon
 SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 ;
-global rc_title := "ahk_class Qt5QWindowIcon ahk_exe " . rc_exe
+global rc_title := "ahk_class Qt5QWindowIcon ahk_exe " . exe.fullname
 global vc_title := "Ripcord Voice Chat " . rc_title
 
 global log_pattern := "^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2}\.\d{3})\s+(\w+)\s(.*)$"
@@ -29,7 +29,7 @@ global old_status := ""
 
 global check_delay_s := 5000
 
-lt_chat := new LogTailer(rc_dir . "ripcord.log", Func("OnNewLogLine"), true) ; , "CP1200")
+lt_chat := new LogTailer(dir.combineFile("ripcord.log").path, Func("OnNewLogLine"), true) ; , "CP1200")
 
 global DB := New SQLiteDB
 global db_connected := false
@@ -43,7 +43,7 @@ OnExit, ExitSub
 #IfWinActive ahk_exe Ripcord.exe
 ^f::
     if (!db_connected) {
-        if (!DB.OpenDB(rc_dir . rc_db, "R", false)) {
+        if (!DB.OpenDB(dbfile.path, "R", false)) {
            MsgBox, 16, SQLite Error, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
            ExitApp
         }

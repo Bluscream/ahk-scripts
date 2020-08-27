@@ -69,9 +69,9 @@ AntiAFK() {
         shadow.activate()
         Sleep, 1000
     }
-    Random, rand, 0, 1
-    if (rand)
-        MoveMouse()
+    ; Random, rand, 0, 1
+    ; if (rand)
+        ; MoveMouse()
     Send {AppsKey}
     Random, rand, 0, 1
     if (rand)
