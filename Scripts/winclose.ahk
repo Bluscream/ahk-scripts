@@ -5,7 +5,7 @@
 ; #NoTrayIcon
 #NoEnv
 #Persistent
-SetBatchLines, -1
+; SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 SetTitleMatchMode, 2
 DetectHiddenWindows, Off

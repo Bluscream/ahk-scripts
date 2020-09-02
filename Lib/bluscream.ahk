@@ -545,6 +545,33 @@ class Window {
         return { "x": x, "y": y, "w": w, "h": h, "center": { "w": cw, "h": ch } }
     }
 }
+class Process {
+    name := ""
+    file := new File()
+    __New(name := "") {
+        this.name := name
+    }
+    exists() {
+        Process, Exist, % this.name
+        return ErrorLevel
+    }
+    close() {
+        if (this.exists()) {
+            Process, Close, % this.name
+            return this.exists()
+        }
+    }
+    kill(force := true, wait := false) {
+        if (this.exists()) {
+            cmd := "taskkill " . force ?? "/f" . " /im " . this.name
+            if (wait) {
+                RunWait % cmd
+                return this.exists()
+            }
+            Run % cmd
+        }
+    }
+}
 Array(prms*) {
 	prms.base := _Array
 	return prms

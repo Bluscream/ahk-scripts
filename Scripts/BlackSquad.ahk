@@ -10,11 +10,12 @@ EnforceAdmin()
 ; DetectHiddenWindows On
 CoordMode, Mouse, Client
 
-global path := "S:\Steam\steamapps\common\Black Squad\"
+global game_dir := new Directory("S:\Steam\steamapps\common\Black Squad\")
 global launcher := new Window(  "",                         "#32770",                       "BSLauncher.exe")
 global belauncher := new Window("",                         "",                             "BlackSquadGame_BELauncher.exe")
 global beservice := new Window( "",                         "",                             "BEService_x64.exe")
 global game := new Window(      "BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient",   "BlackSquadGame.exe")
+global game_exe := game_dir.combineFile("binaries", "win64", game.exe)
 global awesomium := new Window( "",                         "",                             "awesomium_process.exe")
 
 
@@ -28,15 +29,13 @@ global close_pattern :=  "^Closing by request$"
 global max_chat_chars := 100
 global had_error := false
 
-
-I_Icon := path . "binaries\win64\" . game.exe
-IfExist, %I_Icon%
-  Menu, Tray, Icon, %I_Icon%
+if (game_exe.exists())
+  Menu, Tray, Icon, % game_exe.path
 Menu, tray, add, ---BlackSquad---, void
 Menu, tray, add, Kill Game, killGameFunc
 Menu, tray, add, Restart Game, restartGameFunc
 
-killGame()
+; killGame()
 ; startLauncher()
 
 restartGameFunc:
@@ -98,18 +97,10 @@ clearLogs() {
 
 killGame() {
     ; ToolTip, % "Killing Processes"
-    killProcess(awesomium.exe)
-    killProcess(launcher.exe)
-    killProcess(game.exe)
-    killProcess(belauncher.exe)
+    new Process(awesomium.exe).kill()
+    new Process(launcher.exe).kill()
+    new Process(game.exe).kill()
+    new Process(belauncher.exe).kill()
     ; killProcess(beservice.exe)
     ; ToolTip, % ""
-}
-
-killProcess(name) {
-    Process, Exist, % name
-    if(!ErrorLevel) {
-        ErrorLevel := 0
-        Process, Close, % name
-    }
 }

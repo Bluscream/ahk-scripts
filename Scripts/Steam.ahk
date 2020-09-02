@@ -3,7 +3,7 @@
 ; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
-SetBatchLines -1
+; SetBatchLines -1
 SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
@@ -34,6 +34,7 @@ for i, bot in asf.bots {
 }
 Menu, tray, add, % "Redeem Keys", RedeemKeys
 Menu, tray, add, % "Free Games", FreeGames
+Menu, tray, add, % "Debug", Debug ; Todo: comment
 
 
 ; SetTimer, CheckForWindow, % 1000*5
@@ -74,6 +75,14 @@ while(true) {
     Sleep, % 1000*5
 }
 return
+
+Debug:
+    txt := toJson(asf.config, true)
+    for i, bot in asf.bots {
+        txt .= toJson(bot.cfg, true)
+    }
+    PasteToNotepad(txt)
+    return
 
 Get2FACode:
     txt := StrReplace(A_ThisMenuItem, "2FA Code (", "")

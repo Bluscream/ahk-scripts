@@ -3,7 +3,7 @@
 #Persistent
 #InstallKeybdHook
 #InstallMouseHook
-SetBatchLines -1
+; SetBatchLines -1
 CoordMode Mouse, Client
 #Include <bluscream>
 
@@ -20,7 +20,7 @@ return
 while (true) {
     ; if (A_TimeIdlePhysical > 60000)
         RunWait, "shutdown" /a,, Min
-    Sleep 500
+    Sleep 1000
 }
 
 MakeInvisbleWindow() {

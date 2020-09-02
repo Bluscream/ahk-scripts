@@ -3,10 +3,10 @@
 #NoTrayIcon
 #NoEnv
 #SingleInstance
-SetBatchLines, -1
-Process, Priority,, High
-SendMode Input
+; SetBatchLines, -1
+; Process, Priority,, High
 #Include <bluscream>
+; SendMode Event
 
 
 return
