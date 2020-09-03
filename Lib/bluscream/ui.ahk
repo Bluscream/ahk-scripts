@@ -1,4 +1,5 @@
 #Include %A_LineFile%\..\json.ahk
+global initialized := false
 global ui := False
 scriptlog(msg, timestamp := "", append := false) {
     if(noui == true)
@@ -36,6 +37,7 @@ ShowToolTip(msg){
     lastToolTip := msg
     ToolTip, %msg%
 }
+
 SplashScreen(title, text="", time=1000) {
     SetTimer, RemoveSplashScreen, % time
     SplashImage, , b FM18 fs12, % title, % text
@@ -43,6 +45,31 @@ SplashScreen(title, text="", time=1000) {
 RemoveSplashScreen:
     SetTimer, RemoveSplashScreen, Off
     SplashImage, Off
+
+global splashscreenqueue := []
+global lastsplashscreen := ""
+_SplashScreen(title, text="", time=1000) {
+    if (title == lastsplashscreen)
+        return
+    lastsplashscreen := title
+    ; MsgBox % "SplashScreen " . title . " " . text . " " . time
+    splashscreenqueue.push([title, text, time])
+    if (splashscreenqueue.Count() == 1)
+        Gosub, CheckSplashScreens
+}
+CheckSplashScreens:
+    if (initialized) {
+        SetTimer, CheckSplashScreens, Off
+        SplashImage, Off
+        if (splashscreenqueue.Count() > 0) {
+            ; MsgBox % "splashscreens before: " . toJson(splashscreenqueue)
+            next := splashscreenqueue.RemoveAt(1)
+            ; MsgBox % "splashscreens after: " . toJson(splashscreenqueue)
+            SetTimer, CheckSplashScreens, % next[3]
+            ; MsgBox % "Next splashscreen: " . toJson(next)
+            SplashImage, , b FM18 fs12, % next[1], % next[2]
+        }
+    }
 MultiLineInputBox(Text:="", Default:="", Caption:="AutoHotKey"){
     static
     ButtonOK:=ButtonCancel:= false
@@ -92,3 +119,4 @@ MultiLineInput(Text:="Waiting for Input") {
     Gui, Destroy
     Return %MLI_Edit%
 }
+initialized := true
