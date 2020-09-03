@@ -77,6 +77,15 @@ MatchBetween(Haystack,char1,char2) {
 StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
 }
+toYesNo(bool) {
+    return bool ? "Yes" : "No"
+}
+toTrueFalse(bool) {
+    return bool ? "True": "False"
+}
+toEnabledDisabled(bool) {
+    return bool ? "Enabled": "Disabled"
+}
 Join(s,p*){
   static _:="".base.Join:=Func("Join")
   o:=""
@@ -276,10 +285,13 @@ ShowToolTip(msg){
     ToolTip, %msg%
 }
 SplashScreen(title, text="", time=1000) {
+    SetTimer, RemoveSplashScreen, % time
     SplashImage, , b FM18 fs12, % title, % text
-    Sleep, % time
-    SplashImage, Off
 }
+RemoveSplashScreen:
+    SetTimer, RemoveSplashScreen, Off
+    SplashImage, Off
+    return
 MultiLineInputBox(Text:="", Default:="", Caption:="AutoHotKey"){
     static
     ButtonOK:=ButtonCancel:= false
@@ -504,13 +516,15 @@ class Window {
     title := ""
     class := ""
     exe := ""
-    file := new File()
-    
-    __New(title := "", class := "", exe :="", path := "") {
+    process := new Process()
+    ; file := new File()
+
+    __New(title := "", class := "", exe :="") { ; , path := ""
         this.title := title
         this.class := class
         this.exe := exe
-        this.file := path ? new File(path) : new File(exe)
+        this.process := new Process(exe, path)
+        ; this.file := path ? new File(path) : new File(exe)
     }
 
     str() {
@@ -519,6 +533,10 @@ class Window {
     
     exists() {
         return WinExist(this.str())
+    }
+    pid() {
+        WinGet, pid, PID, % this.str()
+        return pid
     }
     isActive() {
         return WinActive(this.str())
@@ -548,28 +566,55 @@ class Window {
 class Process {
     name := ""
     file := new File()
+
     __New(name := "") {
         this.name := name
+        winmgmts := this.winmgmts()
+        if (winmgmts && winmgmts.ExecutablePath)
+            this.file := new File(winmgmts.ExecutablePath)
+    }
+    fromPid(pid := 0) {
+        return new Process(this.winmgmts(pid).Name)
     }
     exists() {
         Process, Exist, % this.name
         return ErrorLevel
     }
+    getPid() {
+        WinGet, pid, PID, % "ahk_exe " . this.name
+        return pid
+    }
+    winmgmts(pid := 0) {
+        cmd := "Select * from Win32_Process where ProcessId=" . (pid ? pid : this.pid())
+        for item in ComObjGet("winmgmts:").ExecQuery(cmd) {
+            this.winmgmts := item
+            return item
+        }
+        return 0
+    }
+    commandLine() {
+        if (!this.exists())
+            return ""
+        StringReplace Parameters, % winmgmts.CommandLine, % winmgmts.ExecutablePath
+        StringReplace Parameters, Parameters, ""
+        return Trim(Parameters)
+    }
     close() {
         if (this.exists()) {
             Process, Close, % this.name
-            return this.exists()
+            return !this.exists()
         }
     }
     kill(force := true, wait := false) {
-        if (this.exists()) {
-            cmd := "taskkill " . force ?? "/f" . " /im " . this.name
+        ; if (this.exists()) {
+            cmd := """" . A_ComSpec . """ /c taskkill " . (force ? "/f" : "") . " /im " . this.name
+            OutputDebug, % cmd
             if (wait) {
-                RunWait % cmd
-                return this.exists()
+                RunWait % cmd,,Hide, vPid
+                return !this.exists()
             }
-            Run % cmd
-        }
+            Run % cmd,,Hide
+        ; }
     }
 }
 Array(prms*) {

@@ -80,6 +80,7 @@ Debug:
     txt := toJson(asf.config, true)
     for i, bot in asf.bots {
         txt .= toJson(bot.cfg, true)
+        txt .= toJson(bot.data, true)
     }
     PasteToNotepad(txt)
     return
