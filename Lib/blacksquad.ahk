@@ -10,12 +10,11 @@ class Game {
     logfile := new File()
     ; log := new LogTailer()
     windows := { "launcher": new Window("", "#32770", "BSLauncher.exe"), "game": new Window("BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient", "BlackSquadGame.exe"), "belauncher": new Window("", "", "BlackSquadGame_BELauncher.exe"), "beservice": new Window("", "", "BEService_x64.exe"), "awesomium": new Window("", "", "awesomium_process.exe") }
-    patterns := { "log": "\[(\d{4}\.\d{2}\.\d{2}\-\d{2}\.\d{2}\.\d{2})\] (.*)", "msg": "Log: (.*)", "beguid": "BattlEyeLog: Server computed GUID: ([a-z0-9]{32})", "error": "Disconnet Client: (\d+)", "failed_connect": "(\w+) wParam:\[(9)\] lParam\[(3)\]", "close": "Closing by request", "ping": "GetPing return time:(\d+) result:(\w+)",    "map_load": "UGameEngine\:\:LoadMap entered - (\w+)", "matchstate_changed": "ScriptLog: GameLOG >> BeginState >> ChangedState\( (\w+) \)" }
+    patterns := { "log": "^\[(\d{4}\.\d{2}\.\d{2}\-\d{2}\.\d{2}\.\d{2})\] (.*)", "msg": "^Log: (.*)", "beguid": "^BattlEyeLog: Server computed GUID: ([a-z0-9]{32})", "error": "^Disconnet Client: (\d+)", "failed_connect": "^(\w+) wParam:\[(9)\] lParam\[(3)\]", "close": "^Closing by request", "ping": "^GetPing return time:(\d+) result:(\w+)",    "mapload": "^UGameEngine\:\:LoadMap entered - ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?\/(\w+).*SecurityCode=(\d+).*UserID=(\d+)", "mapload2": "^UGameEngine\:\:LoadMap entered - (\w+)", "mapload3": "^Bringing World (\w+)\.TheWorld up for play \((\d+)\) at", "mapload4": "^Welcomed by server \(Level: (\w+),", "matchstate_changed": "ScriptLog: GameLOG >> BeginState >> ChangedState\( (\w+) \)", "level_load_completed": "^ScriptLog: OnPendingLevelCompleted - ErrorCode:(\d+)", "server_browse": "^0\(\)=pEngine->IPPortBrowse\(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?", "gameresult": "^Go to GameResult" }
     ; patterns["startup"] := ">>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
     had_error := false
     max_chat_chars := 100
-    lastmap := ""
-    lastping := ""
+    data := {"ping":0,"map":"","server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
 
     __New(path, eventcallback := "") {
         this.dir := new Directory(path)
