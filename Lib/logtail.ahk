@@ -9,7 +9,6 @@ class LogTailer {
     __New(FileName, Callback, StartWithLastLine := false, Encoding := "UTF-8", LineEndings := "`n"){
         this.fileName := FileName
         this.callback := callback
-        
         fileHandle := FileOpen(FileName, "r " . LineEndings, Encoding)
         if (!IsObject(fileHandle)){
             MsgBox % "Unable to load file " FileName

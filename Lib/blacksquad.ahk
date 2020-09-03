@@ -1,5 +1,6 @@
 #Include <bluscream>
 #Include <logtail>
+global _game := new Game("S:\Steam\steamapps\common\Black Squad\")
 class Game {
     name := "Black Squad"
     appid := 550650
@@ -12,7 +13,6 @@ class Game {
     patterns := {}
     had_error := false
     max_chat_chars := 100
-    callback := "Func()"
     lastmap := ""
     lastping := ""
 
@@ -22,7 +22,6 @@ class Game {
             MsgBox % this.name . " directory " . this.dir.Quote() . " does not exist!"
         }
         this.exe := this.dir.combineFile("binaries", "win64", this.windows["game"].exe)
-        this.callback := eventcallback
         this.logdir := this.dir.combine("CombatGame", "Logs")
         this.logfile := this.logdir.combineFile("Launch.log")
         if (this.logfile.exists()) {
@@ -36,7 +35,7 @@ class Game {
             this.patterns["startup"] := ">>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
             this.patterns["map_load"] := "UGameEngine\:\:LoadMap entered - (\w+)"
             this.patterns["matchstate_changed"] := "ScriptLog: GameLOG >> BeginState >> ChangedState\( (\w+) \)"
-            this.log := new LogTailer(this.logfile.path, Func("game.OnNewLogLine"), false)
+            this.log := new LogTailer(this.logfile.path, Func("Game.OnNewLogLine"), false)
         } else {
             MsgBox % this.name . " logfile " . this.logfile.Quote() . " does not exist!"
         }

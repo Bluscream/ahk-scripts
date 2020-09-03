@@ -29,7 +29,7 @@ class File {
         FileGetSize, size, % this.path, % units
         return size 
     }
-    open(destination, flags := "r", encoding := "UTF-8") {
+    open(flags := "r", encoding := "UTF-8") {
         return FileOpen(this.path, flags, encoding)
     }
     play(wait := 0) {
