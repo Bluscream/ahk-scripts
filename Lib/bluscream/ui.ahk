@@ -43,8 +43,10 @@ SplashScreen(title, text="", time=1000) {
     SplashImage, , b FM18 fs12, % title, % text
 }
 RemoveSplashScreen:
-    SetTimer, RemoveSplashScreen, Off
-    SplashImage, Off
+    if (initialized) {
+        SetTimer, RemoveSplashScreen, Off
+        SplashImage, Off
+    }
 
 global splashscreenqueue := []
 global lastsplashscreen := ""

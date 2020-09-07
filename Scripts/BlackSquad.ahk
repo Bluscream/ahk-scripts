@@ -9,7 +9,7 @@ global game := new Game("S:\Steam\steamapps\common\Black Squad\")
 ; pasteToNotepad(toJson(game, true))
 log := new LogTailer(game.logfile.path, Func("OnNewLogLine"), true)
 Menu, Tray, Icon, % game.exe.path
-Menu, tray, add, ---BlackSquad---, lbl
+Menu, tray, add, ---Black Squad---, lbl
 Menu, tray, add, Kill Game, killGameFunc
 Menu, tray, add, Restart Game, restartGameFunc
 OnNewLogLine(FileLine) {
@@ -105,7 +105,7 @@ lbl:
         game.logdir.ShowInFileExplorer()
     } else if (GetKeyState("Ctrl", "P")) {
         game.clearLogs()
-    } else if (GetKeyState("Alt", "P")) {
+    } else if (GetKeyState("I", "P")) {
         pasteToNotepad(toJson(game, true))
     } else {
         Run, % "notepad " . game.logfile.quote()

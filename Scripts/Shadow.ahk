@@ -10,11 +10,11 @@ global noui := true
 CoordMode, mouse, Client
 dir := new Paths.User().localappdata.combine("Programs")
 channels := [dir.combineFile("shadow", "Shadow.exe"), dir.combineFile("shadow-preprod", "Shadow Beta.exe"), dir.combineFile("shadow-testing", "Shadow Alpha.exe")]
-if (channels[1].exists()) {
-    Menu, Tray, Icon, % channels[1].path
-}
 for i, channel in channels {
-    Menu, tray, add, % "Start " . channel.name, StartShadow
+    if (channel.exists) {
+        Menu, Tray, Icon, % channel.path
+        Menu, tray, add, % "Start " . channel.name, StartShadow
+    }
 }
 
 ; #Warn
