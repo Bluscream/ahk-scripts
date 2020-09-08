@@ -88,28 +88,29 @@ OnError(args*) {
 }
 
 global bs_lastkeys := []
-; #IfWinActive, ahk_exe BSLauncher.exe
 #IfWinActive, ahk_class LaunchCombatUWindowsClient ahk_exe BlackSquadGame.exe
 #Include <keylogger>
-
 OnKeyStroke(key) {
-    ; key := A_ThisHotkey
-    if(!key)
+    if (!key)
         return
-    if (key ==A_EndChar) {
+    count := bs_lastkeys.Count()
+    if (key == "{Enter}" || count > game.max_chat_chars) {
         bs_lastkeys := []
+    } else if (key == "{BackSpace}") {
+        if (count > 0)
+            bs_lastkeys.Pop()
     } else {
         bs_lastkeys.Push(key)
         SetTimer, clearStrokes, 60000
     }
-    scriptlog(toJson(bs_lastkeys))
+    scriptlog("bs_lastkeys: " . toJson(bs_lastkeys))
 }
 
 return
 
 Hotkey, IfWinActive, % game.windows.game.str()
 ^Backspace::
-    lk := Format("{:T}", "".join(bs_lastkeys))
+    lk := "".join(bs_lastkeys) ; Format("{:T}", )
     Send {Raw}%lk%
     return
 Hotkey, IfWinActive

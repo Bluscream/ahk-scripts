@@ -3,18 +3,33 @@
 ; Loop, 0x7f
 ; Hotkey, % ""*~"" . chr(A_Index), OnKeyStroke
 
-~Enter::OnKeyStroke(A_EndChar)
-~#Enter::OnKeyStroke(A_EndChar)
-~!Enter::OnKeyStroke(A_EndChar)
-~^Enter::OnKeyStroke(A_EndChar)
-Space::OnKeyStroke(A_Space)
-~#Space::OnKeyStroke(A_Space)
-~!Space::OnKeyStroke(A_Space)
-~^Space::OnKeyStroke(A_Space)
-~Tab::OnKeyStroke(A_Tab)
-~#Tab::OnKeyStroke(A_Tab)
-~!Tab::OnKeyStroke(A_Tab)
-~^Tab::OnKeyStroke(A_Tab)
+Hotkey, ~:, OnKeyStroke
+OnKeyStroke:
+    OnKeyStroke("{Enter}")
+    return
+~Enter::
+~#Enter::
+~!Enter::
+~^Enter::
+    OnKeyStroke("{Enter}")
+    return
+Space::
+~#Space::
+~!Space::
+~^Space::
+    OnKeyStroke(A_Space)
+    send {space}
+    return
+~Tab::
+~#Tab::
+~^Tab::
+    OnKeyStroke(A_Tab)
+    return
+~Backspace::
+~#Backspace::
+~!Backspace::
+    OnKeyStroke("{BackSpace}")
+    return
 ~a::OnKeyStroke("a")
 ~#a::OnKeyStroke("a")
 ~!a::OnKeyStroke("a")
