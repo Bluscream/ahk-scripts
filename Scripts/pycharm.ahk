@@ -1,5 +1,5 @@
 ﻿#SingleInstance, Force
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 #NoEnv
 SetTitleMatchMode, 2

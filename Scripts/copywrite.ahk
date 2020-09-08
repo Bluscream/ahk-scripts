@@ -2,7 +2,7 @@
 #Persistent
 #NoTrayIcon
 #NoEnv
-#SingleInstance
+#SingleInstance, force
 ; SetBatchLines, -1
 ; Process, Priority,, High
 #Include <bluscream>

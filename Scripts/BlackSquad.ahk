@@ -87,7 +87,34 @@ OnError(args*) {
     game.windows["game"].minimize()
 }
 
+global bs_lastkeys := []
+Hotkey, IfWinActive, % game.windows.launcher.str()
+#Include <keylogger>
+^Backspace::
+    lk := Format("{:T}", "".join(bs_lastkeys))
+    Send {Raw}%lk%
+Hotkey, IfWinActive
+
 return
+
+OnKeyStroke:
+    key := A_ThisHotkey
+    if (key == "`n") {
+        bs_lastkeys := []
+    } else {
+        if (key == "Space") {
+            bs_lastkeys.Push(" ")
+        } else {
+            bs_lastkeys.Push(key)
+        }
+        SetTimer, clearStrokes, 60 * 1000
+    }
+    ; scriptlog(toJson(bs_lastkeys))
+    return
+
+clearStrokes:
+    bs_lastkeys := []
+    return
 
 restartGameFunc:
     game.kill()
