@@ -38,6 +38,10 @@ class Window {
         WinActivate, % this.str()
         WinWaitActive, % this.str()
     }
+    close() {
+        WinClose, % this.str()
+        return !this.exists()
+    }
     pos() {
        ;WinGetPos, X, Y, Width, Height, WinTitle, WinText, ExcludeTitle, ExcludeText]
         WinGetPos,x,y,w,h, % this.str()

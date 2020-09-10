@@ -20,7 +20,7 @@ class Process {
         return pid
     }
     winmgmts(pid := 0) {
-        cmd := "Select * from Win32_Process where ProcessId=" . (pid ? pid : this.pid())
+        cmd := "Select * from Win32_Process where ProcessId=" . (pid ? pid : this.getPid())
         for item in ComObjGet("winmgmts:").ExecQuery(cmd) {
             this.winmgmts := item
             return item

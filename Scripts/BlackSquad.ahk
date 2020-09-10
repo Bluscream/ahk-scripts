@@ -103,7 +103,7 @@ OnKeyStroke(key) {
         bs_lastkeys.Push(key)
         SetTimer, clearStrokes, 60000
     }
-    scriptlog("bs_lastkeys: " . toJson(bs_lastkeys))
+    ; scriptlog("bs_lastkeys: " . toJson(bs_lastkeys))
 }
 
 return
@@ -116,6 +116,7 @@ Hotkey, IfWinActive, % game.windows.game.str()
 Hotkey, IfWinActive
 
 clearStrokes:
+    SetTimer, clearStrokes, Off
     bs_lastkeys := []
     return
 

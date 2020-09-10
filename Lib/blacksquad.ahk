@@ -63,8 +63,13 @@ class Game {
 
     kill() {
         for i, window in this.windows {
-            window.process.close()
-            window.process.kill(true, true)
+            ; scriptlog("Killing " . window.str())
+            window_closed := window.close()
+            process_closed := window.process.close()
+            process_killed := window.process.kill(true, true)
+            ; scriptlog("window_closed: " . toYesNo(window_closed))
+            ; scriptlog("process_closed: " . toYesNo(window_closed))
+            ; scriptlog("process_killed: " . toYesNo(window_closed))
         }
     }
 }
