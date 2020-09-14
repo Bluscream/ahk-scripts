@@ -60,7 +60,7 @@ class LogTailer {
     ; Starts tailing
     Start(){
         fn := this.ReadFn
-        SetTimer, % fn, 10
+        SetTimer, % fn, 25
     }
     
     ; Stops tailing

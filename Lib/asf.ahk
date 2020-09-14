@@ -176,14 +176,16 @@ class ASF {
     redeemKeys(_keys, bot := "asf") {
         request := { "GamesToRedeemInBackground": { } }
         for _i, key in _keys {
-            request["GamesToRedeemInBackground"][key] := key
+            if (key)
+                request["GamesToRedeemInBackground"][key] := key
         }
         return this.post("GamesToRedeemInBackground", request, bot)
     }
     redeemKeysNow(_keys, bot := "asf") {
         request := { "KeysToRedeem": [] }
         for _i, key in _keys {
-            request["KeysToRedeem"].push(key)
+            if (key)
+                request["KeysToRedeem"].push(key)
         }
         return this.post("Redeem", request, bot)
     }

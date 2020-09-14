@@ -1,6 +1,5 @@
 #Include <bluscream>
 #Include <logtail>
-global _game := new Game("S:\Steam\steamapps\common\Black Squad\")
 class Game {
     name := "Black Squad"
     appid := 550650
@@ -10,8 +9,7 @@ class Game {
     logfile := new File()
     ; log := new LogTailer()
     windows := { "launcher": new Window("", "#32770", "BSLauncher.exe"), "game": new Window("BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient", "BlackSquadGame.exe"), "belauncher": new Window("", "", "BlackSquadGame_BELauncher.exe"), "beservice": new Window("", "", "BEService_x64.exe"), "awesomium": new Window("", "", "awesomium_process.exe") }
-    patterns := { "log": "^\[(\d{4}\.\d{2}\.\d{2}\-\d{2}\.\d{2}\.\d{2})\] (.*)", "msg": "^Log: (.*)", "beguid": "^BattlEyeLog: Server computed GUID: ([a-z0-9]{32})", "error": "^Disconnet Client: (\d+)", "failed_connect": "^(\w+) wParam:\[(9)\] lParam\[(3)\]", "close": "^Closing by request", "ping": "^GetPing return time:(\d+) result:(\w+)",    "mapload": "^UGameEngine\:\:LoadMap entered - ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?\/(\w+).*SecurityCode=(\d+).*UserID=(\d+)", "mapload2": "^UGameEngine\:\:LoadMap entered - (\w+)", "mapload3": "^Bringing World (\w+)\.TheWorld up for play \((\d+)\) at", "mapload4": "^Welcomed by server \(Level: (\w+),", "matchstate_changed": "ScriptLog: GameLOG >> BeginState >> ChangedState\( (\w+) \)", "level_load_completed": "^ScriptLog: OnPendingLevelCompleted - ErrorCode:(\d+)", "server_browse": "^0\(\)=pEngine->IPPortBrowse\(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?", "gameresult": "^Go to GameResult" }
-    ; patterns["startup"] := ">>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
+    patterns := {}
     had_error := false
     max_chat_chars := 100
     data := {"ping":0,"map":"","server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
@@ -27,6 +25,22 @@ class Game {
         if (!this.logfile.exists()) {
             MsgBox % this.name . " logfile " . this.logfile.Quote() . " does not exist!"
         }
+        this.patterns["log"] :=                  "^\[(\d{4}\.\d{2}\.\d{2}\-\d{2}\.\d{2}\.\d{2})\] (.*)"
+        this.patterns["msg"] :=                  "^Log: (.*)"
+        this.patterns["beguid"] :=               "^BattlEyeLog: Server computed GUID: ([a-z0-9]{32})"
+        this.patterns["error"] :=                "^Disconnet Client: (\d+)"
+        this.patterns["failed_connect"] :=       "^(\w+) wParam:\[(9)\] lParam\[(3)\]"
+        this.patterns["close"] :=                "^Closing by request"
+        this.patterns["ping"] :=                 "^GetPing return time:(\d+) result:(\w+)"
+        this.patterns["mapload"] :=              "^UGameEngine\:\:LoadMap entered - ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?\/(\w+).*SecurityCode=(\d+).*UserID=(\d+)"
+        this.patterns["mapload2"] :=             "^UGameEngine\:\:LoadMap entered - (\w+)"
+        this.patterns["mapload3"] :=             "^Bringing World (\w+)\.TheWorld up for play \((\d+)\) at"
+        this.patterns["mapload4"] :=             "^Welcomed by server \(Level: (\w+),"
+        this.patterns["matchstate_changed"] :=   "^ScriptLog: GameLOG >> BeginState >> ChangedState\( (\w+) \)"
+        this.patterns["level_load_completed"] := "^ScriptLog: OnPendingLevelCompleted - ErrorCode:(\d+)"
+        this.patterns["server_browse"] :=        "^0\(\)=pEngine->IPPortBrowse\(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?"
+        this.patterns["gameresult"] :=           "^Go to GameResult"
+        this.patterns["startup"] :=              "^>>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
     }
 
     start(steam := true) {

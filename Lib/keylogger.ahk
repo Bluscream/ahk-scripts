@@ -1,3 +1,4 @@
+#MaxHotkeysPerInterval 9999
 ; SetFormat, Integer, H
 ; Hotkey, Space, OnKeyStroke
 ; Loop, 0x7f
