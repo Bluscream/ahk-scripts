@@ -7,13 +7,19 @@ CoordMode, Mouse, Client
 EnforceAdmin()
 global game := new Game("G:\Steam\steamapps\common\Black Squad\")
 ; pasteToNotepad(toJson(game, true))
-if (game.patterns && game.patterns.Count() > 0)
-    log := new LogTailer(game.logfile.path, Func("OnNewLogLine"), true)
+if (false && game.logfile.exists() && game.patterns && game.patterns.Count() > 0) {
+    ; log := new LogTailer(game.logfile.path, Func("OnNewLogLine"), true, "CP28591", "`n")
+    result := StdOutStream("tail " . Quote(game.logfile.path), "OnNewLogLine" ) 
+    scriptlog("subscribed to log file " . Quote(game.logfile.path) . " (" . result . ")")
+}
 Menu, Tray, Icon, % game.exe.path
 Menu, tray, add, ---Black Squad---, lbl
 Menu, tray, add, Kill Game, killGameFunc
 Menu, tray, add, Restart Game, restartGameFunc
-OnNewLogLine(FileLine) {
+OnNewLogLine(FileLine, n) {
+    scriptlog("OnNewLogLine")
+    if (!FileLine)
+        return
     ; Func("OnLogLine").call(FileLine)
     if (RegExMatch(FileLine, game.patterns["log"], log)) {
         if (RegExMatch(log2, game.patterns["msg"], msg)) {
@@ -28,24 +34,25 @@ OnNewLogLine(FileLine) {
                 game.had_error := false
             } else if (RegExMatch(msg1, game.patterns["ping"], ping)) {
                 OnPing(ping1, ping2)
-                game.data.ping := ping1
+                game.updateData("ping", ping1)
             } else if (RegExMatch(msg1, game.patterns["mapload"], map_load)) {
                 OnMapLoaded(map_load3)
-                game.data.server.ip := map_load1
-                game.data.server.port := map_load2
-                game.data.map := Format("{:L}", map_load3)
-                game.data.player.security_code := map_load4
-                game.data.player.userid := map_load5
+                game.updateData("ping", ping1)
+                game.updateData("server.ip", map_load1)
+                game.updateData("server.port", map_load2)
+                game.updateData("map", Format("{:L}", map_load3))
+                game.updateData("player.security_code", map_load4)
+                game.updateData("player.userid", map_load5)
             } else if (RegExMatch(msg1, game.patterns["mapload2"], map_load)) {
                 OnMapLoaded(map_load1)
-                game.data.map := Format("{:L}", map_load1)
+                game.updateData("map", Format("{:L}", map_load1))
             } else if (RegExMatch(msg1, game.patterns["mapload3"], map_load)) {
-                game.data.map := Format("{:L}", map_load1)
+                game.updateData("map", Format("{:L}", map_load1))
             } else if (RegExMatch(msg1, game.patterns["mapload4"], map_load)) {
-                game.data.map := Format("{:L}", map_load1)
+                game.updateData("map", Format("{:L}", map_load1))
             } else if (RegExMatch(msg1, game.patterns["server_browse"], server_browse)) {
-                game.data.server.ip := server_browse1
-                game.data.server.port := server_browse2
+                game.updateData("server.ip", server_browse1)
+                game.updateData("server.port", server_browse2)
             } else if (RegExMatch(msg1, game.patterns["gameresult"], gameresult)) {
                 OnGameResult()
             } else if (RegExMatch(msg1, game.patterns["level_load_completed"], level_load_completed)) {
@@ -57,7 +64,7 @@ OnNewLogLine(FileLine) {
             }
         }
     } else {
-        ; scriptlog("INVALID: " . FileLine)
+        scriptlog("INVALID: " . FileLine)
     }
 }
 OnBattleyeGuid(guid) {

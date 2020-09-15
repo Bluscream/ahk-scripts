@@ -41,6 +41,7 @@ class LogTailer {
         ; Read all new lines
         while (!this.fileHandle.AtEOF){
             line := this.fileHandle.ReadLine()
+            ; MsgBox % "new line: " . line
             if (line == "`r`n" || line == "`n"){
                 continue
             }
@@ -60,7 +61,7 @@ class LogTailer {
     ; Starts tailing
     Start(){
         fn := this.ReadFn
-        SetTimer, % fn, 25
+        SetTimer, % fn, 10
     }
     
     ; Stops tailing

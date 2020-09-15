@@ -40,6 +40,9 @@ endsWith(string, substring) {
 StrStrip(string) {
     return RegexReplace(string, "^\s+|\s+$")
 }
+Quote(string) {
+    return """" . string . """"
+}
 toYesNo(bool) {
     return bool ? "Yes" : "No"
 }

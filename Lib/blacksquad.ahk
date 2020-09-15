@@ -12,7 +12,8 @@ class Game {
     patterns := {}
     had_error := false
     max_chat_chars := 100
-    data := {"ping":0,"map":"","server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
+    datafile := new File()
+    data := {"starttime":0,"ping":0,"map":"","maps":{},"server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
 
     __New(path, eventcallback := "") {
         this.dir := new Directory(path)
@@ -20,6 +21,9 @@ class Game {
             MsgBox % this.name . " directory " . this.dir.Quote() . " does not exist!"
         }
         this.exe := this.dir.combineFile("binaries", "win64", this.windows["game"].exe)
+        this.datafile := this.dir.combineFile("data.json")
+        if (this.datafile.exists() && this.datafile.size() > 0)
+            this.data := fromJson(this.datafile.read())
         this.logdir := this.dir.combine("CombatGame", "Logs")
         this.logfile := this.logdir.combineFile("Launch.log")
         if (!this.logfile.exists()) {
@@ -43,12 +47,23 @@ class Game {
         this.patterns["startup"] :=              "^>>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
     }
 
+    updateData(key, value) {
+        ; keys := StrSplit(key, ".")
+        ; for _i, key in keys {
+        ; }
+        this.data[key] := value
+        this.datafile.write(toJson({"data":this.data}, true))
+    }
+
     start(steam := true) {
+        running := this.windows["game"].exists()
+        if (running)
+            this.kill()
         winstr := this.windows["launcher"].str()
         Run, % steam ? ("steam://rungameid/" . this.appid) : this.dir.combineFile("binaries", this.windows["launcher"].exe).path
         WinWait, % winstr
-        WinActivate, % winstr
-        WinWaitActive, % winstr
+        ; WinActivate, % winstr
+        ; WinWaitActive, % winstr
         ; sleep, 2500
         ; SetControlDelay -1
         while (true) {
@@ -64,6 +79,7 @@ class Game {
                 WinActivate, % winstr
                 WinWaitActive, % winstr
                 SplashScreen(this.windows["game"].process.commandLine(), "Game started")
+                this.updateData("starttime", A_NowUTC)
                 return
             }
             sleep, 250
@@ -72,7 +88,7 @@ class Game {
     clearLogs() {
         logs := this.logdir.combineFile("*.log").path
         FileDelete, % logs
-        this.logfile.create()
+        ; this.logfile.create()
     }
 
     kill() {

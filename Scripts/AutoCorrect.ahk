@@ -4118,7 +4118,7 @@ return  ; This makes the above hotstrings do nothing so that they override the i
 ::severley::severely
 ::severly::severely
 ::shaddow::shadow
-::seh::she
+; ::seh::she
 ::shesaid::she said
 ::sherif::sheriff
 ::sheild::shield

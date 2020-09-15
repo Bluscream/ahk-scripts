@@ -5,6 +5,9 @@ toJson(object, beautify := false) {
         return JSON_Beautify(object)
     return JSON.Dump(object)
 }
+fromJson(txt) {
+    return JSON.Load(txt)
+}
 #Include <json_toobj>
 GetJson(url, auth := "") {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")

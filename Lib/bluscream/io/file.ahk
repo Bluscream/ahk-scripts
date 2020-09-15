@@ -51,13 +51,29 @@ class File {
     append(txt, encoding := "UTF-8") {
         FileAppend, % txt, % this.path, % encoding
     }
+    write(txt) {
+        this.delete()
+        this.append(txt)
+    }
     copy(destination, overwrite := false) {
         FileCopy, % this.path , % destination, % overwrite
     }
     move(destination, overwrite := false) {
         FileMove, % this.path , % destination, % overwrite
     }
+    delete() {
+        FileDelete, % this.path
+    }
     setAttributes(attributes) {
         FileSetAttrib, % attributes, % this.path
+    }
+    setEncoding(encoding:="UTF-8") {
+        hINI := this.open("r", "")
+        Data := this.Read()
+        hINI.Close()
+        this.delete()
+        hINI2 := this.open("w", encoding)
+        hINI2.Write(Data)
+        hINI2.Close()
     }
 }
