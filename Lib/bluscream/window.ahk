@@ -3,13 +3,14 @@ class Window {
     class := ""
     exe := ""
     process := new Process()
-    ; file := new File()
+    file := new File()
 
     __New(title := "", class := "", exe :="") { ; , path := ""
         this.title := title
         this.class := class
         this.exe := exe
-        this.process := new Process(exe, path)
+        this.process := new Process(exe) ; , path)
+        this.file := this.process.file
         ; this.file := path ? new File(path) : new File(exe)
     }
 

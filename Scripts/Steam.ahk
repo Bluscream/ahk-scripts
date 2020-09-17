@@ -7,7 +7,6 @@ SetWorkingDir %A_ScriptDir%
 SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
-#Include <bluscream>
 #Include <asf>
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
