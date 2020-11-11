@@ -11,7 +11,7 @@ dir := new Paths.User().localappdata.combine("ripcord")
 exe := dir.combineFile("Ripcord.exe")
 Menu, Tray, Icon, % exe.path, 1
 global dbfile := dir.combineFile("discord_client.ripdb")
-#NoTrayIcon
+; #NoTrayIcon
 SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 ;
@@ -59,64 +59,46 @@ OnExit, ExitSub
     if (ErrorLevel) {
         return
     }
-
-    ; sanitize SQL query
-    _msg_sql := StrReplace(MSG_SQL, "${SEARCH}", StrReplace(UserInput, "'", "''"))
-
+    _msg_sql := StrReplace(MSG_SQL, "${SEARCH}", StrReplace(UserInput, "'", "''")) ; sanitize SQL query
     if (!DB.GetTable(_msg_sql, Result) || !DB.GetTable(USR_SQL, Users) || !DB.GetTable(ROLE_SQL, Roles)) {
         MsgBox, 16, SQLite Error: GetTable, % "Msg:`t" . DB.ErrorMsg . "`nCode:`t" . DB.ErrorCode
     } else {
        Gui, Destroy
        Gui, +Resize
-
        For Each, Row In Users.Rows {
            If( !User_Map.Exists( Row[1] ) )
                User_Map.Add( Row[1], Row[2] )
        }
-
        For Each, Row In Roles.Rows {
            If( !Role_Map.Exists( Row[1] ) )
                Role_Map.Add( Row[1], Row[2] )
        }
-
-       ; Gui, Add, Text, xm, % "RowCount: " . Result.RowCount
-       ; Gui, Add, Text, xm, % "ColumnCount: " . Result.ColumnCount
-       ; Gui, Add, Text, xm, % "sql: " . _sql
+       Gui, Add, Text, xm, % "RowCount: " . Result.RowCount
+       Gui, Add, Text, xm, % "ColumnCount: " . Result.ColumnCount
+       Gui, Add, Text, xm, % "sql: " . _msg_sql
        columns := "|".Join(Result.ColumnNames)
-       ; Gui, Add, Text, xm, % "Columns: " . columns
+       Gui, Add, Text, xm, % "Columns: " . columns
        Gui, Add, ListView, w1000 h300 vMyListView Grid -ReadOnly, % columns
        GuiControl, -Redraw, MyListView
         For Each, Row In Result.Rows {
-            
-            ; string replacement for usernames
-            While( RegExMatch(Row[4], "\<\@.*\>" ) ) {
+            While( RegExMatch(Row[4], "\<\@.*\>" ) ) { ; string replacement for usernames
                     ; get start & end positions
                     StartPos := InStr( Row[4], "<@" ) + 2
                     EndPos := InStr( Row[4], ">", false, StartPos )
-                    
-                    ; if special mention (owner / role ), adjust start pos + add special char
-                    Exclamation := ( ( RegExMatch(Row[4], "\<\@(!|&).*\>" ) ) ? SubStr( Row[4], StartPos++, 1 ) : "" )
-                    
+                    Exclamation := ( ( RegExMatch(Row[4], "\<\@(!|&).*\>" ) ) ? SubStr( Row[4], StartPos++, 1 ) : "" ) ; if special mention (owner / role ), adjust start pos + add special char
                     ; put it all together to get the string to replace, and the replacement string
                     Mention := SubStr( Row[4], StartPos, EndPos - StartPos )
                     ReplaceMe := "<@" . Exclamation . Mention . ">"                  
-
-                    ; replace mention with either the user name or the role name
-                    Replacement := "@" . ( ( User_Map.Exists( Mention ) ) ?  User_Map.Item[ Mention ] : Role_Map.Item[ Mention ] )
-                    
-                    ; do the replacement
-                    Row[4] := StrReplace( Row[4], ReplaceMe, Replacement )
+                    Replacement := "@" . ( ( User_Map.Exists( Mention ) ) ?  User_Map.Item[ Mention ] : Role_Map.Item[ Mention ] ) ; replace mention with either the user name or the role name
+                    Row[4] := StrReplace( Row[4], ReplaceMe, Replacement ) ; do the replacement
             }
-            
             ; convert message id to timestamp
             MsgUTC := 1970
             Epoch := Floor( ( ( Format("{:d}", Row[5] ) >> 22 ) + 1420070400000 ) / 1000 )
             EnvAdd MsgUTC, Epoch, Seconds
-            
             ; format the timestamp
             FormatTime, MsgUTC, %MsgUTC%, yyyy-MM-dd HH:mm
             Row[5] := MsgUTC
-            
             LV_Add("", Row*)
         }
         GuiControl, +Redraw, MyListView
