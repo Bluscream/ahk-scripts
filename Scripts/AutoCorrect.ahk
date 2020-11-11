@@ -198,7 +198,7 @@ return  ; This makes the above hotstrings do nothing so that they override the i
 :?:;ve::'ve
 ::sice::since  ; Must precede the following line!
 :?:sice::sive
-:?:t eh:: the
+; :?:t eh:: the
 :?:t hem:: them
 
 

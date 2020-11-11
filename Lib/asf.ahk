@@ -16,7 +16,7 @@ class Bot {
     }
 
     getAPIUrl(endpoint) {
-        return this._asf.config.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . this._asf.config.token
+        return this._asf.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . this._asf.config.token
     }
 
     getRedeemedKeys() {
@@ -50,6 +50,7 @@ class ASF {
     config := Object()
     bots := []
     logins := Object()
+    url := ""
 
     __New(logins := "") {
             logins := A_Desktop . "\steam.json"
@@ -57,6 +58,11 @@ class ASF {
         logins := JSON.Load(logins)
         this.logins := logins
         this.config := logins.asf
+        if (startsWith(A_IPAddress1, "192.168.2.")) {
+            this.url := logins.asf.url_internal
+        } else {
+            this.url := logins.asf.url_external
+        }
         for botname, data in this.getBots() {
             _bot := new Bot()
             if (logins.accounts[botname]) {
@@ -122,7 +128,7 @@ class ASF {
     getAPIUrl(endpoint := "", bot := "asf") {
         bot := (bot == "_" ? "" : "/Bot/" . bot)
         endpoint := (endpoint ? "/" . endpoint : "")
-        return this.config.url . "/Api" . bot . endpoint . "?password=" . this.config.token
+        return this.url . "/Api" . bot . endpoint . "?password=" . this.config.token
     }
     http(method, endpoint, payload, bot := "asf") {
         if (bot == "") {
@@ -139,7 +145,7 @@ class ASF {
             }
         }
         if (!_json) {
-            MsgBox 0x10, % "AutoHotKey - Error", % "ASF server not found, exiting..."
+            MsgBox 0x10, % "AutoHotKey - Error", % "ASF server not found, exiting...`n`n" . StrSplit(url, "?")[1]
             ExitApp
         }
         if (bot != "asf" && bot != "_") {

@@ -37,6 +37,7 @@ SetTimer, CheckForShadow, % 1000*interval_seconds
 return
 
 StartShadow:
+    new Process("Shadow.exe").kill()
     txt := StrReplace(A_ThisMenuItem, "Start ", "")
     for i, channel in channels {
         if (channel.name != txt)
@@ -60,20 +61,19 @@ AntiAFK() {
     if !(shadow.exists()) {
         Return
     }
-    was_minimized := false
+    was_minimized := shadow.isMinimized()
     if !(shadow.isActive()) {
         ; SplashScreen("ShadowInFocus()", "", 1000)
-        was_minimized := shadow.isMinimized()
         shadow.activate()
         Sleep, 1000
     }
-    ; Random, rand, 0, 1
-    ; if (rand)
-        ; MoveMouse()
-    Send {AppsKey}
     Random, rand, 0, 1
     if (rand)
-        Send % "{Alt}"
+        MoveMouse()
+    Send {Alt}
+    Random, rand, 0, 1
+    if (rand)
+        Send {AppsKey}
     ; CreateInterval()            
     if (was_minimized) {
         shadow.minimize()

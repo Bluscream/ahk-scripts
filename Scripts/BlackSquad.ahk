@@ -124,6 +124,14 @@ Hotkey, IfWinActive, % game.windows.game.str()
     return
 Hotkey, IfWinActive
 
+F3::SetTimer, Trololol, % (Toggle:=!Toggle) ? 500*2 : "Off"
+
+Trololol:
+    Send, {F5}
+    Sleep, % 500
+    Send, {F6}
+    return
+
 clearStrokes:
     SetTimer, clearStrokes, Off
     bs_lastkeys := []
