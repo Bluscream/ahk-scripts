@@ -34,6 +34,7 @@ global interval
 
 SetTimer, CheckForShadow, % 1000*interval_seconds
 ; AntiAFK()
+Esc::ExitApp
 return
 
 StartShadow:
@@ -67,9 +68,9 @@ AntiAFK() {
         shadow.activate()
         Sleep, 1000
     }
-    Random, rand, 0, 1
-    if (rand)
-        MoveMouse()
+    ; 0Random, rand, 0, 1
+    ; if (rand)
+    MoveMouse()
     Send {Alt}
     Random, rand, 0, 1
     if (rand)
@@ -91,19 +92,37 @@ ConvertTime(time_ms) {
     return Round(time_ms / 1000 / 60) . " min"
 }
 
-MoveMouse() {
+MoveMouse(minpixels:=15,maxpixels:=30) {
+    MouseGetPos, MouseOldX, MouseOldY
+    center := shadow.pos().center
+    MouseMove, % center.w, % center.h, 1
     CoordMode, Mouse, Screen
-    MouseGetPos, MouseX, MouseY
-    pos := shadow.pos()
-    scriptlog(toJson(pos))
-    center := pos.center
+    MouseGetPos, CenterX, CenterY
     CoordMode, Mouse, Client
-	MouseMove, center.w, center.h
-    MouseClick
-    MouseClickDrag, Right, center.w, center.h, 5,5,, R
+    Random, pixels, % minpixels, % maxpixels
+    Random, mathX, % 0, % 1
+    Random, mathY, % 0, % 1
+    MouseMove, % mathX?pixels:pixels*-1, % mathY?pixels:pixels*-1, 100, R
+    ; Loop, % pixels {
+        ; moveX := mathX ? A_Index : A_Index*-1
+        ; moveY := mathY ? A_Index : A_Index*-1
+        ; DllCall("mouse_event", "UInt", 0x01, "UInt", CenterX+A_Index, "UInt", CenterY+A_Index)
+        ; MouseMove, % moveX, % moveY, 50, R
+        ; sleep, 200
+    ; }
+    MouseMove, % MouseOldX, % MouseOldY
+}
+
+MoveMouse1() {
+    ; CoordMode, Mouse, Client ; Screen
+    MouseGetPos, MouseX, MouseY
+    ; CoordMode, Mouse, Client
+	; MouseMove, center.w, center.h
+    ; MouseClick
+    ; MouseClickDrag, Right, center.w, center.h, 5,5,, R
     ;Sleep, 10
 	;MouseMove, center.w + 2, center.h - 3
     ;Sleep, 15
-    CoordMode, Mouse, Screen
+    ; CoordMode, Mouse, Screen
     MouseMove, MouseX, MouseY
 }
