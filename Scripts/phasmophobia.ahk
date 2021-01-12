@@ -3,7 +3,8 @@
 #Include <bluscream>
 #include <OrderedAssociativeArray>
 
-global noui := false
+global noui := true
+scriptlog("Initializing " . A_ScriptName "...")
 
 ; x = links -> rechts
 ; y = oben -> unten
@@ -36,7 +37,8 @@ items["Glowstick"] := { row: 2, x: 1355, y: 505, max: 2 }
 items["Head Mounted Camera"] := { row: 2, x: 1355, y: 530, max: 4 }
 
 AddItem(item, amount := 1) {
-    amount := amount < 0 ? items[item].max : amount
+    amount := (amount < 0) ? items[item].max : amount
+    ; scriptlog("ITEM: " . item . " COUNT: " . amount)
     MouseClick(items[item].x, items[item].y, amount)
 }
 ; AddItemByIndex(index, amount := 1) {
@@ -52,28 +54,42 @@ MouseClick(x,y,amount) {
         Sleep, 5
     }
 }
-Return
-
-#IfWinActive ahk_class UnityWndClass
-F3::
+AddAllItems() {
     for index, el in items {
         scriptlog("adding item " . index . " " . el.max . " times")
         ; ToolTip, % "adding item " . index . "", 0, 0
         AddItem(index, el.max)
     }
-    ; Tooltip,
-    ; AddItem("EMF Reader", 2)
+}  
+RemoveAllItems() {
+    for index, el in items {
+        ; ToolTip, % "removing item " . index, 0, 0
+        scriptlog("removing item " . index)
+        x := (el.row == 1) ? rows[3] : rows[4]
+        MouseClick(x,el.y,el.max)
+    }
+}
+scriptlog("Initialized " . A_ScriptName "...")
+Return
+
+#IfWinActive ahk_class UnityWndClass
+F3::
+    AddItem("Photo Camera", -1)
+    AddItem("Lighter", 1)
+    AddItem("Crucifix", -1)
+    AddItem("Salt", 1)
+    AddItem("Smudge Sticks", -1)
+    AddItem("Tripod", 1)
+    AddItem("Strong Flashlight", 1)
+    AddItem("Motion Sensor", 1)
+    AddItem("Thermometer", 1)
+    AddItem("Sanity Pills", -1)
+    AddItem("Ghost Writing Book", -1)
+    AddItem("Head Mounted Camera", 1)
     return
     
 F5::
-    for index, el in items {
-        ; ToolTip, % "removing item " . index, 0, 0
-        scriptlog("removing item " . index . " " . el.max . " times")
-        x := (el.row == 1) ? rows[3] : rows[4]
-        MouseClick(x,el.y,el.max)
-        MouseClick(x,el.y,el.max)
-    }
-    ; Tooltip,
+    RemoveAllItems()
     return
 
 ESC::
