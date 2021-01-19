@@ -18,11 +18,11 @@ class Item {
         this.addx := [1075, 1785][this.column] ; CHANGEME
         this.remx := this.addx + 50
         this.allx := this.remx + 75
-        this.y := 475 + (40 * (this.row - 1)) ; CHANGEME
+        this.y := 475 + ((this.row - 1) * 40) ; CHANGEME
         scriptlog("Registered item: " . toJson(this))
     }
     add(amount := 1) {
-        if (amount < 0) {
+        if (amount < 0 || amount >= this.max) {
             this.addAll()
         } else {
             MouseClick(this.addx, this.y, amount)
@@ -30,12 +30,12 @@ class Item {
         }
     }
     addAll() {
-        MouseClick(this.allx, this.y, 1)
+        MouseClick(this.allx, this.y)
         scriptlog("Added all: " . this.name . " " . this.max . " times.")
     }
     remove(amount := 1) {
         amount := (amount < 0) ? this.max : amount
-        MouseClick(this.remx, this.y, amount, 30)
+        MouseClick(this.remx, this.y, amount, 50)
         scriptlog("Removed: " . this.name . " " . amount . " times.")
     }
 }

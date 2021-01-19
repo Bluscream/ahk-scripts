@@ -22,11 +22,11 @@ class Loadout {
         count := 0 
         for i, el in this.items {
             el.add()
-            sum := sum + el.item.price
+            sum := sum + (el.item.price * el.count)
             count++
         }
         scriptlog("Applied loadout " . this.name " (" count . " Items | $" . sum . ")")
-        SplashScreen("Applied loadout " . this.name, count . " Items | $" . sum)
+        SplashScreen(count . " Items | $" . sum, "Applied loadout " . this.name)
     }
 }
 scriptlog("Initialized Lib\Phasmophobia\loadout.ahk...")

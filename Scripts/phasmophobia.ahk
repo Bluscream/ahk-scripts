@@ -2,7 +2,7 @@
 #Persistent
 #Include <bluscream>
 if (!started) {
-    global noui := true
+    global noui := false
     global started := true
     scriptlog("Initializing Scripts\phasmophobia.ahk...")
     #Include <Phasmophobia>
@@ -34,7 +34,4 @@ F4::
     return
 F5::
     RemoveAllItems()
-    Return
-ESC::
-    ExitApp
     Return
