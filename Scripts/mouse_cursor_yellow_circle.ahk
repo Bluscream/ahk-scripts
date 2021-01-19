@@ -1,6 +1,6 @@
 #SingleInstance, force
 #Include <bluscream>
-global script_debug := true
+global script_debug := false
 
 CoordMode, Mouse, Screen
 

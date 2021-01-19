@@ -2,7 +2,7 @@
 #Persistent
 #Include <bluscream>
 if (!started) {
-    global noui := false
+    global noui := true
     global started := true
     scriptlog("Initializing Scripts\phasmophobia.ahk...")
     #Include <Phasmophobia>
