@@ -1,26 +1,29 @@
-#include <OrderedAssociativeArray>
+; x = links -> rechts
+; y = oben -> unten
 
-global items := new OrderedAssociativeArray() ; x, y
-items["EMF Reader"] := { row: 1, x: 805, y: 355, max: 1, price: 45 }
-items["Flashlight"] := { row: 1, x: 805, y: 385, max: 3, price: 30 }
-items["Photo Camera"] := { row: 1, x: 805, y: 415, max: 2, price: 40 }
-items["Lighter"] := { row: 1, x: 805, y: 445 , max: 2, price: 10 }
-items["Candle"] := { row: 1, x: 805, y: 475, max: 4, price: 15 }
-items["UV Light"] := { row: 1, x: 805, y: 505, max: 1, price: 35 }
-items["Crucifix"] := { row: 1, x: 805, y: 535, max: 2, price: 30 }
-items["Video Camera"] := { row: 1, x: 805, y: 565, max: 5, price: 50 }
-items["Spirit Box"] := { row: 1, x: 805, y: 595, max: 1, price: 50 }
-items["Salt"] := { row: 1, x: 805, y: 625, max: 2, price: 15 }
-items["Smudge Sticks"] := { row: 1, x: 805, y: 647, max: 4, price: 15 }
-items["Tripod"] := { row: 1, x: 805, y: 685, max: 5, price: 25 }
-items["Strong Flashlight"] := { row: 1, x: 805, y: 715, max: 4, price: 50 }
-items["Motion Sensor"] := { row: 1, x: 805, y: 745, max: 4, price: 100 }
-items["Audio Sensor"] := { row: 1, x: 805, y: 765, max: 4, price: 80 }
 
-items["Thermometer"] := { row: 2, x: 1355, y: 355, max: 3, price: 30 }
-items["Sanity Pills"] := { row: 2, x: 1355, y: 385, max: 4, price: 45 }
-items["Ghost Writing Book"] := { row: 2, x: 1355, y: 415, max: 1, price: 40 }
-items["Infrared Light Sensor"] := { row: 2, x: 1355, y: 445, max: 4, price: 65 }
-items["Parabolic Microphone"] := { row: 2, x: 1355, y: 475, max: 2, price: 50 }
-items["Glowstick"] := { row: 2, x: 1355, y: 505, max: 2, price: 20 }
-items["Head Mounted Camera"] := { row: 2, x: 1355, y: 530, max: 4, price: 60 }
+global items := []
+; __New(name := "", column := 1, row := 1, max := 0, price := 0) {
+items.push(new Item("EMF Reader",               1, 1,  1, 45 ))
+items.push(new Item("Flashlight",               1, 2,  3, 30 ))
+items.push(new Item("Photo Camera",             1, 3,  2, 40 ))
+items.push(new Item("Lighter",                  1, 4,  2, 10 ))
+items.push(new Item("Candle",                   1, 5,  4, 15 ))
+items.push(new Item("UV Light",                 1, 6,  1, 35 ))
+items.push(new Item("Crucifix",                 1, 7,  2, 30 ))
+items.push(new Item("Video Camera",             1, 8,  5, 50 ))
+items.push(new Item("Spirit Box",               1, 9,  1, 50 ))
+items.push(new Item("Salt",                     1, 10, 2, 15 ))
+items.push(new Item("Smudge Sticks",            1, 11, 4, 15 ))
+items.push(new Item("Tripod",                   1, 12, 5, 25 ))
+items.push(new Item("Strong Flashlight",        1, 13, 4, 50 ))
+items.push(new Item("Motion Sensor",            1, 14, 4, 100))
+items.push(new Item("Audio Sensor",             1, 15, 4, 80 ))
+
+items.push(new Item("Thermometer",              2, 1,  3, 30 ))
+items.push(new Item("Sanity Pills",             2, 2,  4, 45 ))
+items.push(new Item("Ghost Writing Book",       2, 3,  1, 40 ))
+items.push(new Item("Infrared Light Sensor",    2, 4,  4, 65 ))
+items.push(new Item("Parabolic Microphone",     2, 5,  2, 50 ))
+items.push(new Item("Glowstick",                2, 6,  2, 20 ))
+items.push(new Item("Head Mounted Camera",      2, 7,  4, 60 ))

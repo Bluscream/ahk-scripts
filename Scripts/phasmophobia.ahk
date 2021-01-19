@@ -1,35 +1,40 @@
 #SingleInstance, force
-#Persistent
+; #Persistent
 #Include <bluscream>
+global noui := false
+scriptlog("Initializing " . A_ScriptName "...")
 #Include <Phasmophobia>
 
-global noui := true
-scriptlog("Initializing " . A_ScriptName "...")
+
+
+loadout_solo := []
+loadout_solo.push(new LoadoutItem("Photo Camera",       -1))
+loadout_solo.push(new LoadoutItem("Lighter",             1))
+loadout_solo.push(new LoadoutItem("Crucifix",           -1))
+loadout_solo.push(new LoadoutItem("Salt",                1))
+loadout_solo.push(new LoadoutItem("Smudge Sticks",      -1))
+loadout_solo.push(new LoadoutItem("Tripod",              1))
+loadout_solo.push(new LoadoutItem("Strong Flashlight",   1))
+loadout_solo.push(new LoadoutItem("Motion Sensor",       1))
+loadout_solo.push(new LoadoutItem("Thermometer",         1))
+loadout_solo.push(new LoadoutItem("Sanity Pills",       -1))
+loadout_solo.push(new LoadoutItem("Ghost Writing Book", -1))
+loadout_solo.push(new LoadoutItem("Head Mounted Camera", 1))
+loadout_solo := new Loadout("Solo", loadout_solo)
 
 scriptlog("Initialized " . A_ScriptName "...")
 Return
 
+
 #IfWinActive ahk_class UnityWndClass
 F3::
-    loadout_solo := new OrderedAssociativeArray()
-    loadout_solo["Photo Camera"]        := -1
-    loadout_solo["Lighter"]             := 1
-    loadout_solo["Crucifix"]            := -1
-    loadout_solo["Salt"]                := 1
-    loadout_solo["Smudge Sticks"]       := -1
-    loadout_solo["Tripod"]              := 1
-    loadout_solo["Strong Flashlight"]   := 1
-    loadout_solo["Motion Sensor"]       := 1
-    loadout_solo["Thermometer"]         := 1
-    loadout_solo["Sanity Pills"]        := -1
-    loadout_solo["Ghost Writing Book"]  := -1
-    loadout_solo["Head Mounted Camera"] := 1
-    ApplyLoadout(new Loadout("Solo", loadout_solo))
+    loadout_solo.apply()
     return
-    
+F4::
+    AddAllItems()
+    return
 F5::
     RemoveAllItems()
     return
-
 ESC::
     ExitApp

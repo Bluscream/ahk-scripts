@@ -48,6 +48,9 @@ class File {
     create(encoding := "UTF-8") {
         this.append("", encoding)
     }
+    appendLine(txt, encoding := "UTF-8") {
+        this.append(txt . "`n", encoding)
+    }
     append(txt, encoding := "UTF-8") {
         FileAppend, % txt, % this.path, % encoding
     }
