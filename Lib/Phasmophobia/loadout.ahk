@@ -1,3 +1,4 @@
+scriptlog("Initializing Lib\Phasmophobia\loadout.ahk...")
 class LoadoutItem {
     item := ""
     count := 0
@@ -28,3 +29,4 @@ class Loadout {
         SplashScreen("Applied loadout " . this.name, count . " Items | $" . sum)
     }
 }
+scriptlog("Initialized Lib\Phasmophobia\loadout.ahk...")

@@ -1,3 +1,4 @@
+scriptlog("Initializing Lib\Phasmophobia.ahk...")
 #Include %A_LineFile%\..\Phasmophobia\item.ahk
 #Include %A_LineFile%\..\Phasmophobia\items.ahk
 #Include %A_LineFile%\..\Phasmophobia\loadout.ahk
@@ -8,15 +9,16 @@ GetItemByName(name := "") {
             return _item
         }
     }
+    return
 }
-
-MouseClick(x,y,amount) {
-    scriptlog("clicking x" . x . " y" . y . " " . amount . " times", 0, 0)
+MouseClick(x,y,amount, delay := 5) {
+    ; scriptlog("clicking x" . x . " y" . y . " " . amount . " times", 0, 0)
     Loop % amount {
         MouseClick, left         , x, y ;, 1         , 0
     ;   MouseClick, WhichButton [, X, Y, ClickCount, Speed, D|U, R]
-        Sleep, 5
+        Sleep, % delay
     }
+    return
 }
 AddAllItems() {
     sum := 0
@@ -25,10 +27,15 @@ AddAllItems() {
         el.add(-1)
     }
     scriptlog("Added all " . items.Count() . " items for $" . sum)
+    SplashScreen("Added All Items", items.Count() . " items for $" . sum)
+    return
 }  
 RemoveAllItems() {
     for index, el in items {
         el.remove(-1)
     }
     scriptlog("Removed all " . items.Count() . " items")
+    SplashScreen("Removed All Items", items.Count() . " items")
+    return
 }
+scriptlog("Initialized Lib\Phasmophobia.ahk...")

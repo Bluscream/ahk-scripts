@@ -1,7 +1,7 @@
 ; x = links -> rechts
 ; y = oben -> unten
 
-
+scriptlog("Initializing Lib\Phasmophobia\items.ahk...")
 global items := []
 ; __New(name := "", column := 1, row := 1, max := 0, price := 0) {
 items.push(new Item("EMF Reader",               1, 1,  1, 45 ))
@@ -27,3 +27,4 @@ items.push(new Item("Infrared Light Sensor",    2, 4,  4, 65 ))
 items.push(new Item("Parabolic Microphone",     2, 5,  2, 50 ))
 items.push(new Item("Glowstick",                2, 6,  2, 20 ))
 items.push(new Item("Head Mounted Camera",      2, 7,  4, 60 ))
+scriptlog("Initialized Lib\Phasmophobia\items.ahk...")

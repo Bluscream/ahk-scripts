@@ -1,3 +1,4 @@
+scriptlog("Initializing Lib\Phasmophobia\item.ahk...")
 class Item {
     name := ""
     column := 0
@@ -14,20 +15,17 @@ class Item {
         this.row := row
         this.max := max
         this.price := price
-        this.addx := [ 1075, 1785 ][this.column]
+        this.addx := [1075, 1785][this.column] ; CHANGEME
         this.remx := this.addx + 50
         this.allx := this.remx + 75
-        scriptlog(40 * this.row) 
-        scriptlog((40 * this.row) - 1) 
-        scriptlog(475 + ((40 * this.row) - 1)) 
-        this.y := 475 + (40 * (this.row - 1))
+        this.y := 475 + (40 * (this.row - 1)) ; CHANGEME
         scriptlog("Registered item: " . toJson(this))
     }
     add(amount := 1) {
         if (amount < 0) {
             this.addAll()
         } else {
-            MouseClick(this.x, this.y, amount)
+            MouseClick(this.addx, this.y, amount)
             scriptlog("Added: " . this.name . " " . amount . " times.")
         }
     }
@@ -36,8 +34,9 @@ class Item {
         scriptlog("Added all: " . this.name . " " . this.max . " times.")
     }
     remove(amount := 1) {
-        amount := (amount < 0) ? item.max : amount
-        MouseClick(this.remx, this.y, amount)
+        amount := (amount < 0) ? this.max : amount
+        MouseClick(this.remx, this.y, amount, 30)
         scriptlog("Removed: " . this.name . " " . amount . " times.")
     }
 }
+scriptlog("Initialized Lib\Phasmophobia\item.ahk...")
