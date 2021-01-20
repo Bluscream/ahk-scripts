@@ -21,16 +21,61 @@ Menu, tray, add, Test, testFunc
 SetTimer, CheckWindows, 1000
 GetModMenuWindow(true)
 GetModMenuControls()
-; global logfile := new File("gta modmenu texts.txt")
+global logfile := new File("gta modmenu texts.txt")
 return
 
+F6::
+    return
+    c := GetModMenuControls()
+    for i,e in c {
+        logfile.appendLine(e.id . " > " . e.text)
+    }
+    logfile.appendLine("")
+    return
+F7::
+    GetModMenuControls()
+    if (game.modmenu.page != "Main Menu") {
+        ResetModMenuPage()
+    }
+    while(game.modmenu.row != 9) {
+        NavigateModMenu("{Up}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    while(game.modmenu.page != "Online Services") {
+        NavigateModMenu("{Enter}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    while(game.modmenu.row != 2) {
+        NavigateModMenu("{Down}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    while(!InStr(GetModMenuControls()[4].text, "Rig Slot Machines", true)) {
+        NavigateModMenu("{Enter}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    while(game.modmenu.row != 2) {
+        NavigateModMenu("{Down}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    NavigateModMenu("{Enter}")
+    while(game.modmenu.row != 3) {
+        NavigateModMenu("{Down}")
+        Sleep, % dslep
+        GetModMenuControls()
+    }
+    NavigateModMenu("{Enter}")
+    return
 F9::
     GetModMenuControls()
     if(game.modmenu.page != "Online Vehicle Spawn") {
         if (game.modmenu.page != "Main Menu") {
             ResetModMenuPage()
         }
-        ResetModMenuPosition()
         while(game.modmenu.row != 10) {
             NavigateModMenu("{Up}")
             Sleep, % dslep
@@ -106,14 +151,6 @@ F10::
     ResetModMenuPage()
     ResetModMenuPosition()
     NavigateModMenu("{Backspace}", 4)
-    return
-F6::
-    return
-    c := GetModMenuWindow().controls()
-    for i,e in c {
-        logfile.appendLine(e.id . " > " . e.text)
-    }
-    logfile.appendLine("")
     return
 
 CheckWindows:
@@ -259,7 +296,11 @@ GetModMenuWindow(force := false) {
         wnd := new Window(WinTitle,, ProcessName)
         wnd.id := WinList%A_Index%
         game.windows.modmenu := wnd
-        scriptlog("Found ModMenu Window: " . toJson(wnd))
+        scriptlog("Found ModMenu Window: " . wnd.title)
+        scriptlog("F6: Save Menu Text")
+        scriptlog("F7: Rig Slot Machines")
+        scriptlog("F8: Spawn Polmav")
+        scriptlog("F9: Give vehicle godmode")
         return wnd
     }
 }

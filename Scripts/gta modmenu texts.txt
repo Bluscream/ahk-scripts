@@ -302,3 +302,9 @@ Button7 > Save Config
 Button8 > Reload Config
 Button9 > Quit
 
+Static1 > 1 / 3 
+Static2 > Kiddion's Modest Menu v0.8.10
+Button1 > ⚠️ Get Lucky Wheel Price|◀Clothing (1)▶
+Button2 > ⚠️ Rig Slot Machines
+Button3 > ⚠️ Increase Daily limit|☐
+
