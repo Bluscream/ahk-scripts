@@ -7,7 +7,6 @@ class Game {
     windows := {}
     datafile := new File()
     data := {"starttime":0}
-    modmenu := {"name":"","version":"","page":"","row":0,"rows":0}
 
     __New(path, eventcallback := "") {
         this.windows["launcher"] :=              new Window("Rockstar Games Launcher", "Rockstar Games Launcher", "SocialClubHelper.exe")
@@ -21,8 +20,6 @@ class Game {
         this.windows["RockstarService"] :=       new Window("", "", "RockstarService")
         this.windows["LauncherPatcher"] :=       new Window("", "", "LauncherPatcher.exe")
         this.windows["SocialClubHelper"] :=      new Window("", "", "SocialClubHelper.exe")
-
-        this.windows["modmenu"] :=               new Window("", "", "modest-menu.exe")
 
         this.dir := new Directory(path)
         if (!this.dir.exists()) {

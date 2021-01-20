@@ -308,3 +308,10 @@ Button1 > ⚠️ Get Lucky Wheel Price|◀Clothing (1)▶
 Button2 > ⚠️ Rig Slot Machines
 Button3 > ⚠️ Increase Daily limit|☐
 
+Static1 > 4 / 4 
+Static2 > Kiddion's Modest Menu v0.8.10
+Button1 > Leave Online
+Button2 > Go To Creator
+Button3 > Choose Character
+Button4 > Online Session|◀Join Public▶
+
