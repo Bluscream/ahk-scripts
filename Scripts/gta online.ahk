@@ -1,10 +1,12 @@
 #SingleInstance Force
 #NoEnv
+
 #Persistent
 SetWorkingDir %A_ScriptDir%
 CoordMode, Mouse, Client
 #Include <gta>
 DetectHiddenWindows, On
+
 #Include %A_AhkPath%\..\Lib\gta\modmenu-modest.ahk
 SendMode, Input
 ;SendMode, Event|Play|Input|InputThenPlay
@@ -12,7 +14,7 @@ SendMode, Input
 
 global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
 global modmenu := new ModMenu("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\")
-global dslep := 100
+global dslep := 150
 
 Menu, Tray, Icon, % game.exe.path
 Menu, tray, add, ---GTA Online---, lbl
@@ -35,6 +37,16 @@ F5:: ; Save Menu to file
     logfile.appendLine("")
     return
 F6:: ; Join Public Lobby
+    modmenu.resetPage()
+    modmenu.resetPosition()
+    modmenu.waitForPage("Game", true)
+    modmenu.waitForRow(4)
+    while(!InStr(modmenu.getControls()[6].text, "Join Public", true)) {
+        modmenu.navigate("{Right}")
+        Sleep, % dslep
+        modmenu.getControls()
+    }
+    modmenu.navigate("{Enter}")
     return
 F7:: ; Rig Slot Machines
     modmenu.resetPage()
@@ -91,6 +103,9 @@ F10:: ; Vehicle Godmode
     modmenu.waitForRow(5)
     modmenu.navigate("{Enter}")
     SplashScreen("", "Gave current vehicle Godmode")
+    return
+F11:: ; Pause Script
+    pause
     return
 
 CheckWindows:

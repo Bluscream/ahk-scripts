@@ -8,7 +8,8 @@ class ModMenu {
     row := 0
     rows := 0
     window := new Window()
-    dsleep := 50
+    dsleep := 25
+    game_window := new Window("Grand Theft Auto V", "grcWindow", "GTA5.exe").str()
     __New(path) {
         this.window :=  new Window("", "", "modest-menu.exe")
         this.dir := new Directory(path)
@@ -28,8 +29,13 @@ class ModMenu {
     }
     navigate(key, amount := 1) {
         Loop % amount {
-            Sleep, 10
+            ; ControlSend,, key, % "Default IME ahk_exe modest-menu.exe"
+            ; ControlSend,, key, % "ahk_id " . this.window.id
+            ; ControlSend,, key, % "ahk_exe modest-menu.exe"
+            ; ControlSend,, key, % "Grand Theft Auto V"
             Send, % key
+            if (amount > 1)
+                Sleep, dsleep
         }
     }
     waitForRow(targetRow) {
@@ -39,7 +45,7 @@ class ModMenu {
         while(this.row != targetRow) {
             lastrow := this.row
             percent := (this.row / this.rows) * 20 
-            scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . " / " . this.rows . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
+            scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
             if (percent < 50) {
                 this.navigate("{Up}")
             } else {
@@ -52,7 +58,7 @@ class ModMenu {
                     this.navigate("{F4}")
                     fails := 0
                     delay += this.dsleep
-                    if (delay > delay * 20)
+                    if (delay > delay * 10)
                         delay := this.dsleep
                 }
             }
@@ -66,7 +72,7 @@ class ModMenu {
         delay := this.dsleep
         while(this.page != targetPage) {
             lastpage := this.page
-            scriptlog("Waiting to reach prev page " . targetPage . " (lastpage: " . lastpage . ", fails:" . fails . ", delay:" . delay . "ms)")
+            scriptlog("Waiting to reach " . (isSubPage ? "next" : "prev") . " page " . targetPage . " (lastpage: " . lastpage . ", fails:" . fails . ", delay:" . delay . "ms)")
             if (isSubPage) {
                 this.navigate("{Enter}")
             } else {
@@ -79,7 +85,7 @@ class ModMenu {
                     this.navigate("{F4}")
                     fails := 0
                     delay += this.dsleep
-                    if (delay > delay * 20)
+                    if (delay > delay * 10)
                         delay := this.dsleep
                 }
             }
@@ -154,8 +160,9 @@ class ModMenu {
             wnd := new Window(WinTitle,, ProcessName)
             wnd.id := WinList%A_Index%
             this.window := wnd
-            scriptlog("Found ModMenu Window: " . wnd.title)
+            scriptlog("Found ModMenu Window: " . wnd.str())
             scriptlog("F5: Save Menu Text")
+            scriptlog("F6: Join Public Lobby")
             scriptlog("F7: Rig Slot Machines")
             scriptlog("F8: Spawn Polmav")
             scriptlog("F10: Give vehicle godmode")
