@@ -18,6 +18,11 @@ JoinArray(strArray)
     s .= ", " . v
   return substr(s, 3)
 }
+ItemInList(Item, List){    
+    For Index, ListItem in List
+        If (ListItem = Item)
+            Return True
+}
 InList(haystack, needles*)
 {
     for _i, needle in (needles.Count() = 1 ? StrSplit(needles[1], ",") : needles)

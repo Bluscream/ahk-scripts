@@ -29,6 +29,13 @@ class File {
         FileGetSize, size, % this.path, % units
         return size 
     }
+    run(wait := false) {
+        if (wait) {
+            RunWait, % this.path, % this.directory.path,, OutputVarPID
+            return OutputVarPID
+        }
+        Run, % this.path, % this.directory.path
+    }
     open(flags := "r", encoding := "UTF-8") {
         return FileOpen(this.path, flags, encoding)
     }

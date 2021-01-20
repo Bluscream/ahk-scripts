@@ -4,7 +4,22 @@
 SetBatchLines -1
 SendMode Input 
 SetWorkingDir %A_ScriptDir%
+DetectHiddenWindows, On
+DetectHiddenText, On
 #SingleInstance Force
+
+CommandLine := DllCall("GetCommandLine", "Str")
+If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
+    Try {
+        If (A_IsCompiled) {
+            Run *RunAs "%A_ScriptFullPath%" /restart
+        } Else {
+            Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+        }
+    }
+    ExitApp
+}
+
 
 Menu Tray, Icon, pifmgr.DLL, 38
 

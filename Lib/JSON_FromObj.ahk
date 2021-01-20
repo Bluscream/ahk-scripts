@@ -8,15 +8,17 @@ json_fromobj( obj ) {
 	If IsObject( obj )
 	{
 		isarray := 0 ; an empty object could be an array... but it ain't, says I
-		for key in obj
-			if ( key != ++isarray )
-			{
-				isarray := 0
-				Break
-			}
-
-		for key, val in obj
-			str .= ( A_Index = 1 ? "" : "," ) ( isarray ? "" : json_fromObj( key ) ":" ) json_fromObj( val )
+		Try
+		{
+			for key in obj
+				if ( key != ++isarray )
+				{
+					isarray := 0
+					Break
+				}
+			for key, val in obj
+				str .= ( A_Index = 1 ? "" : "," ) ( isarray ? "" : json_fromObj( key ) ":" ) json_fromObj( val )
+		}
 
 		return isarray ? "[" str "]" : "{" str "}"
 	}

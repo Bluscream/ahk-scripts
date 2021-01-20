@@ -4,6 +4,7 @@ class Window {
     exe := ""
     process := new Process()
     file := new File()
+    id := ""
 
     __New(title := "", class := "", exe :="") { ; , path := ""
         this.title := title
@@ -11,11 +12,12 @@ class Window {
         this.exe := exe
         this.process := new Process(exe) ; , path)
         this.file := this.process.file
+        ; this.id := id
         ; this.file := path ? new File(path) : new File(exe)
     }
 
     str() {
-        return (this.title ? this.title : "") . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "")
+        return (this.title ? this.title : "") . (this.class ? (" ahk_class " . this.class) : "") . (this.exe ? (" ahk_exe " . this.exe) : "") . (this.id ? (" ahk_id " . this.id) : "")
     }
     
     exists() {
@@ -35,9 +37,19 @@ class Window {
     minimize() {
         WinMinimize, % this.str()
     }
-    activate() {
+    maximize() {
+        WinMaximize, % this.str()
+    }
+    restore() {
+        WinRestore, % this.str()
+    }
+    show() {
+        WinShow, % this.str()
+    }
+    activate(wait := false) {
         WinActivate, % this.str()
-        WinWaitActive, % this.str()
+        if (wait)
+            WinWaitActive, % this.str()
     }
     close() {
         WinClose, % this.str()
@@ -52,5 +64,33 @@ class Window {
         cw -= 1
         cw /= 2
         return { "x": x, "y": y, "w": w, "h": h, "center": { "w": cw, "h": ch } }
+    }
+    controls() {
+        WinGet, ControlList, ControlList, % this.str()
+        lst := []
+        Loop, Parse, ControlList, `n
+        {
+            cntrl := new Control(A_LoopField)
+            ControlGetPos, X, Y, W, H, % A_LoopField, % this.str()
+            cntrl.bounds := [X,Y,W,H]
+            ControlGetText, ControlText, % A_LoopField, % this.str()
+            cntrl.text := ControlText
+            lst.push(cntrl)
+        }
+        return lst
+    }
+    enableAllControls() {
+        WinGet, ControlList, ControlList, % this.str()
+        Loop, Parse, ControlList, `n
+        {
+            Control, Enable,, % A_LoopField, % this.str()
+        }
+    }
+    showAllControls() {
+        WinGet, ControlList, ControlList, % this.str()
+        Loop, Parse, ControlList, `n
+        {
+            Control, Show,, % A_LoopField, % this.str()
+        }
     }
 }
