@@ -30,6 +30,7 @@ return
 
 F5:: ; Save Menu to file
     return
+    SplashScreen("", "Saving menu text to " . logfile.fullname)
     c := modmenu.getControls()
     for i,e in c {
         logfile.appendLine(e.id . " > " . e.text)
@@ -37,6 +38,7 @@ F5:: ; Save Menu to file
     logfile.appendLine("")
     return
 F6:: ; Join Public Lobby
+    SplashScreen("", "Joining public lobby")
     modmenu.resetPage()
     modmenu.resetPosition()
     modmenu.waitForPage("Game", true)
@@ -47,8 +49,10 @@ F6:: ; Join Public Lobby
         modmenu.getControls()
     }
     modmenu.navigate("{Enter}")
+    SplashScreen("", "Joined public lobby")
     return
 F7:: ; Rig Slot Machines
+    SplashScreen("", "Rigging Slot Machines")
     modmenu.resetPage()
     modmenu.waitForRow(9)
     modmenu.waitForPage("Online Services", true)
@@ -62,6 +66,7 @@ F7:: ; Rig Slot Machines
     modmenu.navigate("{Enter}")
     modmenu.waitForRow(3)
     modmenu.navigate("{Enter}")
+    SplashScreen("", "Rigged Slot Machines")
     return
 F8:: ; Spawn Polmav
     SplashScreen("", "Spawning Police Maverick")

@@ -40,12 +40,13 @@ class ModMenu {
     }
     waitForRow(targetRow) {
         this.getControls()
+        scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ")")
         fails := 0
         delay := this.dsleep
         while(this.row != targetRow) {
             lastrow := this.row
             percent := (this.row / this.rows) * 20 
-            scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
+            ; scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
             if (percent < 50) {
                 this.navigate("{Up}")
             } else {
@@ -64,15 +65,16 @@ class ModMenu {
             }
             Sleep, % delay
         }
-        this.getControls()
+        this.getControl
     }
     waitForPage(targetPage, isSubPage := false) {
         this.getControls()
+        scriptlog("Waiting to reach " . (isSubPage ? "next" : "prev") . " page " . targetPage . " (lastpage: " . this.page . ")")
         fails := 0
         delay := this.dsleep
         while(this.page != targetPage) {
             lastpage := this.page
-            scriptlog("Waiting to reach " . (isSubPage ? "next" : "prev") . " page " . targetPage . " (lastpage: " . lastpage . ", fails:" . fails . ", delay:" . delay . "ms)")
+            ; scriptlog("Waiting to reach " . (isSubPage ? "next" : "prev") . " page " . targetPage . " (lastpage: " . lastpage . ", fails:" . fails . ", delay:" . delay . "ms)")
             if (isSubPage) {
                 this.navigate("{Enter}")
             } else {
