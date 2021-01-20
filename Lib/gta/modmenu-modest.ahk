@@ -1,4 +1,4 @@
-#Include <bluscream>
+global noui := false
 class ModMenu {
     dir := new Directory()
     exe := new File()
@@ -33,72 +33,65 @@ class ModMenu {
         }
     }
     waitForRow(targetRow) {
+        this.getControls()
         fails := 0
-        delay := dsleep
+        delay := this.dsleep
         while(this.row != targetRow) {
             lastrow := this.row
             percent := (this.row / this.rows) * 20 
-            scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . " / " . this.rows . ", percent: " . percent . "%, fails:" . fails . "delay: " . delay . " ms)")
-            if (percent < 50)
+            scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . " / " . this.rows . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
+            if (percent < 50) {
                 this.navigate("{Up}")
-            else
+            } else {
                 this.navigate("{Down}")
+            }
             this.getControls()
             if (lastrow == this.row) {
                 fails++
                 if (fails > 10) {
                     this.navigate("{F4}")
                     fails := 0
-                    delay += dsleep
+                    delay += this.dsleep
                     if (delay > delay * 20)
-                        delay := dsleep
+                        delay := this.dsleep
                 }
             }
             Sleep, % delay
         }
+        this.getControls()
     }
-    waitForUpperPage(targetPage) {
+    waitForPage(targetPage, isSubPage := false) {
+        this.getControls()
         fails := 0
-        delay := dsleep
+        delay := this.dsleep
         while(this.page != targetPage) {
             lastpage := this.page
             scriptlog("Waiting to reach prev page " . targetPage . " (lastpage: " . lastpage . ", fails:" . fails . ", delay:" . delay . "ms)")
-            this.navigate("{Backspace}")
+            if (isSubPage) {
+                this.navigate("{Enter}")
+            } else {
+                this.navigate("{Backspace}")
+            }
             this.getControls()
             if (lastpage == this.page) {
                 fails++
                 if (fails > 10) {
                     this.navigate("{F4}")
                     fails := 0
-                    delay += dsleep
+                    delay += this.dsleep
                     if (delay > delay * 20)
-                        delay := dsleep
+                        delay := this.dsleep
                 }
             }
             Sleep, % delay
         }
+        this.getControls()
     }
     resetPage() {
-        this.waitForUpperPage("Main Menu")
+        this.waitForPage("Main Menu")
     }
     resetPosition() {
-        fails := 0
-        while(this.row > 1) {
-            percent := (this.row / this.rows) * 20 
-            ; scriptlog("pos: " . this.row . " / " . this.rows . " (" . percent . "%)... (fails:" . fails . ")")
-            if (percent < 50)
-                this.navigate("{Up}")
-            else
-                this.navigate("{Down}")
-            fails++
-            lastrow := this.row
-            this.getControls()
-            if (fails > 10 && lastrow == this.row) {
-                this.navigate("{F4}")
-                fails := 0
-            }
-            Sleep, % 100
-        }
+        this.waitForRow(1)
     }
     getControls() {
         c := this.getWindow().controls()

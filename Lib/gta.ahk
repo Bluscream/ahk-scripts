@@ -7,7 +7,6 @@ class Game {
     windows := {}
     datafile := new File()
     data := {"starttime":0}
-
     __New(path, eventcallback := "") {
         this.windows["launcher"] :=              new Window("Rockstar Games Launcher", "Rockstar Games Launcher", "SocialClubHelper.exe")
         this.windows["game"] :=                  new Window("Grand Theft Auto V", "grcWindow", "GTA5.exe")

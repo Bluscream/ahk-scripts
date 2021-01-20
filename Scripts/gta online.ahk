@@ -26,7 +26,7 @@ modmenu.getControls()
 global logfile := new File("gta modmenu texts.txt")
 return
 
-F5::
+F5:: ; Save Menu to file
     return
     c := modmenu.getControls()
     for i,e in c {
@@ -34,69 +34,36 @@ F5::
     }
     logfile.appendLine("")
     return
-F7::
-    modmenu.getControls()
-    if (game.modmenu.page != "Main Menu") {
-        modmenu.resetPage()
-    }
-    while(game.modmenu.row != 9) {
-        modmenu.navigate("{Up}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
-    while(game.modmenu.page != "Online Services") {
-        modmenu.navigate("{Enter}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
-    while(game.modmenu.row != 2) {
-        modmenu.navigate("{Down}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+F6:: ; Join Public Lobby
+    return
+F7:: ; Rig Slot Machines
+    modmenu.resetPage()
+    modmenu.waitForRow(9)
+    modmenu.waitForPage("Online Services", true)
+    modmenu.waitForRow(2)
     while(!InStr(modmenu.getControls()[4].text, "Rig Slot Machines", true)) {
         modmenu.navigate("{Enter}")
         Sleep, % dslep
         modmenu.getControls()
     }
-    while(game.modmenu.row != 2) {
-        modmenu.navigate("{Down}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+    modmenu.waitForRow(2)
     modmenu.navigate("{Enter}")
-    while(game.modmenu.row != 3) {
-        modmenu.navigate("{Down}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+    modmenu.waitForRow(3)
     modmenu.navigate("{Enter}")
     return
-F8::
+F8:: ; Spawn Polmav
     SplashScreen("", "Spawning Police Maverick")
-    modmenu.getControls()
     if(game.modmenu.page != "Online Vehicle Spawn") {
-        if (game.modmenu.page != "Main Menu") {
-            modmenu.resetPage()
-        }
-        while(game.modmenu.row != 10) {
-            modmenu.navigate("{Up}")
-            Sleep, % dslep
-            modmenu.getControls()
-        }
-        while(game.modmenu.page != "Online Vehicle Spawn") {
-            modmenu.navigate("{Enter}")
-            Sleep, % dslep
-            modmenu.getControls()
-        }
+        scriptlog("before reset")
+        modmenu.resetPage()
+        scriptlog("after reset, before row")
+        modmenu.waitForRow(10)
+        scriptlog("after row, before page")
+        modmenu.waitForPage("Online Vehicle Spawn", true)
+        scriptlog("after page")
     }
     if (!InStr(modmenu.getControls()[6].text, "Helicopter", true)) {
-        while(game.modmenu.row != 4) {
-            ; scriptlog("waiting for row 4. current: " . game.modmenu.row)
-            modmenu.navigate("{Down}")
-            Sleep, % dslep
-            modmenu.getControls()
-        }
+        modmenu.waitForRow(4)
         while(!InStr(modmenu.getControls()[6].text, "Helicopter", true)) {
             ; scriptlog("waiting for class Helicopter. current: " . modmenu.getControls()[6].text)
             modmenu.navigate("{Left}")
@@ -104,56 +71,26 @@ F8::
         }
     }
     if (!InStr(modmenu.getControls()[7].text, "Police Maverick", true)) {
-        while(game.modmenu.row != 5) {
-            ; scriptlog("waiting for row 5. current: " . game.modmenu.row)
-            modmenu.navigate("{Down}")
-            Sleep, % dslep
-            modmenu.getControls()
-        }
+        modmenu.waitForRow(5)
         while(!InStr(modmenu.getControls()[7].text, "Police Maverick", true)) {
             ; scriptlog("waiting for model Police Maverick. current: " . modmenu.getControls()[7].text)
             modmenu.navigate("{Right}")
             Sleep, % dslep
         }
     }
-    while(game.modmenu.row != 30) {
-        ; scriptlog("waiting for row 30. current: " . game.modmenu.row)
-        modmenu.navigate("{Up}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+    modmenu.waitForRow(30)
     modmenu.navigate("{Enter}")
     SplashScreen("Press F10 to give it godmode", "Spawned Police Maverick")
-    modmenu.resetPage()
-    modmenu.resetPosition()
-    modmenu.navigate("{Backspace}", 4)
-    ; scriptlog(c.id . " " . c.text)
-    ; ControlSend, % c.id, "{Enter}", % modmenu.window.str()
     return
-F10::
-    modmenu.getControls()
-    modmenu.resetPage()
-    modmenu.resetPosition()
-    while(game.modmenu.row != 3) {
-        modmenu.navigate("{Down}")
-        Sleep, % dslep
-        modmenu.getControls()
+F10:: ; Vehicle Godmode
+    if(game.modmenu.page != "Vehicle") {
+        modmenu.resetPage()
+        modmenu.waitForRow(3)
+        modmenu.waitForPage("Vehicle", true)
     }
-    while(game.modmenu.page != "Vehicle") {
-        modmenu.navigate("{Enter}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
-    while(game.modmenu.row != 5) {
-        modmenu.navigate("{Down}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+    modmenu.waitForRow(5)
     modmenu.navigate("{Enter}")
     SplashScreen("", "Gave current vehicle Godmode")
-    modmenu.resetPage()
-    modmenu.resetPosition()
-    modmenu.navigate("{Backspace}", 4)
     return
 
 CheckWindows:
@@ -162,7 +99,7 @@ CheckWindows:
             new File("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\modest-menu.exe").run()
             WinWait, % modmenu.window.str()
             modmenu.window := modmenu.getWindow(true)
-            SplashScreen("Started Mod Menu")
+            SplashScreen("Started " . modmenu.name)
         } else {
             c := modmenu.getControls()
             ; SplashScreen(game.modmenu.name . " detected")
