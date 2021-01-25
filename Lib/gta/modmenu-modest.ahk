@@ -38,6 +38,27 @@ class ModMenu {
                 Sleep, dsleep
         }
     }
+    waitForEnum(row, text, key := "{Right}") {
+        c := this.getControls()
+        scriptlog("Waiting to reach value: " . text . " (current: " . c[row+2].text . ")")
+        fails := 0
+        delay := this.dsleep
+        while(!InStr(modmenu.getControls()[row+2].text, text, true)) {
+            ; scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ", percent: " . percent . "%, fails: " . fails . " delay: " . delay . " ms)")
+            this.navigate(key)
+            this.getControls()
+            fails++
+            if (fails > 10) {
+                this.navigate("{F4}")
+                fails := 0
+                delay += this.dsleep
+                if (delay > delay * 10)
+                    delay := this.dsleep
+            }
+            Sleep, % delay
+        }
+        this.getControl
+    }
     waitForRow(targetRow) {
         this.getControls()
         scriptlog("Waiting to reach pos: " . targetRow . " (row: " . this.row . ")")

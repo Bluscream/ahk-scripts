@@ -19,8 +19,11 @@ global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "stea
 
 global logged_in := false
 global asf := new ASF()
-global main := asf.getBotByNickname("blu")
-global alt := asf.getBotByNickname("red")
+if (A_Username.startsWith("blus")) {
+    global main := asf.getBotByNickname("blu")
+} else {
+    global main := asf.getBotByNickname("red")
+}
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
 IfExist, %I_Icon%

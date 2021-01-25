@@ -1,13 +1,10 @@
 ﻿; Date 09/03/2020
-#Include %A_LineFile%\..\bluscream\ui.ahk
 #Include %A_LineFile%\..\bluscream\json.ahk
 #Include %A_LineFile%\..\bluscream\array.ahk
+#Include %A_LineFile%\..\bluscream\io.ahk
 #Include %A_LineFile%\..\bluscream\process.ahk
+#Include %A_LineFile%\..\bluscream\ui.ahk
 #Include %A_LineFile%\..\bluscream\string.ahk
-#Include %A_LineFile%\..\bluscream\window.ahk
-#Include %A_LineFile%\..\bluscream\io\directory.ahk
-#Include %A_LineFile%\..\bluscream\io\file.ahk
-#Include %A_LineFile%\..\bluscream\io\paths.ahk
 
 ObjectCount(object) {
     count := 0

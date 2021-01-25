@@ -1,6 +1,5 @@
 #SingleInstance Force
 #NoEnv
-
 #Persistent
 SetWorkingDir %A_ScriptDir%
 CoordMode, Mouse, Client
@@ -28,6 +27,12 @@ modmenu.getControls()
 global logfile := new File("gta modmenu texts.txt")
 return
 
+F4:: ; Startup Stuffs
+    return
+    SplashScreen("", "Startup stuff")
+    modmenu.resetPage()
+    modmenu.resetPosition()
+    return
 F5:: ; Save Menu to file
     return
     SplashScreen("", "Saving menu text to " . logfile.fullname)
@@ -43,11 +48,7 @@ F6:: ; Join Public Lobby
     modmenu.resetPosition()
     modmenu.waitForPage("Game", true)
     modmenu.waitForRow(4)
-    while(!InStr(modmenu.getControls()[6].text, "Join Public", true)) {
-        modmenu.navigate("{Right}")
-        Sleep, % dslep
-        modmenu.getControls()
-    }
+    modmenu.waitForEnum(4, "Join Public")
     modmenu.navigate("{Enter}")
     SplashScreen("", "Joined public lobby")
     return
@@ -57,8 +58,9 @@ F7:: ; Rig Slot Machines
     modmenu.waitForRow(9)
     modmenu.waitForPage("Online Services", true)
     modmenu.waitForRow(2)
-    while(!InStr(modmenu.getControls()[4].text, "Rig Slot Machines", true)) {
-        modmenu.navigate("{Enter}")
+    modmenu.waitForEnum(2, "Rig Slot Machines", "{Enter}")
+    while(!InStr(modmenu.getControls()[4].text, "", true)) {
+        modmenu.navigate()
         Sleep, % dslep
         modmenu.getControls()
     }
@@ -109,11 +111,11 @@ F10:: ; Vehicle Godmode
     modmenu.navigate("{Enter}")
     SplashScreen("", "Gave current vehicle Godmode")
     return
-F11:: ; Pause Script
-    pause
+F11:: ; Restart Script
+    RestartScript()
     return
 
-CheckWindows:
+CheckWindows() {
     if (game.windows.game.exists()) {
         if (!modmenu.window.process.exists()) {
             new File("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\modest-menu.exe").run()
@@ -125,28 +127,21 @@ CheckWindows:
             ; SplashScreen(game.modmenu.name . " detected")
         }
     }
-    return
+}
 
-restartGameFunc:
+restartGameFunc() {
     game.kill()
     game.start()
-    return
+}
     
-killGameFunc:
+killGameFunc() {
     game.kill()
-    return
+}
 
-lbl:
+lbl() {
     pasteToNotepad(toJson(game, true))
-    return
+}
 
-testFunc:
+testFunc() {
     pasteToNotepad(toJson(modmenu, true))
-    return
-
-testFunc2:
-    c := modmenu.getControls()
-    for i,e in c {
-        scriptlog(e.id . " > " . e.text)
-    }
-    return
+}

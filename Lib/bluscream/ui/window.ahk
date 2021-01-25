@@ -6,14 +6,14 @@ class Window {
     file := new File()
     id := ""
 
-    __New(title := "", class := "", exe :="") { ; , path := ""
+    __New(title := "", class := "", exe :="", path := "") {
         this.title := title
         this.class := class
         this.exe := exe
-        this.process := new Process(exe) ; , path)
-        this.file := this.process.file
+        this.process := new Process(exe)
+        ; this.file := this.process.file
         ; this.id := id
-        ; this.file := path ? new File(path) : new File(exe)
+        this.file := (path ? new File(path) : new File(exe))
     }
 
     str() {

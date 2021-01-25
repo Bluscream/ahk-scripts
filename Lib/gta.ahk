@@ -48,19 +48,16 @@ class Game {
     }
 
     kill() {
-        MsgBox 0x34, Kill , Do you really want to kill the game?, 15
-        IfMsgBox Yes, {
-            count := 0
-            for i, window in this.windows {
-                count++
-                SplashScreen("Killing " . window.str(), "Killing process " . count . " / " . this.windows.Count(), 250)
-                window_closed := window.close()
-                process_closed := window.process.close()
-                process_killed := window.process.kill(true, true)
-                ; scriptlog("window_closed: " . toYesNo(window_closed))
-                ; scriptlog("process_closed: " . toYesNo(window_closed))
-                ; scriptlog("process_killed: " . toYesNo(window_closed))
-            }
+        count := 0
+        for i, window in this.windows {
+            count++
+            SplashScreen("Killing " . window.str(), "Killing process " . count . " / " . this.windows.Count(), 250)
+            window_closed := window.close()
+            process_closed := window.process.close()
+            process_killed := window.process.kill(true, true)
+            ; scriptlog("window_closed: " . toYesNo(window_closed))
+            ; scriptlog("process_closed: " . toYesNo(window_closed))
+            ; scriptlog("process_killed: " . toYesNo(window_closed))
         }
         return
     }

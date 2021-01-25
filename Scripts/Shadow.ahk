@@ -27,7 +27,7 @@ global shadow := new Window("Shadow", "Shadow-Window-Class", channels[1].fullnam
 
 global min_time_minutes := 20
 global max_time_minutes := 29
-global interval_seconds := 300
+global interval_seconds := 10
 global interval
 
 ; CreateInterval()
@@ -49,12 +49,18 @@ StartShadow:
 
 CheckForShadow:
     if (shadow.exists()) {
-        ; if (A_TimeIdle > interval) {
+        if (A_TimeIdle > interval) {
             scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
-            AntiAFK()
-        ; }
+            ; AntiAFK()
+        }
     } else {
-        ; Run % "AppData\Local\Programs\shadow-preprod\resources\app.asar.unpacked\release\native\Shadow.exe"
+        if (shadow_launcher.exists()) {
+            ; ControlClick, [Control-or-Pos, WinTitle, WinText, WhichButton, ClickCount, Options, ExcludeTitle, ExcludeText]
+            ControlClick, x552 y575, % shadow_launcher.str(),, left, 1, Pos
+            ; MouseClick, left, 552, 575
+        } else {
+            channels[3].run()
+        }
     }
     return
 

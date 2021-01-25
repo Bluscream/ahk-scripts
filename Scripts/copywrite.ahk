@@ -3,12 +3,12 @@
 #NoTrayIcon
 #NoEnv
 #SingleInstance, force
-; SetBatchLines, -1
-; Process, Priority,, High
+SetBatchLines, -1
+Process, Priority,, High
 #Include <bluscream>
-; SendMode Event
-
-
+EnforceAdmin()
+SendMode, InputThenPlay ; |Play|Input|Event
+SetKeyDelay, 50, 50
 return
 
 ^b::
