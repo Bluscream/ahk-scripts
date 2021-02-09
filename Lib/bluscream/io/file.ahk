@@ -29,9 +29,9 @@ class File {
         FileGetSize, size, % this.path, % units
         return size 
     }
-    run(wait := false) {
+    run(wait := false, WorkingDir := "") {
         if (wait) {
-            RunWait, % this.path, % this.directory.path,, OutputVarPID
+            RunWait, % this.path, % (WorkingDir ? "": this.directory.path),, OutputVarPID
             return OutputVarPID
         }
         Run, % this.path, % this.directory.path

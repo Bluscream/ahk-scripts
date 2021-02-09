@@ -15,12 +15,13 @@ class Item {
         this.row := row
         this.max := max
         this.price := price
-        this.addx := [1075, 1785][this.column] ; CHANGEME
-        this.remx := this.addx + 50
-        this.allx := this.remx + 75
-        this.y := 475 + ((this.row - 1) * 40) ; CHANGEME
+        this.addx := [805, 1340][this.column] ; CHANGEME
+        this.remx := this.addx + 40
+        this.allx := this.remx + 55
+        this.y := 355 + ((this.row - 1) * 30) ; CHANGEME
         scriptlog("Registered item: " . toJson(this))
     }
+
     add(amount := 1) {
         if (amount < 0 || amount >= this.max) {
             this.addAll()

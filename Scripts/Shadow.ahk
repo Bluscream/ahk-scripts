@@ -5,7 +5,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-global noui := true
+global noui := false
 #Include <bluscream>
 CoordMode, mouse, Client
 dir := new Paths.User().localappdata.combine("Programs")
@@ -17,52 +17,61 @@ for i, channel in channels {
     }
 }
 
-; #Warn
-
 toggle := 0
 fixedY := A_ScreenHeight/2
 
 global shadow_launcher := new Window("Shadow", "Chrome_WidgetWin_1")
-global shadow := new Window("Shadow", "Shadow-Window-Class", channels[1].fullname)
+global shadow := new Window("Shadow", "Shadow-Window-Class") ; , channels[1].fullname
+global processes := [new Process("Shadow.exe"), new Process("Shadow Beta.exe"), new Process("Shadow Alpha.exe")]
 
 global min_time_minutes := 20
 global max_time_minutes := 29
-global interval_seconds := 10
+global interval_seconds := 15
 global interval
 
 ; CreateInterval()
 
 SetTimer, CheckForShadow, % 1000*interval_seconds
 ; AntiAFK()
-Esc::ExitApp
+; F1::PasteToNotepad(ToJson(channels, true))
+; Esc::ExitApp
 return
 
 StartShadow:
-    new Process("Shadow.exe").kill()
+    killShadow()
     txt := StrReplace(A_ThisMenuItem, "Start ", "")
     for i, channel in channels {
         if (channel.name != txt)
             continue
-        Run % channel.path
+        Run, % "D:\\Desktop\\_SHORTCUTS\\" . channel.name . ".lnk"
+        ; channel.run()
     }
     return
 
 CheckForShadow:
     if (shadow.exists()) {
-        if (A_TimeIdle > interval) {
-            scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
+        if (A_TimeIdle > 600) {
+            ; scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
             ; AntiAFK()
         }
+    } else if (shadow_launcher.exists()) {
+        ControlClick, x552 y575, % shadow_launcher.str(),, left, 1, Pos
+        ; MouseClick, left, 552, 575
     } else {
-        if (shadow_launcher.exists()) {
-            ; ControlClick, [Control-or-Pos, WinTitle, WinText, WhichButton, ClickCount, Options, ExcludeTitle, ExcludeText]
-            ControlClick, x552 y575, % shadow_launcher.str(),, left, 1, Pos
-            ; MouseClick, left, 552, 575
-        } else {
-            channels[3].run()
-        }
+        ; scriptlog("Starting " . channels[3].path)
+        ; channels[3].run() ; Run % channel.path
     }
     return
+
+killShadow() {
+    count := 0
+    for i, p in processes {
+        count++
+        SplashScreen(p.name, "Killing process " . count . " / " . processes.Count(), 250)
+        process_closed := p.close()
+        process_killed := p.kill(true, true)
+    }
+}
 
 AntiAFK() {
     if !(shadow.exists()) {

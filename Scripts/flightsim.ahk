@@ -8,10 +8,10 @@ EnforceAdmin()
 Menu, tray, add, -Flight Simulator-, lbl
 Menu, tray, add, Kill Game, killGame
 Menu, tray, add, (Re)start Game, startGame
-global game := new Window("Microsoft Flight Simulator", "AceApp", "FlightSimulator.exe", "C:\Users\Shadow\Destop\Microsoft Flight Simulator.lnk")
+global game := new Window("Microsoft Flight Simulator", "AceApp", "FlightSimulator.exe", "C:\Users\Shadow\Desktop\Microsoft Flight Simulator.lnk")
 global windows := []
-windows.push(new Window("", "ConsoleWindowClass", "vfrmap.exe", "C:\Users\Shadow\Desktop\vfrmap.exe"))
-windows.push(new Window("", "AutoHotkeyGUI", "ujr.exe", "C:\Users\Shadow\Downloads\ujr.exe"))
+; windows.push(new Window("", "ConsoleWindowClass", "vfrmap.exe", "C:\Users\Shadow\Desktop\vfrmap.exe"))
+; windows.push(new Window("", "AutoHotkeyGUI", "ujr.exe", "C:\Users\Shadow\Downloads\ujr.exe"))
 SetTimer, CheckWindows, 10000
 CheckWindows() {
     if (!game.isActive())

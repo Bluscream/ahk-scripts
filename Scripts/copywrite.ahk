@@ -7,7 +7,7 @@ SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
-SendMode, InputThenPlay ; |Play|Input|Event
+SendMode, Event ; |Play|Input|InputThenPlay
 SetKeyDelay, 50, 50
 return
 
