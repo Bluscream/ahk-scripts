@@ -12,13 +12,14 @@ SendMode, Input
 ; EnforceAdmin()
 
 global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
-global modmenu := new ModMenu("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\")
+global modmenu := new ModMenu("C:\Users\Shadow\Desktop\modest-menu\")
 global dslep := 150
 
 Menu, Tray, Icon, % game.exe.path
 Menu, tray, add, ---GTA Online---, lbl
 Menu, tray, add, Kill Game, killGameFunc
 Menu, tray, add, Restart Game, restartGameFunc
+Menu, tray, add, Restart ModMenu, restartMenuFunc
 Menu, tray, add, Test, testFunc
 
 SetTimer, CheckWindows, 1000
@@ -118,7 +119,7 @@ F11:: ; Restart Script
 CheckWindows() {
     if (game.windows.game.exists()) {
         if (!modmenu.window.process.exists()) {
-            new File("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\modest-menu.exe").run()
+            new File("C:\Users\Shadow\Desktop\modest-menu\modest-menu.exe").run()
             WinWait, % modmenu.window.str()
             modmenu.window := modmenu.getWindow(true)
             SplashScreen("Started " . modmenu.name)
@@ -127,6 +128,12 @@ CheckWindows() {
             ; SplashScreen(game.modmenu.name . " detected")
         }
     }
+}
+
+restartMenuFunc() {
+    modmenu.window.Close()
+    modmenu.window.Kill()
+    new File("C:\Users\Shadow\Desktop\modest-menu\modest-menu.exe").run()
 }
 
 restartGameFunc() {

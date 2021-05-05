@@ -77,6 +77,7 @@ titles.push({title: "Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", t
 titles.push({title: "PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.exe", text: "To run this application, you must install .NET Core", action: "ClickButton:&No"})
 titles.push({title: "PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
 titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
+titles.push({title: "Confirm File Replace ahk_class #32770 ahk_exe explorer.exe", text: "This folder already contains a file named", action: "ClickButton:&Yes"})
 
 ; ":2\"
 

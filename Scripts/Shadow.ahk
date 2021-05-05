@@ -55,7 +55,7 @@ CheckForShadow:
             ; AntiAFK()
         }
     } else if (shadow_launcher.exists()) {
-        ControlClick, x552 y575, % shadow_launcher.str(),, left, 1, Pos
+        ControlClick, x595 y827, % shadow_launcher.str(),, left, 1, Pos
         ; MouseClick, left, 552, 575
     } else {
         ; scriptlog("Starting " . channels[3].path)

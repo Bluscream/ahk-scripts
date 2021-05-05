@@ -1,6 +1,16 @@
+#SingleInstance Force
+#Persistent
+#InstallKeybdHook
+#InstallMouseHook
+ProcessSetPriority("Realtime")
+
 ; The following DllCall is optional: it tells the OS to shut down this script first (prior to all other applications).
 DllCall("kernel32.dll\SetProcessShutdownParameters", "UInt", 0x4FF, "UInt", 0)
 OnMessage(0x11, "WM_QUERYENDSESSION")
+while (true) {
+        exitcode := RunWait("shutdown /a",,"Hide")
+    Sleep 500
+}
 return
 
 WM_QUERYENDSESSION(wParam, lParam, *)
