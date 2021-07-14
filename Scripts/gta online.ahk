@@ -27,7 +27,7 @@ modmenu.getWindow(true)
 modmenu.getControls()
 global logfile := new File("gta modmenu texts.txt")
 return
-
+/*
 F4:: ; Startup Stuffs
     return
     SplashScreen("", "Startup stuff")
@@ -115,7 +115,7 @@ F10:: ; Vehicle Godmode
 F11:: ; Restart Script
     RestartScript()
     return
-
+*/
 CheckWindows() {
     if (game.windows.game.exists()) {
         if (!modmenu.window.process.exists()) {
