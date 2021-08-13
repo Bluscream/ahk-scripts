@@ -1145,8 +1145,10 @@ _Install(opt) {
     ; Set up system verbs:
     RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Open,, Run Script
     RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Edit,, Edit Script
-    if opt.ahk2exe
+    if opt.ahk2exe {
         RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Compile,, Compile Script
+        RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Compile-Gui,, Compile Script (GUI)...
+    }
     
     local value
     
@@ -1162,8 +1164,10 @@ _Install(opt) {
     catch
         RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Edit\Command,, notepad.exe `%1
     
-    if opt.ahk2exe
+    if opt.ahk2exe {
         RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Compile\Command,, "%A_WorkingDir%\Compiler\Ahk2Exe.exe" /in "`%l" `%*
+        RegWrite REG_SZ, HKCR, %FileTypeKey%\Shell\Compile-Gui\Command,, "%A_WorkingDir%\Compiler\Ahk2Exe.exe" /gui /in "`%l" `%*
+    }
     
     local cmd
     cmd = "%A_WorkingDir%\AutoHotkey.exe"
@@ -1205,6 +1209,7 @@ _Install(opt) {
     ; Write uninstaller info.
     RegWrite REG_SZ, HKLM, %UninstallKey%, DisplayName, %ProductName% %ProductVersion%
     RegWrite REG_SZ, HKLM, %UninstallKey%, UninstallString, "%A_WorkingDir%\AutoHotkey.exe" "%A_WorkingDir%\Installer.ahk"
+    RegWrite REG_SZ, HKLM, %UninstallKey%, QuietUninstallString, "%A_WorkingDir%\AutoHotkey.exe" "%A_WorkingDir%\Installer.ahk" /Uninstall
     RegWrite REG_SZ, HKLM, %UninstallKey%, DisplayIcon, %A_WorkingDir%\AutoHotkey.exe
     RegWrite REG_SZ, HKLM, %UninstallKey%, DisplayVersion, %ProductVersion%
     RegWrite REG_SZ, HKLM, %UninstallKey%, URLInfoAbout, %ProductWebsite%
@@ -1221,8 +1226,9 @@ _Install(opt) {
         ; As AutoHotkey.exe is probably in use by this script, the final
         ; step will be completed by another instance of this script:
         reopen_args := ""
-        for _, script in reopen
-            reopen_args .= " """ script.path """ """ script.exe """"
+        if AutoRestart
+            for _, script in reopen
+                reopen_args .= " """ script.path """ """ script.exe """"
         Run .\AutoHotkeyU32.exe "%A_ScriptFullPath%"
                 /exec kill %A_ScriptHwnd%
                 /exec setExe %exefile% %SilentMode%

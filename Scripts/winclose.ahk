@@ -2,7 +2,7 @@
 ; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
 ; Big thanks to Dinenon#8239
 #SingleInstance, Force
-; #NoTrayIcon
+#NoTrayIcon
 #NoEnv
 #Persistent
 ; SetBatchLines, -1
@@ -53,7 +53,6 @@ titles.push({title: "TC4Shell ahk_class TTrialForm", text: "", action: "ClickBut
 titles.push({title: "OpenVR Advanced Settings Overlay - Advanced Settings ahk_class Qt5QWindowIcon ahk_exe AdvancedSettings.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Allow game launch? ahk_class vguiPopupWindow ahk_exe Steam.exe", text: "", action: "Click:X316 Y197"})
 titles.push({title: "Error ahk_class #32770 ahk_exe SideQuest.exe", text: "", action: "CloseWindow"})
-titles.push({title: "Error ahk_class #32770 ahk_exe FiveM_DumpServer", text: "", action: "ClickButton:&Close"})
 
 titles.push({title: "WindowMenuPlus ahk_class #32770 ahk_exe WindowMenuPlus.exe", text: "The configuration is available from TaskTray icon menu.", action: "CloseWindow"})
 titles.push({title: "Evaluation Feedback ahk_class SunAwtDialog ahk_exe phpstorm64.exe", text: "", action: "CloseWindow"})
@@ -78,7 +77,6 @@ titles.push({title: "Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", t
 titles.push({title: "PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.exe", text: "To run this application, you must install .NET Core", action: "ClickButton:&No"})
 titles.push({title: "PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
 titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
-titles.push({title: "Confirm File Replace ahk_class #32770 ahk_exe explorer.exe", text: "This folder already contains a file named", action: "ClickButton:&Yes"})
 
 ; ":2\"
 
