@@ -18,7 +18,7 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
-compile := false
+compile := true
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return
@@ -39,7 +39,7 @@ if (compile) {
         scriptlog("Compiling " . script)
         SplitPath, script, binary
         binary := StrReplace(binary, ".ahk" , ".exe")
-        binary := "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
+        binary := "D:\OneDrive\AutoHotKey\Scripts\bin\" . binary ; "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
         scriptlog("Into " . binary)
         RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
         ; binary := StrReplace(binary, " " , "`` ")
