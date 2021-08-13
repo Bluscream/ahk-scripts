@@ -14,6 +14,7 @@ class Game {
     max_chat_chars := 100
     datafile := new File()
     data := {"starttime":0,"ping":0,"map":"","maps":{},"server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
+    coords := {}
 
     __New(path, eventcallback := "") {
         this.dir := new Directory(path)
@@ -22,8 +23,11 @@ class Game {
         }
         this.exe := this.dir.combineFile("binaries", "win64", this.windows["game"].exe)
         this.datafile := this.dir.combineFile("data.json")
-        if (this.datafile.exists() && this.datafile.size() > 0)
-            this.data := fromJson(this.datafile.read())
+        if (this.datafile.exists() && this.datafile.size() > 0) {
+            this.data := fromJson(this.datafile.read())["data"]
+        } else {
+            this.datafile.write(toJson({"data":this.data}, true))
+        }
         this.logdir := this.dir.combine("CombatGame", "Logs")
         this.logfile := this.logdir.combineFile("Launch.log")
         if (!this.logfile.exists()) {
@@ -45,7 +49,56 @@ class Game {
         this.patterns["server_browse"] :=        "^0\(\)=pEngine->IPPortBrowse\(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\:?([0-9]{1,5})?"
         this.patterns["gameresult"] :=           "^Go to GameResult"
         this.patterns["startup"] :=              "^>>>>>>>>>>>>>> Initial startup: ([0-9]+\.[0-9]+)s <<<<<<<<<<<<<<<"
+
+        this.coords["menu"] := {}
+        this.coords["menu"]["main"] := {}
+        this.coords["menu"]["main"]["buttons"] := {}
+        this.coords["menu"]["main"]["buttons"]["inventory"] := new Coordinate(395, 125, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["statistics"] := new Coordinate(this.coords.menu.main.buttons.inventory.x+180, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["clan"] := new Coordinate(this.coords.menu.main.buttons.statistics.x+180, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["shop"] := new Coordinate(this.coords.menu.main.buttons.clan.x+180, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["exchange"] := new Coordinate(this.coords.menu.main.buttons.shop.x+180, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["random_box"] := new Coordinate(this.coords.menu.main.buttons.exchange.x+180, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+
+        this.coords["menu"]["main"]["buttons"]["inbox"] := new Coordinate(1511, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["messenger"] := new Coordinate(this.coords.menu.main.buttons.inbox.x+60, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+        this.coords["menu"]["main"]["buttons"]["settings"] := new Coordinate(this.coords.menu.main.buttons.messenger.x+60, this.coords.menu.main.buttons.inventory.y, this.windows["game"])
+
+        this.coords["menu"]["shop"] := {}
+        this.coords["menu"]["shop"]["filters"] := {}
+        this.coords["menu"]["shop"]["filters"]["package"] := new Coordinate(990, 183, this.windows["game"])
+        this.coords["menu"]["shop"]["filters"]["weapon"] := new Coordinate(this.coords.menu.shop.filters.package.x+195, this.coords.menu.shop.filters.package.y, this.windows["game"])
+        this.coords["menu"]["shop"]["filters"]["character"] := new Coordinate(this.coords.menu.shop.filters.weapon.x+195, this.coords.menu.shop.filters.package.y, this.windows["game"])
+        this.coords["menu"]["shop"]["filters"]["item"] := new Coordinate(this.coords.menu.shop.filters.character.x+195, this.coords.menu.shop.filters.package.y, this.windows["game"])
+
+        this.coords["menu"]["shop"]["sub_filters"] := {}
+        this.coords["menu"]["shop"]["sub_filters"]["item"] := new Coordinate(950, 233, this.windows["game"])
+        this.coords["menu"]["shop"]["sub_filters"]["license"] := new Coordinate(this.coords.menu.shop.sub_filters.item.x+115, this.coords.menu.shop.sub_filters.package.y, this.windows["game"])
+        this.coords["menu"]["shop"]["sub_filters"]["card"] := new Coordinate(this.coords.menu.shop.sub_filters.license.x+115, this.coords.menu.shop.sub_filters.package.y, this.windows["game"])
+        
+        this.coords["menu"]["shop"]["item"] := {}
+        this.coords["menu"]["shop"]["item"]["item"] := {}
+        this.coords["menu"]["shop"]["item"]["item"]["oldbox2"] := new Coordinate(1053, 556, this.windows["game"])
+
+        this.coords["menu"]["shop"]["confirm_purchase"] := {}
+        this.coords["menu"]["shop"]["confirm_purchase"]["purchase_inbox"] := new Coordinate(1351, 836, this.windows["game"])
+        this.coords["menu"]["shop"]["confirm_purchase"]["yes"] := new Coordinate(836, 707, this.windows["game"])
+
+        this.coords["menu"]["inbox"] := {}
+        this.coords["menu"]["inbox"]["recieve_selected"] := new Coordinate(435, 1040, this.windows["game"])
+        this.coords["menu"]["inbox"]["recieve_all"] := new Coordinate(this.coords.menu.inbox.recieve_selected.x+345, this.coords.menu.inbox.recieve_selected.y, this.windows["game"])
+        this.coords["menu"]["inbox"]["open"] := new Coordinate(this.coords.menu.inbox.recieve_all.x+360, this.coords.menu.inbox.recieve_selected.y, this.windows["game"])
+        this.coords["menu"]["inbox"]["yes"] := new Coordinate(840, 705, this.windows["game"])
+        this.coords["menu"]["inbox"]["confirm"] := new Coordinate(955, this.coords.menu.inbox.yes.y, this.windows["game"])
+
+        this.coords["menu"]["crate"] := {}
+        this.coords["menu"]["crate"]["swipe_left"] := new Coordinate(805, 510, this.windows["game"])
+        this.coords["menu"]["crate"]["swipe_right"] := new Coordinate(this.coords.menu.crate.swipe_left.x+310, this.coords.menu.crate.swipe_left.y, this.windows["game"])
+        this.coords["menu"]["crate"]["close"] := new Coordinate(960, 1035, this.windows["game"])
+
+        scriptlog("Created new Game Instance for " . this.name)
     }
+
 
     updateData(key, value) {
         ; keys := StrSplit(key, ".")
@@ -84,6 +137,7 @@ class Game {
             }
             sleep, 250
         }
+        game.updateData("starttime", A_Now)
     }
     clearLogs() {
         logs := this.logdir.combineFile("*.log").path

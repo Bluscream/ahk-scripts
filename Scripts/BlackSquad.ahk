@@ -5,6 +5,7 @@ SetWorkingDir %A_ScriptDir%
 CoordMode, Mouse, Client
 #Include <blacksquad>
 EnforceAdmin()
+global noui := false
 global game := new Game("G:\Steam\steamapps\common\Black Squad\")
 ; pasteToNotepad(toJson(game, true))
 if (false && game.logfile.exists() && game.patterns && game.patterns.Count() > 0) {
@@ -37,7 +38,6 @@ OnNewLogLine(FileLine, n) {
                 game.updateData("ping", ping1)
             } else if (RegExMatch(msg1, game.patterns["mapload"], map_load)) {
                 OnMapLoaded(map_load3)
-                game.updateData("ping", ping1)
                 game.updateData("server.ip", map_load1)
                 game.updateData("server.port", map_load2)
                 game.updateData("map", Format("{:L}", map_load3))
@@ -124,11 +124,53 @@ Hotkey, IfWinActive, % game.windows.game.str()
     return
 Hotkey, IfWinActive
 
-F3::SetTimer, Trololol, % (Toggle:=!Toggle) ? 500*2 : "Off"
+F3::
+    SetTimer, Trololol, % (Toggle:=!Toggle) ? 1000 : "Off"
+    return
+F1::
+    ; game.coords.menu.main.buttons.shop.click()
+    game.coords.menu.shop.filters.item.click()
+    Sleep, 500
+    game.coords.menu.shop.sub_filters.item.click()
+    SetTimer, BuyOldBox2Loop, 500
+    return
+F2::
+    ; game.coords.menu.main.buttons.inbox.click()
+    SetTimer, UnboxLoop, 500
+    return
+
+BuyOldBox2Loop:
+    if (GetKeyState("END", "P"))
+        ExitApp
+    game.coords.menu.shop.item.item.oldbox2.click()
+    Sleep, 250
+    game.coords.menu.shop.item.item.oldbox2.click()
+    Sleep, 250
+    game.coords.menu.shop.confirm_purchase.purchase_inbox.click()
+    Sleep, 950
+    return
+
+UnboxLoop:
+    if (GetKeyState("END", "P"))
+        ExitApp
+    game.coords.menu.inbox.recieve_all.click()
+    Sleep, 500
+    game.coords.menu.inbox.confirm.click()
+    Sleep, 500
+    game.coords.menu.inbox.open.click()
+    Sleep, 500
+    game.coords.menu.inbox.yes.click()
+    Sleep, 7400
+    game.coords.menu.crate.swipe_left.swipeToCoord(game.coords.menu.crate.swipe_right)
+    Sleep, 150
+    game.coords.menu.crate.close.click()
+    Sleep, 500
+    return
+
 
 Trololol:
     Send, {F5}
-    Sleep, % 500
+    Sleep, 500
     Send, {F6}
     return
 

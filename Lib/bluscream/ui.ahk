@@ -1,6 +1,7 @@
 #Include %A_LineFile%\..\json.ahk
 #Include %A_LineFile%\..\ui\control.ahk
 #Include %A_LineFile%\..\ui\window.ahk
+#Include %A_LineFile%\..\ui\coord.ahk
 global initialized := false
 global ui := False
 scriptlog(msg, timestamp := "", append := false) {
