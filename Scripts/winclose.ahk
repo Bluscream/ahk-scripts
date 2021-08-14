@@ -1,10 +1,12 @@
-﻿#Include <bluscream>
-; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
-; Big thanks to Dinenon#8239
-#SingleInstance, Force
+﻿#SingleInstance, Force
 #NoTrayIcon
 #NoEnv
 #Persistent
+
+#Include <bluscream>
+EnforceAdmin()
+; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
+; Big thanks to Dinenon#8239
 ; SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 SetTitleMatchMode, 2
