@@ -2,7 +2,7 @@
 ; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
 ; Big thanks to Dinenon#8239
 #SingleInstance, Force
-; #NoTrayIcon
+#NoTrayIcon
 #NoEnv
 #Persistent
 ; SetBatchLines, -1
@@ -78,6 +78,8 @@ titles.push({title: "PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.ex
 titles.push({title: "PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
 titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
 titles.push({title: "Ahk2Exe Error ahk_class #32770 ahk_exe Ahk2Exe.exe", text: "", action: "CloseWindow"})
+titles.push({title: "ahk_class #32770 ahk_exe AutoHotkeyU32.exe", text: "Warning in #include file", action: "CloseWindow"})
+
 
 ; ":2\"
 

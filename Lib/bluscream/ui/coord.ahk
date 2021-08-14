@@ -16,16 +16,11 @@ class Coordinate {
     getBounds() {
         return [this.x,this.y]
     }
-    activate() {
-        if (this.window.isMinimized())
-            this.window.restore()
-        if (!this.window.isActive())
-            this.window.activate(true)
-    }
     click(ClickCount=1, sleep_ms = 100) {
-        this.activate()
+        if (!this.window.isActive())
+            return
         MouseMove, this.x, this.y
-        scriptlog("Clicking " . this.str() . " " . ClickCount . " times.")
+        ; scriptlog("Clicking " . this.str() . " " . ClickCount . " times.")
         Loop % ClickCount {
             dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
             sleep, 100
@@ -34,6 +29,8 @@ class Coordinate {
         }
     }
     swipeToCoord(coord) {
+        if (!this.window.isActive())
+            return
         MouseMove, this.x, this.y
         dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
         sleep, 50

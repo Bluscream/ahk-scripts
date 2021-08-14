@@ -14,6 +14,10 @@ if (false && game.logfile.exists() && game.patterns && game.patterns.Count() > 0
     scriptlog("subscribed to log file " . Quote(game.logfile.path) . " (" . result . ")")
 }
 Menu, Tray, Icon, % game.exe.path
+Menu, tray, add, - Automation -, lbl
+Menu, tray, add, Old Box 2, BuyOldBox2
+Menu, tray, add, Medal Rotation Box, BuyMedalRotationBox
+Menu, tray, add, Unbox Inventory, Unbox
 Menu, tray, add, ---Black Squad---, lbl
 Menu, tray, add, Kill Game, killGameFunc
 Menu, tray, add, Restart Game, restartGameFunc
@@ -114,7 +118,7 @@ OnKeyStroke(key) {
     }
     ; scriptlog("bs_lastkeys: " . toJson(bs_lastkeys))
 }
-
+global loopcount := 0
 return
 
 Hotkey, IfWinActive, % game.windows.game.str()
@@ -122,37 +126,81 @@ Hotkey, IfWinActive, % game.windows.game.str()
     lk := "".join(bs_lastkeys) ; Format("{:T}", )
     Send {Raw}%lk%
     return
-Hotkey, IfWinActive
 
 F3::
     SetTimer, Trololol, % (Toggle:=!Toggle) ? 1000 : "Off"
     return
-F1::
-    ; game.coords.menu.main.buttons.shop.click()
+Hotkey, IfWinActive
+
+
+BuyOldBox2:
+    MsgBox 0x23, % "BuyOldBox2", % "Are you already on the SHOP screen?"
+    _no := false
+    IfMsgBox Yes, {
+    } Else IfMsgBox No, {
+        _no := true
+    } Else IfMsgBox Cancel, {
+        return
+    }
+    MsgBox 0x30, % "WARNING", % "Remember that you need to press the [END] key on your keyboard to finish/cancel the loop!"
+    game.windows["game"].activate(true)
+    Sleep, 2500
+    if (_no) {
+        game.coords.menu.main.buttons.shop.click()
+        Sleep, 500
+    }
     game.coords.menu.shop.filters.item.click()
     Sleep, 500
     game.coords.menu.shop.sub_filters.item.click()
+    loopcount := 0
     SetTimer, BuyOldBox2Loop, 500
+    scriptlog("BuyOldBox2Loop started. Hold [END] key for 20 seconds to finish/abort!")
     return
-F2::
-    ; game.coords.menu.main.buttons.inbox.click()
-    SetTimer, UnboxLoop, 500
-    return
-
 BuyOldBox2Loop:
-    if (GetKeyState("END", "P"))
-        ExitApp
+    if (loopcount > 5000 or GetKeyState("END", "P")) {
+        SetTimer, BuyOldBox2Loop, Off
+        scriptlog("Cancelled BuyOldBox2Loop after " . loopcount . " iterations")
+        SoundBeep
+    }
     game.coords.menu.shop.item.item.oldbox2.click()
     Sleep, 250
     game.coords.menu.shop.item.item.oldbox2.click()
     Sleep, 250
     game.coords.menu.shop.confirm_purchase.purchase_inbox.click()
     Sleep, 950
+    loopcount := loopcount + 1
     return
 
+BuyMedalRotationBox:
+    return
+
+Unbox:
+    MsgBox 0x23, % "BuyOldBox2", % "Are you already on the INBOX screen?"
+    _no := false
+    IfMsgBox Yes, {
+    } Else IfMsgBox No, {
+        _no := true
+    } Else IfMsgBox Cancel, {
+        return
+    }
+    MsgBox 0x30, % "WARNING", % "Remember that you need to press the [END] key on your keyboard to finish/cancel the loop!"
+    game.windows["game"].activate(true)
+    Sleep, 2500
+    if (_no) {
+        scriptlog(game.coords.menu.main.buttons.inbox.str())
+        game.coords.menu.main.buttons.inbox.click()
+        Sleep, 500
+    }
+    loopcount := 0
+    SetTimer, UnboxLoop, 500
+    scriptlog("UnboxLoop started. Hold [END] key for 20 seconds to finish/abort!")
+    return
 UnboxLoop:
-    if (GetKeyState("END", "P"))
-        ExitApp
+    if (loopcount > 5000 or GetKeyState("END", "P")) {
+        SetTimer, UnboxLoop, Off
+        scriptlog("Cancelled UnboxLoop after " . loopcount . " iterations")
+        SoundBeep
+    }
     game.coords.menu.inbox.recieve_all.click()
     Sleep, 500
     game.coords.menu.inbox.confirm.click()
@@ -165,6 +213,7 @@ UnboxLoop:
     Sleep, 150
     game.coords.menu.crate.close.click()
     Sleep, 500
+    loopcount := loopcount + 1
     return
 
 
