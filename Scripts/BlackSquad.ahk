@@ -6,7 +6,15 @@ CoordMode, Mouse, Client
 #Include <blacksquad>
 EnforceAdmin()
 global noui := false
-global game := new Game("G:\Steam\steamapps\common\Black Squad\")
+gamepath := new Directory("G:\Steam\steamapps\common\Black Squad\")
+if (!gamepath.exists()) {
+    InputBox, UserInput, Black Squad not found, Enter black Squad Game Path, , 640, 480
+    if ErrorLevel
+        ExitApp
+    else
+        gamepath := UserInput
+}
+global game := new Game(gamepath.path)
 ; pasteToNotepad(toJson(game, true))
 if (false && game.logfile.exists() && game.patterns && game.patterns.Count() > 0) {
     ; log := new LogTailer(game.logfile.path, Func("OnNewLogLine"), true, "CP28591", "`n")
