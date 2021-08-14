@@ -8,11 +8,11 @@ EnforceAdmin()
 global noui := false
 gamepath := new Directory("G:\Steam\steamapps\common\Black Squad\")
 if (!gamepath.exists()) {
-    InputBox, UserInput, Black Squad not found, Enter black Squad Game Path, , 640, 480
+    InputBox, UserInput, % "Black Squad not found", % "Enter black Squad Game Path", , 640, 480
     if ErrorLevel
         ExitApp
     else
-        gamepath := UserInput
+        gamepath := new Directory(UserInput)
 }
 global game := new Game(gamepath.path)
 ; pasteToNotepad(toJson(game, true))
