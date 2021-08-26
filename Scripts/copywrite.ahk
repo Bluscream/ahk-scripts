@@ -1,6 +1,6 @@
 ﻿; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-copywrite-ahk
 #Persistent
-; #NoTrayIcon
+#NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1

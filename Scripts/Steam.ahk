@@ -92,7 +92,7 @@ Get2FACode:
     txt := StrReplace(txt, ")", "")
     code := asf.getBotByNickname(txt).Get2FACode()
     Clipboard := code
-    SplashScreen(txt, code, 2500)
+    _SplashScreen(txt, code, 2500)
     return
 
 FreeGames:

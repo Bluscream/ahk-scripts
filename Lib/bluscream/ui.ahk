@@ -42,39 +42,47 @@ ShowToolTip(msg){
 }
 
 SplashScreen(title, text="", time=1000) {
-    SetTimer, RemoveSplashScreen, % time
+    initialized := true
     SplashImage, , b FM18 fs12, % title, % text
+    SetTimer, RemoveSplashScreen, % time
 }
+
 RemoveSplashScreen:
     if (initialized) {
-        SetTimer, RemoveSplashScreen, Off
+        initialized := false
         SplashImage, Off
+        SetTimer, RemoveSplashScreen, Off
+        return
     }
 
 global splashscreenqueue := []
 global lastsplashscreen := ""
 _SplashScreen(title, text="", time=1000) {
-    if (title == lastsplashscreen)
+    if (title == lastsplashscreen) {
         return
+    }
     lastsplashscreen := title
-    ; MsgBox % "SplashScreen " . title . " " . text . " " . time
+    scriptlog("SplashScreen " . title . " " . text . " " . time)
     splashscreenqueue.push([title, text, time])
-    if (splashscreenqueue.Count() == 1)
+    if (splashscreenqueue.Count() == 1) {
         Gosub, CheckSplashScreens
+    }
 }
 CheckSplashScreens:
     if (initialized) {
         SetTimer, CheckSplashScreens, Off
         SplashImage, Off
         if (splashscreenqueue.Count() > 0) {
-            ; MsgBox % "splashscreens before: " . toJson(splashscreenqueue)
+            scriptlog("splashscreens before: " . toJson(splashscreenqueue))
             next := splashscreenqueue.RemoveAt(1)
-            ; MsgBox % "splashscreens after: " . toJson(splashscreenqueue)
+            scriptlog("splashscreens after: " . toJson(splashscreenqueue))
             SetTimer, CheckSplashScreens, % next[3]
-            ; MsgBox % "Next splashscreen: " . toJson(next)
+            scriptlog("Next splashscreen: " . toJson(next))
             SplashImage, , b FM18 fs12, % next[1], % next[2]
         }
+        return
     }
+
 MultiLineInputBox(Text:="", Default:="", Caption:="AutoHotKey"){
     static
     ButtonOK:=ButtonCancel:= false

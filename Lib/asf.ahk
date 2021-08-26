@@ -12,11 +12,11 @@ class Bot {
         this._asf := asf
         this.data := data
         this.cfg := config
-        
+        ; scriptlog("New bot " . this.data.botname)
     }
 
     getAPIUrl(endpoint) {
-        return this._asf.url . "/Api/Bot/" . this.name . "/" . endpoint . "?password=" . this._asf.config.token
+        return this._asf.url . "/Api/Bot/" . this.data.botname . "/" . endpoint . "?password=" . this._asf.config.token
     }
 
     getRedeemedKeys() {
@@ -53,7 +53,7 @@ class ASF {
     url := ""
 
     __New(logins := "") {
-            logins := A_Desktop . "\steam.json"
+        logins := A_Desktop . "\steam.json"
         FileRead, logins, % logins
         logins := JSON.Load(logins)
         this.logins := logins
@@ -72,6 +72,7 @@ class ASF {
             }
             this.bots.Push(_bot)
         }
+        scriptlog("New ASF " . this.url)
     }
 
     getBots() {

@@ -8,7 +8,7 @@ class Game {
     logdir := new Directory()
     logfile := new File()
     ; log := new LogTailer()
-    windows := { "launcher": new Window("", "#32770", "BSLauncher.exe"), "game": new Window("BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient", "BlackSquadGame.exe"), "belauncher": new Window("", "", "BlackSquadGame_BELauncher.exe"), "beservice": new Window("", "", "BEService_x64.exe"), "awesomium": new Window("", "", "awesomium_process.exe") }
+    windows := { "launcher": new Window("", "#32770", "BSLauncher.exe"), "game": new Window("BlackSquad", "LaunchCombatUWindowsClient", "BlackSquadGame.exe"), "belauncher": new Window("", "", "BlackSquadGame_BELauncher.exe"), "beservice": new Window("", "", "BEService_x64.exe"), "awesomium": new Window("", "", "awesomium_process.exe") } ;  (64-bit, DX9)
     patterns := {}
     had_error := false
     max_chat_chars := 100
@@ -16,22 +16,23 @@ class Game {
     data := {"starttime":0,"ping":0,"map":"","maps":{},"server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
     coords := {}
 
-    __New(path, eventcallback := "") {
+    __New(path := "", eventcallback := "") {
         this.dir := new Directory(path)
-        if (!this.dir.exists()) {
+        if (!this.dir.exists() || this.dir.path == "\") {
             MsgBox % this.name . " directory " . this.dir.Quote() . " does not exist!"
-        }
-        this.exe := this.dir.combineFile("binaries", "win64", this.windows["game"].exe)
-        this.datafile := this.dir.combineFile("data.json")
-        if (this.datafile.exists() && this.datafile.size() > 0) {
-            this.data := fromJson(this.datafile.read())["data"]
         } else {
-            this.datafile.write(toJson({"data":this.data}, true))
-        }
-        this.logdir := this.dir.combine("CombatGame", "Logs")
-        this.logfile := this.logdir.combineFile("Launch.log")
-        if (!this.logfile.exists()) {
-            MsgBox % this.name . " logfile " . this.logfile.Quote() . " does not exist!"
+            this.exe := this.dir.combineFile("binaries", "win64", this.windows["game"].exe)
+            this.datafile := this.dir.combineFile("data.json")
+            if (this.datafile.exists() && this.datafile.size() > 0) {
+                this.data := fromJson(this.datafile.read())["data"]
+            } else {
+                this.datafile.write(toJson({"data":this.data}, true))
+            }
+            this.logdir := this.dir.combine("CombatGame", "Logs")
+            this.logfile := this.logdir.combineFile("Launch.log")
+            if (!this.logfile.exists()) {
+                ; MsgBox % this.name . " logfile " . this.logfile.Quote() . " does not exist!"
+            }
         }
         this.patterns["log"] :=                  "^\[(\d{4}\.\d{2}\.\d{2}\-\d{2}\.\d{2}\.\d{2})\] (.*)"
         this.patterns["msg"] :=                  "^Log: (.*)"
@@ -96,7 +97,7 @@ class Game {
         this.coords["menu"]["crate"]["swipe_right"] := new Coordinate(this.coords.menu.crate.swipe_left.x+310, this.coords.menu.crate.swipe_left.y, this.windows["game"])
         this.coords["menu"]["crate"]["close"] := new Coordinate(960, 1035, this.windows["game"])
 
-        scriptlog("Created new Game Instance for " . this.name)
+        scriptlog("Created new Instance for " . this.name)
     }
 
 
@@ -113,7 +114,7 @@ class Game {
         if (running)
             this.kill()
         winstr := this.windows["launcher"].str()
-        Run, % steam ? ("steam://rungameid/" . this.appid) : this.dir.combineFile("binaries", this.windows["launcher"].exe).path
+        Run, % steam ? ("C:\Program Files (x86)\Steam\Steam.exe -no-browser steam://rungameid/" . this.appid) : this.dir.combineFile("binaries", this.windows["launcher"].exe).path
         WinWait, % winstr
         ; WinActivate, % winstr
         ; WinWaitActive, % winstr

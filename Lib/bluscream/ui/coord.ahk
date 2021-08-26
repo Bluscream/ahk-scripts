@@ -20,7 +20,7 @@ class Coordinate {
         if (!this.window.isActive())
             return
         MouseMove, this.x, this.y
-        ; scriptlog("Clicking " . this.str() . " " . ClickCount . " times.")
+        scriptlog("Clicking " . this.str() . " " . ClickCount . " times.")
         Loop % ClickCount {
             dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
             sleep, 100
@@ -32,6 +32,7 @@ class Coordinate {
         if (!this.window.isActive())
             return
         MouseMove, this.x, this.y
+        scriptlog("Swiping from " . this.str() . " to " . coord.str())
         dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
         sleep, 50
         MouseMove, coord.x, coord.y, 5
