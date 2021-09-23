@@ -29,12 +29,12 @@ class File {
         FileGetSize, size, % this.path, % units
         return size 
     }
-    run(wait := false, WorkingDir := "") {
+    run(wait := false, WorkingDir := "", arguments := "") {
         if (wait) {
-            RunWait, % this.path, % (WorkingDir ? "": this.directory.path),, OutputVarPID
+            RunWait, % this.path . " " . arguments, % (WorkingDir ? ""WorkingDir: this.directory.path),, OutputVarPID
             return OutputVarPID
         }
-        Run, % this.path, % this.directory.path
+        Run, % this.path . " " . arguments, % this.directory.path
     }
     open(flags := "r", encoding := "UTF-8") {
         return FileOpen(this.path, flags, encoding)
