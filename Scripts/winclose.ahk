@@ -82,6 +82,7 @@ titles.push({title: "Windows Security Alert ahk_class #32770 ahk_exe rundll32.ex
 titles.push({title: "Ahk2Exe Error ahk_class #32770 ahk_exe Ahk2Exe.exe", text: "", action: "CloseWindow"})
 titles.push({title: "ahk_class #32770 ahk_exe AutoHotkeyU32.exe", text: "Warning in #include file", action: "CloseWindow"})
 titles.push({title: "Microsoft Visual C++ Runtime Library ahk_class #32770 ahk_exe TeaClient.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Process Lasso ahk_class #32770 ahk_exe processlasso.exe", text: "", action: "CloseWindow"})
 
 
 ; ":2\"

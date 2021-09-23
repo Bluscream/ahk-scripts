@@ -5,15 +5,19 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-global noui := false
+global noui := true
 #Include <bluscream>
 CoordMode, mouse, Client
-dir := new Paths.User().localappdata.combine("Programs")
-channels := [dir.combineFile("shadow", "Shadow.exe"), dir.combineFile("shadow-preprod", "Shadow Beta.exe"), dir.combineFile("shadow-testing", "Shadow Alpha.exe")]
+global dir := new Paths.User().localappdata.combine("Programs")
+global channels := [dir.combineFile("shadow", "Shadow.exe"), dir.combineFile("shadow-preprod", "Shadow Beta.exe"), dir.combineFile("shadow-testing", "Shadow Alpha.exe")]
+Menu, tray, add
 for i, channel in channels {
     if (channel.exists) {
-        Menu, Tray, Icon, % channel.path
         Menu, tray, add, % "Start " . channel.name, StartShadow
+        if (!hasIcon) {
+            Menu, Tray, Icon, % channel.path
+            hasIcon := true
+        }
     }
 }
 
@@ -24,18 +28,35 @@ global shadow_launcher := new Window("Shadow", "Chrome_WidgetWin_1")
 global shadow := new Window("Shadow", "Shadow-Window-Class") ; , channels[1].fullname
 global processes := [new Process("Shadow.exe"), new Process("Shadow Beta.exe"), new Process("Shadow Alpha.exe")]
 
+
+global button := new Coordinate(202, 518, shadow_launcher, 0, 596, 60)
+global button_enabled := [ 0x4478FD, 0x467DFD ]
+global button_disabled := [ 0x252220, 0x757371 ]
+global button_busy := [ 0x737371 ]
+
+
 global min_time_minutes := 20
 global max_time_minutes := 29
 global interval_seconds := 15
 global interval
 
 ; CreateInterval()
-
-SetTimer, CheckForShadow, % 1000*interval_seconds
 ; AntiAFK()
+for n, param in A_Args
+{
+    StringLower, param, % param
+    if (param == "/start") {
+        channels[1].run()
+        shadow_launcher.activate(true)
+    }
+}
+SetTimer, CheckForShadow, % 1000*interval_seconds
+return
 ; F1::PasteToNotepad(ToJson(channels, true))
 ; Esc::ExitApp
-return
+F5::
+    SearchPixel()
+    return
 
 StartShadow:
     killShadow()
@@ -43,24 +64,29 @@ StartShadow:
     for i, channel in channels {
         if (channel.name != txt)
             continue
-        Run, % "D:\\Desktop\\_SHORTCUTS\\" . channel.name . ".lnk"
-        ; channel.run()
+        channel.run()
     }
     return
 
 CheckForShadow:
+    SetTimer, CheckForShadow, Off
     if (shadow.exists()) {
         if (A_TimeIdle > 600) {
             ; scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
             ; AntiAFK()
         }
     } else if (shadow_launcher.exists()) {
-        ControlClick, x595 y827, % shadow_launcher.str(),, left, 1, Pos
+        shadow_launcher.activate(true)
+        button.click()
+        ExitApp
+        ; SetTimer, CheckForShadow, Off
+        ; ControlClick, x595 y827, % shadow_launcher.str(),, left, 1, Pos
         ; MouseClick, left, 552, 575
     } else {
         ; scriptlog("Starting " . channels[3].path)
         ; channels[3].run() ; Run % channel.path
     }
+    SetTimer, CheckForShadow, % 1000*interval_seconds
     return
 
 killShadow() {
@@ -71,6 +97,26 @@ killShadow() {
         process_closed := p.close()
         process_killed := p.kill(true, true)
     }
+}
+
+SearchPixel() {
+  ; PixelSearch, OX, OY, X1,   Y1,  X2,  Y2, ColorID       , Variation, Mode
+    CoordMode, Pixel, Relative
+    PixelSearch, Px, Py, button.y+10, button.y+10, button.x+button.w-10, button.y+button.h-10, button_disabled[1], 50, Fast
+    if not ErrorLevel
+        ; MsgBox, A color within 50 shades of variation was found at X%Px% Y%Py%.
+        MouseMove, Px, Py
+}
+
+SearchImage() {
+    CoordMode Pixel  ; Interprets the coordinates below as relative to the screen rather than the active window.
+    ImageSearch, FoundX, FoundY, 0, 0, A_ScreenWidth, A_ScreenHeight, *Icon3 %A_ProgramFiles%\SomeApp\SomeApp.exe
+    if (ErrorLevel = 2)
+        MsgBox Could not conduct the search.
+    else if (ErrorLevel = 1)
+        MsgBox Icon could not be found on the screen.
+    else
+        MsgBox The icon was found at %FoundX%x%FoundY%.
 }
 
 AntiAFK() {
