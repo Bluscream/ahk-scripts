@@ -19,7 +19,7 @@ SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
 compile := false
-RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "D:\OneDrive\AutoHotKey\Scripts\blacksquad.ahk" /out "D:\OneDrive\AutoHotKey\Scripts\bin\blacksquad.exe" /mpress 1
+; RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "D:\OneDrive\AutoHotKey\Scripts\blacksquad.ahk" /out "D:\OneDrive\AutoHotKey\Scripts\bin\blacksquad.exe" /mpress 1
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
 ; Return

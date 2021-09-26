@@ -117,6 +117,10 @@ OnVirtualDesktopFullyConnected() {
     if (!steam.exists()) {
         scriptlog("Starting Steam")
         Run % "steam://open/console"
+        SleepS(15)
+        steam.activate()
+        SleepS(1)
+        scriptlog("Waiting for Steam ...")
         steam.activate(true)
     }
     no_steamvr := (!steamvr.vrmonitor.exists() or isSteamVRFail())
@@ -124,8 +128,14 @@ OnVirtualDesktopFullyConnected() {
     if (no_steamvr) {
         scriptlog("Killing SteamVR")
         killAll(steamvr)
-        ; Run % steamvr_uri
-        ; steamvr.vrmonitor.activate(true)
+        SleepS(1)
+        scriptlog("Starting SteamVR")
+        Run % steamvr_uri
+        SleepS(15)
+        steamvr.vrmonitor.activate()
+        SleepS(1)
+        scriptlog("Waiting for SteamVR ...")
+        steamvr.vrmonitor.activate(true)
     }
     if (!new Process(vrcx.fullname).exists()) {
         scriptlog("Starting " . vrcx.path)
@@ -136,6 +146,9 @@ OnVirtualDesktopFullyConnected() {
         killAll(vrchat)
         Run % vrchat_uri
         ; vrchat_file.run(false, "", "--quitfix --enable-sdk-log-levels")
+        SleepS(1)
+        scriptlog("Waiting for VRChat ...")
+        vrchat.game.activate(true)
     }
 }
 

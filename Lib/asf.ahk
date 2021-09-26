@@ -125,6 +125,9 @@ class ASF {
     getBot(botname) {
         return this.getBotByBotName(botname)
     }
+    getMain() {
+        return this.getBotByBotName(this.logins.asf.main)
+    }
 
     getAPIUrl(endpoint := "", bot := "asf") {
         bot := (bot == "_" ? "" : "/Bot/" . bot)
