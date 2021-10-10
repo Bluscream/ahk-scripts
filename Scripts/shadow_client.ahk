@@ -1,44 +1,51 @@
-﻿#SingleInstance Force
+#SingleInstance Force
 #NoEnv
-; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-global noui := true
+global noui := false
 #Include <bluscream>
+scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 CoordMode, mouse, Client
-global dir := new Paths.User().localappdata.combine("Programs")
-global channels := [dir.combineFile("shadow", "Shadow.exe"), dir.combineFile("shadow-preprod", "Shadow Beta.exe"), dir.combineFile("shadow-testing", "Shadow Alpha.exe")]
+_channels := {}
+_channels["stable"] := new Process().fromFile(new Paths.User().localappdata.combineFile("Programs", "shadow", "Shadow.exe"))
+_channels["beta"] := new Process().fromFile(new Paths.User().localappdata.combineFile("Programs", "shadow-preprod", "Shadow Beta.exe"))
+_channels["alpha"] := new Process().fromFile(new Paths.User().localappdata.combineFile("Programs", "shadow-testing", "Shadow Alpha.exe"))
+global channels := {}
 Menu, tray, add
-for i, channel in channels {
-    if (channel.exists) {
-        Menu, tray, add, % "Start " . channel.name, StartShadow
+for name, channel in _channels {
+    exists := FileExist(channel.file.path)
+    ; scriptlog("_channel: " . name . " path: " . channel.file.path . " exists: " . exists)
+    if (exists) {
+        channels[name] := channel
+        Menu, tray, add, % "Start " . channel.file.name, StartShadow
         if (!hasIcon) {
-            Menu, Tray, Icon, % channel.path
+            Menu, Tray, Icon, % channel.file.path
             hasIcon := true
         }
+        ; scriptlog("channel: " . name . " path: " . channels[name].file.path . " exists: " . FileExist(channels[name].file.path))
     }
 }
-
-toggle := 0
-fixedY := A_ScreenHeight/2
+; PasteToNotepad((ToJson(channels, true)))
+; fixedY := A_ScreenHeight/2
 
 global shadow_launcher := new Window("Shadow", "Chrome_WidgetWin_1")
 global shadow := new Window("Shadow", "Shadow-Window-Class") ; , channels[1].fullname
-global processes := [new Process("Shadow.exe"), new Process("Shadow Beta.exe"), new Process("Shadow Alpha.exe")]
 
 
 global button := new Coordinate(202, 518, shadow_launcher, 0, 596, 60)
-global button_enabled := [ 0x4478FD, 0x467DFD ]
-global button_disabled := [ 0x252220, 0x757371 ]
-global button_busy := [ 0x737371 ]
+; global button_enabled := [ 0x4478FD, 0x467DFD ]
+; global button_disabled := [ 0x252220, 0x757371 ]
+; global button_busy := [ 0x737371 ]
 
 
-global min_time_minutes := 20
-global max_time_minutes := 29
+; global min_time_minutes := 20
+; global max_time_minutes := 29
 global interval_seconds := 15
-global interval
+; global interval
+global force_connect := false
+global start_channel := ""
 
 ; CreateInterval()
 ; AntiAFK()
@@ -46,45 +53,60 @@ for n, param in A_Args
 {
     StringLower, param, % param
     if (param == "/start") {
-        channels[1].run()
-        shadow_launcher.activate(true)
+        start_channel := Trim(A_Args[n+1])
+        StringLower, start_channel, % start_channel
+        ; scriptlog("/start was set. Starting " . start_channel . " (" . channels[start_channel].file.path . ")")
+        ; channels[start_channel].file.run()
+        ; shadow_launcher.activate(true)
+    }
+    else if (param == "/force") {
+        force_connect := true
+        scriptlog("/force was set. Forcing connect")
     }
 }
 SetTimer, CheckForShadow, % 1000*interval_seconds
+gosub CheckForShadow
 return
 ; F1::PasteToNotepad(ToJson(channels, true))
 ; Esc::ExitApp
-F5::
-    SearchPixel()
-    return
+; F5::
+    ; SearchPixel()
+    ; return
 
 StartShadow:
     killShadow()
     txt := StrReplace(A_ThisMenuItem, "Start ", "")
     for i, channel in channels {
-        if (channel.name != txt)
+        if (channel.file.name != txt)
             continue
-        channel.run()
+        channel.file.run()
     }
     return
 
 CheckForShadow:
     SetTimer, CheckForShadow, Off
     if (shadow.exists()) {
-        if (A_TimeIdle > 600) {
+        ; if (A_TimeIdle > 600) {
             ; scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
             ; AntiAFK()
-        }
+        ; }
     } else if (shadow_launcher.exists()) {
-        shadow_launcher.activate(true)
-        button.click()
-        ExitApp
-        ; SetTimer, CheckForShadow, Off
-        ; ControlClick, x595 y827, % shadow_launcher.str(),, left, 1, Pos
-        ; MouseClick, left, 552, 575
+        if (force_connect) {
+            ; scriptlog("clicking button " . button.str())
+            shadow_launcher.activate(true)
+            Sleep, 250
+            button.click()
+            ; SetTimer, CheckForShadow, Off
+            ; ControlClick, x595 y827, % shadow_launcher.str(),, left, 1, Pos
+            ; MouseClick, left, 552, 575
+        }
     } else {
-        ; scriptlog("Starting " . channels[3].path)
-        ; channels[3].run() ; Run % channel.path
+        if (start_channel != "") {
+            scriptlog("Couldn't find shadow " . start_channel . " launcher. Starting ...")
+            channels[start_channel].file.run()
+        }
+        ; scriptlog("Starting " . channels[3].file.path)
+        ; channels[3].file.run() ; Run % channel.path
     }
     SetTimer, CheckForShadow, % 1000*interval_seconds
     return
@@ -96,6 +118,14 @@ killShadow() {
         SplashScreen(p.name, "Killing process " . count . " / " . processes.Count(), 250)
         process_closed := p.close()
         process_killed := p.kill(true, true)
+    }
+}
+
+getChannelByName(name := "") {
+    for _name, channel in channels {
+        if (_name == name) {
+            return channel
+        }
     }
 }
 
