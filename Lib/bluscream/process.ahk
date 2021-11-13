@@ -11,6 +11,12 @@ class Process {
     fromPid(pid := 0) {
         return new Process(this.winmgmts(pid).Name)
     }
+    fromFile(file) {
+        proc := new Process()
+        proc.file := file
+        proc.name := file.fullname
+        return proc
+    }
     exists() {
         Process, Exist, % this.name
         return ErrorLevel

@@ -28,7 +28,7 @@ class Coordinate {
         x := (this.w > 0 ? this.x + this.w / 2 : this.x)
         y := (this.h > 0 ? this.y + this.h / 2 : this.y)
         MouseMove, x, y
-        scriptlog("Clicking X: " . this.x . " Y: " . this.y . " " . ClickCount . " times.")
+        ; scriptlog("Clicking X: " . this.x . " Y: " . this.y . " " . ClickCount . " times.")
         Loop % ClickCount {
             dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
             sleep, 100
