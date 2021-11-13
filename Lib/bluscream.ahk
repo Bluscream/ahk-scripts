@@ -100,12 +100,12 @@ WaitForKey(msg="", key="NumpadAdd"){
         KeyWait, % key, D
     }
 }
-PressKey(key, presses=1, sleepms=80, keyms=20, verbose=false, msg="") {
+PressKey(key, presses=1, sleepms=80, keyms=20, verbose=false, msg="", raw=false) {
     if (verbose) scriptlog("Pressing key " . key . " " . (presses > 1 ? presses . " times (interval: " . keyms . " " : "(") . "delay: " . sleepms . ")" . (msg ? ": " . msg : ""))
     loop, % presses {
-        Send, % "{" key " down}"
+        Send, % (raw ? "{Raw}" : "") . "{" key " down}"
         Sleep, %keyms%
-        Send, % "{" key " up}"
+        Send, % (raw ? "{Raw}" : "") . "{" key " up}"
         Sleep, %sleepms%
     }
 }

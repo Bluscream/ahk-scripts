@@ -12,7 +12,7 @@ SendMode, Input
 ; EnforceAdmin()
 
 global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
-global modmenu := new ModMenu("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\")
+global modmenu := new ModMenu("S:\Desktop\modest-menu\")
 global dslep := 150
 
 Menu, Tray, Icon, % game.exe.path
@@ -27,7 +27,7 @@ modmenu.getWindow(true)
 modmenu.getControls()
 global logfile := new File("gta modmenu texts.txt")
 return
-
+/*
 F4:: ; Startup Stuffs
     return
     SplashScreen("", "Startup stuff")
@@ -115,11 +115,11 @@ F10:: ; Vehicle Godmode
 F11:: ; Restart Script
     RestartScript()
     return
-
+*/
 CheckWindows() {
     if (game.windows.game.exists()) {
         if (!modmenu.window.process.exists()) {
-            new File("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\modest-menu.exe").run()
+            new File("S:\Desktop\modest-menu\modest-menu.exe").run()
             WinWait, % modmenu.window.str()
             modmenu.window := modmenu.getWindow(true)
             SplashScreen("Started " . modmenu.name)
@@ -133,7 +133,7 @@ CheckWindows() {
 restartMenuFunc() {
     modmenu.window.Close()
     modmenu.window.Kill()
-    new File("C:\Users\Shadow\Desktop\modest-menu_v0.8.10\modest-menu.exe").run()
+    new File("S:\Desktop\modest-menu\modest-menu.exe").run()
 }
 
 restartGameFunc() {

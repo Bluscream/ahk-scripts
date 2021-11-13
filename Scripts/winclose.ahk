@@ -83,7 +83,10 @@ titles.push({title: "Ahk2Exe Error ahk_class #32770 ahk_exe Ahk2Exe.exe", text: 
 titles.push({title: "ahk_class #32770 ahk_exe AutoHotkeyU32.exe", text: "Warning in #include file", action: "CloseWindow"})
 titles.push({title: "Microsoft Visual C++ Runtime Library ahk_class #32770 ahk_exe TeaClient.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Process Lasso ahk_class #32770 ahk_exe processlasso.exe", text: "", action: "CloseWindow"})
-
+; titles.push({title: "Lua Callback ahk_class #32770 ahk_exe modest-menu.exe ahk_pid 10740", text: "attempt to call a nil value", action: "CloseWindow"})
+; titles.push({title: "OnPlayerChanged Callback ahk_class #32770 ahk_exe modest-menu.exe ahk_pid 10740", text: "autorun.lua:8: attempt to index a nil value (global 'PedConfigFlag')", action: "CloseWindow"})
+titles.push({title: "ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", text: "", action: "ClickButton:&No"})
 
 ; ":2\"
 

@@ -4,12 +4,16 @@ SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 #Include <bluscream>
 
+perm_profiles := [ "Bluscream (SP)" ]
 ; regex_profile := "i)profiles"
 
 scriptlog("Started logging to console")
 dirs := 0
 profiles := 0
 profiles_unique := {}
+for i,n in perm_profiles {
+    scriptlog(n . ": " . StringToHex(n, false))
+}
 Loop, %A_WorkingDir%\*,2,0
 {
     ; if !RegExMatch(A_LoopFileName, regex_profile) {
@@ -47,4 +51,5 @@ for index, value in profiles_unique {
 WriteToFile(A_WorkingDir . "\profiles_index.csv", Result)
 scriptlog("FINISHED: Processed " . profiles . " profiles (" . profiles_unique_count . " unique) in " . dirs . " folders`r`n")
 WaitForKey("")
+
 ; Run, Notepad "%filepath%"
