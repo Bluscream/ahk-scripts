@@ -1,3 +1,10 @@
+WinStr(id) {
+    WinGetClass, class, ahk_id %id%
+    WinGetTitle, title, ahk_id %id%
+    WinGet, exe, ProcessName, ahk_id %id%
+    return (title ? title : "") . (class ? (" ahk_class " . class) : "") . (exe ? (" ahk_exe " . exe) : "") . (id ? (" ahk_id " . id) : "")
+}
+
 class Window {
     title := ""
     class := ""
@@ -5,15 +12,40 @@ class Window {
     process := new Process()
     file := new File()
     id := ""
+    text := ""
 
-    __New(title := "", class := "", exe :="", path := "") {
+    __New(title := "", class := "", exe :="", path := "", id := 0) {
         this.title := title
         this.class := class
         this.exe := exe
         this.process := new Process(exe)
         ; this.file := this.process.file
-        ; this.id := id
+        this.id := id
         this.file := (path ? new File(path) : new File(exe))
+        WinGetText, text, % "ahk_id " . id
+        this.text := text
+    }
+
+    fromId(id) {
+        idstr := "ahk_id " . id
+        WinGetTitle, title, % idstr
+        WinGetClass, class, % idstr
+        WinGet, exe, ProcessName, % idstr
+        return new Window(title, class, exe, "", id)
+    }
+
+    fromString(str) {
+        splt := StrSplit(str, " ahk_")
+        for i, part in split {
+            if (startsWith(part, "class"))
+                class := StrReplace(part, "class ", "", 0, 1)
+            else if (startsWith(part, "exe"))
+                exe := StrReplace(part, "exe ", "", 0, 1)
+            else if (startsWith(part, "id"))
+                id := StrReplace(part, "id ", "", 0, 1)
+            else title := part
+        }
+        return new Window(title, class, exe, "", id)
     }
 
     str() {

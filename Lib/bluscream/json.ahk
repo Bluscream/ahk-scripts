@@ -28,22 +28,23 @@ GetJson(url, auth := "") {
 }
 PostJson(url, payload) {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    ; MsgBox % "PostJson.url: " . url
+    scriptlog("PostJson.url: " . url)
     HttpObj.Open("POST", url, 0)
     HttpObj.SetRequestHeader("Content-Type", "application/json")
     _json := JSON.Dump(payload)
     if !(_json) {
-        ; MsgBox % "PostJson payload:"
+        scriptlog("PostJson payload:")
         _json := json_fromobj(payload)
     }
-    ; MsgBox % "PostJson._json: " . toJson(_json)
+    scriptlog("PostJson._json: " . toJson(_json))
     HttpObj.SetTimeouts(0,999999,999999,999999)
     HttpObj.Send(_json)
     HttpObj.WaitForResponse()
     _json := JSON.Load(HttpObj.ResponseText)
     if !(_json) {
-        ; MsgBox % "PostJson ResponseText:"
+        scriptlog("PostJson ResponseText:")
         _json := json_toobj(HttpObj.ResponseText)
+        scriptlog(_json)
     }
     return _json
 }

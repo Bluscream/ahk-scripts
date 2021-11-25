@@ -59,6 +59,26 @@ class _Array {
         }
         return SubStr(s,StrLen(this)+1)
     }
+    contains(val) {
+        For Index, ListItem in this
+            If (ListItem = val)
+                Return True
+    }
+    removeByValue(val) {
+        for each, item in this {
+            if (val == item) {
+                return x.RemoveAt(A_Index)
+            }
+        }
+    }
+    removeAllByValue(val) {
+        for each, item in this {
+            if (val == item) {
+                x.RemoveAt(A_Index)
+            }
+        }
+        return this
+    }
     scramble() {
         s := this.insertDelims(this, "|")
         Sort, s, Random, D|

@@ -24,4 +24,11 @@ class Directory {
     ShowInFileExplorer() {
         Run % "explorer.exe " . this.Quote()
     }
+    getNewestFile(pattern := "*.*") {
+        pattern := this.path . pattern
+        Loop %pattern%
+        If (A_LoopFileTimeModified >= _time)
+            _time := A_LoopFileTimeModified, _file := A_LoopFileLongPath
+        return new File(_file)
+    }
 }

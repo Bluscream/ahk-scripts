@@ -9,7 +9,7 @@ class LogTailer {
     __New(FileName, Callback, StartWithLastLine := false, Encoding := "UTF-8", LineEndings := "`n"){
         this.fileName := FileName
         this.callback := callback
-        fileHandle := FileOpen(FileName, "r " . LineEndings, Encoding)
+        fileHandle := FileOpen(FileName, "r-d " . LineEndings, Encoding)
         if (!IsObject(fileHandle)){
             MsgBox % "Unable to load file " FileName
             ExitApp
@@ -21,6 +21,10 @@ class LogTailer {
         this.ReadFn := fn
         this.Start()
     }
+
+    /*
+"%A_ProgramFiles%\Unlocker\Unlocker.exe" "%listfile%" /L /S
+*/
     
     Read(){
         len := this.fileHandle.Lengths
