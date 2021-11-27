@@ -14,14 +14,14 @@ global subscribed_windows := []
 global am := new AutoMagic()
 
 ; am.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "com.vanced.android.youtube")
-am.createToast("AutoHotKey Initialized", 1)
+am.createToast("AutoHotKey Connected", 1)
 scriptlog(toJson(am))
 
 
 scriptlog("init end")
 return
 
-#A::
+#Y::
     WinGet, winid ,, A
     win := Window.fromId(winid)
     if (subscribed_windows.contains(win)) {

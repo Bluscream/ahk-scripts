@@ -45,8 +45,10 @@ class AutoMagic {
             }
         }
         if (!_json) {
-            MsgBox 0x10, % "AutoHotKey - Error", % "AutoMagic server not found, exiting...`n`n" . StrSplit(url, "?")[1]
-            ExitApp
+            err := "AutoMagic server not found, exiting...`n`n" . StrSplit(url, "?")[1]
+            scriptlog(err)
+            ; MsgBox 0x10, % "AutoHotKey - Error", % err
+            return {}
         }
         scriptlog(toJson(_json))
         return _json

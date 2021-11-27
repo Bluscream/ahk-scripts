@@ -1,6 +1,6 @@
 #SingleInstance, force
 #Include <bluscream>
-global script_debug := new Window("BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient", "BlackSquadGame.exe")
+; global script_debug := new Window("BlackSquad (64-bit, DX9)", "LaunchCombatUWindowsClient", "BlackSquadGame.exe")
 
 CoordMode, Mouse, Screen
 Menu, tray, add, Debug, debugFunc
