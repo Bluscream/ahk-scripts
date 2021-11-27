@@ -59,6 +59,12 @@ class AutoMagic {
     post(endpoint := "", payload := "") {
         return this.http("POST", endpoint, payload)
     }
+    put(endpoint := "", payload := "") {
+        return this.http("PUT", endpoint, payload)
+    }
+    delete(endpoint := "", payload := "") {
+        return this.http("DELETE", endpoint, payload)
+    }
     
     ping() {
         return this.get("ping")
@@ -68,8 +74,11 @@ class AutoMagic {
         title := (title == "") ? "AutoHotKey - " . A_UserName . "@" . A_ComputerName : title
         if (bigmessage != "")
             bigmessage := message . "`n`n" . bigmessage
-        this.get("notification/create", { "title": URIEncode(title), "message": URIEncode(message), "bigmessage": URIEncode(bigmessage)})
+        return this.get("notification/create", { "title": URIEncode(title), "message": URIEncode(message), "bigmessage": URIEncode(bigmessage)})
     }
+
+    deleteNotification(id) {
+        this.delete("notification", { "id": id })
 
     createToast(msg := "AutoHotKey", isLong := 0) { ; , gravity := "", x := 0, y := 0
         this.get("toast/create", { "msg": URIEncode(msg), "long": isLong })
@@ -77,6 +86,10 @@ class AutoMagic {
 
     shutdown(delay := 0) {
         this.get("shutdown", { "sleep": delay })
+    }
+
+    reboot(delay := 0) {
+        return this.get("reboot", { "sleep": delay})
     }
 
     setClipboard(text) { ; TODO: FIX
@@ -97,6 +110,22 @@ class AutoMagic {
         this.get("url/open", params)
     }
 
+    openApp(package, class := "") {
+        this.get("app/open", { "package": package, "class": class })
+    }
+    closeApp(package) {
+        this.get("app/close", { "package": package })
+    }
+    killApp(package) {
+        this.get("app/kill", { "package": package })
+    }
+    installApp(package) {
+        this.put("app", { "package": package })
+    }
+    uninstallApp(package) {
+        this.delete("app", { "package": package })
+    }
+
     lock() {
         this.get("screen/lock")
     }
@@ -108,5 +137,14 @@ class AutoMagic {
     }
     recordScreen(save_as := "/storage/emulated/0/recording.mp4", send_to_url := "") {
         this.get("screen/record", { "file": save_as, "send_to_url": send_to_url})
+    }
+    stopRecordScreen() {
+        this.delete("screen/record")
+    }
+    recordAudio(save_as := "/storage/emulated/0/recording.mp3", send_to_url := "") {
+        this.get("audio/record", { "file": save_as, "send_to_url": send_to_url})
+    }
+    stopRecordAudio() {
+        this.delete("audio/record")
     }
 }
