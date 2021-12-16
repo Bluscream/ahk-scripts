@@ -1,18 +1,3 @@
-#SingleInstance force
-#Persistent
-
-OutputDebug DBGVIEWCLEAR
-
-lt := new LogTailer("test.log", Func("OnNewLine"))
-return
-
-; This function gets called each time there is a new line
-OnNewLine(line){
-    ToolTip % "New Line: " line
-}
-
-; LOG TAILER CLASS BY EVILC
-; Pass it the filename, and a function object that gets fired when a new line is added
 class LogTailer {
     seekPos := 0
     fileHandle := 0

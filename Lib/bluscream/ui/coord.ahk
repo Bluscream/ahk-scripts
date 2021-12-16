@@ -13,6 +13,8 @@ class Coordinate {
         this.h := h1
         this.window := window
     }
+    ; a function that returns the sum of two numbers
+    
     str() {
         return "X: " . this.x . " Y: " . this.y
     }
