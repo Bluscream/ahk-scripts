@@ -54,6 +54,7 @@ titles.push({title: "Can’t reach this page (Not Responding) ahk_class Ghost ",
 titles.push({title: "TC4Shell ahk_class TTrialForm", text: "", action: "ClickButton:&Continue"})
 titles.push({title: "OpenVR Advanced Settings Overlay - Advanced Settings ahk_class Qt5QWindowIcon ahk_exe AdvancedSettings.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Allow game launch? ahk_class vguiPopupWindow ahk_exe Steam.exe", text: "", action: "Click:X316 Y197"})
+titles.push({title: "Warning ahk_class vguiPopupWindow ahk_exe steam.exe", text: "", action: "Click:X283 Y88"})
 titles.push({title: "Error ahk_class #32770 ahk_exe SideQuest.exe", text: "", action: "CloseWindow"})
 
 titles.push({title: "WindowMenuPlus ahk_class #32770 ahk_exe WindowMenuPlus.exe", text: "The configuration is available from TaskTray icon menu.", action: "CloseWindow"})
@@ -87,6 +88,7 @@ titles.push({title: "Process Lasso ahk_class #32770 ahk_exe processlasso.exe", t
 ; titles.push({title: "OnPlayerChanged Callback ahk_class #32770 ahk_exe modest-menu.exe ahk_pid 10740", text: "autorun.lua:8: attempt to index a nil value (global 'PedConfigFlag')", action: "CloseWindow"})
 titles.push({title: "ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", text: "", action: "ClickButton:&No"})
+titles.push({title: "MCEdit Error ahk_class QWidget ahk_exe mcedit2.exe", text: "", action: "CloseWindow"})
 
 ; ":2\"
 
@@ -95,6 +97,14 @@ titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", t
 ;<=====  Setup our timer  =====================================================>
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>
+return
+
+<#e::
+    if (!Process.Exist("explorer.exe")) {
+        Run explorer
+    }
+    return
+
 runChecks(){
   Global
   for i, window in titles {
