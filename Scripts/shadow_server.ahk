@@ -27,7 +27,7 @@ global vd := { windows: { server: new Window("", "", "VirtualDesktop.Server.exe"
 
 
 global steam := { uri: ["steam://open/console", ""]
-    , uri_minicon: [ """C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist" ]
+    ,uri_minicon: [ """C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist" ]
     ,windows: { steam: new Window("Steam", "vguiPopupWindow", "steam.exe") } }
 
 global steamvr := { uri: ["steam://rungameid/250820", ""]
@@ -182,7 +182,7 @@ KillBloat() {
         ; scriptlog("[UNBLOAT] Stopping service " . service)
         Run % "sc stop " . service
     }
-    scriptlog("[UNBLOAT] Stopping " . bloat.processes.Count() . " processes")
+    scriptlog("[UNBLOAT] Killing " . bloat.processes.Count() . " processes")
     for i, process in bloat.processes {
         ; scriptlog("[UNBLOAT] Killing process " . process . ".exe")
         Run % "taskkill /f /im " . process . ".exe"
@@ -196,12 +196,12 @@ KillBloat() {
 
 CheckSteamVR() {
     if (!steam.exists()) {
-        scriptlog("Starting Steam")
+        scriptlog("Starting " . steam.uri[1] . " " . steam.uri[2])
         ShellRun(steam.uri[1], steam.uri[2])
-        SleepS(15)
+        SleepS(5)
         steam.windows.steam.activate()
         SleepS(1)
-        scriptlog("Waiting for Steam ...")
+        scriptlog("Waiting for " . steam.windows.steam.title . " ...")
         steam.windows.steam.activate(true)
     }
     no_steamvr := (!steamvr.windows.vrmonitor.exists() or isSteamVRFail())
@@ -209,12 +209,12 @@ CheckSteamVR() {
         scriptlog("Killing SteamVR")
         killAll(steamvr)
         SleepS(1)
-        scriptlog("Starting SteamVR")
+        scriptlog("Starting " . steamvr.uri[1] . " " . steamvr.uri[2])
         ShellRun(steamvr.uri[1], steamvr.uri[2])
         SleepS(15)
         steamvr.windows.vrmonitor.activate()
         SleepS(1)
-        scriptlog("Waiting for SteamVR ...")
+        scriptlog("Waiting for " . steamvr.windows.vrmonitor.title . " ...")
         steamvr.windows.vrmonitor.activate(true)
     }
     return no_steamvr
@@ -223,12 +223,12 @@ CheckSteamVR() {
 CheckGame(no_steamvr) {
     game_was_running_fine := (!no_steamvr and game.window.exists())
     if (!game_was_running_fine) {
-        scriptlog("Starting " . game.uri)
+        scriptlog("Starting " . game.uri[1] . " " . game.uri[2])
         killAll(game)
         ShellRun(game.uri[1], game.uri[2])
         SleepS(1)
-        scriptlog("Waiting for game ...")
-        game.windows["game"].activate(true)
+        scriptlog("Waiting for " . game.windows.game.title . " ...")
+        game.windows.game.activate(true)
     }
 }
 ; fail
