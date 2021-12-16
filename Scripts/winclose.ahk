@@ -100,9 +100,8 @@ SetTimer, runChecks, 500 ; Check every 1/8th second
 return
 
 <#e::
-    if (!Process.Exist("explorer.exe")) {
+    if (!Process.Exist("explorer.exe"))
         Run explorer
-    }
     return
 
 runChecks(){

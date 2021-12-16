@@ -16,6 +16,8 @@ if (FileExist(ShadowProcessator.path)) {
     scriptlog("Icon set: " . Quote(ShadowProcessator.path))
 }
 
+global perf_mode := false
+
 global vd := { windows: { server: new Window("", "", "VirtualDesktop.Server.exe")
         ,streamer: new Window("Virtual Desktop Streamer", "HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;117aaec4-0fa3-4fdc-b637-eb3c7fd4dc5b]", "VirtualDesktop.Streamer.exe") }
     ,files: { streamer: new Directory("C:\Program Files\Virtual Desktop Streamer").CombineFile(vd.windows.streamer.exe) }
@@ -37,15 +39,15 @@ global steamvr := { uri: ["steam://rungameid/250820", ""]
         ,vrserver: new Window("", "", "vrserver.exe") } }
 
 
-; ets2
-global game := { name: "Euro Truck Simulator 2"
+
+global game := { name: "ets2"
     ,uri : ["steam://rungameid/227300", ""]
     ,windows: { game: new Window("Euro Truck Simulator 2", "prism3d", "eurotrucks2.exe") }
     ,processes: { }
     ,files: { game: new Directory("S:\Steam\steamapps\common\Euro Truck Simulator 2").CombineFile("bin", "win_x64", "eurotrucks2.exe") } }
 
-; vrchat
-; global game := { name: "VRChat"
+
+; global game := { name: "vrc_mods"
 ;     ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
 ;     ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat.exe")
 ;         ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game.exe)
@@ -68,6 +70,7 @@ for n, param in A_Args
         vd.safe_mode := true
     } else if (param == "/min" || param == "/perf") {
         scriptlog("Performance mode enabled (" . param . ")")
+        perf_mode := true
         steam.uri := steam.uri_minicon
     }
 }
@@ -164,7 +167,8 @@ OnVirtualDesktopFullyConnected() {
 
     CheckGame(no_steamvr)
 
-    KillBloat()
+    if (perf_mode)
+        KillBloat()
 }
 
 OnVirtualDesktopDisconnected() {
