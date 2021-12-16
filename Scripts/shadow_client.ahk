@@ -1,4 +1,4 @@
-﻿#SingleInstance Force
+#SingleInstance Force
 #NoEnv
 #Persistent
 SetWorkingDir %A_ScriptDir%
@@ -175,6 +175,14 @@ killShadow:
     if (auto_kill)
         SetTimer, CheckForShadow, % 1000*interval_seconds
     return
+
+getChannelByName(name := "") {
+    for _name, channel in channels {
+        if (_name == name) {
+            return channel
+        }
+    }
+}
 
 SearchPixel() {
   ; PixelSearch, OX, OY, X1,   Y1,  X2,  Y2, ColorID       , Variation, Mode
