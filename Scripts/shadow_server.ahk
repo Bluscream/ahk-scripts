@@ -61,7 +61,7 @@ global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSear
     ,custom: [] }
 
 
-A_Args := [ "/min" ]
+A_Args := [ "/bloat" ]
 for n, param in A_Args
 {
     StringLower, param, % param
@@ -72,7 +72,10 @@ for n, param in A_Args
         scriptlog("Performance mode enabled (" . param . ")")
         perf_mode := true
         steam.uri := steam.uri_minicon
-    }
+    } else if (param == "/bloat") {
+        KillBloat()
+        ExitApp
+    } 
 }
 Acc_Init()
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()

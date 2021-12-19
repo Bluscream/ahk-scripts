@@ -89,6 +89,8 @@ titles.push({title: "Process Lasso ahk_class #32770 ahk_exe processlasso.exe", t
 titles.push({title: "ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", text: "", action: "ClickButton:&No"})
 titles.push({title: "MCEdit Error ahk_class QWidget ahk_exe mcedit2.exe", text: "", action: "CloseWindow"})
+titles.push({title: "StartAllBack configuration ahk_class TMain ahk_exe StartAllBackCfg.exe", text: "Activate via web browser", action: "CloseWindow"})
+titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text: "Initialization failed (no speaker/mic present?)", action: "KillProcess"})
 
 ; ":2\"
 
@@ -98,7 +100,8 @@ titles.push({title: "MCEdit Error ahk_class QWidget ahk_exe mcedit2.exe", text: 
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>
 return
-
+<#c::Run cmd
+<#p::Run powershell
 <#e::
     if (!Process.Exist("explorer.exe"))
         Run explorer
@@ -122,14 +125,18 @@ runChecks(){
       action := window["action"]
       if (action) {
         action := StrSplit(action, ":")
-        if (action[1] == "ClickButton") {
-            ControlClick, % action[2], ahk_id %hwnd%
-            Continue
-        } else if (action[1] == "CloseWindow"){
+        if (action[1] == "CloseWindow"){
             closeWindow(ahk_id %hwnd%)
             Continue
-        } else if (action[1] == "Click"){
+        } else if (action[1] == "KillProcess"){
+            WinGet, proc, ProcessName, ahk_id %hwnd%
+            Process, Close, % proc
+        } else if (action[1] == "ClickButton") {
             ControlClick, % action[2], ahk_id %hwnd%
+            Continue
+        }  else if (action[1] == "Click"){
+            ControlClick, % action[2], ahk_id %hwnd%
+            Continue
         }
       }
     }
