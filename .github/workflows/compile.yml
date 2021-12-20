@@ -42,12 +42,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Compile script
       run: |
-        New-Item -ItemType Directory -Path "D:\a\ahk-scripts\ahk-scripts\bin"
+        $compiled_dir = "D:\a\ahk-scripts\ahk-scripts\bin"
+        New-Item -ItemType Directory -Path $compiled_dir
         Get-ChildItem -Path "scripts/" -Recurse -Filter *.ahk |ForEach-Object {
-          $compiled_path = "D:\a\ahk-scripts\ahk-scripts\bin\$($_.Name).exe"
+          $compiled_path = "$($compiled_dir)\$($_.Name).exe"
           Write-Host "Compiling `"$($_.FullName)`" into `"$compiled_path`""
-          # $_.Directory.CreateSubdirectory("bin")
-          & ahk2exe.exe /in $_.FullName /out $compiled_path /base unicode_x64.bin
+          & ahk2exe.exe /in $_.FullName /out $compiled_path /base unicode_x64.bin /silent
         }
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
