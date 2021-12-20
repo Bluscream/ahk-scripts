@@ -32,12 +32,7 @@ jobs:
         name: "ansi_x86.bin"
         url: "https://www.autohotkey.com/download/ahk.zip"
         pathInArchive: "Compiler/ANSI 32-bit.bin"
-        
-    - uses: engineerd/configurator@v0.0.8
-      with:
-        name: "mpress.exe"
-        url: "https://web.archive.org/web/20150506065200/http://www.matcode.com/mpress.219.zip"
-        pathInArchive: "mpress.exe"
+
     - uses: engineerd/configurator@v0.0.8
       with:
         name: "upx.exe"
