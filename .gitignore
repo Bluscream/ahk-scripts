@@ -19,10 +19,13 @@
 .history/
 *.vsix
 
+# github
+!.github/**/*
+
 # custom
-!lib/*.ahk
+# !lib/*.ahk
 !lib/**/*.ahk
-!scripts/*.ahk
+# !scripts/*.ahk
 !scripts/**/*.ahk
 # !scripts/bin/*.exe
 
