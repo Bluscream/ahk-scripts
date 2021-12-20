@@ -100,12 +100,25 @@ titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text:
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>
 return
-<#c::Run cmd
-<#p::Run powershell
+<#c::
+    Run cmd
+    return
+<#p::
+    Run powershell
+    return
 <#e::
-    if (!Process.Exist("explorer.exe"))
+    if (!explorer())
         Run explorer
     return
+^+Esc::
+    if (!explorer())
+        Run taskmgr
+    return
+
+
+explorer() {
+    return Process.Exist("explorer.exe")
+}
 
 runChecks(){
   Global
@@ -131,6 +144,7 @@ runChecks(){
         } else if (action[1] == "KillProcess"){
             WinGet, proc, ProcessName, ahk_id %hwnd%
             Process, Close, % proc
+            Continue
         } else if (action[1] == "ClickButton") {
             ControlClick, % action[2], ahk_id %hwnd%
             Continue
