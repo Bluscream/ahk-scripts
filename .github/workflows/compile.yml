@@ -38,7 +38,7 @@ jobs:
       with:
         name: "upx.exe"
         url: "https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip"
-        pathInArchive: "upx-3.96-win64/upxx.exe"
+        pathInArchive: "upx-3.96-win64/upx.exe"
     - uses: actions/checkout@v2
     - name: Compile script
       run: |
@@ -47,7 +47,7 @@ jobs:
         Get-ChildItem -Path "scripts/" -Recurse -Filter *.ahk |ForEach-Object {
           $compiled_path = "$($compiled_dir)\$($_.Name).exe"
           Write-Host "Compiling `"$($_.FullName)`" into `"$compiled_path`""
-          & ahk2exe.exe /in $_.FullName /out $compiled_path /base unicode_x64.bin /silent
+          & "C:\Users\runneradmin\runneradmin\configurator\bin\ahk2exe.exe" /in $_.FullName /out $compiled_path /base "C:\Users\runneradmin\runneradmin\configurator\bin\unicode_x64.bin"
         }
         Write-Host "D:\a\ahk-scripts\ahk-scripts\bin"
         TREE "D:\a\ahk-scripts\ahk-scripts\bin" /F
