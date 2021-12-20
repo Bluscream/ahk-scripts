@@ -100,25 +100,6 @@ titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text:
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>
 return
-<#c::
-    Run cmd
-    return
-<#p::
-    Run powershell
-    return
-<#e::
-    if (!explorer())
-        Run explorer
-    return
-^+Esc::
-    if (!explorer())
-        Run taskmgr
-    return
-
-
-explorer() {
-    return Process.Exist("explorer.exe")
-}
 
 runChecks(){
   Global
