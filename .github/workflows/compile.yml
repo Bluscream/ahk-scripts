@@ -42,11 +42,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Compile script
       run: |
-        New-Item -ItemType Directory -Path "./bin"
+        New-Item -ItemType Directory -Path "bin"
         Get-ChildItem -Path "scripts/" -Recurse -Filter *.ahk |ForEach-Object {
-          Write-Host "ahk2exe.exe /in $($_.FullName) /out bin/$($_.Name).exe /base unicode_x64.bin /compress 2 /cp 65001"
+          Write-Host "Compiling \"$($_.FullName)\" into \"bin/$($_.Name).exe\""
           # $_.Directory.CreateSubdirectory("bin")
-          & ahk2exe.exe /in $_.FullName /out bin/$_.Name.exe /base unicode_x64.bin /compress 2 /cp 65001
+          & ahk2exe.exe /in $_.FullName /out bin/$_.Name.exe /base unicode_x64.bin
         }
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
