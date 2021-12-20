@@ -2,9 +2,9 @@
 *
 
 # But not these files...
-!.gitignore
-!.ahk
-!.md
+!*.gitignore
+!*.ahk
+!*.md
 
 # ...even if they are in subdirectories
 !*/
