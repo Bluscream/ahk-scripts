@@ -44,9 +44,9 @@ jobs:
       run: |
         New-Item -ItemType Directory -Path "./bin"
         Get-ChildItem -Path "scripts/" -Recurse -Filter *.ahk |ForEach-Object {
-          Write-Host "ahk2exe.exe /in '$($_.FullName)' /out ./bin/'$($_.Name)'.exe /base unicode_x64.bin /compress 2 /cp 65001"
+          Write-Host "ahk2exe.exe /in $($_.FullName) /out ./bin/$($_.Name).exe /base unicode_x64.bin /compress 2 /cp 65001"
           # $_.Directory.CreateSubdirectory("bin")
-          & ahk2exe.exe /in $_.FullName /out ./bin/$_.Name.exe /base unicode_x64.bin /compress 2 /cp 65001
+          & ahk2exe.exe /in $($_.FullName) /out ./bin/$($_.Name).exe /base unicode_x64.bin /compress 2 /cp 65001
         }
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
