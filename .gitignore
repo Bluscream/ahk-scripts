@@ -21,3 +21,6 @@
 # custom
 !scripts/*.ahk
 # !scripts/bin/*.exe
+
+ahkstudio/*
+autohotinterception/*
