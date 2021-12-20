@@ -1,24 +1,10 @@
-﻿Scripts/* - Copy.*
-Scripts/*.lnk
-Scripts/*.exe
-Scripts/*_TransMAP_*.txt
-Scripts/temp/
-Scripts/codes*.txt
+﻿# Ignore everything
+*
 
-AHKStudio/
-AutoGUI/
-Autohotkey-Obfuscator/
-Compiler/
-ScriptUp/
+# But not these files...
+!.gitignores
+!.ahk
+!.md
 
-AutoHotkey*
-crypt.*
-*.chm
-*.7z
-*.ps1
-*.bat
-license.txt
-WindowSpy.ahk
-Installer.ahk
-Intercept*
-AutoHotInterception/
+# ...even if they are in subdirectories
+# !*/
