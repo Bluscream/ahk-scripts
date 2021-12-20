@@ -15,6 +15,8 @@ if (FileExist(ShadowProcessator.path)) {
     Menu, Tray, Icon, % ShadowProcessator.path
     scriptlog("Icon set: " . Quote(ShadowProcessator.path))
 }
+Menu, Tray, Add
+Menu, Tray, Add, Kill Bloat, KillBloat
 
 global perf_mode := false
 
@@ -56,12 +58,13 @@ global game := { name: "ets2"
 ;     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game.exe)
 ;         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe") } }
 
-global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","""Wallpaper Engine Service""","GlassWire","""Adguard Service""","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ]
+global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","Wallpaper Engine Service","GlassWire","Adguard Service","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ]
     ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Adguard","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer" ]
+    ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
 
-A_Args := [ "/bloat" ]
+; A_Args := [ "/bloat" ]
 for n, param in A_Args
 {
     StringLower, param, % param
@@ -181,19 +184,27 @@ OnVirtualDesktopDisconnected() {
 KillBloat() {
     ; scriptlog("KillBloat")
     scriptlog("[UNBLOAT] Stopping " . bloat.services.Count() . " services")
-    for i, service in bloat.services {
-        ; scriptlog("[UNBLOAT] Stopping service " . service)
-        Run % "sc stop " . service
-    }
+    RunWaitLast(bloat.services, "sc stop """, """")
+    scriptlog("[UNBLOAT] Stopping " . bloat.tasks.Count() . " tasks")
+    RunWaitLast(bloat.tasks, "schtasks /end /tn """, """")
     scriptlog("[UNBLOAT] Killing " . bloat.processes.Count() . " processes")
-    for i, process in bloat.processes {
-        ; scriptlog("[UNBLOAT] Killing process " . process . ".exe")
-        Run % "taskkill /f /im " . process . ".exe"
-    }
+    RunWaitLast(bloat.processes, "taskkill /f /im """, ".exe""")
     scriptlog("[UNBLOAT] Running " . bloat.custom.Count() . " commands")
-    for i, command in bloat.custom {
-        ; scriptlog("[UNBLOAT] Running " . command)
-        Run % command
+    RunWaitLast(bloat.custom)
+}
+
+RunWaitLast(commands, prefix:="", suffix:="") {
+    max := commands.MaxIndex()
+    for i, command in commands {
+        command := prefix . command . suffix
+        if (i < max) {
+            ; scriptlog("Run " . command)
+            Run % command, , Min
+        } else {
+            ; scriptlog("RunWait " . command)
+            RunWait % command, , Min
+            return
+        }
     }
 }
 
