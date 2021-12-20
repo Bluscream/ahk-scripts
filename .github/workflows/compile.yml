@@ -52,6 +52,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: bin
-        path: |
-          bin
-          !bin/**/*.md
+        path: "bin"
