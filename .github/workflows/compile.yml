@@ -36,7 +36,7 @@ jobs:
     - uses: engineerd/configurator@v0.0.8
       with:
         name: "upx.exe"
-        urlTemplate: "https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip"
+        url: "https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip"
         pathInArchive: "upx.exe"
 
   build:
