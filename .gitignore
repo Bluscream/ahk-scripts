@@ -1,0 +1,10 @@
+﻿# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!.ahk
+!.md
+
+# ...even if they are in subdirectories
+!*/
