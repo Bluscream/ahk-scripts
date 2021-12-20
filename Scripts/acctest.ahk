@@ -1,6 +1,6 @@
 #SingleInstance, force
 #Include <bluscream>
-EnforceAdmin()
+EnforceAdmin() 
 global noui := false
 #INCLUDE <Acc>
 global mytitle := new Window("SteamVR Status", "Qt5QWindowIcon", "vrmonitor.exe").str()
