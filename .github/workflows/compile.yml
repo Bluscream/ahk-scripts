@@ -41,6 +41,7 @@ jobs:
         version: "latest"
         repo: "upx/upx"
         urlTemplate: "https://github.com/upx/upx/releases/download/{{version}}/upx-{{version}}-win64.zip"
+        pathInArchive: "upx.exe"
 
   build:
     needs: prepare_ahk
