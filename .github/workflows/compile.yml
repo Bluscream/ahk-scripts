@@ -50,5 +50,5 @@ jobs:
         Get-ChildItem -Path . -Recurse -Filter *.ahk |ForEach-Object {
           Write-Host "Compiling '$($_.FullName)'..."
           # $_.Directory.CreateSubdirectory("bin")
-          ahk2exe /in "$_.FullName" /out "./bin/$_.Name /base unicode_x64.bin /compress 2 /cp 65001"
+          "C:\Users\runneradmin\runneradmin\configurator\bin\ahk2exe" /in "$_.FullName" /out "./bin/$_.Name /base "C:\Users\runneradmin\runneradmin\configurator\bin\unicode_x64.bin" /compress 2 /cp 65001"
         }
