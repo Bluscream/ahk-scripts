@@ -1,1 +1,0 @@
-#include C:\Users\Shadow\Downloads\adhd\adhdlib.ahk
