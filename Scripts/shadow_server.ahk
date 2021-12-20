@@ -185,7 +185,7 @@ KillBloat() {
     ; scriptlog("KillBloat")
     scriptlog("[UNBLOAT] Stopping " . bloat.services.Count() . " services")
     RunWaitLast(bloat.services, "sc stop """, """")
-    scriptlog("[UNBLOAT] Stopping " . bloat.tasks.Count() . " tasks")
+    scriptlog("[UNBLOAT] Ending " . bloat.tasks.Count() . " tasks")
     RunWaitLast(bloat.tasks, "schtasks /end /tn """, """")
     scriptlog("[UNBLOAT] Killing " . bloat.processes.Count() . " processes")
     RunWaitLast(bloat.processes, "taskkill /f /im """, ".exe""")
