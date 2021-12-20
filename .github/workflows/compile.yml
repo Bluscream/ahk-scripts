@@ -49,6 +49,10 @@ jobs:
           Write-Host "Compiling `"$($_.FullName)`" into `"$compiled_path`""
           & ahk2exe.exe /in $_.FullName /out $compiled_path /base unicode_x64.bin /silent
         }
+        Write-Host "D:\a\ahk-scripts\ahk-scripts\bin"
+        TREE "D:\a\ahk-scripts\ahk-scripts\bin" /F
+        Write-Host "WORK DIRR"
+        TREE /F
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
