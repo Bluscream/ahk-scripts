@@ -37,7 +37,7 @@ jobs:
       with:
         name: "upx.exe"
         url: "https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip"
-        pathInArchive: "upx.exe"
+        pathInArchive: "upx-3.96-win64/upx.exe"
 
   build:
     needs: prepare_ahk
