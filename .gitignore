@@ -3,7 +3,6 @@
 
 # But not these files...
 !*.gitignore
-!*.ahk
 !*.md
 
 # ...even if they are in subdirectories
@@ -20,4 +19,5 @@
 *.vsix
 
 # custom
-!scripts/bin/*.exe
+!scripts/*.ahk
+# !scripts/bin/*.exe
