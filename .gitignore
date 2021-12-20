@@ -3,11 +3,11 @@
 
 # But not these files...
 !*.gitignore
-!*.ahk
+# !*.ahk
 !*.md
 
 # ...even if they are in subdirectories
-!scripts/
+!*/
 
 # vcode
 .vscode/*
@@ -20,7 +20,10 @@
 *.vsix
 
 # custom
-# !scripts/*.ahk
+!lib/*.ahk
+!lib/**/*.ahk
+!scripts/*.ahk
+!scripts/**/*.ahk
 # !scripts/bin/*.exe
 
 ahkstudio/*
