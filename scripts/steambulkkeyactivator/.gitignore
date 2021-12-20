@@ -1,0 +1,10 @@
+*.bak
+*.log
+keys.txt
+Compiler/mpress.exe
+Compiler/BugReport.txt
+Compiler/DownloadAndUnzipMPRESS.exe
+Compiler/FAQ.TXT
+Compiler/license.txt
+Compiler/History.txt
+Compiler/mpress.219.zip

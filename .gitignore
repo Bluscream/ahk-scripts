@@ -1,0 +1,24 @@
+﻿Scripts/* - Copy.*
+Scripts/*.lnk
+Scripts/*.exe
+Scripts/*_TransMAP_*.txt
+Scripts/temp/
+Scripts/codes*.txt
+
+AHKStudio/
+AutoGUI/
+Autohotkey-Obfuscator/
+Compiler/
+ScriptUp/
+
+AutoHotkey*
+crypt.*
+*.chm
+*.7z
+*.ps1
+*.bat
+license.txt
+WindowSpy.ahk
+Installer.ahk
+Intercept*
+AutoHotInterception/

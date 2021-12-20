@@ -1,0 +1,5 @@
+﻿Global Variables (alphabetical)
+--------------------------------------------------
+Npid2: 1924
+Npid: 13068
+StaticText: Ch&aracters to copy :
