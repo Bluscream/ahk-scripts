@@ -1,6 +1,7 @@
 #Persistent
 #NoEnv
 #SingleInstance, force
+#Include <bluscream>
 SetBatchLines, -1
 Process, Priority,, Low
 ; while (True) {
@@ -12,8 +13,8 @@ Process, Priority,, Low
 
 SetTimer, CheckMC, 2500
 
-Run % "C:\Program Files\obs-studio\bin\64bit\obs64.exe --scene Minecraft --startstreaming" ; --minimize-to-tray
-
+obs := new File("C:\Program Files\obs-studio\bin\64bit\obs64.exe")
+obs.run(false, "", "--scene Minecraft --startstreaming")
 return
 
 CheckMC:
