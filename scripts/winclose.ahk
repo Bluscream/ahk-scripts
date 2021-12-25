@@ -91,6 +91,9 @@ titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", t
 titles.push({title: "MCEdit Error ahk_class QWidget ahk_exe mcedit2.exe", text: "", action: "CloseWindow"})
 titles.push({title: "StartAllBack configuration ahk_class TMain ahk_exe StartAllBackCfg.exe", text: "Activate via web browser", action: "CloseWindow"})
 titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text: "Initialization failed (no speaker/mic present?)", action: "KillProcess"})
+titles.push({title: "OBS has crashed! ahk_class #32770 ahk_exe obs64.exe", text: "", action: "ClickButton:&No"})
+
+
 
 ; ":2\"
 

@@ -12,9 +12,12 @@ Process, Priority,, Low
 ; Minecraft* 1.18.1 ahk_class GLFW30
 
 SetTimer, CheckMC, 2500
+SetTimer, CheckOBS, 5000
 
-obs := new File("C:\Program Files\obs-studio\bin\64bit\obs64.exe")
-obs.run(false, "", "--scene Minecraft --startstreaming")
+Run % "C:\Windows\system32\schtasks.exe /run /tn ""ahk_killbloat"""
+
+global obs := new File("C:\Program Files\obs-studio\bin\64bit\obs64.exe")
+
 return
 
 CheckMC:
@@ -23,6 +26,12 @@ CheckMC:
         WinWait, ahk_exe MultiMC.exe
         Sleep, 10 * 1000
         WinActivate, ahk_exe javaw.exe
+    }
+    Return
+
+CheckOBS:
+    if (!ProcessExist("obs64.exe")) {
+        obs.run(false, "", "--scene Minecraft --startstreaming")
     }
     Return
 

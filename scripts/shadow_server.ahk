@@ -171,7 +171,7 @@ OnVirtualDesktopFullyConnected() {
     ;     vrcx.run()
     ; }
 
-    CheckGame(no_steamvr)
+    ; CheckGame(no_steamvr)
 
     if (perf_mode)
         KillBloat()
