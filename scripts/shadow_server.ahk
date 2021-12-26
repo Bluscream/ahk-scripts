@@ -42,21 +42,21 @@ global steamvr := { uri: ["steam://rungameid/250820", ""]
 
 
 
-global game := { name: "ets2"
-    ,uri : ["steam://rungameid/227300", ""]
-    ,windows: { game: new Window("Euro Truck Simulator 2", "prism3d", "eurotrucks2.exe") }
-    ,processes: { }
-    ,files: { game: new Directory("S:\Steam\steamapps\common\Euro Truck Simulator 2").CombineFile("bin", "win_x64", "eurotrucks2.exe") } }
-
-
-; global game := { name: "vrc_mods"
-;     ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
-;     ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat.exe")
-;         ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game.exe)
-;         ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX.exe") }
+; global game := { name: "ets2"
+;     ,uri : ["steam://rungameid/227300", ""]
+;     ,windows: { game: new Window("Euro Truck Simulator 2", "prism3d", "eurotrucks2.exe") }
 ;     ,processes: { }
-;     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game.exe)
-;         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe") } }
+;     ,files: { game: new Directory("S:\Steam\steamapps\common\Euro Truck Simulator 2").CombineFile("bin", "win_x64", "eurotrucks2.exe") } }
+
+
+global game := { name: "vrc_mods"
+    ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
+    ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat.exe")
+        ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game.exe)
+        ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX.exe") }
+    ,processes: { }
+    ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game.exe)
+        ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe") } }
 
 global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","Wallpaper Engine Service","GlassWire","Adguard Service","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ]
     ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Adguard","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer" ]
@@ -171,7 +171,7 @@ OnVirtualDesktopFullyConnected() {
     ;     vrcx.run()
     ; }
 
-    ; CheckGame(no_steamvr)
+    CheckGame(no_steamvr)
 
     if (perf_mode)
         KillBloat()

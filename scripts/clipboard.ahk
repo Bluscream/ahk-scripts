@@ -29,6 +29,13 @@ ClipChanged(type) {
             txt .= """" . split[split.MaxIndex()] . """" . A_Tab . """" . clipline . """`n"
         }
         clipboard := txt
+    } else if (RegExMatch(clipboard, "usr_[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")) {
+        for _i, m in RxMatches(clipboard, "O)" . "(usr_[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})") {
+            cmd := "vrcx://user/" . m.Value
+            scriptlog(cmd)
+            Run % cmd
+            WinActivate, ahk_exe VRCX.exe
+        }
     } else if (RegExMatch(clipboard, asf.steam_key_pattern)) {
         keys := []
         _keys := asf.parseSteamKeys(clipboard)
