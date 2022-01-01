@@ -30,11 +30,13 @@ class File {
         return size 
     }
     run(wait := false, WorkingDir := "", arguments := "") {
+        cmd := this.path . " " . arguments
+        scriptlog("Running: " . cmd)
         if (wait) {
-            RunWait, % this.path . " " . arguments, % (WorkingDir ? ""WorkingDir: this.directory.path),, OutputVarPID
+            RunWait, % cmd, % (WorkingDir ? ""WorkingDir: this.directory.path),, OutputVarPID
             return OutputVarPID
         }
-        Run, % this.path . " " . arguments, % this.directory.path
+        Run, % cmd, % (WorkingDir ? ""WorkingDir: this.directory.path)
     }
     open(flags := "r", encoding := "UTF-8") {
         return FileOpen(this.path, flags, encoding)
