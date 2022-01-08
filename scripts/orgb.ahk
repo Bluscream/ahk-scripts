@@ -3,7 +3,7 @@
 ; #Persistent
 SetWorkingDir %A_ScriptDir%
 #Include <bluscream>
-SleepS(15)
+; SleepS(15)
 global noui := true
 scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 #Include <openrgb>
@@ -15,7 +15,8 @@ profiles := ["backlight"]
 for i, profile in profiles {
     Loop, 25 {
         server.load_profile(profile)
-        Sleep, 15
+        Sleep, 25
     }
     Sleep, 1500
 }
+ExitApp

@@ -252,7 +252,7 @@ clearStrokes:
 restartGameFunc:
     game.kill()
     game.clearLogs()
-    game.start()
+    game.start(false)
     return
 
 restartGameLoop:

@@ -4,7 +4,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-global noui := false
+global noui := true
 #Include <bluscream>
 scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 #Include <shadow>

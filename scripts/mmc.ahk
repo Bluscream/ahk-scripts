@@ -14,7 +14,7 @@ Process, Priority,, Low
 SetTimer, CheckMC, 2500
 SetTimer, CheckOBS, 5000
 
-Run % "C:\Windows\system32\schtasks.exe /run /tn ""ahk_killbloat"""
+; Run % "C:\Windows\system32\schtasks.exe /run /tn ""ahk_killbloat"""
 
 global obs := new File("C:\Program Files\obs-studio\bin\64bit\obs64.exe")
 

@@ -22,7 +22,7 @@ global asf := new ASF()
 if (A_Username.startsWith("blus")) {
     global main := asf.getBotByNickname("blu")
 } else {
-    global main := asf.getBotByNickname("red")
+    global main := asf.getBotByNickname("blu")
 }
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
