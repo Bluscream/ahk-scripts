@@ -6,16 +6,21 @@ class AutoMagic {
     config := Object()
     url := ""
 
-    __New(config := "") {
-        config := A_Desktop . "\automagic.json"
-        FileRead, config, % config
-        config := JSON.Load(config)
-        this.config := config
-        if (startsWith(A_IPAddress1, "192.168.2.")) { ; TODO: DO BETTER
-            this.url := config.urls[1]
-        } else {
-            this.url := config.urls[2]
-        }
+    __New(device := "", config := "") {
+        ; config := A_Desktop . "\automagic.json"
+        ; FileRead, config, % config
+        ; config := JSON.Load(config)
+        ; this.config := config
+        ; if (startsWith(A_IPAddress1, "192.168.2.")) { ; TODO: DO BETTER
+        ;     this.url := config.urls[1]
+        ; } else {
+        ;     this.url := config.urls[2]
+        ; }
+        var := "IP_" . device
+        scriptlog(var)
+        EnvGet, ip, % var
+        this.url := "http://" . ip . ":1122"
+        this.config["password"] := ""
         scriptlog("New AutoMagic " . this.url)
     }
 
@@ -79,6 +84,7 @@ class AutoMagic {
 
     deleteNotification(id) {
         this.delete("notification", { "id": id })
+    }
 
     createToast(msg := "AutoHotKey", isLong := 0) { ; , gravity := "", x := 0, y := 0
         this.get("toast/create", { "msg": URIEncode(msg), "long": isLong })
@@ -134,6 +140,9 @@ class AutoMagic {
     }
     on() {
         this.get("screen/on")
+    }
+    off() {
+        this.get("screen/off")
     }
     recordScreen(save_as := "/storage/emulated/0/recording.mp4", send_to_url := "") {
         this.get("screen/record", { "file": save_as, "send_to_url": send_to_url})

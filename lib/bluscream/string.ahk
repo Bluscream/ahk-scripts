@@ -1,8 +1,14 @@
 
-GetString(url) {
+GetString(url, auth := "") {
     HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
     HttpObj.Open("GET", url, 0)
-    Wait := HttpObj.Send()
+    HttpObj.SetRequestHeader("Content-Type", "application/json")
+    if (auth != "") {
+        HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+    }
+    HttpObj.SetTimeouts(0,30000,30000,120000)
+    HttpObj.Send()
+    HttpObj.WaitForResponse()
     return HttpObj.ResponseText
 }
 mid$(input, startPos, replacement) {
