@@ -20,7 +20,7 @@ class AutoMagic {
         scriptlog(var)
         EnvGet, ip, % var
         this.url := "http://" . ip . ":1122"
-        this.config["password"] := ""
+        this.config["password"] := "buffalo911"
         scriptlog("New AutoMagic " . this.url)
     }
 
