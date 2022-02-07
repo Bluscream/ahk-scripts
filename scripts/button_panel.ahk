@@ -6,9 +6,9 @@ SetBatchLines -1
 
 #Include %A_ScriptDir%\AutoXYWH.ahk
 #Include <bluscream>
-global no_ui := false
-global debug := true
-scriptlog("init")
+global no_ui := true
+global debug := false
+; scriptlog("init")
 
 Gui +Resize -MinimizeBox +E0x400
 Gui Color, 0x808080
@@ -31,55 +31,55 @@ Gui Show, w936 h580, % "Quick Start Panel (" . timestamp . ")"
 Return
 
 onBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtnStartSteamClicked")
+    ; scriptlog("onBtnStartSteamClicked")
     KillProcesses(["steam"])
     ShellRun("steam://open/console", "")
 }
 
 onBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtnStartSteamMiniClicked")
+    ; scriptlog("onBtnStartSteamMiniClicked")
     KillProcesses(["steam"])
     ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
 }
 
 onBtnStartSteamVRClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtnStartSteamVRClicked")
+    ; scriptlog("onBtnStartSteamVRClicked")
     KillProcesses(["vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver"])
     ShellRun("steam://rungameid/250820", "")
 }
 
 OnBtnStartXSOClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("OnBtnStartXSOClicked")
+    ; scriptlog("OnBtnStartXSOClicked")
     KillProcesses(["XSOverlay Media Manager","XSOverlay Process Manager","XSOverlay"])
     ShellRun("steam://rungameid/1173510", "")
 }
 
 onBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtnStartVDClicked")
+    ; scriptlog("onBtnStartVDClicked")
     KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
     StopServices(["VirtualDesktop.Service.exe"])
     StartServices(["VirtualDesktop.Service.exe"])
 }
 
 OnBtnStartParsecClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("OnBtnStartParsecClicked")
+    ; scriptlog("OnBtnStartParsecClicked")
     KillProcesses(["parsecd", "teams", "pservice"])
     StopServices(["Parsec"])
     StartServices(["Parsec"])
 }
 
 OnBtnSoundDevicesClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("OnBtnSoundDevicesClicked")
+    ; scriptlog("OnBtnSoundDevicesClicked")
     Run % "control mmsys.cpl,,0"
 }
 
 OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("OnBtnSoundMixerClicked")
+    ; scriptlog("OnBtnSoundMixerClicked")
     Run SndVol
 }
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("OnBtnStartExplorerClicked")
+    ; scriptlog("OnBtnStartExplorerClicked")
     KillProcesses(["explorer","retrobar"])
     Run explorer
     SleepS(2)

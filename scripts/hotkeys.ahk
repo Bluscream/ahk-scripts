@@ -22,7 +22,16 @@ return
     if (!explorer())
         Run taskmgr
     return
-
+<#x::
+    IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    {
+        WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    }
+    IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    {
+        Run % "D:\OneDrive\AutoHotKey\Scripts\button_panel.ahk"
+    }
+    return
 
 explorer() {
     return Process.Exist("explorer.exe")
