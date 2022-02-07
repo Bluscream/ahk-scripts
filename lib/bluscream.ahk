@@ -322,3 +322,38 @@ CPULoad() { ; By SKAN, CD:22-Apr-2014 / MD:05-May-2014. Thanks to ejor, Codeproj
     IdleTime := PIT - CIT, KernelTime := PKT - CKT, UserTime := PUT - CUT, SystemTime := KernelTime + UserTime 
     Return ( ( SystemTime - IdleTime ) * 100 ) // SystemTime,    PIT := CIT,    PKT := CKT,    PUT := CUT 
 }
+RunWaitLast(commands, prefix:="", suffix:="") {
+    max := commands.MaxIndex()
+    for i, command in commands {
+        command := prefix . command
+        if (!endsWith(command, suffix))
+            command := command . suffix
+        if (i < max) {
+            if (debug) {
+                scriptlog("Run " . command)
+            }
+            Run % command, , Min
+        } else {
+            if (debug) {
+                scriptlog("RunWait " . command)
+            }
+            RunWait % command, , Min
+            return
+        }
+    }
+}
+KillProcesses(processes) {
+    RunWaitLast(processes, "taskkill /f /im """, ".exe""")
+}
+StartTasks(tasks) {
+    RunWaitLast(tasks, "schtasks /start /tn """, """")
+}
+EndTasks(tasks) {
+    RunWaitLast(tasks, "schtasks /end /tn """, """")
+}
+StartServices(services) {
+    RunWaitLast(services, "sc start """, """")
+}
+StopServices(services) {
+    RunWaitLast(services, "sc stop """, """")
+}

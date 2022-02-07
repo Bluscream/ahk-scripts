@@ -59,10 +59,9 @@ global game := { name: "vrc_mods"
         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe") } }
 
 global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","Wallpaper Engine Service","GlassWire","Adguard Service","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ]
-    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Adguard","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer" ]
+    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Adguard","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer","OneDrive.exe" ]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
-
 
 ; A_Args := [ "/bloat" ]
 for n, param in A_Args
@@ -191,21 +190,6 @@ KillBloat() {
     RunWaitLast(bloat.processes, "taskkill /f /im """, ".exe""")
     scriptlog("[UNBLOAT] Running " . bloat.custom.Count() . " commands")
     RunWaitLast(bloat.custom)
-}
-
-RunWaitLast(commands, prefix:="", suffix:="") {
-    max := commands.MaxIndex()
-    for i, command in commands {
-        command := prefix . command . suffix
-        if (i < max) {
-            ; scriptlog("Run " . command)
-            Run % command, , Min
-        } else {
-            ; scriptlog("RunWait " . command)
-            RunWait % command, , Min
-            return
-        }
-    }
 }
 
 CheckSteamVR() {

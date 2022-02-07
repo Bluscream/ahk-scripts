@@ -15,6 +15,7 @@ class Game {
     datafile := new File()
     data := {"starttime":0,"ping":0,"map":"","maps":{},"server":{"ip":"","port":0},"player":{"name":"","userid":"","security_code":"","steam":{"id":0,"name":""}}}
     coords := {}
+    args := "-USEBATTLEYE -GATEWAYIP=gateway.blacksquad.com -PUB=STEAM -LANGFORTEXT=INT "
 
     __New(path := "", eventcallback := "") {
         this.dir := new Directory(path)
