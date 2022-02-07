@@ -34,24 +34,28 @@ onBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamClicked")
     KillProcesses(["steam"])
     ShellRun("steam://open/console", "")
+    GuiClose(0)
 }
 
 onBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamMiniClicked")
     KillProcesses(["steam"])
     ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
+    GuiClose(0)
 }
 
 onBtnStartSteamVRClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamVRClicked")
     KillProcesses(["vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver"])
     ShellRun("steam://rungameid/250820", "")
+    GuiClose(0)
 }
 
 OnBtnStartXSOClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartXSOClicked")
     KillProcesses(["XSOverlay Media Manager","XSOverlay Process Manager","XSOverlay"])
     ShellRun("steam://rungameid/1173510", "")
+    GuiClose(0)
 }
 
 onBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -59,6 +63,7 @@ onBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
     StopServices(["VirtualDesktop.Service.exe"])
     StartServices(["VirtualDesktop.Service.exe"])
+    GuiClose(0)
 }
 
 OnBtnStartParsecClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -66,24 +71,30 @@ OnBtnStartParsecClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     KillProcesses(["parsecd", "teams", "pservice"])
     StopServices(["Parsec"])
     StartServices(["Parsec"])
+    SleepS(1)
+    Run % "C:\Program Files\Parsec\parsecd.exe", , Min
+    GuiClose(0)
 }
 
 OnBtnSoundDevicesClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnSoundDevicesClicked")
-    Run % "control mmsys.cpl,,0"
+    Run % "control mmsys.cpl,,0", , Min
+    GuiClose(0)
 }
 
 OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnSoundMixerClicked")
-    Run SndVol
+    Run SndVol, , Min
+    GuiClose(0)
 }
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
     KillProcesses(["explorer","retrobar"])
-    Run explorer
+    Run explorer, , Min
     SleepS(2)
-    Run retrobar
+    Run retrobar, , Min
+    GuiClose(0)
 }
 
 onBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
