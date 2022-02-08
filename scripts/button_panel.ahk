@@ -22,11 +22,11 @@ Gui Add, Button, hWndhBtnSoundDevices6 vBtnSoundnndevices6 gOnBtnSoundDevicesCli
 Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, Sound`n`nMixer
 Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h172, Start`n`nExplorer
 Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
-Gui Add, Button, hWndhBtn10 vBtn10 gonBtn10Clicked x248 y208 w216 h172
-Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172
+Gui Add, Button, hWndhBtn10 vBtn10 gonBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
+; Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172
 Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gonBtnKillbloatClicked x712 y400 w216 h172, Kill`n`nBloat
 Gui Font
-FormatTime, timestamp, A_Now, dd.mm. HH:mm:ss
+FormatTime, timestamp, A_Now, dd.MM. HH:mm:ss
 Gui Show, w936 h580, % "Quick Start Panel (" . timestamp . ")"
 Return
 
@@ -78,27 +78,31 @@ OnBtnStartParsecClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnSoundDevicesClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnSoundDevicesClicked")
-    Run % "control mmsys.cpl,,0", , Min
+    Run % "control mmsys.cpl,,0"
     GuiClose(0)
 }
 
 OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnSoundMixerClicked")
-    Run SndVol, , Min
+    Run SndVol
     GuiClose(0)
 }
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
     KillProcesses(["explorer","retrobar"])
-    Run explorer, , Min
+    Run explorer
     SleepS(2)
-    Run retrobar, , Min
+    Run retrobar
     GuiClose(0)
 }
 
 onBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtn10Clicked")
+    ; scriptlog("onBtn10Clicked")
+    KillProcesses(["VRCX","VRChat"])
+    Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
+    Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
+    GuiClose(0)
 }
 
 onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -106,7 +110,8 @@ onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtnKillbloatClicked")
+    ; scriptlog("onBtnKillbloatClicked")
+    ShellRun("D:\OneDrive\AutoHotKey\Scripts\shadow_server.ahk", "/bloat")
 }
 
 GuiSize(GuiHwnd, EventInfo, Width, Height) {
