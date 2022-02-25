@@ -4,7 +4,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
-global noui := true
+global noui := false
 #Include <bluscream>
 scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 #Include <shadow>
@@ -31,6 +31,7 @@ for name, channel in channels {
         Menu, tray, add, % "Install " . channel.file.name . " x64", InstallShadow
         Menu, tray, add, % "Install " . channel.file.name . " x86", InstallShadow
     }
+    ; scriptlog("url: " . ToJson(channel.url(), true))
 }
 ; PasteToNotepad((ToJson(channels, true)))
 ; fixedY := A_ScreenHeight/2

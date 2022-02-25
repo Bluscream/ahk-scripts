@@ -6,7 +6,7 @@
 SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
-EnforceAdmin()
+; EnforceAdmin()
 global noui = false
 SendMode, Event ; |Play|Input|InputThenPlay
 ; SetKeyDelay, 50, 50

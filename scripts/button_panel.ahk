@@ -90,9 +90,9 @@ OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
-    KillProcesses(["explorer","retrobar"])
+    KillProcesses(["retrobar","explorer","StartMenu"])
     Run explorer
-    SleepS(2)
+    SleepS(5)
     Run retrobar
     GuiClose(0)
 }

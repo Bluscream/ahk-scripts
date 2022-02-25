@@ -63,7 +63,7 @@ global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSear
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
-; A_Args := [ "/bloat" ]
+A_Args := [ "/bloat" ]
 for n, param in A_Args
 {
     StringLower, param, % param

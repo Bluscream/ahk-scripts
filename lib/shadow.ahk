@@ -15,11 +15,14 @@ class Channel {
         this.process := this.file.fullname
         this.setup_filename := setup_filename
         this.installed := FileExist(this.file.path)
-        ; scriptlog("New Channel: " . ToJson(this, false))
+        scriptlog("New Channel: " . ToJson(this, false))
+    }
+    url(arch) {
+        return "https://update.shadow.tech/launcher/" . this.name . "/win/" . arch . "/" . this.setup_filename
     }
     install(arch) {
         scriptlog("Installing " . this.setup_filename . " " . arch)
-        new Url("https://update.shadow.tech/launcher/" . this.name . "/win/" . arch . "/" . this.setup_filename).download().run(true)
+        new Url(this.url(arch)).download().run(true)
         scriptlog("Installed " . this.setup_filename . " " . arch)
     }
 }
