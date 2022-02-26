@@ -23,7 +23,7 @@ Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked
 Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h172, Start`n`nExplorer
 Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
 Gui Add, Button, hWndhBtn10 vBtn10 gonBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
-; Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172
+Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
 Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gonBtnKillbloatClicked x712 y400 w216 h172, Kill`n`nBloat
 Gui Font
 FormatTime, timestamp, A_Now, dd.MM. HH:mm:ss
@@ -106,7 +106,11 @@ onBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    scriptlog("onBtn11Clicked")
+    ; scriptlog("onBtn11Clicked")
+    KillProcesses(["YouTube Music"])
+    SleepS(1)
+    ShellRun("C:\Users\blusc\AppData\Local\Programs\youtube-music\YouTube Music.exe", "")
+    GuiClose(0)
 }
 
 onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {

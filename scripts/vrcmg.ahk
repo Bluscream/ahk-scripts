@@ -27,7 +27,7 @@ ClipChanged(Type) {
    ClipAlt := Trim(Clipboard_GetText())
    Match := RegExMatch(ClipAlt, ModURLRegex, Groups)
    if Match {
-        out := "S:\Steam\steamapps\common\VRChat\Mods\" . Groups4
+        out := "G:\Steam\steamapps\common\VRChat\Mods\" . Groups4
         scriptlog("Downloading " . Groups2 . ": " . Groups5 . " (#" . Groups3 . ") to " . out)
         Msgbox 4, % "VRCMG Mod Downloader", % "[" . Groups2 . "] Are you sure you want to download " . Groups5 . "?"
         IfMsgBox No
