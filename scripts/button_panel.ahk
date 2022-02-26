@@ -115,7 +115,7 @@ onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnKillbloatClicked")
-    ShellRun("D:\OneDrive\AutoHotKey\Scripts\shadow_server.ahk", "/bloat")
+    ShellRun("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk", "/bloat")
 }
 
 GuiSize(GuiHwnd, EventInfo, Width, Height) {
