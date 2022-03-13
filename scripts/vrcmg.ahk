@@ -15,6 +15,7 @@ global ClipAlt := ""
 ; global ModURLRegex := "(?<url>(?:http(?:s)?:\/\/)?api\.vrcmg\.com\/v0\/(?<type>\w+)\/(?<id>\d+)\/(?<file>(?<filename>.+)\.dll))"
 global ModURLRegex := "((?:http(?:s)?:\/\/)?api\.vrcmg\.com\/v0\/(\w+)\/(\d+)\/((.+)\.dll))"
 return
+; https://api.vrcmg.com/v0/PRE_mods/246/ReModCE.Loader.dll
 ; 0-58	https://api.vrcmg.com/v0/PRE_mods/231/VRChatUtilityKit.dll
 ; 25-33	PRE_mods
 ; 34-37	231
@@ -22,9 +23,11 @@ return
 ; 38-54	VRChatUtilityKit
 
 ClipChanged(Type) {
+   scriptlog("ClipChanged?type=" . Type . "&hastext=" . Clipboard_HasText())
    If !(Type = 1) Or !Clipboard_HasText()
       Return
    ClipAlt := Trim(Clipboard_GetText())
+   scriptlog("ClipAlt: " + ClipAlt)
    Match := RegExMatch(ClipAlt, ModURLRegex, Groups)
    if Match {
         out := "G:\Steam\steamapps\common\VRChat\Mods\" . Groups4
