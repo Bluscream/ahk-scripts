@@ -29,7 +29,7 @@ return
     }
     IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     {
-        Run % "D:\OneDrive\AutoHotKey\Scripts\button_panel.ahk"
+        Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
     return
 ; <#y::
