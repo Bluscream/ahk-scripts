@@ -59,16 +59,24 @@ class Url {
         ; scriptlog("New Url: " . ToJson(this, false))
     }
 
-    visit(method := "GET", data := "", auth := "") {
-        HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-        HttpObj.Open(method, this.url, 0)
-        ; HttpObj.SetRequestHeader("Content-Type", "application/json")
-        if (auth != "") {
-            HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+    visit(method := "GET", data := "", auth := "", retry := false) {
+        try{
+            HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+            HttpObj.Open(method, this.url, 0)
+            ; HttpObj.SetRequestHeader("Content-Type", "application/json")
+            if (auth != "") {
+                HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+            }
+            HttpObj.SetTimeouts(0,5000,5000,10000)
+            HttpObj.Send(data)
+            scriptlog("Visited " . this.url)
+        } catch e {
+            scriptlog("Error: " . e.Message)
+            if (retry) {
+                scriptlog("Retrying...")
+                this.visit(method, data, auth, false)
+            }
         }
-        HttpObj.SetTimeouts(0,30000,30000,120000)
-        HttpObj.Send(data)
-        scriptlog("Visited " . this.url)
     }
 
     get() {

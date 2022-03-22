@@ -1,22 +1,43 @@
 #Persistent
 #NoEnv
 #SingleInstance, force
+#NoTrayIcon
 SetBatchLines, -1
 #Include <bluscream>
 global no_ui := False
-SysGet, MonitorCount, MonitorCount
-scriptlog(MonitorCount)
-lastscreens := MonitorCount
-SetTimer, CheckMonitorCount, 15000
+
+I_Icon := "C:\Windows\System32\shell32.dll"
+IfExist, %I_Icon%
+  Menu, Tray, Icon, %I_Icon%, 16
+Menu, Tray, NoStandard
+Menu, tray, add
+Menu, tray, add, % "Toggle", ToggleScreen
+Menu, tray, add, % "Mute", MuteScreen
+Menu, tray, add, % "Source", ChangeScreenSource
+; Menu, tray, add, % "Debug", Debug ; Todo: comment
+
+SetTimer, CheckMonitorCount, 30000
+
+Return
+
 
 CheckMonitorCount:
     SysGet, MonitorCount, MonitorCount
-    scriptlog("MonitorCount: " + MonitorCount)
-    if (MonitorCount != lastscreens) {
-        scriptlog("MonitorCount changed from " . lastscreens . " to " . MonitorCount)
-        lastscreens := MonitorCount
-        if (MonitorCount == 1) {
-        new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=on_off&repeat=10").visit()
-        }
+    ; scriptlog("MonitorCount: " + MonitorCount)
+    if (MonitorCount == 1) {
+        scriptlog("Second screen not found")
+        goto ToggleScreen
     }
+    Return
+
+ToggleScreen:
+    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=on_off&repeat=7").visit("GET", "", "", true)
+    Return
+
+MuteScreen:
+    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=mute&repeat=7").visit("GET", "", "", true)
+    Return
+
+ChangeScreenSource:
+    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=source&repeat=7").visit("GET", "", "", true)
     Return
