@@ -21,16 +21,17 @@ Menu, tray, add
 for name, channel in channels {
     scriptlog("channel: " . name . " path: " . channel.file.path . " exists: " . (channel.installed ? "Yes" : "No"))
     if (channel.installed) {
-        Menu, tray, add, % "Start " . channel.file.name, StartShadow
+ 	Menu, tray, add, % "Start " . channel.file.name, StartShadow
         if (!hasIcon) {
             Menu, Tray, Icon, % channel.file.path
             hasIcon := true
         }
         ; scriptlog("channel: " . name . " path: " . channels[name].file.path . " exists: " . FileExist(channels[name].file.path))
-    } else {
+    }
+	; else {
         Menu, tray, add, % "Install " . channel.file.name . " x64", InstallShadow
         Menu, tray, add, % "Install " . channel.file.name . " x86", InstallShadow
-    }
+    ; }
     ; scriptlog("url: " . ToJson(channel.url(), true))
 }
 ; PasteToNotepad((ToJson(channels, true)))

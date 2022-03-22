@@ -95,7 +95,7 @@ class AutoMagic {
     }
 
     reboot(delay := 0) {
-        return this.get("reboot", { "sleep": delay})
+        this.get("reboot", { "sleep": delay})
     }
 
     setClipboard(text) { ; TODO: FIX

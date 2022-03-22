@@ -59,6 +59,35 @@ class Url {
         ; scriptlog("New Url: " . ToJson(this, false))
     }
 
+    visit(method := "GET", data := "", auth := "") {
+        HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        HttpObj.Open(method, this.url, 0)
+        ; HttpObj.SetRequestHeader("Content-Type", "application/json")
+        if (auth != "") {
+            HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
+        }
+        HttpObj.SetTimeouts(0,30000,30000,120000)
+        HttpObj.Send(data)
+        scriptlog("Visited " . this.url)
+    }
+
+    get() {
+        whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        whr.Open("GET", this.url, true)
+        whr.Send()
+        whr.WaitForResponse()
+        return whr
+    }
+
+    post(contentType := "application/x-www-form-urlencoded", data := "") {
+        whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+        whr.Open("POST", this.url, true)
+        whr.SetRequestHeader("Content-Type", contentType)
+        whr.Send(data)
+        whr.WaitForResponse()
+        return whr
+    }
+
     download(outDir := "", outFile := "", force := false) {
         if (outDir == "") {
             outDir := new Paths.User().temp

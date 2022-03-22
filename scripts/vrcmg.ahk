@@ -23,11 +23,11 @@ return
 ; 38-54	VRChatUtilityKit
 
 ClipChanged(Type) {
-   scriptlog("ClipChanged?type=" . Type . "&hastext=" . Clipboard_HasText())
+   ; scriptlog("ClipChanged?type=" . Type . "&hastext=" . Clipboard_HasText())
    If !(Type = 1) Or !Clipboard_HasText()
       Return
    ClipAlt := Trim(Clipboard_GetText())
-   scriptlog("ClipAlt: " + ClipAlt)
+   ; scriptlog("ClipAlt: " + ClipAlt)
    Match := RegExMatch(ClipAlt, ModURLRegex, Groups)
    if Match {
         out := "G:\Steam\steamapps\common\VRChat\Mods\" . Groups4

@@ -15,11 +15,11 @@ return
     Run powershell
     return
 <#e::
-    if (!explorer())
+    if (!isExplorerRunning())
         Run explorer
     return
 ^+Esc::
-    if (!explorer())
+    if (!isExplorerRunning())
         Run taskmgr
     return
 <#x::
@@ -35,17 +35,32 @@ return
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
 F1::
-    Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Cam""",, Hide
+    if (isOBSRunning())
+        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Cam""",, Hide
+    else
+        Send {Media_Play_Pause}
     return
 F2::
-    Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Screen""",, Hide
+    if (isOBSRunning())
+        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Screen""",, Hide
+    else
+        Send {Volume_Mute}
     return
 F3::
-    Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Microscope""",, Hide
+    if (isOBSRunning())
+        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Microscope""",, Hide
+    else
+        Send {Media_Prev}
     return
 F4::
-    Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab All""",, Hide
+    if (isOBSRunning())
+        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab All""",, Hide
+    else
+        Send {Media_Next}
     return
-explorer() {
-    return Process.Exist("explorer.exe")
+isExplorerRunning() {
+    return new Process("explorer.exe").exists()
+}
+isOBSRunning() {
+    return new Process("obs64.exe").exists()
 }

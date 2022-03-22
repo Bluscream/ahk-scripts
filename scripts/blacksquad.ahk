@@ -252,7 +252,7 @@ clearStrokes:
 restartGameFunc:
     game.kill()
     game.clearLogs()
-    game.start(false)
+    game.start(true) ; -USEBATTLEYE -GATEWAYIP=gateway.blacksquad.com -PUB=STEAM -LANGFORTEXT=INT 
     return
 
 restartGameLoop:
