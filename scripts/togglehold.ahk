@@ -1,5 +1,5 @@
 #Persistent
-; #NoTrayIcon
+#NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
@@ -24,17 +24,17 @@ OnKeyPressed(type, code, name, state) {
         if (is_repeatkey_held) {
             if (type == "Mouse") {
                 if (code == 6) { ; WheelUp
-                    repeattimer := repeattimer + 500
+                    repeattimer := repeattimer + 100
                     ToolTip, % "Repeat TIMER is " . repeattimer . "MS"
-                    Sleep, 500
+                    Sleep, 250
                     ToolTip, % ""
                     if (repeatkey)
                         SetTimer, RepeatKey, % repeattimer
                 } else if (code == 7) { ; WheelDown
                     if (repeattimer > 0)
-                        repeattimer := repeattimer - 500
+                        repeattimer := repeattimer - 100
                     ToolTip, % "Repeat TIMER is " . repeattimer . "MS"
-                    Sleep, 500
+                    Sleep, 250
                     ToolTip, % ""
                     if (repeatkey)
                         SetTimer, RepeatKey, % repeattimer
