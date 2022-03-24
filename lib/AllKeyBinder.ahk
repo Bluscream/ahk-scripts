@@ -1,6 +1,6 @@
 class AllKeyBinder{
     __New(callback, pfx := "~*"){
-        static mouseButtons := ["LButton", "RButton", "MButton", "XButton1", "XButton2"]
+        static mouseButtons := ["LButton", "RButton", "MButton", "XButton1", "XButton2", "WheelUp", "WheelDown"]
         keys := {}
         this.Callback := callback
         Loop 512 {
