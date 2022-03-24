@@ -28,46 +28,50 @@ OnKeyPressed(type, code, name, state) {
                     ToolTip, % "Repeat TIMER is " . repeattimer . "MS"
                     Sleep, 500
                     ToolTip, % ""
+                    if (repeatkey)
+                        SetTimer, RepeatKey, % repeattimer
                 } else if (code == 7) { ; WheelDown
                     if (repeattimer > 0)
                         repeattimer := repeattimer - 500
                     ToolTip, % "Repeat TIMER is " . repeattimer . "MS"
                     Sleep, 500
                     ToolTip, % ""
+                    if (repeatkey)
+                        SetTimer, RepeatKey, % repeattimer
                 } else {
                     if (repeatkey) {
-                        ToolTip, % "Repeat OFF for " . repeatkey
+                        ToolTip, % "Repeat OFF for " . repeatkey . " (" . repeattimer . "MS)"
                         repeatkey := ""
                         SetTimer, RepeatKey, Off
                         Sleep, 500
                         ToolTip, % ""
                     } else {
                         repeatkey := name
-                        ToolTip, % "Repeat ON for " . repeatkey
+                        ToolTip, % "Repeat ON for " . repeatkey . " (" . repeattimer . "MS)"
                         SetTimer, RepeatKey, % repeattimer
                         Sleep, 500
                         ToolTip, % ""
                     }
                 }
             } else if (repeatkey) {
-                ToolTip, % "Repeat OFF for " . repeatkey
+                ToolTip, % "Repeat OFF for " . repeatkey . " (" . repeattimer . "MS)"
                 repeatkey := ""
                 SetTimer, RepeatKey, Off
                 Sleep, 500
                 ToolTip, % ""
             } else {
                 repeatkey := name
-                ToolTip, % "Repeat ON for " . repeatkey
+                ToolTip, % "Repeat ON for " . repeatkey . " (" . repeattimer . "MS)"
                 SetTimer, RepeatKey, % repeattimer
                 Sleep, 500
                 ToolTip, % ""
             }
         } else if (is_togglekey_held) {
-            ToolTip, % "Toggle ON for " . togglekey
+            ToolTip, % "Holding " . name . " down"
             Sleep, 500
             ToolTip, % ""
             Sleep, 500
-            Send % "{" . togglekey . " down}"
+            Send % "{" . name . " down}"
         }
     }
 }
