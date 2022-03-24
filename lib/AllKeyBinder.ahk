@@ -28,6 +28,23 @@ class AllKeyBinder{
     }
     
     KeyEvent(type, code, name, state){
+        if (type == "Mouse") {
+            if (code == 6) {
+                name := "WheelUp"
+            } else if (code == 7) {
+                name := "WheelDown"
+            } else if (code == 1) {
+                name := "LButton"
+            } else if (code == 2) {
+                name := "RButton"
+            } else if (code == 3) {
+                name := "MButton"
+            } else if (code == 4) {
+                name := "XButton1"
+            } else if (code == 5) {
+                name := "XButton2"
+            }
+        }
         this.Callback.Call(type, code, name, state)
     }
    
