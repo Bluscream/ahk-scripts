@@ -6,6 +6,8 @@ SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
+holdkey := ""
+repeatkey := ""
 return
 
 <#c::
@@ -32,35 +34,37 @@ return
         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
     return
+PgDn::
+    togglekey := !togglekey
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
-F1::
-    if (isOBSRunning())
-        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Cam""",, Hide
-    else
-        Send {Media_Play_Pause}
-    return
-F2::
-    if (isOBSRunning())
-        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Screen""",, Hide
-    else
-        Send {Volume_Mute}
-    return
-F3::
-    if (isOBSRunning())
-        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Microscope""",, Hide
-    else
-        Send {Media_Prev}
-    return
-F4::
-    if (isOBSRunning())
-        Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab All""",, Hide
-    else
-        Send {Media_Next}
-    return
+; F1::
+;     if (isOBSRunning())
+;         Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Cam""",, Hide
+;     else
+;         Send {Media_Play_Pause}
+;     return
+; F2::
+;     if (isOBSRunning())
+;         Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Screen""",, Hide
+;     else
+;         Send {Volume_Mute}
+;     return
+; F3::
+;     if (isOBSRunning())
+;         Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab Microscope""",, Hide
+;     else
+;         Send {Media_Prev}
+;     return
+; F4::
+;     if (isOBSRunning())
+;         Run, % "OBSCommand.exe /server=127.0.0.1:4444 /scene=""Lab All""",, Hide
+;     else
+;         Send {Media_Next}
+;     return
 isExplorerRunning() {
     return new Process("explorer.exe").exists()
 }
-isOBSRunning() {
-    return new Process("obs64.exe").exists()
-}
+; isOBSRunning() {
+;     return new Process("obs64.exe").exists()
+; }
