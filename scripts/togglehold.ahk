@@ -1,5 +1,5 @@
 #Persistent
-#NoTrayIcon
+; #NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
@@ -9,6 +9,7 @@ EnforceAdmin()
 #InstallKeybdHook
 #InstallMouseHook
 #Include <AllKeyBinder>
+winid := 0
 repeatkey := ""
 repeattimer := 500
 kb := new AllKeyBinder(Func("OnKeyPressed"))
@@ -17,6 +18,7 @@ return
 OnKeyPressed(type, code, name, state) {
     global repeatkey
     global repeattimer
+    global winid
     if (name != "PgUp" && name != "PgDn" && state == 1) {
         is_repeatkey_held := GetKeyState("PGUP", "P")
         is_togglekey_held := GetKeyState("PGDN", "P")
@@ -47,6 +49,7 @@ OnKeyPressed(type, code, name, state) {
                         ToolTip, % ""
                     } else {
                         repeatkey := name
+                        WinGet, winid, ID, A
                         ToolTip, % "Repeat ON for " . repeatkey . " (" . repeattimer . "MS)"
                         SetTimer, RepeatKey, % repeattimer
                         Sleep, 500
@@ -61,6 +64,7 @@ OnKeyPressed(type, code, name, state) {
                 ToolTip, % ""
             } else {
                 repeatkey := name
+                WinGet, winid, ID, A
                 ToolTip, % "Repeat ON for " . repeatkey . " (" . repeattimer . "MS)"
                 SetTimer, RepeatKey, % repeattimer
                 Sleep, 500
@@ -71,11 +75,21 @@ OnKeyPressed(type, code, name, state) {
             Sleep, 500
             ToolTip, % ""
             Sleep, 500
-            Send % "{" . name . " down}"
+            WinGet, winid, ID, A
+            ; Send % "{" . name . " down}"
+            ControlSend,, % "{" . name . " down}", ahk_id %winid%
         }
     }
 }
 
 RepeatKey:
-    Send % "{" . repeatkey . "}"
+    ; Send % "{" . repeatkey . "}"
+    ; Tooltip % "RepeatKey: " . repeatkey . " (" . winid . ")"
+    ControlSend,, {%repeatkey%}, ahk_id %winid%
+    ; Loop {
+    ;     If ! GetKeyState( repeatkey, "P" )
+    ;        Break
+    ;        Sleep 1 
+    ; }
+    ; ControlSend,, % "{" . repeatkey . " up}", ahk_id %repeatpid%
     return

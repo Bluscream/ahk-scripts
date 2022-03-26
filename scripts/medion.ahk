@@ -5,7 +5,7 @@
 SetBatchLines, -1
 #Include <bluscream>
 #Include <monitors>
-global no_ui := False
+global no_ui := True
 
 I_Icon := "C:\Windows\System32\shell32.dll"
 IfExist, %I_Icon%
@@ -15,6 +15,7 @@ Menu, tray, add
 Menu, tray, add, % "Toggle", ToggleScreen
 Menu, tray, add, % "Mute", MuteScreen
 Menu, tray, add, % "Source", ChangeScreenSource
+Menu, tray, add, % "OK", ScreenOK
 Menu, tray, add, % "Debug", Debug ; Todo: comment
 
 SetTimer, CheckMonitorCount, 30000
@@ -41,6 +42,10 @@ MuteScreen:
 
 ChangeScreenSource:
     new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=source&repeat=7").visit("GET", "", "", true)
+    Return
+
+ScreenOK:
+    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=ok&repeat=7").visit("GET", "", "", true)
     Return
 
 Debug:
