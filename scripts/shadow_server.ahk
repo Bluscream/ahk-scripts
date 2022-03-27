@@ -58,8 +58,8 @@ global game := { name: "vrc_mods"
     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game.exe)
         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe") } }
 
-global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","Wallpaper Engine Service","GlassWire","Adguard Service","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ]
-    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Adguard","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer","OneDrive.exe" ]
+global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","ZeroTierOneService","Wallpaper Engine Service","GlassWire","AnyDeskMSI","TeamViewer","Parsec","MBAMService" ] ; "Adguard Service"
+    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","parsecd","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","zerotier-one_x64","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","conhost","cmd","explorer","OneDrive.exe" ] ; "Adguard",
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 

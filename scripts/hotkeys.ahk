@@ -17,11 +17,11 @@ return
     Run powershell
     return
 <#e::
-    if (!isExplorerRunning())
+    ; if (!isExplorerRunning())
         Run explorer
     return
 ^+Esc::
-    if (!isExplorerRunning())
+    ; if (!isExplorerRunning())
         Run taskmgr
     return
 <#x::
