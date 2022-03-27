@@ -6,7 +6,7 @@ SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
-global no_ui := false
+global no_ui := true
 #InstallKeybdHook
 #InstallMouseHook
 #Include <AllKeyBinder>
@@ -48,7 +48,7 @@ SetWindowId() {
     global winid
     if (GetKeyState("NumLock", "T")) {
         WinGet, winid, ID, A
-        scriptlog("NumLock enaged > set new window ID: " . winid)
+        ; scriptlog("NumLock enaged > set new window ID: " . winid)
     } else {
         winid := 0
     }
@@ -92,7 +92,7 @@ ChangeRepeatTimer(newtime) {
 
 PressKeyScript(key, down := true, up := true, delay := 50) {
     global winid
-    log("PressKeyScript: " . key . " " . (down ? "down" : "") . " " . (up ? "up" : "") . " " . (winid ? winid : "global") . " " . delay . "MS")
+    ; log("PressKeyScript: " . key . " " . (down ? "down" : "") . " " . (up ? "up" : "") . " " . (winid ? winid : "global") . " " . delay . "MS")
     if (winid) {
         if (down) {
             ControlSend,, % "{" . key . " down}", % winid
@@ -113,7 +113,7 @@ PressKeyScript(key, down := true, up := true, delay := 50) {
 }
 
 log(msg, showtime := 500) {
-    scriptlog(msg)
+    ; scriptlog(msg)
     ToolTip, % msg
     Sleep, % showtime
     ToolTip, % ""
