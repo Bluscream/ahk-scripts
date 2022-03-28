@@ -3,18 +3,19 @@
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
-Process, Priority,, High
+Process, Priority,, Low
 #Include <bluscream>
 EnforceAdmin()
+; #InstallKeybdHook
+; #InstallMouseHook
+#MaxHotkeysPerInterval, 250
 global no_ui := true
-#InstallKeybdHook
-#InstallMouseHook
 #Include <AllKeyBinder>
 repeatkey := ""
 repeattimer := 500
 winid := 0
 kb := new AllKeyBinder(Func("OnKeyPressed"))
-log("ToggleHold Script Loaded")
+; log("ToggleHold Script Loaded")
 return
 
 OnKeyPressed(type, code, name, state) {
