@@ -47,7 +47,7 @@ OnKeyPressed(type, code, name, state) {
 }
 SetWindowId() {
     global winid
-    if (GetKeyState("NumLock", "T")) {
+    if (!GetKeyState("NumLock", "T")) {
         WinGet, winid, ID, A
         ; scriptlog("NumLock enaged > set new window ID: " . winid)
     } else {

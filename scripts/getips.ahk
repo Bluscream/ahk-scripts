@@ -9,9 +9,12 @@ devices := [ "Timo-Tablet","Timo-Handy" ]
 
 for i, dev in devices {
     url_ := url . dev
-    res := GetString(url_)
-    ; dev := StrReplace(dev, "-" , "_")
-    Env_UserNew("IP_" . dev, res)
+    Try
+    {
+        res := GetString(url_)
+        ; dev := StrReplace(dev, "-" , "_")
+        Env_UserNew("IP_" . dev, res)
+    }
 }
 
 ExitApp

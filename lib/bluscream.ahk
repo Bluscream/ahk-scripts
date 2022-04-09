@@ -322,7 +322,7 @@ CPULoad() { ; By SKAN, CD:22-Apr-2014 / MD:05-May-2014. Thanks to ejor, Codeproj
     IdleTime := PIT - CIT, KernelTime := PKT - CKT, UserTime := PUT - CUT, SystemTime := KernelTime + UserTime 
     Return ( ( SystemTime - IdleTime ) * 100 ) // SystemTime,    PIT := CIT,    PKT := CKT,    PUT := CUT 
 }
-RunWaitLast(commands, prefix:="", suffix:="") {
+RunWaitLast(commands, prefix:="", suffix:="", debug := False) {
     max := commands.MaxIndex()
     for i, command in commands {
         command := prefix . command
@@ -342,18 +342,18 @@ RunWaitLast(commands, prefix:="", suffix:="") {
         }
     }
 }
-KillProcesses(processes) {
-    RunWaitLast(processes, "taskkill /f /im """, ".exe""")
+KillProcesses(processes, debug := False) {
+    RunWaitLast(processes, "taskkill /f /im """, ".exe""", debug)
 }
-StartTasks(tasks) {
-    RunWaitLast(tasks, "schtasks /start /tn """, """")
+StartTasks(tasks, debug := False) {
+    RunWaitLast(tasks, "schtasks /start /tn """, """", debug)
 }
-EndTasks(tasks) {
-    RunWaitLast(tasks, "schtasks /end /tn """, """")
+EndTasks(tasks, debug := False) {
+    RunWaitLast(tasks, "schtasks /end /tn """, """", debug)
 }
-StartServices(services) {
-    RunWaitLast(services, "sc start """, """")
+StartServices(services, debug := False) {
+    RunWaitLast(services, "sc start """, """", debug)
 }
-StopServices(services) {
-    RunWaitLast(services, "sc stop """, """")
+StopServices(services, debug := False) {
+    RunWaitLast(services, "sc stop """, """", debug)
 }
