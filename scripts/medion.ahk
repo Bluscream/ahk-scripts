@@ -5,6 +5,15 @@
 SetBatchLines, -1
 #Include <bluscream>
 #Include <monitors>
+
+; A_Args := [ "/bloat" ]
+for n, param in A_Args
+{
+    StringLower, param, % param
+    if (param == "/toggle") {
+        goto ToggleScreen
+    } 
+}
 global no_ui := True
 global runs := 0
 
@@ -21,6 +30,7 @@ Menu, tray, add, % "Debug", Debug ; Todo: comment
 
 SetTimer, CheckMonitorCount, 30000
 OnExit, ExitSub
+
 Return
 
 

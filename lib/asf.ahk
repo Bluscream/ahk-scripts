@@ -15,6 +15,10 @@ class Bot {
         ; scriptlog("New bot " . this.data.botname)
     }
 
+    getNickName() {
+        return this.data.nickname ? this.data.nickname : this.cfg.nickname
+    }
+
     getAPIUrl(endpoint) {
         return this._asf.url . "/Api/Bot/" . this.data.botname . "/" . endpoint . "?password=" . this._asf.config.token
     }
@@ -90,14 +94,14 @@ class ASF {
 
     getBotByNickName(nickname) {
         for _i, _bot in this.bots {
-            if (_bot.data.nickname = nickname) {
+            if (_bot.getNickName() == nickname) {
                 return _bot
             }
         }
     }
     getBotByUserName(username) {
         for _i, _bot in this.bots {
-            if (_bot.cfg.username = username) {
+            if (_bot.cfg.username == username) {
                 return _bot
             }
         }

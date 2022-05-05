@@ -19,10 +19,12 @@ global steam_login_error := new Window("Steam - Error", "vguiPopupWindow", "stea
 
 global logged_in := false
 global asf := new ASF()
-if (A_Username.startsWith("blus")) {
+global ismain := startsWith(A_Username, "blusc")
+scriptlog("A_Username: " . A_Username . " ismain: " . (ismain ? "Yes" : "No"))
+if (ismain) {
     global main := asf.getBotByNickname("blu")
 } else {
-    global main := asf.getBotByNickname("blu")
+    global main := asf.getBotByNickname("red")
 }
 
 I_Icon := A_ProgramFiles . " (x86)\Steam\Steam.exe"  
@@ -32,7 +34,7 @@ IfExist, %I_Icon%
 Menu, tray, add, % "--- Steam ---", StartSteam
 for i, bot in asf.bots {
     if (bot.data.HasMobileAuthenticator)
-        Menu, tray, add, % "2FA Code (" . bot.data.nickname . ")", Get2FACode
+        Menu, tray, add, % "2FA Code (" . bot.getNickName() . ")", Get2FACode
 }
 Menu, tray, add, % "Redeem Keys", RedeemKeys
 Menu, tray, add, % "Free Games", FreeGames
@@ -90,7 +92,7 @@ Debug:
 Get2FACode:
     txt := StrReplace(A_ThisMenuItem, "2FA Code (", "")
     txt := StrReplace(txt, ")", "")
-    code := asf.getBotByNickname(txt).Get2FACode()
+    code := asf.getBotByNickName(txt).Get2FACode()
     Clipboard := code
     _SplashScreen(txt, code, 2500)
     return
