@@ -4,7 +4,9 @@
 #Persistent
 #Include <bluscream>
 EnforceAdmin()
+
 global no_ui := True
+global idle_time_minutes := 5
 
 twinkle_tray := new Paths.User().localappdata.CombineFile("Programs","twinkle-tray","Twinkle Tray.exe")
 SetTimer, CheckIdleTime, 5000
@@ -34,7 +36,7 @@ return
 
 CheckIdleTime:
     ; log("A_TimeIdlePhysical: " + A_TimeIdlePhysical)
-    if (A_TimeIdlePhysical > 1800000) {
+    if (A_TimeIdlePhysical > (idle_time_minutes * 60000)) {
         SetTimer, CheckIdleTime, Off
         log("Longer then 30 minutes idle")
         SetBrightness(0)

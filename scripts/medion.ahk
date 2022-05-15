@@ -49,15 +49,15 @@ ToggleScreen:
     Return
 
 MuteScreen:
-    SendIRCommand("medion%20tv", "mute", 7)
+    SendIRCommand("medion%20tv", "mute", 1)
     Return
 
 ChangeScreenSource:
-    SendIRCommand("medion%20tv", "source", 7)
+    SendIRCommand("medion%20tv", "source", 3)
     Return
 
 ScreenOK:
-    SendIRCommand("medion%20tv", "ok", 7)
+    SendIRCommand("medion%20tv", "ok", 3)
     Return
 
 Debug:
