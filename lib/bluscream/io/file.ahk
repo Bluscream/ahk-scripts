@@ -36,7 +36,7 @@ class File {
             RunWait, % cmd, % (WorkingDir ? ""WorkingDir: this.directory.path),, OutputVarPID
             return OutputVarPID
         }
-        Run, % cmd, % (WorkingDir ? ""WorkingDir: this.directory.path)
+        Run, % cmd, % (WorkingDir ? "" : this.directory.path)
     }
     open(flags := "r", encoding := "UTF-8") {
         return FileOpen(this.path, flags, encoding)

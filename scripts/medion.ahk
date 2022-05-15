@@ -6,12 +6,12 @@ SetBatchLines, -1
 #Include <bluscream>
 #Include <monitors>
 
-; A_Args := [ "/bloat" ]
+; A_Args := [ "/toggle" ]
 for n, param in A_Args
 {
     StringLower, param, % param
     if (param == "/toggle") {
-        goto ToggleScreen
+        SendIRCommand("medion%20tv", "on_off", 10)
     } 
 }
 global no_ui := True
@@ -45,19 +45,19 @@ CheckMonitorCount:
     Return
 
 ToggleScreen:
-    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=on_off&repeat=10").visit("GET", "", "", true)
+    SendIRCommand("medion%20tv", "on_off", 10)
     Return
 
 MuteScreen:
-    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=mute&repeat=7").visit("GET", "", "", true)
+    SendIRCommand("medion%20tv", "mute", 7)
     Return
 
 ChangeScreenSource:
-    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=source&repeat=7").visit("GET", "", "", true)
+    SendIRCommand("medion%20tv", "source", 7)
     Return
 
 ScreenOK:
-    new Url("https://minopia.de/api/ir.php?device=medion%20tv&action=ok&repeat=7").visit("GET", "", "", true)
+    SendIRCommand("medion%20tv", "ok", 7)
     Return
 
 Debug:

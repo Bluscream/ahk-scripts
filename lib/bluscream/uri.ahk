@@ -1,4 +1,8 @@
-
+; UrlEscape( url, flags )
+; UrlUnEscape( url, flags )
+; URIEncode(str, encoding := "UTF-8")
+; URI_Encode(sURI, sExcepts = "!#$&'()*+,-./:;=?@_~")
+; URI_EncodeComponent(sURI, sExcepts = "!'()*-._~")
 class Url {
     url := ""
     protocol := "" ; contains: "ftp"

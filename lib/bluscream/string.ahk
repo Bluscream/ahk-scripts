@@ -87,12 +87,21 @@ StringToHex(String, spaces := true) {
 	SetFormat, INTEGER, %Old_A_FormatInteger%
 	Return HexString
 }
-UrlEscape( url, flags ) {      ; www.msdn.microsoft.com/en-us/library/bb773774(VS.85).aspx
+
+UrlEncodeTest(string) {
+    scriptlog("UrlEscape: " . UrlEscape(string))
+    scriptlog("UrlUnEscape: " . UrlUnEscape(string))
+    scriptlog("URIEncode: " . URIEncode(string))
+    scriptlog("URI_Encode: " . URI_Encode(string))
+    scriptlog("URI_EncodeComponent: " . URI_EncodeComponent(string))
+}
+
+UrlEscape( url, flags := 0 ) {      ; www.msdn.microsoft.com/en-us/library/bb773774(VS.85).aspx
     VarSetCapacity( newUrl,500,0 ), pcche := 500
     DllCall( "shlwapi\UrlEscapeA", Str,url, Str,newUrl, UIntP,pcche, UInt,flags )
     Return newUrl
 }
-UrlUnEscape( url, flags ) {    ; www.msdn.microsoft.com/en-us/library/bb773791(VS.85).aspx
+UrlUnEscape( url, flags := 0 ) {    ; www.msdn.microsoft.com/en-us/library/bb773791(VS.85).aspx
     VarSetCapacity( newUrl,500,0 ), pcche := 500
     DllCall( "shlwapi\UrlUnescapeA", Str,url, Str,newUrl, UIntP,pcche, UInt,flags )
     Return 
@@ -109,35 +118,37 @@ URIEncode(str, encoding := "UTF-8") {
     Return UrlStr
 }
 
-; URI_Encode(sURI, sExcepts = "!#$&'()*+,-./:;=?@_~")
-; {
-; 	Transform sUTF8, ToCodePage, 65001, %sURI%
-; 	origFmt := A_FormatInteger
-; 	SetFormat IntegerFast, hex
+URI_Encode(sURI, sExcepts = "!#$&'()*+,-./:;=?@_~")
+{
+	if (A_PtrSize != 8) {
+        ; Transform sUTF8, Unicode, %sURI%
+    }
+	origFmt := A_FormatInteger
+	SetFormat IntegerFast, hex
 
-; 	sResult := ""
-; 	Loop
-; 	{
-; 		if (!(b := NumGet(sUTF8, A_Index - 1, "UChar")))
-; 			break
-; 		ch := Chr(b)
-; 		if (b >= 0x41 && b <= 0x5A ; A-Z
-; 			|| b >= 0x61 && b <= 0x7A ; a-z
-; 			|| b >= 0x30 && b <= 0x39 ; 0-9
-; 			|| InStr(sExcepts, Chr(b), true))
-; 			sResult .= Chr(b)
-; 		else
-; 		{
-; 			ch := SubStr(b, 3)
-; 			if (StrLen(ch) < 2)
-; 				ch = "0" ch
-; 			sResult .= "%" ch
-; 		}
-; 	}
-; 	SetFormat IntegerFast, %origFmt%
-; 	return sResult
-; }
-; URI_EncodeComponent(sURI, sExcepts = "!'()*-._~")
-; {
-; 	return URI_Encode(sURI, sExcepts)
-; }
+	sResult := ""
+	Loop
+	{
+		if (!(b := NumGet(sUTF8, A_Index - 1, "UChar")))
+			break
+		ch := Chr(b)
+		if (b >= 0x41 && b <= 0x5A ; A-Z
+			|| b >= 0x61 && b <= 0x7A ; a-z
+			|| b >= 0x30 && b <= 0x39 ; 0-9
+			|| InStr(sExcepts, Chr(b), true))
+			sResult .= Chr(b)
+		else
+		{
+			ch := SubStr(b, 3)
+			if (StrLen(ch) < 2)
+				ch = "0" ch
+			sResult .= "%" ch
+		}
+	}
+	SetFormat IntegerFast, %origFmt%
+	return sResult
+}
+URI_EncodeComponent(sURI, sExcepts = "!'()*-._~")
+{
+	return URI_Encode(sURI, sExcepts)
+}
