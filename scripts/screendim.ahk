@@ -1,11 +1,11 @@
 #SingleInstance, force
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 #Include <bluscream>
+global no_ui := False
 EnforceAdmin()
 
-global no_ui := False
 global idle_time_minutes := 1
 global brightness_normal := 50
 global brightness_idle := 0
