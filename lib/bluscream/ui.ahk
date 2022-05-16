@@ -4,6 +4,10 @@
 #Include %A_LineFile%\..\ui\coord.ahk
 global initialized := false
 global ui := False
+global lastToolTip := ""
+global splashscreenqueue := []
+global lastsplashscreen := ""
+
 scriptlog(msg, timestamp := "", append := false) {
     if(noui == true)
         return
@@ -32,31 +36,37 @@ scriptlog(msg, timestamp := "", append := false) {
     }
     PostMessage, 0x115, 7, , Edit1, ahk_class AutoHotkey
 }
-global lastToolTip := ""
-ShowToolTip(msg){
+
+ShowToolTip(msg, wait := 500, x := -1, y := -1)
+{
     if (msg == lastToolTip) {
         return
     }
     lastToolTip := msg
-    ToolTip, %msg%
+    ToolTip, %msg%,,,9
+    if (wait > 0) {
+        SetTimer, RemoveToolTip, %wait%
+    }
 }
+RemoveToolTip:
+    if (initialized) {
+        if (lastToolTip != "") {
+            ToolTip,,,,9
+        }
+        return
+    }
 
 SplashScreen(title, text="", time=1000) {
-    initialized := true
     SplashImage, , b FM18 fs12, % title, % text
     SetTimer, RemoveSplashScreen, % time
 }
-
 RemoveSplashScreen:
     if (initialized) {
-        initialized := false
         SplashImage, Off
         SetTimer, RemoveSplashScreen, Off
         return
     }
 
-global splashscreenqueue := []
-global lastsplashscreen := ""
 _SplashScreen(title, text="", time=1000) {
     if (title == lastsplashscreen) {
         return

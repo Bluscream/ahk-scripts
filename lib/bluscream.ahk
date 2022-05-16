@@ -7,6 +7,7 @@
 #Include %A_LineFile%\..\bluscream\string.ahk
 #Include %A_LineFile%\..\bluscream\uri.ahk
 #Include %A_LineFile%\..\bluscream\api.ahk
+#Include %A_LineFile%\..\bluscream\utils.ahk
 
 ObjectCount(object) {
     count := 0
