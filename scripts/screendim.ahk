@@ -72,6 +72,7 @@ ScreenOff:
 Debug:
     log("is_idle: " . is_idle, true)
     log("A_TimeIdlePhysical: " . A_TimeIdlePhysical, true)
+    log("idle_time_minutes: " . idle_time_minutes, true)
     log("idle_time_ms: " . idle_time_ms, true)
     log("brightness_normal: " . brightness_normal, true)
     log("brightness_idle: " . brightness_idle, true)
