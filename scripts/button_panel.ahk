@@ -21,27 +21,37 @@ return
     showUI()
     return
 
-ESC::
-    ExitApp
-
 initUI:
     Gui +Resize -MinimizeBox +E0x400
     Gui Color, 0x808080
     Gui Font, s20
+
     Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gonBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
     Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x16 y104 w216 h84, Steam (Mini)
+
     ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
+
     Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gonBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
+
     Gui Add, Button, hWndhBtn4 vBtn4 gonBtnStartVDClicked x480 y16 w216 h172, Start`n`nVirtual Desktop
+
     Gui Add, Button, hWndhBtnStartnnparsec5 vBtnStartnnparsec5 gOnBtnStartParsecClicked x712 y16 w216 h172, Start`n`nParsec
+
     Gui Add, Button, hWndhBtnSoundDevices6 vBtnSoundnndevices6 gOnBtnSoundDevicesClicked x16 y400 w216 h172, Sound`n`nDevices
+
     Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, Sound`n`nMixer
+
     Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h172, Start`n`nExplorer
+
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
+
     Gui Add, Button, hWndhBtn10 vBtn10 gonBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
+
     Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
+
     Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gonBtnKillSemiBloatClicked x712 y400 w216 h84, Kill Services
     Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gonBtnKillbloatClicked x712 y488 w216 h84, Kill Bloat
+    
     Gui Font
     return
 
@@ -63,7 +73,6 @@ onBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ShellRun("steam://open/console", "")
     GuiClose(0)
 }
-
 onBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamMiniClicked")
     KillProcesses(["steam"])
@@ -141,11 +150,10 @@ onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ShellRun("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk", "/bloat")
+    new File("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk").run(false, "", "/bloat")
 }
-
 onBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ShellRun("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk", "/semibloat")
+    new File("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk").run(false, "", "/semibloat")
 }
 
 GuiSize(GuiHwnd, EventInfo, Width, Height) {

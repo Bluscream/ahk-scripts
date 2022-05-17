@@ -78,7 +78,7 @@ for n, param in A_Args
         vd.safe_mode := true
     } else if (param == "/min" || param == "/perf") {
         scriptlog("Performance mode enabled (" . param . ")")
-        perf_mode := true
+        perf_mode := truex
         steam.uri := steam.uri_minicon
     } else if (param == "/bloat") {
         KillBloat()
@@ -88,6 +88,7 @@ for n, param in A_Args
         ExitApp
     }
 }
+scriptlog(toJson(A_Args))
 Acc_Init()
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()
 scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
@@ -210,7 +211,6 @@ KillSemiBloat() {
     KillProcesses(semibloat.processes, True)
     scriptlog("[UNBLOAT] Running " . semibloat.custom.Count() . " commands")
     RunWaitLast(semibloat.custom, True)
-    SleepS(5)
 }
 
 CheckSteamVR() {
