@@ -23,16 +23,16 @@ return
         Run taskmgr
     return
 
-; <#x::
-;     IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-;     {
-;         WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-;     }
-;     IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-;     {
-;         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
-;     }
-;     return
+<#x::
+    ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    ; {
+    ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    ; }
+    IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    {
+        Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
+    }
+    return
 
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")

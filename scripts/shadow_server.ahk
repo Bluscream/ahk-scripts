@@ -70,7 +70,6 @@ global semibloat := { services: [ "Adguard Service","Parsec","AnyDeskMSI","TeamV
 
 
 
-A_Args := [ "/bloat" ]
 for n, param in A_Args
 {
     StringLower, param, % param
@@ -211,6 +210,7 @@ KillSemiBloat() {
     KillProcesses(semibloat.processes, True)
     scriptlog("[UNBLOAT] Running " . semibloat.custom.Count() . " commands")
     RunWaitLast(semibloat.custom, True)
+    SleepS(5)
 }
 
 CheckSteamVR() {

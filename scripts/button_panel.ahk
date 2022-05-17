@@ -3,6 +3,7 @@
 #Persistent
 #NoEnv
 #NoTrayIcon
+SetTitleMatchMode, 2
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
@@ -43,9 +44,14 @@ initUI:
 
 
 showUI() {
-    runs := runs + 1
-    FormatTime, timestamp, A_Now, dd.MM. HH:mm:ss
-    Gui Show, w936 h580, % "[" . runs . "] Quick Start Panel (" . timestamp . ")"
+    ; [96] Quick Start Panel (17.05. 14:01:34) ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe ahk_pid 8904
+    IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    {
+        runs := runs + 1
+        FormatTime, timestamp, A_Now, dd.MM. HH:mm:ss
+        Gui Show, w936 h580, % "[" . runs . "] Quick Start Panel (" . timestamp . ")"
+    }
+    WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
 }
 
 onBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -132,7 +138,6 @@ onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ; scriptlog("onBtnKillbloatClicked")
     ShellRun("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk", "/bloat")
 }
 
@@ -144,7 +149,6 @@ GuiSize(GuiHwnd, EventInfo, Width, Height) {
     If (A_EventInfo == 1) {
         Return
     }
-
     AutoXYWH("xywh", hBtnStartSteam)
     AutoXYWH("xywh", hBtnStartSteamMini)
     AutoXYWH("xywh", hBtnStartSteamvr3)
@@ -157,6 +161,7 @@ GuiSize(GuiHwnd, EventInfo, Width, Height) {
     AutoXYWH("xywh", hBtn10)
     AutoXYWH("xywh", hBtn11)
     AutoXYWH("xywh", hBtnKillbloat)
+    AutoXYWH("xywh", hBtnKillSemiBloat)
 }
 
 GuiEscape(GuiHwnd) {
