@@ -21,13 +21,16 @@ return
     showUI()
     return
 
+ESC::
+    ExitApp
 
 initUI:
     Gui +Resize -MinimizeBox +E0x400
     Gui Color, 0x808080
     Gui Font, s20
-    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gonBtnStartSteamClicked x16 y16 w216 h172 +Default, Start`n`nSteam
-    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
+    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gonBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
+    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x16 y104 w216 h84, Steam (Mini)
+    ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
     Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gonBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
     Gui Add, Button, hWndhBtn4 vBtn4 gonBtnStartVDClicked x480 y16 w216 h172, Start`n`nVirtual Desktop
     Gui Add, Button, hWndhBtnStartnnparsec5 vBtnStartnnparsec5 gOnBtnStartParsecClicked x712 y16 w216 h172, Start`n`nParsec
