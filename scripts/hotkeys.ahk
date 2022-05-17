@@ -6,8 +6,6 @@ SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
-holdkey := ""
-repeatkey := ""
 return
 
 <#c::
@@ -24,18 +22,18 @@ return
     ; if (!isExplorerRunning())
         Run taskmgr
     return
-<#x::
-    IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-    {
-        WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-    }
-    IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
-    {
-        Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
-    }
-    return
-PgDn::
-    togglekey := !togglekey
+
+; <#x::
+;     IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+;     {
+;         WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+;     }
+;     IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+;     {
+;         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
+;     }
+;     return
+
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
 ; F1::
@@ -65,6 +63,6 @@ PgDn::
 isExplorerRunning() {
     return new Process("explorer.exe").exists()
 }
-; isOBSRunning() {
-;     return new Process("obs64.exe").exists()
-; }
+isOBSRunning() {
+    return new Process("obs64.exe").exists()
+}

@@ -58,10 +58,17 @@ global game := { name: "vrc_mods"
     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX") } }
 
-global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService" ] ; "Adguard Service","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService",
-    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","nginx","php-cgi","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd","explorer" ] ; "Adguard","parsecd","zerotier-one_x64",
+global bloat := { services: [ "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService", "FoxitReaderUpdateService", "WinHttpAutoProxySvc", "EABackgroundService" ]
+    ,processes: [ "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd","explorer" ]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
+
+global semibloat := { services: [ "Adguard Service","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe"
+    ,processes: [ "Adguard","parsecd","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"]
+    ,tasks: []
+    ,custom: [] }
+
+
 
 A_Args := [ "/bloat" ]
 for n, param in A_Args
@@ -77,7 +84,10 @@ for n, param in A_Args
     } else if (param == "/bloat") {
         KillBloat()
         ExitApp
-    } 
+    } else if (param == "/semibloat") {
+        KillSemiBloat()
+        ExitApp
+    }
 }
 Acc_Init()
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()
@@ -190,6 +200,17 @@ KillBloat() {
     KillProcesses(bloat.processes, True)
     scriptlog("[UNBLOAT] Running " . bloat.custom.Count() . " commands")
     RunWaitLast(bloat.custom, True)
+}
+
+KillSemiBloat() {
+    scriptlog("[UNBLOAT] Stopping " . semibloat.services.Count() . " services")
+    StopServices(semibloat.services, True)
+    scriptlog("[UNBLOAT] Ending " . semibloat.tasks.Count() . " tasks")
+    EndTasks(semibloat.tasks, True)
+    scriptlog("[UNBLOAT] Killing " . semibloat.processes.Count() . " processes")
+    KillProcesses(semibloat.processes, True)
+    scriptlog("[UNBLOAT] Running " . semibloat.custom.Count() . " commands")
+    RunWaitLast(semibloat.custom, True)
 }
 
 CheckSteamVR() {
