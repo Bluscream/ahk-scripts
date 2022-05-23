@@ -19,7 +19,10 @@ GetJson(url, auth := "") {
     HttpObj.SetTimeouts(0,30000,30000,120000)
     HttpObj.Send()
     HttpObj.WaitForResponse()
-    _json := JSON.Load(HttpObj.ResponseText)
+    ; scriptlog(HttpObj.ResponseText)
+    try {
+        _json := JSON.Load(HttpObj.ResponseText)
+    }
     if !(_json) {
         ; MsgBox % "GetJson ResponseText:"
         _json := json_toobj(HttpObj.ResponseText)
