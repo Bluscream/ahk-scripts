@@ -16,20 +16,19 @@ for objItem in ComObjGet("winmgmts:").ExecQuery("SELECT * FROM Win32_NetworkAdap
             macs.Push(objItem.MACAddress)
     }
 }
-url := "http://192.168.2.38/api/ip.php?name=Timo-PC?domains=bluscream.pc,timo.pc,gaming.pc"
+url := "http://192.168.2.38/api/ip.php?name=Timo-PC&domains=bluscream.pc,timo.pc,gaming.pc"
 if (ips.MaxIndex() > 0) {
     url .= ("&ips=" . Join(",", ips))
 }
 if (macs.MaxIndex() > 0)  {
     url .= ("&macs=" . join(",", macs))
 }
-scriptlog(url)
+ShowToolTip(url)
 devices := GetJson(url)
 
 for i, dev in devices {
     Try
     {
-        
         Env_UserNew("IP_" . dev.name, dev.ip)
     }
 }
