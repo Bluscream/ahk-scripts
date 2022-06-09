@@ -4,45 +4,43 @@
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
-Process, Priority,, High
+Process, Priority,, Low
 #Include <bluscream>
 ; EnforceAdmin()
 global noui = false
-SendMode, Event ; |Play|Input|InputThenPlay
+; SendMode, Event ; |Play|Input|InputThenPlay
 ; SetKeyDelay, 50, 50
 OnClipboardChange("ClipChanged", -1)
 global ClipAlt := ""
-; global ModURLRegex := "(?<url>(?:http(?:s)?:\/\/)?api\.vrcmg\.com\/v0\/(?<type>\w+)\/(?<id>\d+)\/(?<file>(?<filename>.+)\.dll))"
-; global ModURLRegex := "((?:http(?:s)?:\/\/)?api\.vrcmg\.com\/v0\/(\w+)\/(\d+)\/((.+)\.dll))"
-global ModURLRegex := "((?:http(?:s)?:\/\/).*\/(.+)\.dll)"
 return
-; https://api.vrcmg.com/v0/PRE_mods/246/ReModCE.Loader.dll
-; 0-58	https://api.vrcmg.com/v0/PRE_mods/231/VRChatUtilityKit.dll
-; 25-33	PRE_mods
-; 34-37	231
-; 38-58	VRChatUtilityKit.dll
-; 38-54	VRChatUtilityKit
 
 ClipChanged(Type) {
    ; scriptlog("ClipChanged?type=" . Type . "&hastext=" . Clipboard_HasText())
-   If !(Type = 1) and !Clipboard_HasText() {
+   If (!(Type = 1) and !Clipboard_HasText()) {
       Return
    }
-   Clip := Clipboard
+   Clip := Trim(Clipboard)
    if (if Clip is space) {
       Clip := Trim(Clipboard_GetText())
    }
-   ; scriptlog("ClipAlt: " + ClipAlt)
-   Match := RegExMatch(Clip, ModURLRegex, Groups)
-   if Match {
-        out := "G:\Steam\steamapps\common\VRChat\Mods\" . Groups2 . ".dll"
-        scriptlog("Downloading " . Groups1 . ": " . Groups2 . " to " . out)
-        Msgbox 4, % "VRCMG Mod Downloader", % "Are you sure you want to download " . Groups2 . "?"
-        IfMsgBox No
-            Return
-        UrlDownloadToFile, % Groups1, % out
-        scriptlog("Finished downloading " . Groups1)
+   if (ClipAlt == Clip) {
+      Return
    }
+   ; scriptlog("ClipAlt: " + ClipAlt)
+   Clip := StrReplace(Clip, "apt-get", "aptitude")
+   if (startsWith(Clip, "aptitude")) {
+      if (!startsWith(Clip, "sudo ")) {
+         Clip := "sudo " . Clip
+      }
+      if ("-y" not in Clip) {
+         Clip := Clip . " -y"
+      }
+      Clip := Trim(Clip)
+   }
+   if (Clipboard != Clip) {
+      Clipboard := Clip
+   }
+   ClipAlt := Clipboard
 }
 ; -------------------------------------------
 Clipboard_HasText() {

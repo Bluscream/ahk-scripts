@@ -10,5 +10,5 @@ SendIRCommand(device, action , repeat := 5) {
         scriptlog("URIEncode action: " . action . " => " . _action)
         action := _action
     }
-    new Url("https://minopia.de/api/ir.php?device=" . device . "&action=" . action . "&repeat=" . repeat).visit("GET", "", "", true)
+    new Url("http://minopia.de/api/ir.php?device=" . device . "&action=" . action . "&repeat=" . repeat).visit("GET", "", "", true)
 }

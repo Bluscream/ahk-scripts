@@ -65,7 +65,8 @@ titles.push({title: "7-Zip ahk_class #32770 ahk_exe 7zFM.exe", text: "Unspecifie
 titles.push({title: "TC4Shell ahk_class TTrialForm ahk_exe Explorer.EXE", text: "", action: "CloseWindow"})
 titles.push({title: "taskkill.exe - Application Error ahk_class #32770", text: "The application was unable to start correctly", action: "CloseWindow"})
 titles.push({title: "taskkill.exe - Anwendungsfehler ahk_class #32770", text: "Die Anwendung konnte nicht korrekt gestartet werden", action: "CloseWindow"})
-; titles.push({title: "Anwendungsfehler ahk_class #32770",        text: "",   action: "CloseWindow"})
+titles.push({title: "Anwendungsfehler ahk_class #32770", text: "", action: "CloseWindow"})
+titles.push({title: "Application Error ahk_class #32770", text: "", action: "CloseWindow"})
 titles.push({title: "ahk_class CNotificationWindow_Class ahk_exe SUPERANTISPYWARE.EXE", text: "Professional Trial Expires", action: "CloseWindow"} )
 titles.push({title: "Connection Error ahk_class vguiPopupWindow ahk_exe steam.exe", text: "", action: "Click:X105 Y234"})
 titles.push({title: "Error ahk_class #32770 ahk_exe wallpaper64.exe", text: "Wallpaper Engine was possibly crashed by another application.", action: "CloseWindow"})
@@ -93,7 +94,9 @@ titles.push({title: "StartAllBack configuration ahk_class TMain ahk_exe StartAll
 titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text: "Initialization failed (no speaker/mic present?)", action: "KillProcess"})
 titles.push({title: "OBS has crashed! ahk_class #32770 ahk_exe obs64.exe", text: "", action: "ClickButton:&No"})
 titles.push({title: "Message ahk_class SunAwtDialog ahk_exe BoxToGoRC.exe", text: "", action: "CloseWindow"})
-
+titles.push({title: "Microsoft .NET ahk_exe DllHost.exe", text: "The system cannot find the file specified. (0x80070002)", action: "CloseWindow"})
+titles.push({title: b64Decode("TG9nIGluIHRvOiBibHVA") . " ahk_class SunAwtDialog ahk_exe pycharm64.exe", text: "", action: "SendBase64:YnVmZmFsbzkxMQ"})
+titles.push({title: "Visual Studio Just-In-Time Debugger ahk_class #32770", text: "", action: "CloseWindow"})
 
 
 ; ":2\"
@@ -135,6 +138,9 @@ runChecks(){
             Continue
         }  else if (action[1] == "Click"){
             ControlClick, % action[2], ahk_id %hwnd%
+            Continue
+        } else if (action[1] == "SendBase64"){
+            ControlSend,, % b64Decode(action[2]) . "{Enter}", ahk_id %hwnd%
             Continue
         }
       }

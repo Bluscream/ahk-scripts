@@ -2,7 +2,6 @@
 ; Utility functions for monitors
 ; ========================================================================
 
-
 ; Returns detailed information about ALL monitors
 GetMonitors()
 {
@@ -71,24 +70,24 @@ GetMonitor(ID)
 
   Monitor.Type := IsLaptopMonitor(Monitor) ? "LAPTOP" : GetOrientation(Monitor)
 
-  Log("========== Monitor #" . Monitor.ID . " =========="
-    . "`r`nName: " . Monitor.Name
-    . "`r`nPrimary: " . (Monitor.IsPrimary ? "yes" : "no")
-    . "`r`nType: " . Monitor.Type
-    . "`r`nBounds:"
-    . "`r`n  Left: " . Monitor.Bounds.Left
-    . "`r`n  Right: " . Monitor.Bounds.Right
-    . "`r`n  Top: " . Monitor.Bounds.Top
-    . "`r`n  Bottom: " . Monitor.Bounds.Bottom
-    . "`r`n  Width: " . Monitor.Bounds.Width
-    . "`r`n  Height: " . Monitor.Bounds.Height
-    . "`r`nWorkArea:"
-    . "`r`n  Left: " . Monitor.WorkArea.Left
-    . "`r`n  Right: " . Monitor.WorkArea.Right
-    . "`r`n  Top: " . Monitor.WorkArea.Top
-    . "`r`n  Bottom: " . Monitor.WorkArea.Bottom
-    . "`r`n  Width: " . Monitor.WorkArea.Width
-    . "`r`n  Height: " . Monitor.WorkArea.Height)
+  ; Log("========== Monitor #" . Monitor.ID . " =========="
+  ;   . "`r`nName: " . Monitor.Name
+  ;   . "`r`nPrimary: " . (Monitor.IsPrimary ? "yes" : "no")
+  ;   . "`r`nType: " . Monitor.Type
+  ;   . "`r`nBounds:"
+  ;   . "`r`n  Left: " . Monitor.Bounds.Left
+  ;   . "`r`n  Right: " . Monitor.Bounds.Right
+  ;   . "`r`n  Top: " . Monitor.Bounds.Top
+  ;   . "`r`n  Bottom: " . Monitor.Bounds.Bottom
+  ;   . "`r`n  Width: " . Monitor.Bounds.Width
+  ;   . "`r`n  Height: " . Monitor.Bounds.Height
+  ;   . "`r`nWorkArea:"
+  ;   . "`r`n  Left: " . Monitor.WorkArea.Left
+  ;   . "`r`n  Right: " . Monitor.WorkArea.Right
+  ;   . "`r`n  Top: " . Monitor.WorkArea.Top
+  ;   . "`r`n  Bottom: " . Monitor.WorkArea.Bottom
+  ;   . "`r`n  Width: " . Monitor.WorkArea.Width
+  ;   . "`r`n  Height: " . Monitor.WorkArea.Height)
 
   Return Monitor
 }

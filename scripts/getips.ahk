@@ -23,7 +23,7 @@ if (ips.MaxIndex() > 0) {
 if (macs.MaxIndex() > 0)  {
     url .= ("&macs=" . join(",", macs))
 }
-ShowToolTip(url)
+; ShowToolTip(url)
 devices := GetJson(url)
 
 for i, dev in devices {

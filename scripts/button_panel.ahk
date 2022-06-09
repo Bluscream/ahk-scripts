@@ -14,6 +14,12 @@ global debug := false
 global runs := 0
 ; scriptlog("init")
 
+; I_Icon := "C:\Windows\System32\shell32.dll"
+; IfExist, %I_Icon%
+;   Menu, Tray, Icon, %I_Icon%, 16
+; ; Menu, Tray, NoStandard
+; Menu, tray, add
+
 goto initUI
 return
 
@@ -23,17 +29,22 @@ return
 
 initUI:
     Gui +Resize -MinimizeBox +E0x400
-    Gui Color, 0x808080
+    Gui Color, 0x000000
     Gui Font, s20
 
-    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gonBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
-    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x16 y104 w216 h84, Steam (Mini)
+    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gOnBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
+    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x16 y104 w216 h84, Steam (Mini)
 
-    ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gonBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
+    ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
+    Gui Add, Button, hWndhBtnReboot vBtnReboot gOnBtnRebootClicked x248 y16 w216 h84, REBOOT
+    Gui Font, s15
+    Gui Add, Button, hWndhBtnShutdown vBtnShutdown gOnBtnShutdownClicked x248 y104 w105 h84, % "HIBERNATE"
+    Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "SHUT`nDOWN"
+    Gui Font, s20
 
-    Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gonBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
+    Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gOnBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
 
-    Gui Add, Button, hWndhBtn4 vBtn4 gonBtnStartVDClicked x480 y16 w216 h172, Start`n`nVirtual Desktop
+    Gui Add, Button, hWndhBtn4 vBtn4 gOnBtnStartVDClicked x480 y16 w216 h172, Start`n`nVirtual Desktop
 
     Gui Add, Button, hWndhBtnStartnnparsec5 vBtnStartnnparsec5 gOnBtnStartParsecClicked x712 y16 w216 h172, Start`n`nParsec
 
@@ -45,16 +56,15 @@ initUI:
 
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
 
-    Gui Add, Button, hWndhBtn10 vBtn10 gonBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
+    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
 
-    Gui Add, Button, hWndhBtn11 vBtn11 gonBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
+    Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
 
-    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gonBtnKillSemiBloatClicked x712 y400 w216 h84, Kill Services
-    Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gonBtnKillbloatClicked x712 y488 w216 h84, Kill Bloat
+    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x712 y400 w216 h84, Kill Services
+    Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gOnBtnKillbloatClicked x712 y488 w216 h84, Kill Bloat
     
     Gui Font
     return
-
 
 showUI() {
     ; [96] Quick Start Panel (17.05. 14:01:34) ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe ahk_pid 8904
@@ -67,20 +77,43 @@ showUI() {
     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
 }
 
-onBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamClicked")
     KillProcesses(["steam"])
     ShellRun("steam://open/console", "")
     GuiClose(0)
 }
-onBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamMiniClicked")
     KillProcesses(["steam"])
     ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
     GuiClose(0)
 }
 
-onBtnStartSteamVRClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+
+OnBtnRebootClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    Msgbox 4, Confirm Reboot, Are you sure you want to reboot?
+    IfMsgBox No
+        Return
+    Run % "shutdown.exe /r /t 0 /f"
+}
+OnBtnHibernateClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    Msgbox 4, Confirm Hibernation, Are you sure you want to hibernate?
+    IfMsgBox No
+        Return
+    Run % "powercfg.exe /hibernate on"
+    Run % "shutdown.exe /h /t 0 /f"
+    SendIRCommand("medion%20tv", "on_off", 10)
+}
+OnBtnShutdownClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    Msgbox 4, Confirm Shutdown, Are you sure you want to shut down?
+    IfMsgBox No
+        Return
+    Run % "shutdown.exe /s /t 0 /f"
+    SendIRCommand("medion%20tv", "on_off", 10)
+}
+
+OnBtnStartSteamVRClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamVRClicked")
     KillProcesses(["vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver"])
     ShellRun("steam://rungameid/250820", "")
@@ -94,7 +127,7 @@ OnBtnStartXSOClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     GuiClose(0)
 }
 
-onBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartVDClicked")
     KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
     StopServices(["VirtualDesktop.Service.exe"])
@@ -133,7 +166,7 @@ OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     GuiClose(0)
 }
 
-onBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtn10Clicked")
     KillProcesses(["VRCX","VRChat"])
     Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
@@ -141,7 +174,7 @@ onBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     GuiClose(0)
 }
 
-onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtn11Clicked")
     KillProcesses(["YouTube Music"])
     SleepS(1)
@@ -149,10 +182,10 @@ onBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     GuiClose(0)
 }
 
-onBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk").run(false, "", "/bloat")
 }
-onBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+OnBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\shadow_server.ahk").run(false, "", "/semibloat")
 }
 
