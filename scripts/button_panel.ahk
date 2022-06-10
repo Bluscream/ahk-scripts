@@ -38,8 +38,8 @@ initUI:
     ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
     Gui Add, Button, hWndhBtnReboot vBtnReboot gOnBtnRebootClicked x248 y16 w216 h84, REBOOT
     Gui Font, s15
-    Gui Add, Button, hWndhBtnShutdown vBtnShutdown gOnBtnShutdownClicked x248 y104 w105 h84, % "HIBERNATE"
-    Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "SHUT`nDOWN"
+    Gui Add, Button, hWndhBtnShutdown vBtnShutdown gOnBtnShutdownClicked x248 y104 w105 h84, % "SHUT`nDOWN"
+    Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "HIBERNATE"
     Gui Font, s20
 
     Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gOnBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR

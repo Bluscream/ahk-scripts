@@ -25,6 +25,8 @@ windows["loading"] := new Window("FiveM", "NotSteamAtAll", "FiveM.exe", fivemdir
 eat_time_ms := 30 * 60000 ; 30 minutes
 global now_eat := 0
 global now_drink := 0
+
+; SetTimer, RemainingTimer, 1000
 return
 
 NumpadAdd::
@@ -42,7 +44,7 @@ NumpadSub::
     return
 
 RemainingTimer:
-    ToolTip, % "Eat: " . FormatSeconds((now_eat + eat_time_ms - A_TickCount)/1000) . "`nDrink: " . FormatSeconds((now_drink + eat_time_ms - A_TickCount)/1000), 20,20
+    ToolTip, % "Eat: " . FormatSeconds((now_eat + eat_time_ms - A_TickCount)/1000) . "`nDrink: " . FormatSeconds((now_drink + eat_time_ms - A_TickCount)/1000), % 45, 40 ; % A_ScreenWidth/5.5, % A_ScreenHeight-40
     return
 
 MustEat:
