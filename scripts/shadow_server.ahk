@@ -58,8 +58,8 @@ global game := { name: "vrc_mods"
     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX") } }
 
-global bloat := { services: ["ALDITALKVerbindungsassistent_Service", "DSAUpdateService", "DSAService", "wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService", "FoxitReaderUpdateService", "WinHttpAutoProxySvc", "EABackgroundService" ]
-    ,processes: [ "MEGAsync", "ALDITALKVerbindungsassistent_Launcher", "ALDITALKVerbindungsassistent_Service" "Playnite.DesktopApp", "OpenRGB", "DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd","explorer" ]
+global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService","FoxitReaderUpdateService","WinHttpAutoProxySvc","EABackgroundService"]
+    ,processes: ["Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","OpenRGB","DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd","explorer"]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
@@ -68,8 +68,8 @@ global semibloat := { services: ["Adguard Service","Parsec","AnyDeskMSI","TeamVi
     ,tasks: []
     ,custom: [] }
 
-global vrbloat := { services: ["OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe"] 
-    ,processes: [ "vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver","OVRRedir","OVRServer_x64","OVRServiceLauncher","VirtualDesktop.Streamer","VirtualDesktop.Server"]
+global vrbloat := { services: ["vorpX Service","OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe"] 
+    ,processes: [ "vorpService","vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver","OVRRedir","OVRServer_x64","OVRServiceLauncher","VirtualDesktop.Streamer","VirtualDesktop.Server"]
     ,tasks: []
     ,custom: [] }
 

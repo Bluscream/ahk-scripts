@@ -37,6 +37,15 @@ return
         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
     return
+<#g::
+    new Process("fivem_b2545_dumpserver").kill()
+    new Process("fivem_steamchild").kill()
+    new Process("fivem_chromebrowser").kill()
+    new Process("fivem_b2545_gtaprocess").kill()
+    new Process("FiveM.exe").kill()
+    Run % "fivem://connect/kzyerv"
+    ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
+    return
 
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")

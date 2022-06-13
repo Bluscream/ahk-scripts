@@ -19,7 +19,7 @@ global idle_time_ms := idle_time_minutes * 60000
 global is_idle := 0
 global twinkle_tray := new Paths.User().localappdata.CombineFile("Programs","twinkle-tray","Twinkle Tray.exe")
 
-A_Args := [ "/menu" ]
+; A_Args := [ "/menu" ]
 ; if "/menu" not in A_Args {
 ;     #NoTrayIcon
 ; }
@@ -179,10 +179,10 @@ KeyWaitAny(Options:="")
 
 SetBrightness(value := 50) {
     global twinkle_tray
-    log("Setting brightness to " . value)
+    ; log("Setting brightness to " . value)
     arguments := "--All --Overlay --Set=" . value
     twinkle_tray.run(false, "", arguments)
     cmd := """" . twinkle_tray.path . """ " . arguments
-    log("Running: " . cmd)
+    ; log("Running: " . cmd)
     Run, % cmd, % twinkle_tray.directory.path
 }

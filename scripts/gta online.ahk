@@ -12,7 +12,8 @@ SendMode, Input
 ; EnforceAdmin()
 
 global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
-global modmenu := new ModMenu("S:\Desktop\modest-menu\")
+global modmenu := new ModMenu("D:\Desktop\modest-menu\")
+global modmenubin := new File("D:\Desktop\modest-menu\modest-menu.exe").run()
 global dslep := 150
 
 Menu, Tray, Icon, % game.exe.path
@@ -117,9 +118,10 @@ F11:: ; Restart Script
     return
 */
 CheckWindows() {
+    global modmenubin
     if (game.windows.game.exists()) {
         if (!modmenu.window.process.exists()) {
-            new File("S:\Desktop\modest-menu\modest-menu.exe").run()
+            modmenubin.run()
             WinWait, % modmenu.window.str()
             modmenu.window := modmenu.getWindow(true)
             SplashScreen("Started " . modmenu.name)

@@ -22,43 +22,44 @@ global windows := {}
 windows["game"] := new Window("FiveM", "grcWindow", "FiveM_b2189_GTAProcess.exe", fivemdir.CombineFile("\data\cache\subprocess\FiveM_b2189_GTAProcess.exe").path)
 windows["loading"] := new Window("FiveM", "NotSteamAtAll", "FiveM.exe", fivemdir.CombineFile("FiveM.exe").path)
 
-eat_time_ms := 30 * 60000 ; 30 minutes
-global now_eat := 0
-global now_drink := 0
+global eat_time_ms := 30 * 60000 ; 30 minutes
+global drink_time_ms := 30 * 60000 ; 30 minutes
+global bt_controller_idle_timer_ms := 4.5 * 60000 ; 5 minutes
+global now_eat := A_TickCount
+global now_drink := A_TickCount
+global now_move := A_TickCount
 
 ; SetTimer, RemainingTimer, 1000
+; SetTimer, MustEat, % eat_time_ms
+; SplashScreen("Eat Timer Set", "Next eat time is in " . FormatMilliSeconds(eat_time_ms))
+SetTimer, MustDrink, % drink_time_ms
+SplashScreen("Eat & Drink Timer Set", "Next eat & drink time is in " . FormatMilliSeconds(drink_time_ms))
+SetTimer, MustMove, % bt_controller_idle_timer_ms
+SplashScreen("Move Timer Set", "Next move time is in " . FormatMilliSeconds(bt_controller_idle_timer_ms))
+SetTimer, RemainingTimer, 1000
 return
 
-NumpadAdd::
-    SetTimer, MustEat, % eat_time_ms
-    now_eat := A_TickCount
-    SplashScreen("Eat Timer Set", "Next eat time is in " . FormatMilliSeconds(eat_time_ms))
-    SetTimer, RemainingTimer, 1000
-    return
-
-NumpadSub::
-    SetTimer, MustDrink, % eat_time_ms
-    now_drink := A_TickCount
-    SplashScreen("Drink Timer Set", "Next drink time is in " . FormatMilliSeconds(eat_time_ms))
-    SetTimer, RemainingTimer, 1000
-    return
-
 RemainingTimer:
-    ToolTip, % "Eat: " . FormatSeconds((now_eat + eat_time_ms - A_TickCount)/1000) . "`nDrink: " . FormatSeconds((now_drink + eat_time_ms - A_TickCount)/1000), % 45, 40 ; % A_ScreenWidth/5.5, % A_ScreenHeight-40
+    ToolTip, % "Eat: " . FormatSeconds((now_eat + eat_time_ms - A_TickCount)/1000) . "`nDrink: " . FormatSeconds((now_drink + eat_time_ms - A_TickCount)/1000) . "`nController: " . FormatSeconds((now_move + bt_controller_idle_timer_ms - A_TickCount)/1000), % 45, 40 ; % A_ScreenWidth/5.5, % A_ScreenHeight-40
     return
 
 MustEat:
     ; SetTimer, MustEat, Off
     now_eat := A_TickCount
-    SplashScreen("EAT", "MUST EAT NOW")
+    SplashScreen("EAT", "MUST EAT NOW", 3000)
     Send {Raw}F2
     return
 MustDrink:
     ; SetTimer, MustDrink, Off
     now_drink := A_TickCount
-    SplashScreen("DRINK", "MUST DRINK NOW")
+    SplashScreen("DRINK", "MUST DRINK NOW", 3000)
     Send {Raw}F2
     return
+MustMove:
+    ; SetTimer, MustDrink, Off
+    now_move := A_TickCount
+    SplashScreen("MOVE", "MUST MOVE CONTROLLER")
+    Send {Raw}F2
 
 ; global servers := {}
 ; servers["truelife"] := {}

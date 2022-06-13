@@ -13,6 +13,7 @@ global no_ui := true
 #Include <AllKeyBinder>
 repeatkey := ""
 repeattimer := 500
+repeatincrements := 50
 winid := 0
 kb := new AllKeyBinder(Func("OnKeyPressed"))
 ; log("ToggleHold Script Loaded")
@@ -21,6 +22,7 @@ return
 OnKeyPressed(type, code, name, state) {
     global repeatkey
     global repeattimer
+    global repeatincrements
     if (name != "PgUp" && name != "PgDn" && state == 1) {
         is_repeatkey_held := GetKeyState("PGUP", "P")
         is_togglekey_held := GetKeyState("PGDN", "P")
@@ -29,10 +31,10 @@ OnKeyPressed(type, code, name, state) {
         if (is_repeatkey_held) {
             if (type == "Mouse") {
                 if (code == 6) { ; WheelUp
-                    ChangeRepeatTimer(repeattimer + 100)
+                    ChangeRepeatTimer(repeattimer + repeatincrements)
                     return
                 } else if (code == 7) { ; WheelDown
-                    ChangeRepeatTimer(repeattimer - 100)
+                    ChangeRepeatTimer(repeattimer - repeatincrements)
                     return
                 } else {
                     ToggleRepeatTimer(!repeatkey, name)

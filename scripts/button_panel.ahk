@@ -95,21 +95,22 @@ OnBtnRebootClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Reboot, Are you sure you want to reboot?
     IfMsgBox No
         Return
-    Run % "shutdown.exe /r /t 0 /f"
+    Run % "shutdown.exe /r /f /t 0"
 }
 OnBtnHibernateClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Hibernation, Are you sure you want to hibernate?
     IfMsgBox No
         Return
-    Run % "powercfg.exe /hibernate on"
-    Run % "shutdown.exe /h /t 0 /f"
-    SendIRCommand("medion%20tv", "on_off", 10)
+    ; ShellRun("powercfg.exe","/hibernate","on")
+    Run % "shutdown.exe /h /f"
+    ;      shutdown.exe [/i | /l | /s | /sg | /r | /g | /a | /p | /h | /e | /o] [/hybrid] [/soft] [/fw] [/f] [/m \\computer][/t xxx][/d [p|u:]xx:yy [/c "comment"]]
+    ; SendIRCommand("medion%20tv", "on_off", 10)
 }
 OnBtnShutdownClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Shutdown, Are you sure you want to shut down?
     IfMsgBox No
         Return
-    Run % "shutdown.exe /s /t 0 /f"
+    Run % "shutdown.exe /s /f /t 0"
     SendIRCommand("medion%20tv", "on_off", 10)
 }
 
