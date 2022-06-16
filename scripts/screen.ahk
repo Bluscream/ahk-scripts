@@ -71,6 +71,10 @@ ScreenOK:
     SendIRCommand("medion%20tv", "ok", 3)
     Return
 
+ScreenRight:
+    SendIRCommand("medion%20tv", "right", 3)
+    Return
+
 BlockShutdown:
     if (bspid != 0 and ProcessExists(bspid)) {
         Process, Close, % bspid
@@ -150,6 +154,7 @@ SetupMenu() {
     Menu, tray, add, % "Toggle TV", ToggleScreen
     Menu, tray, add, % "Mute TV", MuteScreen
     Menu, tray, add, % "Source", ChangeScreenSource
+    Menu, tray, add, % "Right", ScreenRight
     Menu, tray, add, % "OK", ScreenOK
     Menu, tray, add
     Menu, tray, add, % "100 %", ScreenFullBright
@@ -161,8 +166,8 @@ SetupMenu() {
 }
 
 log(txt, log_to_window := false) {
-    if (log_to_window)
-        scriptlog(StrReplace(txt, "\", "/"))
+    ; if (log_to_window)
+        ; scriptlog(StrReplace(txt, "\", "/"))
     ShowToolTip(txt)
 }
 

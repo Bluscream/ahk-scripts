@@ -24,7 +24,8 @@ class Game {
         if (!this.dir.exists()) {
             MsgBox % this.name . " directory " . this.dir.Quote() . " does not exist!"
         }
-        this.exe := this.dir.combineFile(this.windows["game"].exe)
+        this.exe := this.dir.combineFile(this.windows["PlayGTAV"].exe)
+        this.launcher := this.dir.combineFile(this.windows["game"].exe)
         this.datafile := this.dir.combineFile("data.json")
         if (this.datafile.exists() && this.datafile.size() > 0)
             this.data := fromJson(this.datafile.read())
@@ -32,13 +33,17 @@ class Game {
 
     updateData(key, value) {
         this.data[key] := value
-        this.datafile.write(toJson({"data":this.data}, true))
+        this.datafile.write(this.data, true)
     }
 
-    start() {
-        this.kill()
+    start(args, kill:=false) {
+        if (kill) {
+            this.kill()
+        }
         winstr := this.windows["launcher"].str()
-        Run, % "steam://rungameid/" . this.appid
+        runstr := "steam://rungameid/" . this.appid . " " . args
+        scriptlog(runstr)
+        Run, % runstr
         WinWait, % winstr
         this.updateData("starttime", A_Now)
         ; WinActivate, % winstr

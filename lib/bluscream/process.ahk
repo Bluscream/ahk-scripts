@@ -57,4 +57,7 @@ class Process {
             Run % cmd,,Hide
         ; }
     }
+    str() {
+        return this.name
+    }
 }

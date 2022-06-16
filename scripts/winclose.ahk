@@ -85,9 +85,6 @@ titles.push({title: "Ahk2Exe Error ahk_class #32770 ahk_exe Ahk2Exe.exe", text: 
 titles.push({title: "ahk_class #32770 ahk_exe AutoHotkeyU32.exe", text: "Warning in #include file", action: "CloseWindow"})
 titles.push({title: "Microsoft Visual C++ Runtime Library ahk_class #32770 ahk_exe TeaClient.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Process Lasso ahk_class #32770 ahk_exe processlasso.exe", text: "", action: "CloseWindow"})
-; titles.push({title: "Lua Callback ahk_class #32770 ahk_exe modest-menu.exe ahk_pid 10740", text: "attempt to call a nil value", action: "CloseWindow"})
-; titles.push({title: "OnPlayerChanged Callback ahk_class #32770 ahk_exe modest-menu.exe ahk_pid 10740", text: "autorun.lua:8: attempt to index a nil value (global 'PedConfigFlag')", action: "CloseWindow"})
-titles.push({title: "ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Salty Chat ahk_class #32770 ahk_exe ts3client_win64.exe", text: "", action: "ClickButton:&No"})
 titles.push({title: "MCEdit Error ahk_class QWidget ahk_exe mcedit2.exe", text: "", action: "CloseWindow"})
 titles.push({title: "StartAllBack configuration ahk_class TMain ahk_exe StartAllBackCfg.exe", text: "Activate via web browser", action: "CloseWindow"})
@@ -97,9 +94,16 @@ titles.push({title: "Message ahk_class SunAwtDialog ahk_exe BoxToGoRC.exe", text
 titles.push({title: "Microsoft .NET ahk_exe DllHost.exe", text: "The system cannot find the file specified. (0x80070002)", action: "CloseWindow"})
 titles.push({title: b64Decode("TG9nIGluIHRvOiBibHVA") . " ahk_class SunAwtDialog ahk_exe pycharm64.exe", text: "", action: "SendBase64:YnVmZmFsbzkxMQ"})
 titles.push({title: "Visual Studio Just-In-Time Debugger ahk_class #32770", text: "", action: "CloseWindow"})
+titles.push({title: "Error ahk_class #32770 ahk_exe PlayGTAV.exe", text: "Unable to launch game, please verify your game data.", action: "CloseWindow"})
+; titles.push({title: "Lua Error ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
+titles.push({title: "Lua Callback ahk_class #32770 ahk_exe modest-menu.exe", text: "attempt to call a nil value", action: "CloseWindow"})
+; titles.push({title: "OnPlayerChanged Callback ahk_class #32770 ahk_exe modest-menu.exe", text: "autorun.lua:8: attempt to index a nil value (global 'PedConfigFlag')", action: "CloseWindow"})
+titles.push({title: "Kiddion's Modest Menu ahk_class #32770 ahk_exe modest-menu.exe", text: "Already running!", action: "CloseWindow"})
+titles.push({title: "Kiddion's Modest Menu ahk_class #32770 ahk_exe modest-menu.exe", text: "Warning: Incompatible game version detected!", action: "CloseWindow"})
+titles.push({title: "GTA5.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
+titles.push({title: "Error ahk_class #32770 ahk_exe PlayGTAV.exe", text: "Unable to launch game, please verify your game data.", action: "ClickButton:OK"})
+titles.push({title: "Oh Yeah! ahk_class #32770 ahk_exe Launcher.exe", text: "Injection successful", action: "CloseWindow"})
 
-
-; ":2\"
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

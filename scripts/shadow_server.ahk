@@ -63,8 +63,8 @@ global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateSe
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
-global semibloat := { services: ["Adguard Service","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe"
-    ,processes: [ "Adguard","parsecd","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"]
+global semibloat := { services: ["Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe", "Adguard Service"
+    ,processes: [ "parsecd","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
     ,tasks: []
     ,custom: [] }
 

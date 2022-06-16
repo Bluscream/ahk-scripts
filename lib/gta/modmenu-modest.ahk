@@ -2,7 +2,7 @@ global noui := false
 class ModMenu {
     dir := new Directory()
     exe := new File()
-    name := ""
+    name := "Modest-Menu"
     version := ""
     page := ""
     row := 0
