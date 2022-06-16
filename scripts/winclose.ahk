@@ -94,7 +94,6 @@ titles.push({title: "Message ahk_class SunAwtDialog ahk_exe BoxToGoRC.exe", text
 titles.push({title: "Microsoft .NET ahk_exe DllHost.exe", text: "The system cannot find the file specified. (0x80070002)", action: "CloseWindow"})
 titles.push({title: b64Decode("TG9nIGluIHRvOiBibHVA") . " ahk_class SunAwtDialog ahk_exe pycharm64.exe", text: "", action: "SendBase64:YnVmZmFsbzkxMQ"})
 titles.push({title: "Visual Studio Just-In-Time Debugger ahk_class #32770", text: "", action: "CloseWindow"})
-titles.push({title: "Error ahk_class #32770 ahk_exe PlayGTAV.exe", text: "Unable to launch game, please verify your game data.", action: "CloseWindow"})
 ; titles.push({title: "Lua Error ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Lua Callback ahk_class #32770 ahk_exe modest-menu.exe", text: "attempt to call a nil value", action: "CloseWindow"})
 ; titles.push({title: "OnPlayerChanged Callback ahk_class #32770 ahk_exe modest-menu.exe", text: "autorun.lua:8: attempt to index a nil value (global 'PedConfigFlag')", action: "CloseWindow"})
