@@ -67,12 +67,10 @@ ChangeScreenSource:
     SendIRCommand("medion%20tv", "source", 3)
     Return
 
-ScreenOK:
-    SendIRCommand("medion%20tv", "ok", 3)
-    Return
-
-ScreenRight:
+ScreenDismiss:
     SendIRCommand("medion%20tv", "right", 3)
+    SleepS(1)
+    SendIRCommand("medion%20tv", "ok", 3)
     Return
 
 BlockShutdown:
@@ -89,6 +87,12 @@ BlockShutdown:
 WindowSpy:
     Run C:\Program Files\AutoHotkey\WindowSpy.ahk
     Return
+
+ReloadWinCloseFunc:
+    wait := EndTasks(["AutoHotkey.exe_1018039001"], True)
+    wait := CloseScript("winclose.ahk")
+    StartTasks(["AutoHotkey.exe_1018039001"], True) 
+    return
 
 Debug:
     log(text . toJson(monitors, True) . "`n`nA_ScreenWidth:" . A_ScreenWidth . " A_ScreenHeight:" . A_ScreenHeight " A_ScreenDPI:" . A_ScreenDPI, true)
@@ -148,14 +152,14 @@ SetupMenu() {
     Menu, Tray, NoStandard
     Menu, tray, add, Window Spy, WindowSpy
     Menu, tray, default, Window Spy
+    Menu, tray, add, Reload WinClose, ReloadWinCloseFunc
     Menu, tray, add, Block Shutdown, BlockShutdown
     Menu, tray, Uncheck, Block Shutdown
     Menu, tray, add
     Menu, tray, add, % "Toggle TV", ToggleScreen
     Menu, tray, add, % "Mute TV", MuteScreen
     Menu, tray, add, % "Source", ChangeScreenSource
-    Menu, tray, add, % "Right", ScreenRight
-    Menu, tray, add, % "OK", ScreenOK
+    Menu, tray, add, % "Dismiss", ScreenDismiss
     Menu, tray, add
     Menu, tray, add, % "100 %", ScreenFullBright
     Menu, tray, add, % "50 %", ScreenHalfBright

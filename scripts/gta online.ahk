@@ -37,11 +37,11 @@ global logfile := new File("gta modmenu texts.txt")
 global steam := new Window("Steam", "vguiPopupWindow", "steam")
 
 
-SplashScreen("","Press F5 to start " . modmenu.name, 3000)
-log("Waiting for F5")
-KeyWait, F5, D
-Menu, tray, Check, Auto Mod Menu
-SetTimer, CheckWindows, 1000
+; SplashScreen("","Press F5 to start " . modmenu.name, 3000)
+; log("Waiting for F5")
+; KeyWait, F5, D
+; Menu, tray, Check, Auto Mod Menu
+; SetTimer, CheckWindows, 1000
 return
 
 log(msg) {

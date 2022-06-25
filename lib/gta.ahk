@@ -41,8 +41,8 @@ class Game {
             this.kill()
         }
         winstr := this.windows["launcher"].str()
-        runstr := "steam://rungameid/" . this.appid . " " . args
-        scriptlog(runstr)
+        runstr := """C:\Program Files (x86)\Steam\steam.exe"" steam://rungameid/" . this.appid . " " . args
+        ; scriptlog(runstr)
         Run, % runstr
         WinWait, % winstr
         this.updateData("starttime", A_Now)

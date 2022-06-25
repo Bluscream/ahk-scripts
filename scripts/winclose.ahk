@@ -92,7 +92,7 @@ titles.push({title: "Error ahk_class #32770 ahk_exe NVIDIA RTX Voice.exe", text:
 titles.push({title: "OBS has crashed! ahk_class #32770 ahk_exe obs64.exe", text: "", action: "ClickButton:&No"})
 titles.push({title: "Message ahk_class SunAwtDialog ahk_exe BoxToGoRC.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Microsoft .NET ahk_exe DllHost.exe", text: "The system cannot find the file specified. (0x80070002)", action: "CloseWindow"})
-titles.push({title: b64Decode("TG9nIGluIHRvOiBibHVA") . " ahk_class SunAwtDialog ahk_exe pycharm64.exe", text: "", action: "SendBase64:YnVmZmFsbzkxMQ"})
+titles.push({title: b64Decode("TG9nIGluIHRvOiBibHVA") . " ahk_class SunAwtDialog ahk_exe pycharm64.exe", text: "", action: "SendBase64:TTTTT"})
 titles.push({title: "Visual Studio Just-In-Time Debugger ahk_class #32770", text: "", action: "CloseWindow"})
 ; titles.push({title: "Lua Error ahk_class #32770 ahk_exe modest-menu.exe", text: "", action: "CloseWindow"})
 titles.push({title: "Lua Callback ahk_class #32770 ahk_exe modest-menu.exe", text: "attempt to call a nil value", action: "CloseWindow"})
@@ -102,6 +102,7 @@ titles.push({title: "Kiddion's Modest Menu ahk_class #32770 ahk_exe modest-menu.
 titles.push({title: "GTA5.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
 titles.push({title: "Error ahk_class #32770 ahk_exe PlayGTAV.exe", text: "Unable to launch game, please verify your game data.", action: "ClickButton:OK"})
 titles.push({title: "Oh Yeah! ahk_class #32770 ahk_exe Launcher.exe", text: "Injection successful", action: "CloseWindow"})
+titles.push({title: "Event Viewer ahk_exe mmc.exe", text: "You can save the contents of this log before clearing it.", action: "ClickButton:&Clear"})
 
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
