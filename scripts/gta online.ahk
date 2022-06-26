@@ -6,7 +6,8 @@ CoordMode, Mouse, Client
 #Include <gta>
 DetectHiddenWindows, On
 
-#Include %A_AhkPath%\..\Lib\gta\modmenu-modest.ahk
+; #Include %A_AhkPath%\..\Lib\gta\modmenu-modest.ahk
+#Include %A_AhkPath%\..\Lib\gta\modmenu-2take1menu.ahk
 SendMode, Input
 ;SendMode, Event|Play|Input|InputThenPlay
 EnforceAdmin()
@@ -19,14 +20,15 @@ Menu, tray, add, Restart Steam, restartSteamFunc
 Menu, tray, add, Restart Game, restartGameFunc
 Menu, tray, add, Kill ModMenu, killMenuFunc
 Menu, tray, add, Restart ModMenu, restartMenuFunc
-Menu, tray, add, 2 Take 1 Menu, takeMenuFunc
+Menu, tray, add, Re 2 Take 1 Menu, takeMenuFunc
 Menu, tray, add,
 Menu, tray, add, Auto Mod Menu, toggleMenuTimer
 ; Menu, tray, add, Test, testFunc
 
 global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
-global modmenu := new ModMenu("D:\Desktop\modest-menu\")
-global modmenubin := new File("D:\Desktop\modest-menu\modest-menu.exe")
+global modmenu := new ModMenu("D:\Desktop\2Take1Menu")
+; global modmenu := new ModMenu("D:\Desktop\modest-menu\")
+global modmenubin := new File("D:\Desktop\2Take1Menu\Launcher.exe")
 global dslep := 150
 
 Menu, Tray, Icon, % game.exe.path
@@ -42,6 +44,17 @@ global steam := new Window("Steam", "vguiPopupWindow", "steam")
 ; KeyWait, F5, D
 ; Menu, tray, Check, Auto Mod Menu
 ; SetTimer, CheckWindows, 1000
+
+while (True) {
+    WinWaitActive, Grand Theft Auto V ahk_class grcWindow ahk_exe GTA5.exe
+    if (modmenu.getWindow()) {
+        scriptlog("is running as " . modmenu.getWindow())
+    } else {
+        scriptlog("not running")
+    }
+    SleepS(5)
+}
+
 return
 
 log(msg) {
@@ -187,7 +200,12 @@ takeMenuFunc() {
     game.kill()
     ; Run, Target , WorkingDir, Options, OutputVarPID
     Run, D:\Desktop\2Take1Menu\Launcher.exe, D:\Desktop\2Take1Menu, Min, takeMenuPID
+    ; modmenu.start()
     game.start("-StraightIntoFreemode")
+}
+
+myFunc() {
+    
 }
 
 restartGameFunc() {
