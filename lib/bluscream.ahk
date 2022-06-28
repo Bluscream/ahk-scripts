@@ -270,14 +270,14 @@ ShellRun(prms*)
         ObjRelease(ptlb)
     }
 }
-EnforceAdmin() {
+EnforceAdmin(args:="") {
     CommandLine := DllCall("GetCommandLine", "Str")
     If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
         Try {
             If (A_IsCompiled) {
-                Run *RunAs "%A_ScriptFullPath%" /restart
+                Run *RunAs "%A_ScriptFullPath%" /restart %args%
             } Else {
-                Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+                Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%" %args%
             }
         }
         ExitApp

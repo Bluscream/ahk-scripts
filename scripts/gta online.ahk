@@ -1,9 +1,11 @@
 #SingleInstance Force
-#NoEnv
+; #NoEnv
 #Persistent
 SetWorkingDir % A_ScriptDir
-EnforceAdmin()
+#Include <bluscream>
+EnforceAdmin(A_Args)
 global no_ui := false
+scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 
 SendMode, Input ; Event|Play|Input|InputThenPlay
 DetectHiddenWindows, On
@@ -13,7 +15,6 @@ CoordMode, Mouse, Client
 global game := new GTAVGame("S:\Steam\steamapps\common\Grand Theft Auto V")
 #Include <gta/modmenus>
 init()
-
 for n, param in A_Args
 {
     StringLower, param, % param
@@ -24,7 +25,7 @@ for n, param in A_Args
     }
 }
 
-
+toggleMenu("2Take1Menu", 0, "")
 
 ; SplashScreen("","Press F5 to start " . modmenu.name, 3000)
 ; log("Waiting for F5")

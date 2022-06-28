@@ -23,8 +23,13 @@ class ModMenu {
     }
     running() {
         this.window := this.getWindow()
-        scriptlog("running: " . this.window.str() . " : " . toJson(this.window.exists()))
-        return this.window.exists()
+        exists := this.window.exists()
+        if (exists) {
+            scriptlog(this.name . " is running as " . this.window.str() . " (" . toJson(this.window.exists()) . ")")
+        } else {
+            scriptlog(this.name . " is not running")
+        }
+        return exists
     }
     autoStart() {
         scriptlog("Waiting for window " . this.game.windows.game.str())
