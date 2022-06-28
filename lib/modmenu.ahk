@@ -49,7 +49,7 @@ class ModMenu {
         process_closed := this.window.process.close()
         process_killed := this.window.process.kill(true, true)
     }
-    getWindow(force := false) {
+    getWindow(force := false, whitelist := ["Default IME", "GDI+ Window (Launcher.exe)","MSCTFIME UI","Rockstar Games Launcher"]) {
         if (!force && this.window.exists())
             return this.window
         WinGet, WinList, List
@@ -60,7 +60,7 @@ class ModMenu {
             If !ItemInList(ProcessName, [this.exe.fullname])
                 Continue
             WinGetTitle, WinTitle, % ID
-            If ItemInList(WinTitle, ["Default IME", "GDI+ Window (Launcher.exe)","MSCTFIME UI","Rockstar Games Launcher"])
+            If ItemInList(WinTitle, whitelist)
                 Continue
             wnd := new Window(WinTitle,, ProcessName)
             wnd.id := WinList%A_Index%
