@@ -25,15 +25,18 @@ class ModMenu {
         this.window := this.getWindow()
         return this.window.exists()
     }
-    autoStart() {
-        scriptlog("Waiting for window " . this.game.windows.game.str())
+    autoStart(process:=False,key:="game") {
+        win := process ? this.game.windows[key].process : this.game.windows[key]
+        scriptlog("Waiting for " . (process ? "process " : "window ") . win.str())
         while(this.enabled) {
-            WinWait, % this.game.windows.game.str()
+            win.wait()
             if (not this.running()) {
+                scriptlog("Launching " . this.str())
                 this.start()
             }
             SleepS(1)
         }
+        scriptlog(this.name . "no longer enabled")
     }
     start(wait := false) {
         this.kill()
