@@ -104,13 +104,13 @@ killMenuFunc() {
 
 restartMenuFunc() {
     killMenuFunc()
-    getActiveModMenu().run()
+    getActiveModMenu().start()
 }
 
 restartGameFunc() {
     game.restart()
-    SleepS(5)
-    getActiveModMenu().autoStart()
+    ; SleepS(5)
+    ; getActiveModMenu().autoStart()
 }
     
 killGameFunc() {
