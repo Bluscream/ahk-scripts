@@ -29,6 +29,9 @@ class File {
         FileGetSize, size, % this.path, % units
         return size 
     }
+    runArgs(wait := false, arguments := "") {
+        this.run(wait, "", arguments)
+    }
     run(wait := false, WorkingDir := "", arguments := "") {
         cmd := this.path . " " . arguments
         if (!no_ui)

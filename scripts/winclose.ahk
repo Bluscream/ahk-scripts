@@ -103,6 +103,8 @@ titles.push({title: "GTA5.exe - System Error ahk_class #32770", text: "", action
 titles.push({title: "Error ahk_class #32770 ahk_exe PlayGTAV.exe", text: "Unable to launch game, please verify your game data.", action: "ClickButton:OK"})
 titles.push({title: "Oh Yeah! ahk_class #32770 ahk_exe Launcher.exe", text: "Injection successful", action: "CloseWindow"})
 titles.push({title: "Event Viewer ahk_exe mmc.exe", text: "You can save the contents of this log before clearing it.", action: "ClickButton:&Clear"})
+titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Make sure Grand Theft Auto V is not running before starting the authenticator.", action: "CloseWindow"})
+titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Auth already running.", action: "CloseWindow"})
 
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})

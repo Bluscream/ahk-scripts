@@ -1,15 +1,11 @@
-#Include <bluscream>
-class Game {
-    name := "Grand Theft Auto"
+#Include <game>
+class GTAVGame extends Game {
+    name := "Grand Theft Auto V"
     appid := 271590
-    dir := new Directory()
-    exe := new File()
-    windows := {}
-    datafile := new File()
-    data := {"starttime":0}
     __New(path, eventcallback := "") {
+        base.__New(path, eventcallback)
         this.windows["launcher"] :=              new Window("Rockstar Games Launcher", "Rockstar Games Launcher", "SocialClubHelper.exe")
-        this.windows["game"] :=                  new Window("Grand Theft Auto V", "grcWindow", "GTA5.exe")
+        this.windows["game"] :=                  new Window("", "grcWindow", "GTA5.exe") ; "Grand Theft Auto V"
         this.windows["GTAVLauncher"] :=          new Window("", "", "GTAVLauncher.exe")
         this.windows["PlayGTAV"] :=              new Window("", "", "PlayGTAV.exe")
         this.windows["GTAVLanguageSelect"] :=    new Window("", "", "GTAVLanguageSelect.exe")
@@ -31,25 +27,27 @@ class Game {
             this.data := fromJson(this.datafile.read())
     }
 
-    updateData(key, value) {
-        this.data[key] := value
-        this.datafile.write(this.data, true)
-    }
-
-    start(args, kill:=false) {
-        if (kill) {
-            this.kill()
+    start(online:=False,verify:=False,offline:=False,windowed:=False,fullscreen:=False,density:=-1) {
+        args := []
+        if (online) {
+            args.Push("-StraightIntoFreemode")
         }
-        winstr := this.windows["launcher"].str()
-        runstr := """C:\Program Files (x86)\Steam\steam.exe"" steam://rungameid/" . this.appid . " " . args
-        ; scriptlog(runstr)
-        Run, % runstr
-        WinWait, % winstr
-        this.updateData("starttime", A_Now)
-        ; WinActivate, % winstr
-        ; WinWaitActive, % winstr
-        ; sleep, 2500
-        ; SetControlDelay -1
+        if (verify) {
+            args.Push("-verify")
+        }
+        if (offline) {
+            args.Push("-scofflineonly")
+        }
+        if (windowed) {
+            args.Push("-windowed")
+        }
+        if (fullscreen) {
+            args.Push("-fullscreen")
+        }
+        if (density > -1) {
+            args.Push("-cityDensity " . density)
+        }
+        base.start(steam, args, wait)
     }
 
     kill() {

@@ -1,42 +1,29 @@
 #SingleInstance Force
 #NoEnv
 #Persistent
-SetWorkingDir %A_ScriptDir%
-CoordMode, Mouse, Client
-#Include <gta>
-DetectHiddenWindows, On
-
-; #Include %A_AhkPath%\..\Lib\gta\modmenu-modest.ahk
-#Include %A_AhkPath%\..\Lib\gta\modmenu-2take1menu.ahk
-SendMode, Input
-;SendMode, Event|Play|Input|InputThenPlay
+SetWorkingDir % A_ScriptDir
 EnforceAdmin()
+global no_ui := false
 
-Menu, tray, add,
-Menu, tray, add, ---GTA Online---, lbl
-Menu, tray, add,
-Menu, tray, add, Kill Game, killGameFunc
-Menu, tray, add, Restart Steam, restartSteamFunc
-Menu, tray, add, Restart Game, restartGameFunc
-Menu, tray, add, Kill ModMenu, killMenuFunc
-Menu, tray, add, Restart ModMenu, restartMenuFunc
-Menu, tray, add, Re 2 Take 1 Menu, takeMenuFunc
-Menu, tray, add,
-Menu, tray, add, Auto Mod Menu, toggleMenuTimer
-; Menu, tray, add, Test, testFunc
+SendMode, Input ; Event|Play|Input|InputThenPlay
+DetectHiddenWindows, On
+CoordMode, Mouse, Client
 
-global game := new Game("S:\Steam\steamapps\common\Grand Theft Auto V\")
-global modmenu := new ModMenu("D:\Desktop\2Take1Menu")
-; global modmenu := new ModMenu("D:\Desktop\modest-menu\")
-global modmenubin := new File("D:\Desktop\2Take1Menu\Launcher.exe")
-global dslep := 150
+#Include <games/gta v>
+global game := new GTAVGame("S:\Steam\steamapps\common\Grand Theft Auto V")
+#Include <gta/modmenus>
+init()
 
-Menu, Tray, Icon, % game.exe.path
+for n, param in A_Args
+{
+    StringLower, param, % param
+    if (param == "/2t1m") {
+        toggleMenu("2Take1Menu", 0, "")
+    } else if (param == "/modest") {
+        toggleMenu("Modest Menu", 0, "")
+    }
+}
 
-modmenu.getWindow(true)
-modmenu.getControls()
-global logfile := new File("gta modmenu texts.txt")
-global steam := new Window("Steam", "vguiPopupWindow", "steam")
 
 
 ; SplashScreen("","Press F5 to start " . modmenu.name, 3000)
@@ -45,40 +32,94 @@ global steam := new Window("Steam", "vguiPopupWindow", "steam")
 ; Menu, tray, Check, Auto Mod Menu
 ; SetTimer, CheckWindows, 1000
 
-while (True) {
-    WinWaitActive, Grand Theft Auto V ahk_class grcWindow ahk_exe GTA5.exe
-    if (modmenu.getWindow()) {
-        scriptlog("is running as " . modmenu.getWindow())
-    } else {
-        scriptlog("not running")
-    }
-    SleepS(5)
-}
+; while (True) {
+;     WinWaitActive, Grand Theft Auto V ahk_class grcWindow ahk_exe GTA5.exe
+;     if (modmenu.getWindow()) {
+;         scriptlog("is running as " . modmenu.getWindow())
+;     } else {
+;         scriptlog("not running")
+;     }
+;     SleepS(5)
+; }
 
 return
+
+getActiveModMenu() {
+    for i, menu in modmenus {
+        if menu.active {
+            return menu
+        }
+    }
+}
+
+init() {
+    ; Menu, Tray, NoStandard
+    Menu, tray, add,
+    Menu, tray, add, ---GTA Online---, lbl
+    Menu, tray, add,
+    Menu, tray, add, Restart Steam, restartSteamFunc
+    Menu, tray, add, Kill Game, killGameFunc
+    Menu, tray, add, Restart Game, restartGameFunc
+    Menu, tray, add,
+
+    for i, menu in modmenus {
+        scriptlog(menu.str())
+        Menu, tray, add, % menu.name, toggleMenu
+    }
+    Menu, Tray, Icon, % game.exe.path
+
+    global logfile := new File("gta modmenu texts.txt")
+}
+
+toggleMenu(ItemName, ItemPos, MenuName) {
+    for i, menu in modmenus {
+        if (menu.name == ItemName) {
+            if (menu.enabled) {
+                Menu, tray, Uncheck, % menu.name
+                menu.enabled := False
+            } else {
+                Menu, tray, Check, % menu.name
+                menu.enabled := True
+                menu.autoStart()
+            }
+        } else {
+            Menu, tray, Uncheck, % menu.name
+            menu.enabled := False
+        }
+    }
+}
 
 log(msg) {
     ; scriptlog(msg)
 }
 
-CheckWindows() {
-    global modmenubin
-    log(game.windows.game.str() . " exists: " . game.windows.game.exists())
-    if (game.windows.game.exists()) {
-        log(modmenu.window.process.str() . " exists: " . modmenu.window.process.exists())
-        if (!modmenu.window.process.exists()) {
-            SetTimer, CheckWindows, Off
-            modmenubin.run()
-            WinWait, % modmenu.window.str()
-            modmenu.window := modmenu.getWindow(true)
-            SplashScreen("Started " . modmenu.name)
-            SetTimer, CheckWindows, 5000
-        } else {
-            c := modmenu.getControls()
-            ; SplashScreen(game.modmenu.name . " detected")
-        }
-    }
+restartSteamFunc() {
+    game.steam.restart()
 }
+
+killMenuFunc() {
+    getActiveModMenu().kill()
+}
+
+restartMenuFunc() {
+    killMenuFunc()
+    getActiveModMenu().run()
+}
+
+restartGameFunc() {
+    game.restart()
+}
+    
+killGameFunc() {
+    game.kill()
+}
+
+lbl() {
+    pasteToNotepad(toJson(game, true))
+    pasteToNotepad(toJson(modmenus, true))
+}
+
+
 /*
 F4:: ; Startup Stuffs
     return
@@ -168,59 +209,3 @@ F11:: ; Restart Script
     RestartScript()
     return
 */
-global timer := true
-toggleMenuTimer() {
-    if (timer) {
-        SetTimer, CheckWindows, 2500
-        Menu, tray, Uncheck, Auto Mod Menu
-    } else {
-        SetTimer, CheckWindows, Off
-        Menu, tray, Check, Auto Mod Menu
-    }
-    timer := !timer
-}
-
-restartSteamFunc() {
-    game.kill()
-    KillProcesses(["steam"])
-    ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://rungameid/" . game.appid)
-    ; WinWait, % steam.str()
-}
-
-killMenuFunc() {
-    modmenu.kill()
-}
-
-restartMenuFunc() {
-    killMenuFunc()
-    modmenubin.run()
-}
-
-takeMenuFunc() {
-    game.kill()
-    ; Run, Target , WorkingDir, Options, OutputVarPID
-    Run, D:\Desktop\2Take1Menu\Launcher.exe, D:\Desktop\2Take1Menu, Min, takeMenuPID
-    ; modmenu.start()
-    game.start("-StraightIntoFreemode")
-}
-
-myFunc() {
-    
-}
-
-restartGameFunc() {
-    game.kill()
-    game.start("-StraightIntoFreemode")
-}
-    
-killGameFunc() {
-    game.kill()
-}
-
-lbl() {
-    pasteToNotepad(toJson(game, true))
-}
-
-testFunc() {
-    pasteToNotepad(toJson(modmenu, true))
-}
