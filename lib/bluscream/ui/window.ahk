@@ -55,6 +55,9 @@ class Window {
     exists() {
         return WinExist(this.str())
     }
+    wait() {
+        WinWait, % this.str()
+    }
     pid() {
         WinGet, pid, PID, % this.str()
         return pid

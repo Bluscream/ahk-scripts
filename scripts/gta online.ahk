@@ -109,6 +109,8 @@ restartMenuFunc() {
 
 restartGameFunc() {
     game.restart()
+    SleepS(5)
+    getActiveModMenu().autoStart()
 }
     
 killGameFunc() {

@@ -8,6 +8,9 @@ class Process {
         if (winmgmts && winmgmts.ExecutablePath)
             this.file := new File(winmgmts.ExecutablePath)
     }
+    wait() {
+        Process, Wait, % this.name
+    }
     fromPid(pid := 0) {
         return new Process(this.winmgmts(pid).Name)
     }
