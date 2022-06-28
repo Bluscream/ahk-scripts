@@ -1,5 +1,5 @@
 #SingleInstance Force
-; #NoEnv
+#NoEnv
 #Persistent
 SetWorkingDir % A_ScriptDir
 #Include <bluscream>
@@ -54,7 +54,7 @@ getActiveModMenu() {
 }
 
 init() {
-    ; Menu, Tray, NoStandard
+    Menu, Tray, NoStandard
     Menu, tray, add,
     Menu, tray, add, ---GTA Online---, lbl
     Menu, tray, add,
@@ -116,8 +116,7 @@ killGameFunc() {
 }
 
 lbl() {
-    pasteToNotepad(toJson(game, true))
-    pasteToNotepad(toJson(modmenus, true))
+    pasteToNotepad(toJson([game,modmenus], true))
 }
 
 

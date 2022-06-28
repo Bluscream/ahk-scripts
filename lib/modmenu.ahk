@@ -16,20 +16,14 @@ class ModMenu {
         ; this.name := name ? name : "Mod Menu"
         this.window := window ? window : this.getWindow(True)
         this.game := game
-        scriptlog("Created ModMenu instance " . this.name . " for Game " . this.game.name)
+        scriptlog("Created ModMenu instance " . this.name . " (" . toJson(this.window.exists()) . ") for Game " . this.game.name)
     }
     str() {
         return this.name . (this.running() ? "*" : "") . (this.version ? " v" . this.version : "") . " (""" . this.exe.path . """)"
     }
     running() {
         this.window := this.getWindow()
-        exists := this.window.exists()
-        if (exists) {
-            scriptlog(this.name . " is running as " . this.window.str() . " (" . toJson(this.window.exists()) . ")")
-        } else {
-            scriptlog(this.name . " is not running")
-        }
-        return exists
+        return this.window.exists()
     }
     autoStart() {
         scriptlog("Waiting for window " . this.game.windows.game.str())
