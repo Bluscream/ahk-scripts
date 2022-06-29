@@ -49,9 +49,12 @@ class ModMenu {
         process_closed := this.window.process.close()
         process_killed := this.window.process.kill(true, true)
     }
-    getWindow(force := false, whitelist := ["Default IME", "GDI+ Window (Launcher.exe)","MSCTFIME UI","Rockstar Games Launcher"]) {
+    getWindow(force := false, whitelist := "") {
         if (!force && this.window.exists())
             return this.window
+        if (whitelist == "") {
+            whitelist := ["Default IME", "GDI+ Window (Launcher.exe)","MSCTFIME UI","Rockstar Games Launcher"]
+        }
         WinGet, WinList, List
         Loop % WinList
         {   
