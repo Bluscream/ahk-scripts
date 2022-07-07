@@ -47,6 +47,11 @@ toggleMenu("2Take1Menu", 0, "")
 return
 
 F5::injectMenuFunc()
+3Joy14::
+    if GetKeyState("3Joy15") and GetKeyState("3Joy7") and GetKeyState("3Joy7") {
+        injectMenuFunc()
+    }
+    return
 
 getActiveModMenu() {
     for i, menu in modmenus {

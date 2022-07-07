@@ -16,7 +16,6 @@ class TwoTakeOneModMenu extends ModMenu {
         this.window.activate(false, true)
         Sleep, 500
         this.buttons.inject.click(1, 100, "left", "", "")
-        scriptlog(toJson(this.buttons.inject, true))
         SleepS(1)
     }
 }

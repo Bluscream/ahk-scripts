@@ -70,7 +70,6 @@ WriteToFile(path, String) {
 MouseClick(x,y,amount := 1, delay := 5, button := "left", method := "", data := "") {
     scriptlog("clicking mouse button" . button .  " x" . x . " y" . y . " " . amount . " times using method " . method)
     if (method == "dllcall") {
-        scriptlog("1")
         MouseMove, % x, % y
         Loop % amount {
             dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
@@ -79,7 +78,6 @@ MouseClick(x,y,amount := 1, delay := 5, button := "left", method := "", data := 
             sleep, % delay
         }
     } else if (method == "postmessage") {
-        scriptlog("2")
         p := y << 16 | (x & 0xffff)
         Loop, % amount
         {
@@ -89,7 +87,6 @@ MouseClick(x,y,amount := 1, delay := 5, button := "left", method := "", data := 
             sleep, % delay
         }
     } else {
-        scriptlog("3")
         Loop % amount {
             MouseClick, % button     , x, y, 1         , 0
         ;   MouseClick, WhichButton [, X, Y, ClickCount, Speed, D|U, R]
