@@ -28,7 +28,7 @@ ButtonMiddle = 3
 ; If your joystick has a POV control, you can use it as a mouse wheel.  The
 ; following value is the number of milliseconds between turns of the wheel.
 ; Decrease it to have the wheel turn faster:
-WheelDelay = 250
+WheelDelay = 100
 
 ; If your system has more than one joystick, increase this value to use a joystick
 ; other than the first:
@@ -73,6 +73,7 @@ else
 	YAxisMultiplier = 1
 
 SetTimer, WatchJoystick, 10  ; Monitor the movement of the joystick.
+SetTimer, WatchJoystick2, 10  ; Monitor the movement of the joystick.
 
 GetKeyState, JoyInfo, %JoystickNumber%JoyInfo
 IfInString, JoyInfo, P  ; Joystick has POV control, so use it as a mouse wheel.
@@ -164,12 +165,28 @@ if MouseNeedsToBeMoved
 }
 return
 
+WatchJoystick2:
+MouseNeedsToBeMoved := false  ; Set default.
+SetFormat, float, 03
+GetKeyState, JoyY, %JoystickNumber%JoyR
+if JoyY > %JoyThresholdUpper%
+{
+	Send {WheelDown}
+}
+else if JoyY < %JoyThresholdLower%
+{
+	Send {WheelUp}
+}
+return
+
 MouseWheel:
 GetKeyState, JoyPOV, %JoystickNumber%JoyPOV
-if JoyPOV = -1  ; No angle.
-	return
-if (JoyPOV > 31500 or JoyPOV < 4500)  ; Forward
-	Send {WheelUp}
-else if JoyPOV between 13500 and 22500  ; Back
-	Send {WheelDown}
+if JoyPOV = 0 ; Forward
+	Send {Up}
+else if JoyPOV = 9000 ; right
+	Send {Right}
+else if JoyPOV = 18000 ; Back
+	Send {Down}
+else if JoyPOV = 27000 ; left
+	Send {Left}
 return

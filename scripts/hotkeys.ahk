@@ -8,6 +8,7 @@ Process, Priority,, High
 EnforceAdmin()
 #Include <steam>
 global steam := new Steam()
+global bspid := 0
 return
 
 <#c::
@@ -52,6 +53,17 @@ return
 3Joy12::
     if GetKeyState("3Joy11") {
         steam.bigpicture()
+    }
+    return
+
+3Joy15::
+    if GetKeyState("3Joy11") {
+        if (bspid != 0 and ProcessExists(bspid)) {
+            Process, Close, % bspid
+        } else {
+            Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\JoystickMouse.ahk",,, bspid
+            log("bspid: " . bspid)
+        }
     }
     return
 

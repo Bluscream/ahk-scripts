@@ -118,10 +118,12 @@ restartMenuFunc() {
 }
 
 injectMenuFunc() {
-    txt := "Injecting " . getActiveModMenu().name
-    scriptlog(txt)
-    SplashScreen("", txt, 3000)
-    getActiveModMenu().inject()
+    if (game.windows.game.exists() and getActiveModMenu().window.exists()) {
+        txt := "Injecting " . getActiveModMenu().name
+        scriptlog(txt)
+        SplashScreen("", txt, 3000)
+        getActiveModMenu().inject()
+    }
 }
 
 hideGameFunc() {
