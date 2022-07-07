@@ -51,18 +51,54 @@ WriteToFile(path, String) {
     _file.Write(String)
     _file.Close()
 }
-PostClick(hwnd, X, Y, Count=1, Delay=50)
-{ ; By Infogulch
-	p := y << 16 | (x & 0xffff)
-	Loop, %Count%
-    {
-		PostMessage, 0x201, 1, p, , ahk_id %hwnd%
-		If (Delay)
-			Sleep Delay
-		PostMessage, 0x202, 0, p, , ahk_id %hwnd%
-		If (Delay)
-			Sleep Delay
-	}
+
+    click(ClickCount=1, sleep_ms = 100) {
+        if (!this.window.isActive())
+            return
+        x := (this.w > 0 ? this.x + this.w / 2 : this.x)
+        y := (this.h > 0 ? this.y + this.h / 2 : this.y)
+        MouseMove, x, y
+        ; scriptlog("Clicking X: " . this.x . " Y: " . this.y . " " . ClickCount . " times.")
+        Loop % ClickCount {
+            dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
+            sleep, 100
+            dllcall("mouse_event", Uint, 0x04, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; UP
+            sleep, % sleep_ms
+        }
+    }
+
+MouseClick(x,y,amount := 1, delay := 5, button := "left", method := "", data := "") {
+    scriptlog("clicking mouse button" . button .  " x" . x . " y" . y . " " . amount . " times using method " . method)
+    if (method == "dllcall") {
+        scriptlog("1")
+        MouseMove, % x, % y
+        Loop % amount {
+            dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
+            sleep, 100
+            dllcall("mouse_event", Uint, 0x04, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; UP
+            sleep, % delay
+        }
+    } else if (method == "postmessage") {
+        scriptlog("2")
+        p := y << 16 | (x & 0xffff)
+        Loop, % amount
+        {
+            PostMessage, 0x201, 1, p, , % data
+            sleep, % delay
+            PostMessage, 0x202, 0, p, , % data
+            sleep, % delay
+        }
+    } else {
+        scriptlog("3")
+        Loop % amount {
+            MouseClick, % button     , x, y, 1         , 0
+        ;   MouseClick, WhichButton [, X, Y, ClickCount, Speed, D|U, R]
+            Sleep, % delay
+        }
+    }
+}
+PostClick(hwnd, X, Y, Count=1, Delay=50) {
+    MouseClick(x,y,Count, Delay, "left", "postmessage", data := "ahk_id " . hwnd)
 }
 Paste(text) {
     clipboard_backup := clipboard

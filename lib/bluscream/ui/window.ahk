@@ -56,7 +56,9 @@ class Window {
         return WinExist(this.str())
     }
     wait() {
+        scriptlog("Waiting for window " . this.str())
         WinWait, % this.str()
+        scriptlog("Window " . this.str() . " found!")
     }
     pid() {
         WinGet, pid, PID, % this.str()
@@ -81,7 +83,11 @@ class Window {
     show() {
         WinShow, % this.str()
     }
-    activate(wait := false) {
+    activate(wait := false, full := false) {
+        if (full) {
+            this.restore()
+            this.show()
+        }
         WinActivate, % this.str()
         if (wait)
             WinWaitActive, % this.str()

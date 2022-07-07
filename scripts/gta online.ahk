@@ -13,6 +13,7 @@ CoordMode, Mouse, Client
 
 #Include <games/gta v>
 global game := new GTAVGame("S:\Steam\steamapps\common\Grand Theft Auto V")
+global modmenus := []
 #Include <gta/modmenus>
 init()
 for n, param in A_Args
@@ -45,16 +46,18 @@ toggleMenu("2Take1Menu", 0, "")
 
 return
 
+F5::injectMenuFunc()
+
 getActiveModMenu() {
     for i, menu in modmenus {
-        if menu.active {
+        if menu.enabled {
             return menu
         }
     }
 }
 
 init() {
-    Menu, Tray, NoStandard
+    ; Menu, Tray, NoStandard
     Menu, tray, add,
     Menu, tray, add, ---GTA Online---, lbl
     Menu, tray, add,
@@ -105,6 +108,13 @@ killMenuFunc() {
 restartMenuFunc() {
     killMenuFunc()
     getActiveModMenu().start()
+}
+
+injectMenuFunc() {
+    txt := "Injecting " . getActiveModMenu().name
+    scriptlog(txt)
+    SplashScreen("", txt, 3000)
+    getActiveModMenu().inject()
 }
 
 restartGameFunc() {

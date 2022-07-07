@@ -1,8 +1,13 @@
 #Include <JSON>
 #Include <JSON_Beautify>
 toJson(object, beautify := false) {
-    if (beautify)
-        return JSON_Beautify(object)
+    if (beautify) {
+        json := JSON_Beautify(object)
+        json := StrReplace(json, "\n" , "`n")
+        json := StrReplace(json, "\r" , "`r")
+        json := StrReplace(json, "\t" , "`t")
+        return json
+    }
     return JSON.Dump(object)
 }
 fromJson(txt) {

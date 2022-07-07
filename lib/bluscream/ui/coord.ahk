@@ -24,19 +24,11 @@ class Coordinate {
     move(speed := 2, relative := false) {
         MouseMove, this.x, this.y, speed, % (relative ? "R" : "")
     }
-    click(ClickCount=1, sleep_ms = 100) {
-        if (!this.window.isActive())
-            return
+    click(ClickCount=1, sleep_ms = 100, button := "left", method := "dllcall", data := "") {
+        ; if (!this.window.isActive()) return
         x := (this.w > 0 ? this.x + this.w / 2 : this.x)
         y := (this.h > 0 ? this.y + this.h / 2 : this.y)
-        MouseMove, x, y
-        ; scriptlog("Clicking X: " . this.x . " Y: " . this.y . " " . ClickCount . " times.")
-        Loop % ClickCount {
-            dllcall("mouse_event", Uint, 0x02, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; Down
-            sleep, 100
-            dllcall("mouse_event", Uint, 0x04, Uint, 0, Uint, 0, Uint, 0, UPtr, 0) ; UP
-            sleep, % sleep_ms
-        }
+        MouseClick(x,y,ClickCount, sleep_ms, button, method, data)
     }
     swipeToCoord(coord) {
         if (!this.window.isActive())
