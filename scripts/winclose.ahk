@@ -105,7 +105,8 @@ titles.push({title: "Oh Yeah! ahk_class #32770 ahk_exe Launcher.exe", text: "Inj
 titles.push({title: "Event Viewer ahk_exe mmc.exe", text: "You can save the contents of this log before clearing it.", action: "ClickButton:&Clear"})
 titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Make sure Grand Theft Auto V is not running before starting the authenticator.", action: "CloseWindow"})
 titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Auth already running.", action: "CloseWindow"})
-
+titles.push({title: "DesktopWindowXamlSource: WindowsTerminal.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
+titles.push({title: "WindowsTerminal.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

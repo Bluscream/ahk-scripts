@@ -1,4 +1,4 @@
-﻿#SingleInstance Force
+#SingleInstance Force
 #NoEnv
 ; #NoTrayIcon
 #Persistent
@@ -8,55 +8,25 @@ DetectHiddenWindows On
 #Include <bluscream>
 global noui := false
 EnforceAdmin()
-#INCLUDE <Acc>
-
-ShadowProcessator := new File("C:\Program Files\Blade Group\ShadowProcessator\ShadowProcessator")
-if (FileExist(ShadowProcessator.path)) {
-    Menu, Tray, Icon, % ShadowProcessator.path
-    scriptlog("Icon set: " . Quote(ShadowProcessator.path))
-}
-Menu, Tray, Add
-Menu, Tray, Add, Kill Bloat, KillBloat
 
 global perf_mode := false
 
-global vd := { windows: { server: new Window("", "", "VirtualDesktop.Server")
-        ,streamer: new Window("Virtual Desktop Streamer", "HwndWrapper[VirtualDesktop.Streamer;UI Thread;117aaec4-0fa3-4fdc-b637-eb3c7fd4dc5b]", "VirtualDesktop.Streamer") }
-    ,files: { streamer: new Directory("C:\Program Files\Virtual Desktop Streamer").CombineFile(vd.windows.streamer) }
-    ,connected: vd.windows.server.process.exists()
-    ,doublechecking: false
-    ,safe_mode: false }
+#include <virtual_desktop>
+global vd := new VirtualDesktop()
 
+#Include <steam>
+global steam := new Steam()
 
-global steam := { uri: ["steam://open/console", ""]
-    ,uri_minicon: [ """C:\Program Files (x86)\Steam\Steam""", "-no-browser +open steam://open/minigameslist" ]
-    ,windows: { steam: new Window("Steam", "vguiPopupWindow", "steam") } }
+global steamvr := new SteamVR()
 
-global steamvr := { uri: ["steam://rungameid/250820", ""]
-    ,windows: { vrwebhelper: new Window("", "", "vrwebhelper")
-        ,vrdashboard: new Window("", "", "vrdashboard")
-        ,vrmonitor: new Window("SteamVR Status", "Qt5QWindowIcon", "vrmonitor")
-        ,vrmonitor_extra: new Window("vrmonitor", "Qt5QWindowToolSaveBits", "vrmonitor")
-        ,vrcompositor: new Window("", "", "vrcompositor")
-        ,vrserver: new Window("", "", "vrserver") } }
-
-
-
-; global game := { name: "ets2"
-;     ,uri : ["steam://rungameid/227300", ""]
-;     ,windows: { game: new Window("Euro Truck Simulator 2", "prism3d", "eurotrucks2") }
+; global game := { name: "vrc_mods"
+;     ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
+;     ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat")
+;         ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
+;         ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX") }
 ;     ,processes: { }
-;     ,files: { game: new Directory("S:\Steam\steamapps\common\Euro Truck Simulator 2").CombineFile("bin", "win_x64", "eurotrucks2") } }
-
-
-global game := { name: "vrc_mods"
-    ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
-    ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat")
-        ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
-        ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX") }
-    ,processes: { }
-    ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
-        ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX") } }
+;     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
+;         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX") } }
 
 for n, param in A_Args
 {
@@ -66,8 +36,7 @@ for n, param in A_Args
         vd.safe_mode := true
     } else if (param == "/min" || param == "/perf") {
         scriptlog("Performance mode enabled (" . param . ")")
-        perf_mode := truex
-        steam.uri := steam.uri_minicon
+        perf_mode := true
     } else if (param == "/bloat") {
         KillBloat()
         ExitApp
@@ -77,7 +46,7 @@ for n, param in A_Args
     }
 }
 scriptlog(toJson(A_Args))
-Acc_Init()
+
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()
 scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
 
@@ -85,8 +54,6 @@ scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
 SetTimer, CheckForVirtualDesktop, % 1000
 scriptlog("CheckForVirtualDesktop timer running...")
 return
-; <#e::Run explorer
-; Esc::ExitApp
 CheckForVirtualDesktop:
     connected := vd.windows.server.process.exists()
     if (vd.doublechecking and !connected) {
@@ -105,7 +72,7 @@ CheckForVirtualDesktop:
     return
 
 CheckForSteamVR:
-    if (isSteamVRFail())
+    if (steamvr.hasFailed())
         killAll(steamvr)
     return
 
@@ -115,29 +82,6 @@ DoubleCheckForConnection:
     if (vd.connected and vd.windows.server.process.exists())
         OnVirtualDesktopFullyConnected()
     return
-
-isSteamVRFail() {
-    if (!steamvr.windows.vrmonitor_extra.exists()) return false
-
-    text := Acc_Get("Name", "4.7.1.8", 0, steamvr_vrmonitor_str)
-    StringSplit, text, text, " "
-    has_latency := (text1 > 0)
-    ; scriptlog("text " . text . " has_latency " . has_latency)
-
-    text := Acc_Get("Name", "4.8.1", 0, steamvr_vrmonitor_str)
-    has_headset := (text != "Headset")
-    ; scriptlog("text " . text . " has_headset " . has_headset)
-
-    text := Acc_Get("Name", "4.1", 0, steamvr_vrmonitor_str)
-    text2 := Acc_Get("Name", "4.2", 0, steamvr_vrmonitor_str)
-    is_searching := (text == "Searching..." or text2 == "Make sure headset can see the play area")
-    
-    is_fail := !has_headset and !has_latency and !is_searching
-
-    ; scriptlog("isSteamVRFail: " . toYesNo(is_fail) . " | has_latency " . toYesNo(has_latency) . " | has_headset " . toYesNo(has_headset) . " | is_searching " . toYesNo(is_searching))
-
-    return is_fail
-}
 
 killAll(item) {
     for i, window in item.windows {
@@ -161,14 +105,14 @@ OnVirtualDesktopConnected() {
 OnVirtualDesktopFullyConnected() {
     scriptlog("OnVirtualDesktopFullyConnected")
 
-    no_steamvr := CheckSteamVR()
+    ; no_steamvr := CheckSteamVR()
 
     ; if (!new Process(vrcx.fullname).exists()) {
     ;     scriptlog("Starting " . vrcx.path)
     ;     vrcx.run()
     ; }
 
-    CheckGame(no_steamvr)
+    ; CheckGame(no_steamvr)
 
     if (perf_mode)
         KillBloat()
@@ -178,31 +122,21 @@ OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
 }
 
-KillBloat() {
-    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/bloat")
-}
-
-KillSemiBloat() {
-    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/semibloat")
-}
-
 CheckSteamVR() {
     if (!steam.exists()) {
-        scriptlog("Starting " . steam.uri[1] . " " . steam.uri[2])
-        ShellRun(steam.uri[1], steam.uri[2])
+        steam.start((perf_mode ? True : False), perf_mode ? True : False)
         SleepS(5)
         steam.windows.steam.activate()
         SleepS(1)
         scriptlog("Waiting for " . steam.windows.steam.title . " ...")
         steam.windows.steam.activate(true)
     }
-    no_steamvr := (!steamvr.windows.vrmonitor.exists() or isSteamVRFail())
+    no_steamvr := (!steamvr.windows.vrmonitor.exists() or steamvr.hasFailed())
     if (no_steamvr) {
         scriptlog("Killing SteamVR")
-        killAll(steamvr)
+        steamvr.kill(true)
         SleepS(1)
-        scriptlog("Starting " . steamvr.uri[1] . " " . steamvr.uri[2])
-        ShellRun(steamvr.uri[1], steamvr.uri[2])
+        steamvr.start()
         SleepS(15)
         steamvr.windows.vrmonitor.activate()
         SleepS(1)
@@ -223,6 +157,14 @@ CheckGame(no_steamvr) {
         game.windows.game.activate(true)
     }
 }
+
+KillBloat() {
+    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/bloat")
+}
+KillSemiBloat() {
+    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/semibloat")
+}
+
 ; fail
 ; [05:42:33] 1 | name: System | role: menu bar | error: 0 | title: SteamVR Status ahk_class Qt5QWindowIcon ahk_exe vrmonitor
 ; [05:42:33] 1.1 | name: System | role: menu item | error: 0 | title: SteamVR Status ahk_class Qt5QWindowIcon ahk_exe vrmonitor
