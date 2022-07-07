@@ -10,13 +10,15 @@ class TwoTakeOneModMenu extends ModMenu {
         base.autoStart(True, "PlayGTAV")
     }
     inject() {
+        this.game.minimize()
         this.window.wait()
         CoordMode, Mouse, Client
         ; PostClick(this.window.exists(), this.buttons.inject.x, this.buttons.inject.y)
-        this.window.activate(false, true)
-        Sleep, 500
+        this.window.activate(true,true)
+        SleepS(1)
         this.buttons.inject.click(1, 100, "left", "", "")
         SleepS(1)
+        this.game.maximize()
     }
 }
 ; u8Mi8noIixnWdvgjn0kP7fmG6TZ8gwJ

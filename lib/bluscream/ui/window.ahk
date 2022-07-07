@@ -64,6 +64,12 @@ class Window {
         WinGet, pid, PID, % this.str()
         return pid
     }
+    bottom() {
+        WinSet, Bottom ,, % this.str()
+    }
+    alwaysOnTop(toggle := true) {
+        WinSet, AlwaysOnTop , % toggle, % this.str()
+    }
     isActive() {
         return WinActive(this.str())
     }
@@ -71,7 +77,15 @@ class Window {
         WinGet MMX, MinMax, % this.str()
         return (MMX == -1)
     }
-    minimize() {
+    minimize(full := false) {
+        if (full) {
+            this.alwaysOnTop(false)
+            ; WinSet, Style, 0x10000000, % this.str() ; WS_VISIBLE
+            ; WinSet, Style, -0x1000000, % this.str() ; WS_MAXIMIZE
+            ; WinSet, Style, 0x20000000, % this.str() ; WS_MINIMIZE
+            WinSet, Style, +0x20000, % this.str() ; WS_MINIMIZEBOX
+            this.bottom()
+        }
         WinMinimize, % this.str()
     }
     maximize() {
@@ -80,13 +94,16 @@ class Window {
     restore() {
         WinRestore, % this.str()
     }
+    hide() {
+        WinHide, % this.str()
+    }
     show() {
         WinShow, % this.str()
     }
     activate(wait := false, full := false) {
         if (full) {
-            this.restore()
             this.show()
+            this.restore()
         }
         WinActivate, % this.str()
         if (wait)

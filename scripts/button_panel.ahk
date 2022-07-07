@@ -80,7 +80,7 @@ showUI() {
 OnBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamClicked")
     KillProcesses(["steam"])
-    ShellRun("steam://open/console", "")
+    ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "steam://open/console")
     GuiClose(0)
 }
 OnBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {

@@ -69,6 +69,8 @@ init() {
     Menu, tray, add, Restart Steam, restartSteamFunc
     Menu, tray, add, Kill Game, killGameFunc
     Menu, tray, add, Restart Game, restartGameFunc
+    Menu, tray, add, Hide Game, hideGameFunc
+    Menu, tray, add, Show Game, showGameFunc
     Menu, tray, add,
 
     for i, menu in modmenus {
@@ -120,6 +122,14 @@ injectMenuFunc() {
     scriptlog(txt)
     SplashScreen("", txt, 3000)
     getActiveModMenu().inject()
+}
+
+hideGameFunc() {
+    game.minimize()
+}
+
+showGameFunc() {
+    game.activate()
 }
 
 restartGameFunc() {

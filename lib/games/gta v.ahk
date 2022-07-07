@@ -50,6 +50,16 @@ class GTAVGame extends Game {
         base.start(steam, args, wait)
     }
 
+    minimize() {
+        for i, window in this.windows {
+            window.minimize(True)
+        } 
+    }
+
+    activate(wait := true) {
+        this.windows.game.activate(wait, true)
+    }
+
     kill() {
         count := 0
         for i, window in this.windows {
