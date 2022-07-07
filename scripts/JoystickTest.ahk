@@ -1,4 +1,5 @@
-﻿; Joystick Test Script
+﻿#SingleInstance, force
+; Joystick Test Script
 ; https://www.autohotkey.com
 ; This script helps determine the button numbers and other attributes
 ; of your joystick. It might also reveal if your joystick is in need

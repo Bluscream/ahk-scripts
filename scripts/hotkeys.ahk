@@ -6,6 +6,8 @@ SetBatchLines, -1
 Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
+#Include <steam>
+global steam := new Steam()
 return
 
 <#c::
@@ -45,6 +47,12 @@ return
     new Process("FiveM.exe").kill()
     Run % "fivem://connect/kzyerv"
     ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
+    return
+
+3Joy12::
+    if GetKeyState("3Joy11") {
+        steam.bigpicture()
+    }
     return
 
 ; <#y::

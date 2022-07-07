@@ -2,17 +2,20 @@
 #SingleInstance Force
 #Persistent
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 SetTitleMatchMode, 2
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
 #Include %A_ScriptDir%\AutoXYWH.ahk
 #Include <bluscream>
-global no_ui := true
-global debug := false
+global no_ui := false
+global debug := true
 global runs := 0
-; scriptlog("init")
+scriptlog("init")
+
+#Include <steam>
+global steam := new Steam()
 
 ; I_Icon := "C:\Windows\System32\shell32.dll"
 ; IfExist, %I_Icon%
@@ -21,6 +24,7 @@ global runs := 0
 ; Menu, tray, add
 
 goto initUI
+
 return
 
 <#x::
@@ -33,13 +37,14 @@ initUI:
     Gui Font, s20
 
     Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gOnBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
-    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x16 y104 w216 h84, Steam (Mini)
+    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x16 y104 w106 h84, Mini
+    Gui Add, Button, hWndhBtnStartSteamBigPicture vBtnStartSteamBigPicture gOnBtnStartSteamBigPictureClicked x126 y104 w106 h84, BigPic
 
     ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
     Gui Add, Button, hWndhBtnReboot vBtnReboot gOnBtnRebootClicked x248 y16 w216 h84, REBOOT
     Gui Font, s15
     Gui Add, Button, hWndhBtnShutdown vBtnShutdown gOnBtnShutdownClicked x248 y104 w105 h84, % "SHUT`nDOWN"
-    Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "HIBERNATE"
+    Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "HIBER`nNATE"
     Gui Font, s20
 
     Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gOnBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
@@ -80,16 +85,24 @@ showUI() {
 OnBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamClicked")
     KillProcesses(["steam"])
-    ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "steam://open/console")
+    ; ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "steam://open/console")
+    steam.console()
     GuiClose(0)
 }
 OnBtnStartSteamMiniClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartSteamMiniClicked")
     KillProcesses(["steam"])
-    ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
+    ; ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
+    steam.start(True, True)
     GuiClose(0)
 }
-
+OnBtnStartSteamBigPictureClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    ; scriptlog("onBtnStartSteamMiniClicked")
+    KillProcesses(["steam"])
+    ; ShellRun("""C:\Program Files (x86)\Steam\Steam.exe""", "-no-browser +open steam://open/minigameslist")
+    steam.start(True, True, 0, ["steam://open/bigpicture"])
+    GuiClose(0)
+}
 
 OnBtnRebootClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Reboot, Are you sure you want to reboot?
@@ -209,9 +222,9 @@ GuiSize(GuiHwnd, EventInfo, Width, Height) {
     AutoXYWH("xywh", hBtnKillSemiBloat)
 }
 
-GuiEscape(GuiHwnd) {
-    GuiClose(GuiHwnd)
-}
+; GuiEscape(GuiHwnd) {
+;     GuiClose(GuiHwnd)
+; }
 
 GuiClose(GuiHwnd) {
     Gui, 1:-Disabled

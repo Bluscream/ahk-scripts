@@ -12,15 +12,16 @@ class Steam {
     ,login_refresh: new Window("Steam - Refresh Login", "vguiPopupWindow", "Steam.exe")
     ,login_refresh_2fa: new Window("Steam - Authenticator Code", "vguiPopupWindow", "Steam.exe")
     ,2fa: new Window("Steam Guard - Computer Authorization Required", "vguiPopupWindow", "Steam.exe")
-    ,login_error: new Window("Steam - Error", "vguiPopupWindow", "Steam.exe")}
+    ,login_error: new Window("Steam - Error", "vguiPopupWindow", "Steam.exe")
+    ,bigpicture: new Window("Steam", "CUIEngineWin32", "Steam.exe")}
     patterns := {}
     args := ""
     eventcallback := ""
     __New(exe := "", eventcallback := "") {
-        ; if (exe!="") {
-        ;     this.exe := new File(exe) 
-        ;     this.dir := this.exe.directory
-        ; }
+        if (exe!="") {
+            this.exe := new File(exe) 
+            this.dir := this.exe.directory
+        }
         if (!this.dir.exists() || this.dir.path == "\") {
             MsgBox % this.name . " directory " . this.dir.Quote() . " does not exist!"
         }
@@ -83,8 +84,26 @@ class Steam {
         this.startURI("steam://run/" . appid . (args ? ("// " . Join(" ", args)) : ""))
     }
 
+    isBigPicture() {
+        return this.windows.bigpicture.exists()
+    }
+    isBigPictureActive() {
+        return this.windows.bigpicture.isActive()
+    }
+
     bigpicture() {
-        this.startURI("steam://open/bigpicture")
+        if (this.isBigPicture()) {
+            if (this.isBigPictureActive()) {
+                ShowToolTip("Hiding Big Picture")
+                this.windows.bigpicture.minimize(false)
+            } else {
+                ShowToolTip("Showing Big Picture")
+                this.windows.bigpicture.activate(false, false)
+            }
+        } else {
+            ShowToolTip("Starting Big Picture")
+            this.startURI("steam://open/bigpicture")
+        }
     }
 
     console() {

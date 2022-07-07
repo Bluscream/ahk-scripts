@@ -34,8 +34,7 @@ class File {
     }
     run(wait := false, WorkingDir := "", arguments := "") {
         cmd := this.path . " " . arguments
-        if (!no_ui)
-            scriptlog("Running: " . cmd)
+        scriptlog("Running: " . cmd)
         if (wait) {
             RunWait, % cmd, % (WorkingDir ? ""WorkingDir: this.directory.path),, OutputVarPID
             return OutputVarPID
