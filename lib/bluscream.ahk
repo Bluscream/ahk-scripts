@@ -407,4 +407,5 @@ CloseScript(Name) {
 		}
 	else
 		return Name . " not found"
+    SetTitleMatchMode, Fast
 }

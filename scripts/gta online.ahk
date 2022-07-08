@@ -25,6 +25,7 @@ for n, param in A_Args
         toggleMenu("Modest Menu", 0, "")
     }
 }
+scriptlog("> " . CloseScript("togglehold.ahk"))
 
 toggleMenu("2Take1Menu", 0, "")
 

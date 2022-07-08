@@ -8,6 +8,7 @@ SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
 #Include <asf>
+global no_ui := true
 
 global steam_login := new Window("Steam Login", "vguiPopupWindow", "steam.exe")
 steam_login["controls"] := { "username": { "x": 269, "y": 100 }, "password": { "x": 260, "y": 133 }, "save": { "x": 123, "y": 163 } }

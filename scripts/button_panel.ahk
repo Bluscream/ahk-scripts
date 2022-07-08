@@ -10,9 +10,8 @@ SetBatchLines -1
 #Include %A_ScriptDir%\AutoXYWH.ahk
 #Include <bluscream>
 global no_ui := true
-global debug := true
+global debug := false
 global runs := 0
-scriptlog("init")
 
 #Include <steam>
 global steam := new Steam()

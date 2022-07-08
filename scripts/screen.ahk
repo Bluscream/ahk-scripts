@@ -4,10 +4,11 @@
 SetBatchLines, -1
 #Include <bluscream>
 EnforceAdmin()
+global no_ui := True
 #Include <monitors>
+global no_ui := True
 
 global monitors := GetMonitors()
-global no_ui := True
 global runs := 0
 global bspid := 0
 ; dimming
