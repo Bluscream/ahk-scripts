@@ -1,25 +1,24 @@
 #SingleInstance, force
+#Persistent
 #Include <bluscream>
-#Include <logtail>
+#include <utilities>
 global no_ui := False
-scriptlog("init")
-global logdir := new Directory("C:\Users\blusc\AppData\Local\RetroBar\Logs\")
-scriptlog("logdir: " . toJson(logdir))
-global latestlog := logdir.getNewestFile("*.log")
-scriptlog("latestlog: " . toJson(latestlog))
+global traylib := new TrayLib(Func("OnTrayChanged"))
+traylib.start()
 
-lt_chat := new LogTailer(latestlog, Func("OnNewChatLine"), true, "CP1200")
-
-OnNewChatLine(line) {
-    if (line == "") {
+OnTrayChanged(line) {
+    line := traylib.parseLine(line)
+    scriptlog(toJson(line))
+    if (IsEmptyString(line._line)) {
         return
     }
-    validLine := RegExMatch(line, log_pattern, msg)
-    if (!validLine){
-        scriptlog("INVALID: " . line)
-        Return
+    if (line.event == "Added") {
+        scriptlog("ADDED NEW TRAY ICON " . line.msg)
+    } else if (event == "Modified") {
+        scriptlog("MODIFIED TRAY ICON " . line.msg)
+    } else if (event == "Removed") {
+        scriptlog("REMOVED TRAY ICON " . line.msg)
     }
-    scriptlog("VALID: " . line)
 }
 
 scriptlog("end")

@@ -6,12 +6,17 @@ class LogTailer {
     fileSize := 0
     opened := false
     
-    __New(FileName, Callback, StartWithLastLine := false, Encoding := "UTF-8", LineEndings := "`n"){
+    __New(FileName, callback, StartWithLastLine := false, Encoding := "UTF-8", LineEndings := "`n"){
         this.fileName := FileName
+        if (callback == 0) {
+            scriptlog(toJson(callback))
+            MsgBox % "Callback " . callback.Name . " is not a function!"
+            ExitApp
+        }
         this.callback := callback
         fileHandle := FileOpen(FileName, "r-d " . LineEndings, Encoding)
         if (!IsObject(fileHandle)){
-            MsgBox % "Unable to load file " FileName
+            MsgBox % "Unable to load file " . FileName
             ExitApp
         }
         this.fileHandle := fileHandle
@@ -46,7 +51,7 @@ class LogTailer {
         while (!this.fileHandle.AtEOF){
             line := this.fileHandle.ReadLine()
             ; MsgBox % "new line: " . line
-            if (line == "`r`n" || line == "`n"){
+            if (line == "`r`n" || line == "`n" || line == ""){
                 continue
             }
             ; Fire the callback function and pass it the new line
