@@ -7,7 +7,7 @@ DetectHiddenWindows On
 global noui := false
 
 global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService","FoxitReaderUpdateService","WinHttpAutoProxySvc","EABackgroundService"]
-    ,processes: ["Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","OpenRGB","DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd","explorer"]
+    ,processes: ["Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","OpenRGB","DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd"]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
@@ -36,6 +36,9 @@ for n, param in A_Args
         ExitApp
     } else if (param == "/semibloat") {
         KillSemiBloat()
+        ExitApp
+    } else if (param == "/semibloat") {
+        KillExplorer()
         ExitApp
     }
 }
@@ -74,4 +77,8 @@ KillSemiBloat() {
     KillProcesses(vrbloat.processes, True)
     scriptlog("[UNBLOAT] Running " . vrbloat.custom.Count() . " commands")
     RunWaitLast(vrbloat.custom, True)
+}
+
+KillExplorer() {
+    KillProcesses(["retrobar","explorer","StartMenu"])
 }

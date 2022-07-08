@@ -191,14 +191,20 @@ OnConnected() {
 }
 OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
+    if (!steamvr.windows.vrmonitor.exists()) {
+        vd.restart()
+    }
 }
 OnVirtualDesktopConnectionLost(fails) {
     scriptlog("OnVirtualDesktopConnectionLost (" . fails . ")")
-    if (fails > 1) {
-        vd.failcounter := 0
-        scriptlog("Too many VD fails (" . fails . "), restarting...")
+    if (!steamvr.windows.vrmonitor.exists()) {
         vd.restart()
     }
+    ; if (fails > 1) {
+    ;     vd.failcounter := 0
+    ;     scriptlog("Too many VD fails (" . fails . "), restarting...")
+    ;     vd.restart()
+    ; }
 }
 OnVirtualDesktopInternetLost() {
     scriptlog("OnVirtualDesktopInternetLost, restarting every 10 seconds...")
