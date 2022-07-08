@@ -127,8 +127,8 @@ OnTrayChanged(line) {
                     vd.wasconnected := false
                     if (vd.state == "Connecting") {
                         vd.state := "ConnectionLost"
-                        OnVirtualDesktopConnectionLost(vd.failcounter)
                         vd.failcounter := vd.failcounter+1
+                        OnVirtualDesktopConnectionLost(vd.failcounter)
                     } else {
                         vd.state := "Disconnected"
                         vd.failcounter := 0
@@ -136,7 +136,6 @@ OnTrayChanged(line) {
                     }
                 } else {
                     vd.state := "Ready"
-                    vd.wasconnected := true
                     OnVirtualDesktopReady()
                 }
             } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
@@ -144,6 +143,7 @@ OnTrayChanged(line) {
                 OnVirtualDesktopEstablishingConnection()
             } else if (line.msg == "Virtual Desktop Streamer is connected") {
                 vd.state := "Connected"
+                vd.wasconnected := true
                 OnVirtualDesktopConnected()
             } else if (line.msg == "Virtual Desktop Streamer") {
                 vd.state := "NoInternet"
@@ -202,7 +202,7 @@ OnVirtualDesktopConnectionLost(fails) {
 }
 OnVirtualDesktopInternetLost() {
     scriptlog("OnVirtualDesktopInternetLost, restarting every 10 seconds...")
-    SetTimer, InternetLostCheck, 10000
+    SetTimer, InternetLostCheck, 15000
 }
 InternetLostCheck:
     if (vd.state == "NoInternet" or vd.state == "ConnectionLost") {

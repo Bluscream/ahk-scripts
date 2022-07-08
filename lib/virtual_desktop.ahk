@@ -23,7 +23,7 @@ class VirtualDesktop {
     start() {
         EnforceAdmin()
         scriptlog("Starting Virtual Desktop")
-        StartServices(["VirtualDesktop.Service.exe"], true)
+        StartServices(["VirtualDesktop.Service.exe"])
     }
 
     restart() {
@@ -40,6 +40,6 @@ class VirtualDesktop {
             process_closed := window.process.close()
             process_killed := window.process.kill(true, true)
         }
-        StopServices(["VirtualDesktop.Service.exe"], true)
+        StopServices(["VirtualDesktop.Service.exe"])
     }
 }
