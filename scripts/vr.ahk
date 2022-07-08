@@ -58,6 +58,10 @@ scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
 SetTimer, CheckForVirtualDesktop, % 1000
 scriptlog("CheckForVirtualDesktop timer running...")
 ; SetTimer, Debug, 500
+
+Menu, tray, add, Start VD, startVirtualDesktop
+Menu, tray, add, Stop VD, stopVirtualDesktop
+
 return
 Debug:
     ToolTip, % vd.state " . fails: " . vd.failcounter
@@ -122,7 +126,7 @@ OnTrayChanged(line) {
                 if (vd.wasconnected) {
                     vd.wasconnected := false
                     if (vd.state == "Connecting") {
-                        vd.state := "Connection Lost"
+                        vd.state := "ConnectionLost"
                         OnVirtualDesktopConnectionLost(vd.failcounter)
                         vd.failcounter := vd.failcounter+1
                     } else {
@@ -151,6 +155,7 @@ OnTrayChanged(line) {
         }
     }
 }
+
 OnVirtualDesktopStarted() {
     scriptlog("OnVirtualDesktopStarted")
 }
@@ -196,16 +201,26 @@ OnVirtualDesktopConnectionLost(fails) {
     }
 }
 OnVirtualDesktopInternetLost() {
-    scriptlog("OnVirtualDesktopInternetLost, checking in 10 seconds...")
+    scriptlog("OnVirtualDesktopInternetLost, restarting every 10 seconds...")
     SetTimer, InternetLostCheck, 10000
 }
 InternetLostCheck:
-    if (vd.state == "NoInternet") {
+    if (vd.state == "NoInternet" or vd.state == "ConnectionLost") {
         vd.restart()
+    } else {
+        SetTimer, InternetLostCheck, Off
     }
     Return
 OnVirtualDesktopStopped() {
     scriptlog("OnVirtualDesktopStopped")
+    vd.restart()
+}
+
+startVirtualDesktop() {
+    vd.restart()
+}
+stopVirtualDesktop() {
+    vd.kill()
 }
 
 CheckSteamVR() {

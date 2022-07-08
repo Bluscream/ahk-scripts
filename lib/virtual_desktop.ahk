@@ -1,5 +1,6 @@
 #SingleInstance, force
 #Include <bluscream>
+
 class VirtualDesktop {
     dir := new Directory("C:\Program Files\Virtual Desktop Streamer")
     exe := dir.CombineFile(vd.windows.streamer.exe)
@@ -20,22 +21,25 @@ class VirtualDesktop {
     }
 
     start() {
+        EnforceAdmin()
         scriptlog("Starting Virtual Desktop")
-        StartServices(["VirtualDesktop.Service.exe"])
+        StartServices(["VirtualDesktop.Service.exe"], true)
     }
 
     restart() {
         this.kill(True)
+        SleepS(1)
         this.start()
     }
 
     kill(wait := false) {
+        EnforceAdmin()
         scriptlog("Stopping Virtual Desktop")
         for i, window in this.windows {
             window_closed := window.close()
             process_closed := window.process.close()
             process_killed := window.process.kill(true, true)
         }
-        StopServices(["VirtualDesktop.Service.exe"])
+        StopServices(["VirtualDesktop.Service.exe"], true)
     }
 }
