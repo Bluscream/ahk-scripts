@@ -11,13 +11,18 @@ class TrayLib {
         if (!this.logdir.exists() || this.logdir.path == "\") {
             MsgBox % "Directory " . this.dir.Quote() . " does not exist!"
         }
+        
+        ; latest := this.getLog().path
+        ; scriptlog("Starting Tailer for " . latest)
+        ; this.tailer := new LogTailer(latest, callback, true) ; This is where i want to pass my own class method as callback for Logtailer [ Func("this.onNewLine")]
+        
         this.callback := callback ; This is where i save the original callback [ Func("OnTrayChanged") ]
     }
 
-    start() {
+    start(callback := "") {
         latest := this.getLog().path
         scriptlog("Starting Tailer for " . latest)
-        this.tailer := new LogTailer(latest, Func("this.onNewLine"), true) ; This is where i want to pass my own class method as callback for Logtailer [ Func("this.onNewLine")]
+        this.tailer := new LogTailer(latest, callback, true) ; This is where i want to pass my own class method as callback for Logtailer [ Func("this.onNewLine")]
     }
 
     stop() {

@@ -13,10 +13,14 @@ global perf_mode := false
 
 #include <virtual_desktop>
 global vd := new VirtualDesktop()
+global traylib := new TrayLib()
+traylib.start(Func("OnTrayChanged"))
+vd.last_event := ""
+vd.state := "Unknown"
+vd.failcounter := 0
 
 #Include <steam>
 global steam := new Steam()
-
 global steamvr := new SteamVR()
 
 ; global game := { name: "vrc_mods"
@@ -53,7 +57,11 @@ scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
 ; SetTimer, CheckForSteamVR, % 1000*15
 SetTimer, CheckForVirtualDesktop, % 1000
 scriptlog("CheckForVirtualDesktop timer running...")
+; SetTimer, Debug, 500
 return
+Debug:
+    ToolTip, % vd.state " . fails: " . vd.failcounter
+    return
 CheckForVirtualDesktop:
     connected := vd.windows.server.process.exists()
     if (vd.doublechecking and !connected) {
@@ -95,17 +103,76 @@ killAll(item) {
     }
 }
 
-
+OnTrayChanged(line) {
+    line := traylib.parseLine(line)
+    if (startsWith(line.msg, "Virtual Desktop Streamer")) {
+        if (line.event == "Added") {
+            vd.state := "Started"
+            vd.failcounter := 0
+            OnVirtualDesktopStarted()
+        } else if (line.event == "Modified") {
+            if (line.msg == vd.last_event) {
+                return
+            }
+            vd.last_event := line.msg
+            if (line.msg == "Virtual Desktop Streamer is connecting...") {
+                vd.state := "Connecting"
+                OnVirtualDesktopConnecting()
+            } else if (line.msg == "Virtual Desktop Streamer is ready") {
+                if (vd.wasconnected) {
+                    vd.wasconnected := false
+                    if (vd.state == "Connecting") {
+                        vd.state := "Connection Lost"
+                        OnVirtualDesktopConnectionLost(vd.failcounter)
+                        vd.failcounter := vd.failcounter+1
+                    } else {
+                        vd.state := "Disconnected"
+                        vd.failcounter := 0
+                        OnVirtualDesktopDisconnected()
+                    }
+                } else {
+                    vd.state := "Ready"
+                    vd.wasconnected := true
+                    OnVirtualDesktopReady()
+                }
+            } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
+                vd.state := "EstablishingConnection"
+                OnVirtualDesktopEstablishingConnection()
+            } else if (line.msg == "Virtual Desktop Streamer is connected") {
+                vd.state := "Connected"
+                OnVirtualDesktopConnected()
+            } else if (line.msg == "Virtual Desktop Streamer") {
+                vd.state := "NoInternet"
+                OnVirtualDesktopInternetLost()
+            }
+        } else if (line.event == "Removed") {
+            vd.state := "Stopped"
+            OnVirtualDesktopStopped()
+        }
+    }
+}
+OnVirtualDesktopStarted() {
+    scriptlog("OnVirtualDesktopStarted")
+}
+OnVirtualDesktopReady() {
+    scriptlog("OnVirtualDesktopReady")
+}
+OnVirtualDesktopConnecting() {
+    scriptlog("OnVirtualDesktopConnecting")
+}
+OnVirtualDesktopEstablishingConnection() {
+    scriptlog("OnVirtualDesktopEstablishingConnection")
+}
 OnVirtualDesktopConnected() {
     scriptlog("OnVirtualDesktopConnected")
     vd.doublechecking := true
     SetTimer, DoubleCheckForConnection, % 25000
 }
-
 OnVirtualDesktopFullyConnected() {
     scriptlog("OnVirtualDesktopFullyConnected")
-
-    ; no_steamvr := CheckSteamVR()
+}
+OnConnected() {
+    no_steamvr := CheckSteamVR()
 
     ; if (!new Process(vrcx.fullname).exists()) {
     ;     scriptlog("Starting " . vrcx.path)
@@ -117,9 +184,28 @@ OnVirtualDesktopFullyConnected() {
     if (perf_mode)
         KillBloat()
 }
-
 OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
+}
+OnVirtualDesktopConnectionLost(fails) {
+    scriptlog("OnVirtualDesktopConnectionLost (" . fails . ")")
+    if (fails > 1) {
+        vd.failcounter := 0
+        scriptlog("Too many VD fails (" . fails . "), restarting...")
+        vd.restart()
+    }
+}
+OnVirtualDesktopInternetLost() {
+    scriptlog("OnVirtualDesktopInternetLost, checking in 10 seconds...")
+    SetTimer, InternetLostCheck, 10000
+}
+InternetLostCheck:
+    if (vd.state == "NoInternet") {
+        vd.restart()
+    }
+    Return
+OnVirtualDesktopStopped() {
+    scriptlog("OnVirtualDesktopStopped")
 }
 
 CheckSteamVR() {

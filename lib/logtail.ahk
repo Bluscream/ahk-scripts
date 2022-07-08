@@ -8,8 +8,8 @@ class LogTailer {
     
     __New(FileName, callback, StartWithLastLine := false, Encoding := "UTF-8", LineEndings := "`n"){
         this.fileName := FileName
-        if (callback == 0) {
-            scriptlog(toJson(callback))
+        scriptlog("callback: " . toJson(callback))
+        if (callback == "" or callback == 0) {
             MsgBox % "Callback " . callback.Name . " is not a function!"
             ExitApp
         }

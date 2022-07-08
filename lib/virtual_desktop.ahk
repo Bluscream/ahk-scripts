@@ -11,10 +11,31 @@ class VirtualDesktop {
     safe_mode := false
     args := ""
     eventhandlers := {}
+    state := "None"
     __New(exe := "", eventcallback := "") {
         if (exe!="") {
             this.exe := new File(exe) 
             this.dir := this.exe.directory
         }
+    }
+
+    start() {
+        scriptlog("Starting Virtual Desktop")
+        StartServices(["VirtualDesktop.Service.exe"])
+    }
+
+    restart() {
+        this.kill(True)
+        this.start()
+    }
+
+    kill(wait := false) {
+        scriptlog("Stopping Virtual Desktop")
+        for i, window in this.windows {
+            window_closed := window.close()
+            process_closed := window.process.close()
+            process_killed := window.process.kill(true, true)
+        }
+        StopServices(["VirtualDesktop.Service.exe"])
     }
 }

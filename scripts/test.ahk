@@ -4,19 +4,50 @@
 #include <utilities>
 global no_ui := False
 global traylib := new TrayLib(Func("OnTrayChanged"))
-traylib.start()
+traylib.start(Func("OnTrayChanged"))
 
-OnTrayChanged(event, msg) {
-    if (IsEmptyString(event)) {
+global last_vd_event := ""
+
+OnTrayChanged(line) {
+    line := traylib.parseLine(line)
+    if (IsEmptyString(line.event)) {
         return
     }
-    if (event == "Added") {
-        scriptlog("ADDED NEW TRAY ICON " . msg)
-    } else if (event == "Modified") {
-        scriptlog("MODIFIED TRAY ICON " . msg)
-    } else if (event == "Removed") {
-        scriptlog("REMOVED TRAY ICON " . msg)
+    if (startsWith(line.msg, "Virtual Desktop")) {
+        scriptlog(line.msg)
     }
+    if (line.event == "Modified") {
+        if (line.msg == last_vd_event) {
+            return
+        }
+        last_vd_event := line.msg
+        if (line.msg == "Virtual Desktop Streamer is connecting...") {
+            vd.state = "Connecting"
+            OnVirtualDesktopConnecting()
+        } else if (line.msg == "Virtual Desktop Streamer is ready") {
+            vd.state = "Ready"
+            OnVirtualDesktopReady()
+        } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
+            vd.state = "EstablishingConnection"
+            OnVirtualDesktopEstablishingConnection()
+        } else if (line.msg == "Virtual Desktop Streamer is connected") {
+            vd.state = "Connected"
+            OnVirtualDesktopConnected()
+        }
+    }
+}
+
+OnVirtualDesktopReady() {
+    scriptlog("OnVirtualDesktopReady")
+}
+OnVirtualDesktopConnecting() {
+    scriptlog("OnVirtualDesktopConnecting")
+}
+OnVirtualDesktopEstablishingConnection() {
+    scriptlog("OnVirtualDesktopEstablishingConnection")
+}
+OnVirtualDesktopConnected() {
+    scriptlog("OnVirtualDesktopConnected")
 }
 
 scriptlog("end")
