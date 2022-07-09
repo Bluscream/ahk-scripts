@@ -30,19 +30,26 @@ class TrayLib {
     }
 
     parseLine(line) {
-        validLine := RegExMatch(line, "^\[(.*)\] (\w+): (\w+): (\w+): (.*)$", msg)
+        validLine := RegExMatch(line, "^\[(.*)\] (\w+): (\w+): (\w+): (.*)$", icon)
         if (!validLine) {
-            return
+            validLine := RegExMatch(line, "^\[(.*)\] (\w+): (\w+): Received notification ""(.*)"" for (.*)$", notification)
+            line := {_line: line
+            ,timestamp: notification1
+            ,severity: notification2
+            ,type: notification3
+            ,event: "Notification"
+            ,notification: notification4
+            ,msg: notification5}
+        return line
         }
-        if (msg3 != "NotificationArea") {
-            return
-        }
+        ; [7/9/2022 2:55:56 PM] Debug: NotificationArea: Modified: Virtual Desktop Streamer is connected
+        ; [7/9/2022 2:55:56 PM] Debug: NotificationArea: Received notification "Error streaming Desktop" for Virtual Desktop Streamer is connected
         line := {_line: line
-            ,timestamp: msg1
-            ,severity: msg2
-            ,type: msg3
-            ,event: msg4
-            ,msg: msg5}
+            ,timestamp: icon1
+            ,severity: icon2
+            ,type: icon3
+            ,event: icon4
+            ,msg: icon5}
         return line
     }
 

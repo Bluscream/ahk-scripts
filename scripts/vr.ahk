@@ -109,49 +109,57 @@ killAll(item) {
 
 OnTrayChanged(line) {
     line := traylib.parseLine(line)
-    if (startsWith(line.msg, "Virtual Desktop Streamer")) {
-        if (line.event == "Added") {
-            vd.state := "Started"
-            vd.failcounter := 0
-            OnVirtualDesktopStarted()
-        } else if (line.event == "Modified") {
-            if (line.msg == vd.last_event) {
-                return
-            }
-            vd.last_event := line.msg
-            if (line.msg == "Virtual Desktop Streamer is connecting...") {
-                vd.state := "Connecting"
-                OnVirtualDesktopConnecting()
-            } else if (line.msg == "Virtual Desktop Streamer is ready") {
-                if (vd.wasconnected) {
-                    vd.wasconnected := false
-                    if (vd.state == "Connecting") {
-                        vd.state := "ConnectionLost"
-                        vd.failcounter := vd.failcounter+1
-                        OnVirtualDesktopConnectionLost(vd.failcounter)
-                    } else {
-                        vd.state := "Disconnected"
-                        vd.failcounter := 0
-                        OnVirtualDesktopDisconnected()
-                    }
-                } else {
-                    vd.state := "Ready"
-                    OnVirtualDesktopReady()
+    if (line.type == "NotificationArea") {
+        if (startsWith(line.msg, "Virtual Desktop Streamer")) {
+            if (line.event == "Added") {
+                vd.state := "Started"
+                vd.failcounter := 0
+                OnVirtualDesktopStarted()
+            } else if (line.event == "Modified") {
+                if (line.msg == vd.last_event) {
+                    return
                 }
-            } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
-                vd.state := "EstablishingConnection"
-                OnVirtualDesktopEstablishingConnection()
-            } else if (line.msg == "Virtual Desktop Streamer is connected") {
-                vd.state := "Connected"
-                vd.wasconnected := true
-                OnVirtualDesktopConnected()
-            } else if (line.msg == "Virtual Desktop Streamer") {
-                vd.state := "NoInternet"
-                OnVirtualDesktopInternetLost()
+                vd.last_event := line.msg
+                if (line.msg == "Virtual Desktop Streamer is connecting...") {
+                    vd.state := "Connecting"
+                    OnVirtualDesktopConnecting()
+                } else if (line.msg == "Virtual Desktop Streamer is ready") {
+                    if (vd.wasconnected) {
+                        vd.wasconnected := false
+                        if (vd.state == "Connecting") {
+                            vd.state := "ConnectionLost"
+                            vd.failcounter := vd.failcounter+1
+                            OnVirtualDesktopConnectionLost(vd.failcounter)
+                        } else {
+                            vd.state := "Disconnected"
+                            vd.failcounter := 0
+                            OnVirtualDesktopDisconnected()
+                        }
+                    } else {
+                        vd.state := "Ready"
+                        OnVirtualDesktopReady()
+                    }
+                } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
+                    vd.state := "EstablishingConnection"
+                    OnVirtualDesktopEstablishingConnection()
+                } else if (line.msg == "Virtual Desktop Streamer is connected") {
+                    vd.state := "Connected"
+                    vd.wasconnected := true
+                    OnVirtualDesktopConnected()
+                } else if (line.msg == "Virtual Desktop Streamer") {
+                    vd.state := "NoInternet"
+                    OnVirtualDesktopInternetLost()
+                }
+            } else if (line.event == "Removed") {
+                vd.state := "Stopped"
+                OnVirtualDesktopStopped()
+            } else if (line.event == "Notification") {
+                if (line.notification == "Error streaming Desktop") {
+                    vd.state := "Error"
+                    OnVirtualDesktopError()
+                }
+
             }
-        } else if (line.event == "Removed") {
-            vd.state := "Stopped"
-            OnVirtualDesktopStopped()
         }
     }
 }
@@ -206,6 +214,11 @@ OnVirtualDesktopConnectionLost(fails) {
     ;     vd.restart()
     ; }
 }
+OnVirtualDesktopError() {
+    scriptlog("OnVirtualDesktopError, restarting...")
+    SleepS(1)
+    vd.restart()
+}
 OnVirtualDesktopInternetLost() {
     scriptlog("OnVirtualDesktopInternetLost, restarting every 10 seconds...")
     SetTimer, InternetLostCheck, 15000
@@ -219,7 +232,10 @@ InternetLostCheck:
     Return
 OnVirtualDesktopStopped() {
     scriptlog("OnVirtualDesktopStopped")
-    vd.restart()
+    SleepS(5)
+    if (!vd.windows.streamer.exists()) {
+        vd.restart()
+    }
 }
 
 startVirtualDesktop() {

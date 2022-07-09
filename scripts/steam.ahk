@@ -7,6 +7,7 @@ SetWorkingDir %A_ScriptDir%
 SetKeyDelay, 10
 DetectHiddenWindows On
 CoordMode Mouse, Client
+global no_ui := true
 #Include <asf>
 global no_ui := true
 

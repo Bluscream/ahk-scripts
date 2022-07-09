@@ -66,7 +66,13 @@ return
         }
     }
     return
-
+3Joy1::
+    if GetKeyState("3Joy4") and GetKeyState("3Joy11") {
+        KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
+        StopServices(["VirtualDesktop.Service.exe"])
+        StartServices(["VirtualDesktop.Service.exe"])
+    }
+    return
 ; <#y::
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
 ; F1::
