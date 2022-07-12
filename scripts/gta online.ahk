@@ -27,13 +27,14 @@ for n, param in A_Args
 }
 scriptlog("> " . CloseScript("togglehold.ahk"))
 
+; SetTimer, CheckWindows, 20000
+
 toggleMenu("2Take1Menu", 0, "")
 
 ; SplashScreen("","Press F5 to start " . modmenu.name, 3000)
 ; log("Waiting for F5")
 ; KeyWait, F5, D
 ; Menu, tray, Check, Auto Mod Menu
-; SetTimer, CheckWindows, 1000
 
 ; while (True) {
 ;     WinWaitActive, Grand Theft Auto V ahk_class grcWindow ahk_exe GTA5.exe
@@ -47,9 +48,17 @@ toggleMenu("2Take1Menu", 0, "")
 
 return
 
+CheckWindows:
+    if (!game.windows.game.exists()){
+        scriptlog("Game window not found, starting")
+        getActiveModMenu().restart()
+        game.start()
+    }
+    return
+
 F5::injectMenuFunc()
-3Joy14::
-    if GetKeyState("3Joy15") and GetKeyState("3Joy7") and GetKeyState("3Joy7") {
+3Joy14:: ; LB
+    if GetKeyState("3Joy15") and GetKeyState("3Joy7") and GetKeyState("3Joy7") { ; RB LS RS
         injectMenuFunc()
     }
     return
@@ -72,6 +81,7 @@ init() {
     Menu, tray, add, Restart Game, restartGameFunc
     Menu, tray, add, Hide Game, hideGameFunc
     Menu, tray, add, Show Game, showGameFunc
+    Menu, tray, add, Restart ModMenu, restartMenuFunc
     Menu, tray, add,
 
     for i, menu in modmenus {
@@ -114,15 +124,14 @@ killMenuFunc() {
 }
 
 restartMenuFunc() {
-    killMenuFunc()
-    getActiveModMenu().start()
+    getActiveModMenu().restart()
 }
 
 injectMenuFunc() {
     if (game.windows.game.exists() and getActiveModMenu().window.exists()) {
         txt := "Injecting " . getActiveModMenu().name
         scriptlog(txt)
-        SplashScreen("", txt, 3000)
+        SplashScreen("", txt, 500)
         getActiveModMenu().inject()
     }
 }

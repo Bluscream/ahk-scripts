@@ -44,6 +44,10 @@ class ModMenu {
         Run, % this.exe.path, % this.exe.directory.path, Min, menuPID
         this.pid := menuPID
     }
+    restart() {
+        this.kill()
+        this.start()
+    }
     kill() {
         window_closed := this.window.close()
         process_closed := this.window.process.close()

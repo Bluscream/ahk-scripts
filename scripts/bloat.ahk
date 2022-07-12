@@ -7,12 +7,12 @@ DetectHiddenWindows On
 global noui := false
 
 global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","wercplsupport","PcaSvc","wscsvc","SstpSvc","WSearch","EventLog","Schedule","OneSyncSvc_57c4d","Everything","EFS","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService","FoxitReaderUpdateService","WinHttpAutoProxySvc","EABackgroundService"]
-    ,processes: ["Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","OpenRGB","DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd"]
+    ,processes: ["browser_assistant.exe","Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","OpenRGB","DSATray", "CefSharp.BrowserSubprocess", "SearchIndexer","lghub_updater","wallpaper64","GlassWire","Everything","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","vsls-agent","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","webhelper","vrwebhelper","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","conhost","cmd"]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }
 
 global semibloat := { services: ["Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe", "Adguard Service"
-    ,processes: [ "parsecd","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
+    ,processes: [ "parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
     ,tasks: []
     ,custom: [] }
 
