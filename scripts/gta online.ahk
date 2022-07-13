@@ -59,13 +59,17 @@ CheckWindows:
 ; TIMERS END
 
 ; HOTKEYS START
-#IfWinActive, ahk_exe GTA5.exe
+; #IfWinActive, ahk_exe GTA5.exe
 F5::injectMenuFunc()
 3Joy14:: ; LB
     if GetKeyState("3Joy15") and GetKeyState("3Joy7") { ; RB LS RS
         injectMenuFunc()
     }
-    return
+    Return
+; #IfWinNotActive, ahk_exe GTA5.exe
+; F5::showGameFunc()
+; #IfWinNotExist, ahk_exe GTA5.exe
+; F5::startGameFunc()
 ; HOTKEYS END
 
 getActiveModMenu() {
@@ -136,11 +140,21 @@ restartMenuFunc() {
 }
 
 injectMenuFunc() {
-    if (game.windows.game.exists() and getActiveModMenu().window.exists()) {
-        txt := "Injecting " . getActiveModMenu().name
+    activeMenu := getActiveModMenu()
+    ; scriptlog(activeMenu.name . "injected: " . toJson(activeMenu.injected))
+    game_running := game.windows.game.exists()
+    menu_running := activeMenu.window.exists()
+    if (game_running and menu_running and !activeMenu.injected) {
+        txt := "Injecting " . activeMenu.name
         log(txt)
         SplashScreen("", txt, 500)
-        getActiveModMenu().inject()
+        activeMenu.inject()
+    } else if (game_running and menu_running) {
+        game.maximize()
+    } else if (game_running) {
+        showGameFunc()
+    } else {
+        startGameFunc()
     }
 }
 
@@ -149,7 +163,7 @@ hideGameFunc() {
 }
 
 showGameFunc() {
-    game.activate()
+    game.activate(False)
 }
 
 startGameFunc() {
