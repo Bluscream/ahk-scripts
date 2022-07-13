@@ -1,6 +1,7 @@
 #Include <game>
 class GTAVGame extends Game {
     name := "Grand Theft Auto V"
+    shortname := "GTA V"
     appid := 271590
     __New(path, eventcallback := "") {
         base.__New(path, eventcallback)
@@ -50,10 +51,10 @@ class GTAVGame extends Game {
         base.start(steam, args, wait)
     }
 
-    minimize() {
-        for i, window in this.windows {
-            window.minimize(True)
-        } 
+    minimize(wait := true) {
+        ; for i, window in this.windows {
+        this.windows.game.deactivate(wait, True)
+        ; } 
     }
 
     activate(wait := true) {

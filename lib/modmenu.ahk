@@ -6,6 +6,7 @@ class ModMenu {
     window := new Window()
     enabled := False
     game := ""
+    injected := False
     __New(path, window:="", game:="") { ; , name:=""
         this.exe := new File(path)
         if (!this.exe.exists()) {
@@ -25,24 +26,30 @@ class ModMenu {
         this.window := this.getWindow()
         return this.window.exists()
     }
-    autoStart(process:=False,key:="game") {
+    autoStart(process:=False,key:="game",inject:=False) {
         win := process ? this.game.windows[key].process : this.game.windows[key]
         scriptlog("Waiting for " . (process ? "process " : "window ") . win.str())
         while(this.enabled) {
             win.wait()
             if (not this.running()) {
                 scriptlog("Launching " . this.str())
-                this.start()
+                this.start(false, inject)
             }
             SleepS(1)
         }
         scriptlog(this.name . "no longer enabled")
     }
-    start(wait := false) {
+    start(wait := false, inject := False) {
         this.kill()
         ; this.exe.run(wait)
         Run, % this.exe.path, % this.exe.directory.path, Min, menuPID
         this.pid := menuPID
+        this.injected := False
+        if (inject) {
+            this.game.windows.game.wait(True)
+            SleepS(30)
+            this.inject()
+        }
     }
     restart() {
         this.kill()

@@ -6,8 +6,8 @@ class TwoTakeOneModMenu extends ModMenu {
         base.__New(path, window, game)
         this.buttons.inject := new Coordinate(321, 244, this.window)
     }
-    autoStart() {
-        base.autoStart(True, "PlayGTAV")
+    autoStart(inject:=False) {
+        base.autoStart(True, "PlayGTAV", inject)
     }
     inject() {
         this.game.minimize()
@@ -15,10 +15,11 @@ class TwoTakeOneModMenu extends ModMenu {
         CoordMode, Mouse, Client
         ; PostClick(this.window.exists(), this.buttons.inject.x, this.buttons.inject.y)
         this.window.activate(true,true)
-        SleepS(1)
+        Sleep, 50
         this.buttons.inject.click(1, 100, "left", "", "")
-        SleepS(1)
-        this.game.maximize()
+        Sleep, 500
+        this.injected := True
+        this.game.activate(True, True)
     }
 }
 ; u8Mi8noIixnWdvgjn0kP7fmG6TZ8gwJ

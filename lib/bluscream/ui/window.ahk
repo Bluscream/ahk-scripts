@@ -55,10 +55,22 @@ class Window {
     exists() {
         return WinExist(this.str())
     }
-    wait() {
-        scriptlog("Waiting for window " . this.str())
-        WinWait, % this.str()
-        scriptlog("Window " . this.str() . " found!")
+    wait(active := False) {
+        scriptlog("Waiting for window " . this.str() . " to " . (active ? "become active" : "exist") . "...")
+        if (active) {
+            WinWaitActive, % this.str()
+        } else {
+            WinWait, % this.str()
+        }
+        scriptlog("Window " . this.str() . " " . (active ? "active" : "found") . "!")
+    }
+    waitActive() {
+        this.wait(True)
+    }
+    waitInactive() {
+        scriptlog("Waiting for window " . this.str() . " to become inactive...")
+        WinWaitNotActive, % this.str()
+        scriptlog("Window " . this.str() . " inactive!")
     }
     pid() {
         WinGet, pid, PID, % this.str()
@@ -77,15 +89,19 @@ class Window {
         WinGet MMX, MinMax, % this.str()
         return (MMX == -1)
     }
-    minimize(full := false) {
-        if (full) {
-            this.alwaysOnTop(false)
-            ; WinSet, Style, 0x10000000, % this.str() ; WS_VISIBLE
-            ; WinSet, Style, -0x1000000, % this.str() ; WS_MAXIMIZE
-            ; WinSet, Style, 0x20000000, % this.str() ; WS_MINIMIZE
-            WinSet, Style, +0x20000, % this.str() ; WS_MINIMIZEBOX
-            this.bottom()
+    deactivate(wait := false) {
+        this.alwaysOnTop(false)
+        ; WinSet, Style, 0x10000000, % this.str() ; WS_VISIBLE
+        ; WinSet, Style, -0x1000000, % this.str() ; WS_MAXIMIZE
+        ; WinSet, Style, 0x20000000, % this.str() ; WS_MINIMIZE
+        ; WinSet, Style, +0x20000, % this.str() ; WS_MINIMIZEBOX
+        this.minimize()
+        this.bottom()
+        if (wait) {
+            this.waitInactive()
         }
+    }
+    minimize() {
         WinMinimize, % this.str()
     }
     maximize() {
@@ -101,13 +117,32 @@ class Window {
         WinShow, % this.str()
     }
     activate(wait := false, full := false) {
-        if (full) {
+        WinActivate, % this.str()
+        if (full && !this.isActive()) {
+            scriptlog("WinActivate was not enough to get " . this.str() . " to focus!")
             this.show()
             this.restore()
+            if (!this.isActive()) {
+                scriptlog("this.show() & this.restore() was not enough to get " . this.str() . " to focus!")
+                PostMessage, 0x112, 0xF030
+            }
+            if (!this.isActive()) {
+                scriptlog("PostMessage, 0x112, 0xF030 was not enough to get " . this.str() . " to focus!")
+                ControlSend,, ! x, % this.str()
+            }
+            if (!this.isActive()) {
+                scriptlog("ControlSend,, ! x was not enough to get " . this.str() . " to focus!")
+                Send ! x
+            }
+            if (!this.isActive()) {
+                scriptlog("Send ! x was not enough to get " . this.str() . " to focus!")
+                this.maximize()
+            }
         }
         WinActivate, % this.str()
-        if (wait)
-            WinWaitActive, % this.str()
+        if (wait) {
+            this.wait(True)
+        }
     }
     close() {
         WinClose, % this.str()

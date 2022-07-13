@@ -1,6 +1,6 @@
 #SingleInstance Force
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1

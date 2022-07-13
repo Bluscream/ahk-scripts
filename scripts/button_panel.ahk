@@ -2,7 +2,7 @@
 #SingleInstance Force
 #Persistent
 #NoEnv
-; #NoTrayIcon
+#NoTrayIcon
 SetTitleMatchMode, 2
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1

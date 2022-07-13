@@ -5,7 +5,7 @@ SetWorkingDir % A_ScriptDir
 #Include <bluscream>
 EnforceAdmin(A_Args)
 global no_ui := false
-scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
+log(A_ScriptFullPath . " " .  Join(" ", A_Args))
 
 SendMode, Input ; Event|Play|Input|InputThenPlay
 DetectHiddenWindows, On
@@ -25,7 +25,7 @@ for n, param in A_Args
         toggleMenu("Modest Menu", 0, "")
     }
 }
-scriptlog("> " . CloseScript("togglehold.ahk"))
+log("> " . CloseScript("togglehold.ahk"))
 
 ; SetTimer, CheckWindows, 20000
 
@@ -39,29 +39,34 @@ toggleMenu("2Take1Menu", 0, "")
 ; while (True) {
 ;     WinWaitActive, Grand Theft Auto V ahk_class grcWindow ahk_exe GTA5.exe
 ;     if (modmenu.getWindow()) {
-;         scriptlog("is running as " . modmenu.getWindow())
+;         log("is running as " . modmenu.getWindow())
 ;     } else {
-;         scriptlog("not running")
+;         log("not running")
 ;     }
 ;     SleepS(5)
 ; }
 
 return
 
+; TIMERS START
 CheckWindows:
     if (!game.windows.game.exists()){
-        scriptlog("Game window not found, starting")
+        log("Game window not found, starting")
         getActiveModMenu().restart()
         game.start()
     }
     return
+; TIMERS END
 
+; HOTKEYS START
+#IfWinActive, ahk_exe GTA5.exe
 F5::injectMenuFunc()
 3Joy14:: ; LB
-    if GetKeyState("3Joy15") and GetKeyState("3Joy7") and GetKeyState("3Joy7") { ; RB LS RS
+    if GetKeyState("3Joy15") and GetKeyState("3Joy7") { ; RB LS RS
         injectMenuFunc()
     }
     return
+; HOTKEYS END
 
 getActiveModMenu() {
     for i, menu in modmenus {
@@ -73,19 +78,22 @@ getActiveModMenu() {
 
 init() {
     ; Menu, Tray, NoStandard
+    Menu, GameMenu, add, Kill , killGameFunc
+    Menu, GameMenu, add, Restart Game, restartGameFunc
+    Menu, GameMenu, add, Start Game, startGameFunc
+    Menu, GameMenu, add, Hide Game, hideGameFunc
+    Menu, GameMenu, add, Show Game, showGameFunc
     Menu, tray, add,
     Menu, tray, add, ---GTA Online---, lbl
     Menu, tray, add,
     Menu, tray, add, Restart Steam, restartSteamFunc
-    Menu, tray, add, Kill Game, killGameFunc
-    Menu, tray, add, Restart Game, restartGameFunc
-    Menu, tray, add, Hide Game, hideGameFunc
-    Menu, tray, add, Show Game, showGameFunc
+    Menu, Tray, Add, % game.name, :GameMenu
+
     Menu, tray, add, Restart ModMenu, restartMenuFunc
     Menu, tray, add,
 
     for i, menu in modmenus {
-        scriptlog(menu.str())
+        log(menu.str())
         Menu, tray, add, % menu.name, toggleMenu
     }
     Menu, Tray, Icon, % game.exe.path
@@ -112,7 +120,7 @@ toggleMenu(ItemName, ItemPos, MenuName) {
 }
 
 log(msg) {
-    ; scriptlog(msg)
+    scriptlog(msg)
 }
 
 restartSteamFunc() {
@@ -130,7 +138,7 @@ restartMenuFunc() {
 injectMenuFunc() {
     if (game.windows.game.exists() and getActiveModMenu().window.exists()) {
         txt := "Injecting " . getActiveModMenu().name
-        scriptlog(txt)
+        log(txt)
         SplashScreen("", txt, 500)
         getActiveModMenu().inject()
     }
@@ -142,6 +150,10 @@ hideGameFunc() {
 
 showGameFunc() {
     game.activate()
+}
+
+startGameFunc() {
+    game.start()
 }
 
 restartGameFunc() {
@@ -206,18 +218,18 @@ F7:: ; Rig Slot Machines
 F8:: ; Spawn Polmav
     SplashScreen("", "Spawning Police Maverick")
     if(game.modmenu.page != "Online Vehicle Spawn") {
-        scriptlog("before reset")
+        log("before reset")
         modmenu.resetPage()
-        scriptlog("after reset, before row")
+        log("after reset, before row")
         modmenu.waitForRow(10)
-        scriptlog("after row, before page")
+        log("after row, before page")
         modmenu.waitForPage("Online Vehicle Spawn", true)
-        scriptlog("after page")
+        log("after page")
     }
     if (!InStr(modmenu.getControls()[6].text, "Helicopter", true)) {
         modmenu.waitForRow(4)
         while(!InStr(modmenu.getControls()[6].text, "Helicopter", true)) {
-            ; scriptlog("waiting for class Helicopter. current: " . modmenu.getControls()[6].text)
+            ; log("waiting for class Helicopter. current: " . modmenu.getControls()[6].text)
             modmenu.navigate("{Left}")
             Sleep, % dslep
         }
@@ -225,7 +237,7 @@ F8:: ; Spawn Polmav
     if (!InStr(modmenu.getControls()[7].text, "Police Maverick", true)) {
         modmenu.waitForRow(5)
         while(!InStr(modmenu.getControls()[7].text, "Police Maverick", true)) {
-            ; scriptlog("waiting for model Police Maverick. current: " . modmenu.getControls()[7].text)
+            ; log("waiting for model Police Maverick. current: " . modmenu.getControls()[7].text)
             modmenu.navigate("{Right}")
             Sleep, % dslep
         }
