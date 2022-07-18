@@ -64,6 +64,8 @@ return
             Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\JoystickMouse.ahk",,, bspid
             log("bspid: " . bspid)
         }
+    } else if GetKeyState("3Joy10") {
+        Run % "C:\Windows\System32\osk.exe"
     }
     return
 3Joy1::

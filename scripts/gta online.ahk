@@ -83,10 +83,10 @@ getActiveModMenu() {
 init() {
     ; Menu, Tray, NoStandard
     Menu, GameMenu, add, Kill , killGameFunc
-    Menu, GameMenu, add, Restart Game, restartGameFunc
-    Menu, GameMenu, add, Start Game, startGameFunc
-    Menu, GameMenu, add, Hide Game, hideGameFunc
-    Menu, GameMenu, add, Show Game, showGameFunc
+    Menu, GameMenu, add, Restart, restartGameFunc
+    Menu, GameMenu, add, Start, startGameFunc
+    Menu, GameMenu, add, Hide, hideGameFunc
+    Menu, GameMenu, add, Show, showGameFunc
     Menu, tray, add,
     Menu, tray, add, ---GTA Online---, lbl
     Menu, tray, add,

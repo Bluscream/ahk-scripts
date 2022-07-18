@@ -12,12 +12,12 @@ global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateSe
     ,custom: [] }
 
 global semibloat := { services: ["Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe", "Adguard Service"
-    ,processes: [ "parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
+    ,processes: [ "VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
     ,tasks: []
     ,custom: [] }
 
-global vrbloat := { services: ["vorpX Service","OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe"] 
-    ,processes: [ "vorpService","vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver","OVRRedir","OVRServer_x64","OVRServiceLauncher","VirtualDesktop.Streamer","VirtualDesktop.Server"]
+global vrbloat := { services: ["vorpX Service","OVRLibraryService","OVRService","Steam Client Service"] ; "VirtualDesktop.Service.exe"
+    ,processes: [ "vorpService","vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver","OVRRedir","OVRServer_x64","OVRServiceLauncher"] ; ,"VirtualDesktop.Server","VirtualDesktop.Streamer"
     ,tasks: []
     ,custom: [] }
 

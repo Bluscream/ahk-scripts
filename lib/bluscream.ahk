@@ -409,3 +409,45 @@ CloseScript(Name) {
 		return Name . " not found"
     SetTitleMatchMode, Fast
 }
+grepcsv(h, n, ByRef v, s = 1) {
+	v =
+	x = 0
+	xp = 1
+	Loop
+	{
+		If xp := InStr(n, "(", "", xp) {
+			x += SubStr(n, xp + 1, 1) != "?", xp++
+		} Else {
+			Loop
+			{
+				If s := RegExMatch(h, n, c, s) {
+					p = %p%`n"%s%"
+					s += StrLen(c)
+					StringReplace, c, c, ", "", All ;"
+					v = %v%`n"%c%"
+					Loop, %x%
+					{
+						StringReplace, cx, c%A_Index%, ", "", All ;"
+						v = %v%,"%cx%"
+					}
+                    break
+				} Else
+					Return, SubStr(p, 2), v := SubStr(v, 2)
+			}
+		}
+	}
+}
+GlobalMatches(text, regex){
+	matches := []
+	Loop {
+		pos := RegExMatch(text, regex, o)
+		if (pos){
+			len := StrLen(o1)
+			text := SubStr(text, pos + len)
+			matches.push(o1)
+		} else {
+			break
+		}
+	}
+	return matches
+}
