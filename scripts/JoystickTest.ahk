@@ -14,6 +14,8 @@
 ; detecting whether the joystick is connected.  Some joysticks are
 ; gamepads and don't have even a single axis.
 
+Menu, Tray, Add, Test, Test
+
 ; If you want to unconditionally use a specific joystick number, change
 ; the following value from 0 to the number of the joystick (1-16).
 ; A value of 0 causes the joystick number to be auto-detected:
@@ -88,3 +90,6 @@ Loop
 	Sleep, 100
 }
 return
+
+Test:
+	return

@@ -6,7 +6,7 @@ SetBatchLines -1
 global active_id
 WinGet, active_id, IDLast, A
 #Include <bluscream>
-JoystickNumber = 3
+global JoystickNumber = 3
 global focused = 1
 ; Up::(1) Down::(2) Left::(3) Right::(4)
 ; [ "Button1" ,"Button2"  ,"Button3"  ,"Button4"  ]
@@ -57,7 +57,7 @@ Gui Show, w669 h732, Virtual Numpad
 
 GetKeyState, JoyInfo, %JoystickNumber%JoyInfo
 IfInString, JoyInfo, P  ; Joystick has POV control, so use it as a mouse wheel.
-	SetTimer, JoyStickControl, 100
+	SetTimer, JoyStickControl, 250
 Return
 
 #IfWinActive, Virtual Numpad
@@ -65,21 +65,27 @@ Up::navigateTo(1)
 Down::navigateTo(2)
 Left::navigateTo(3)
 Right::navigateTo(4)
+3Joy2::MainClose(0)
 #IfWinActive
 
 JoyStickControl:
-GetKeyState, JoyPOV, %JoystickNumber%JoyPOV
-if JoyPOV = 0 ; Forward
-	navigateTo(1)
-else if JoyPOV = 9000 ; right
-	navigateTo(4)
-else if JoyPOV = 18000 ; Back
-	navigateTo(2)
-else if JoyPOV = 27000 ; left
-	navigateTo(3)
-return
+    GetKeyState, JoyPOV, %JoystickNumber%JoyPOV
+    if JoyPOV = 0 ; Forward
+        navigateTo(1)
+    else if JoyPOV = 9000 ; right
+        navigateTo(4)
+    else if JoyPOV = 18000 ; Back
+        navigateTo(2)
+    else if JoyPOV = 27000 ; left
+        navigateTo(3)
+    return
 
 navigateTo(direction) {
+    if (direction == 3) {
+        Send +{Tab}
+    } else if (direction == 4) {
+        Send {Tab}
+    }
     ; GuiControlGet, out, FocusV
     ; GuiControlGet, out2
     ; GuiControlGet, out3, Name
