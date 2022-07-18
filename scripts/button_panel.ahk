@@ -174,9 +174,11 @@ OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
     KillProcesses(["retrobar","explorer","StartMenu"])
     Run explorer
-    SleepS(5)
+    SleepS(3)
     Run retrobar
     GuiClose(0)
+    SleepS(1)
+    Run % "C:\Program Files (x86)\Moo0\AlwaysOnTop\WindowMenuPlus.exe"
 }
 
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {

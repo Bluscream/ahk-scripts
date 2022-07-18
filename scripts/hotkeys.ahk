@@ -49,6 +49,9 @@ return
     Run % "fivem://connect/kzyerv"
     ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
     return
+<#n::
+    Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
+    Return
 
 3Joy12::
     if GetKeyState("3Joy11") {
@@ -65,7 +68,7 @@ return
             log("bspid: " . bspid)
         }
     } else if GetKeyState("3Joy10") {
-        Run % "C:\Windows\System32\osk.exe"
+        Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     }
     return
 3Joy1::

@@ -5,7 +5,7 @@ SetWorkingDir, %A_ScriptDir%
 scriptlog("init")
 ; #Include <node_modules\regex.ahk\export>
 
-scale := A_Args[2] ? A_Args[2] : 2
+scale := A_Args[2] ? A_Args[2] : 1.4
 script := A_Args[1] ? A_Args[1] : "C:\Program Files\AutoHotkey\scripts\numpad.ahk"
 newscript := StrReplace(script, ".ahk", ".scale" . scale . ".ahk")
 FileDelete, % newscript
