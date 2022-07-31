@@ -31,4 +31,16 @@ class Directory {
             _time := A_LoopFileTimeModified, _file := A_LoopFileLongPath
         return new File(_file)
     }
+    getDirectories() {
+        ret := {}
+        Loop, Files, % this.path . "\*", D
+	        ret.Push(new Directory(A_LoopFileLongPath))
+        return ret
+    }
+    getFiles() {
+        ret := {}
+        Loop, Files, % this.path . "\*.*"
+	        ret.Push(new File(A_LoopFileLongPath))
+        return ret
+    }
 }

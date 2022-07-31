@@ -66,6 +66,7 @@ Down::navigateTo(2)
 Left::navigateTo(3)
 Right::navigateTo(4)
 3Joy2::MainClose(0)
+3Joy1::Send {Enter}
 #IfWinActive
 
 JoyStickControl:
@@ -97,10 +98,14 @@ navigateTo(direction) {
     GuiControl, Focus, Button%focused%
 }
 
-SendKey(key){
-    Gui, Destroy
+SendKey(key, close := false) {
+    Gui, Hide
     Send {%key%}
-    MainClose(0)
+    if close {
+        Gui, Destroy
+        MainClose(0)
+    }
+    Gui, Show
 }
 
 num(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {

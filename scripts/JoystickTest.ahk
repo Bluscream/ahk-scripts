@@ -91,5 +91,7 @@ Loop
 }
 return
 
+ESC::ExitApp
+
 Test:
 	return
