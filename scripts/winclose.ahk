@@ -107,6 +107,7 @@ titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Mak
 titles.push({title: "Oh Noes! ahk_class #32770 ahk_exe Launcher.exe", text: "Auth already running.", action: "CloseWindow"})
 titles.push({title: "DesktopWindowXamlSource: WindowsTerminal.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
 titles.push({title: "WindowsTerminal.exe - System Error ahk_class #32770", text: "", action: "CloseWindow"})
+titles.push({title: "Print Pictures Error ahk_class #32770 ahk_exe explorer.exe", text: "Windows Photo Viewer can't print this picture  because there's no printer installed, or a service Windows needs isn't running.", action: "CloseWindow"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

@@ -11,6 +11,12 @@ java_dirs.Push(new Directory("C:\Program Files\AdoptOpenJDK"))
 java_dirs.Push(new Directory("C:\Program Files\Eclipse Adoptium"))
 java_dirs.Push(new Directory("C:\Program Files\Eclipse Foundation"))
 java_dirs.Push(new Directory("C:\Program Files\OpenJDK"))
+java_dirs.Push(new Directory("C:\Program Files\Java"))
+java_dirs.Push(new Directory("C:\Program Files (x86)\AdoptOpenJDK"))
+java_dirs.Push(new Directory("C:\Program Files (x86)\Eclipse Adoptium"))
+java_dirs.Push(new Directory("C:\Program Files (x86)\Eclipse Foundation"))
+java_dirs.Push(new Directory("C:\Program Files (x86)\OpenJDK"))
+java_dirs.Push(new Directory("C:\Program Files (x86)\Java"))
 
 
 gosub initUI
