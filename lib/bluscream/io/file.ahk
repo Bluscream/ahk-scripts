@@ -91,4 +91,12 @@ class File {
         hINI2.Write(Data)
         hINI2.Close()
     }
+    getTarget() {
+        StringLower, ext, % this.extension
+        if (ext == "lnk") {
+            FileGetShortcut, % this.path, OutTarget, OutDir, OutArgs, OutDescription, OutIcon, OutIconNum, OutRunState
+            return OutTarget
+        }
+        return this.path
+    }
 }

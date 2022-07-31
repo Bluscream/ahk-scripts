@@ -56,12 +56,15 @@ LVItems(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
         LV_GetText(RowText, A_EventInfo, 2)  ; Get the text from the row's first field.
         if (!A_Args[1]) {
             FileSelectFile, jar_path,,, Select Jar File, *.jar
+            jar := new File(jar_path)
         } else {
-            jar_path := A_Args[1]
+            jar := new File(A_Args[1])
         }
-        cmd := """" . RowText . """ -jar """ . jar_path . """"
-        scriptlog(cmd)
+        cmd := """" . RowText . """ -jar """ . jar.getTarget() . """"
+        ; scriptlog(cmd)
+        OutputDebug, % cmd
         Run % cmd,,Min
+        ExitApp
     }
 }
 
