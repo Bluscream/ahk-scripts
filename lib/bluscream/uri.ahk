@@ -3,6 +3,18 @@
 ; URIEncode(str, encoding := "UTF-8")
 ; URI_Encode(sURI, sExcepts = "!#$&'()*+,-./:;=?@_~")
 ; URI_EncodeComponent(sURI, sExcepts = "!'()*-._~")
+setHeader(request, header, value) {
+    scriptlog("Setting header """ . header . """ to """ . value . """")
+    request.setRequestHeader(header, value)
+}
+getResponseHeaders(response) {
+    headers := response.GetAllResponseHeaders()
+    headers := StrSplit(StrReplace(headers, "`r", ""), "`n")
+    for header in headers {
+        scriptlog("Response header " . toJson(header) . ": " . toJson(header))
+    }
+    return headers
+}
 class Url {
     url := ""
     protocol := "" ; contains: "ftp"
@@ -11,8 +23,9 @@ class Url {
     domainName := "" ; contains: "example"
     domainExt := "" ; contains: "com"
     port := "" ; contains: "21"
-    subDomainDir := "" ; contains: "subdomain"
+    subDomainDir := [] ; contains: "subdomain"
     subDir := "" ; contains: "home"
+    domain := "" ; contains: "subdomain.example.com"
     filename := ""
 
     __New(url) {
@@ -57,8 +70,18 @@ class Url {
         this.domainName := SubStr(url3, 1, p-1)
         url := SubStr(url3, StrLen(this.domainExt)+StrLen(this.domainName)-1)
         If (count > 1) {
-            Loop, parse, url, % "."
+            Loop, parse, % url, % "."
                 this.subDomainDir[A_Index] := A_LoopField
+        }
+        this.domain := ""
+        if this.subDomainDir.MaxIndex() {
+            this.domain .= this.subDomainDir[this.subDomainDir.MaxIndex()] . "."
+        }
+        if this.domainName {
+            this.domain .= this.domainName
+        }
+        if this.domainExt {
+            this.domain .= "." this.domainExt
         }
         ; scriptlog("New Url: " . ToJson(this, false))
     }
@@ -83,9 +106,19 @@ class Url {
         }
     }
 
-    get() {
+; domainName := "" ; contains: "example"
+;     domainExt := "" ; contains: "com"
+;     subDomainDir
+
+    get(headers := "") {
         whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
         whr.Open("GET", this.url, true)
+        setHeader(whr, "Host", this.domain)
+        headers := headers or []
+        for header, value in headers {
+            setHeader(whr, header, value)
+        }
+        scriptlog("Sending GET request to """ . this.url . """")
         whr.Send()
         whr.WaitForResponse()
         return whr

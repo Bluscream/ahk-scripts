@@ -91,8 +91,11 @@ WindowSpy:
 
 ReloadWinCloseFunc:
     wait := EndTasks(["AutoHotkey.exe_1018039001"], True)
+    scriptlog(toJson(wait))
     wait := CloseScript("winclose.ahk")
-    StartTasks(["AutoHotkey.exe_1018039001"], True) 
+    scriptlog(toJson(wait))
+    wait := StartTasks(["AutoHotkey.exe_1018039001"], True)
+    scriptlog(toJson(wait))
     return
 
 Debug:

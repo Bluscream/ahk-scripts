@@ -408,6 +408,7 @@ CloseScript(Name) {
 	else
 		return Name . " not found"
     SetTitleMatchMode, Fast
+	DetectHiddenWindows Off
 }
 grepcsv(h, n, ByRef v, s = 1) {
 	v =

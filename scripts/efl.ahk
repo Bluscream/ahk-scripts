@@ -3,6 +3,7 @@
 ; win := new Window()
 winstr2 := "Files & Folders Setting ahk_class #32770 ahk_exe FileLocker.exe"
 winstr := "Browse for Folder ahk_class #32770 ahk_exe FileLocker.exe"
+Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
 while (True) {
     Sleep, 500
     WinWait, % winstr

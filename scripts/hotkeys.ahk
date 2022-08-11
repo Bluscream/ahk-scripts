@@ -9,27 +9,20 @@ EnforceAdmin()
 #Include <steam>
 global steam := new Steam()
 global bspid := 0
+SetTimer, CheckVivecraftInstaller, 1000
+SetTimer, CheckEasyFileLocker, 2500
+global no_ui := true
+global debug := false
 return
 
-<#c::
-    Run cmd
-    return
-<#p::
-    Run powershell
-    return
-<#e::
-    ; if (!isExplorerRunning())
-        Run explorer
-    return
-<#r::
-    ; if (!isExplorerRunning())
-        ; Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
-        Run run
-    return
-^+Esc::
-    ; if (!isExplorerRunning())
-        Run taskmgr
-    return
+<#c::Run cmd
++#c::ShellRun("cmd")
+<#p::Run powershell
++#p::ShellRun("powershell")
+<#e::Run explorer Shell:::{20d04fe0-3aea-1069-a2d8-08002b30309d}
++#e::ShellRun("explorer")
+; <#r::Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
+^+Esc::Run taskmgr
 <#x::
     ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     ; {
@@ -104,9 +97,36 @@ return
 ;     else
 ;         Send {Media_Next}
 ;     return
-isExplorerRunning() {
-    return new Process("explorer.exe").exists()
-}
-isOBSRunning() {
-    return new Process("obs64.exe").exists()
-}
+; isExplorerRunning() {
+;     return new Process("explorer.exe").exists()
+; }
+; isOBSRunning() {
+;     return new Process("obs64.exe").exists()
+; }
+
+CheckVivecraftInstaller:
+    SetTimer, CheckVivecraftInstaller, Off
+    win := new Window("Vivecraft Installer","SunAwtDialog","java.exe")
+    if (win.exists()) {
+        win2 := new Window("Open","SunAwtDialog","java.exe")
+        win2.waitActive()
+        Send ^a
+        SendInput, C:\tools\MultiMC
+        WinWaitClose, % win2.str()
+        WinWaitClose, % win.str()
+    }
+    SetTimer, CheckVivecraftInstaller, 1000
+    return
+
+CheckEasyFileLocker:
+    SetTimer, CheckEasyFileLocker, Off
+    ; win := new Window("Files & Folders Setting","#32770","FileLocker.exe")
+    win2 := new Window("Browse for Folder","#32770","FileLocker.exe")
+    ; Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
+    if (win2.exists()) {
+        win2.close()
+        FileSelectFolder, dir, ::{20d04fe0-3aea-1069-a2d8-08002b30309d}, 7
+        ControlSetText, Edit1, % dir, % winstr2
+    }
+    SetTimer, CheckEasyFileLocker, 2500
+    return

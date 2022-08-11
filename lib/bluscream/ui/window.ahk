@@ -56,21 +56,30 @@ class Window {
         return WinExist(this.str())
     }
     wait(active := False) {
-        scriptlog("Waiting for window " . this.str() . " to " . (active ? "become active" : "exist") . "...")
+        if (!no_ui) {
+            scriptlog("Waiting for window " . this.str() . " to " . (active ? "become active" : "exist") . "...")
+        }
         if (active) {
             WinWaitActive, % this.str()
         } else {
             WinWait, % this.str()
         }
-        scriptlog("Window " . this.str() . " " . (active ? "active" : "found") . "!")
+        if (!no_ui) {
+            scriptlog("Window " . this.str() . " " . (active ? "active" : "found") . "!")
+        }
     }
     waitActive() {
         this.wait(True)
     }
     waitInactive() {
-        scriptlog("Waiting for window " . this.str() . " to become inactive...")
+        
+        if (!no_ui) {
+            scriptlog("Waiting for window " . this.str() . " to become inactive...")
+        }
         WinWaitNotActive, % this.str()
-        scriptlog("Window " . this.str() . " inactive!")
+        if (!no_ui) {
+            scriptlog("Window " . this.str() . " inactive!")
+        }
     }
     pid() {
         WinGet, pid, PID, % this.str()
@@ -90,7 +99,7 @@ class Window {
         return (MMX == -1)
     }
     deactivate(wait := false) {
-        this.alwaysOnTop(false)
+        this.alwaysOnTfop(false)
         ; WinSet, Style, 0x10000000, % this.str() ; WS_VISIBLE
         ; WinSet, Style, -0x1000000, % this.str() ; WS_MAXIMIZE
         ; WinSet, Style, 0x20000000, % this.str() ; WS_MINIMIZE
