@@ -31,7 +31,6 @@ DownloadMod(folder, _url) {
    scriptlog(toJson(response, true))
    scriptlog(toJson(response.Status, true))
    scriptlog(toJson(response.StatusText, true))
-   scriptlog(toJson(response.GetResponseHeader("date"), true))
    ; scriptlog(toJson(response.GetResponseHeader("location"), true))
    headers := getResponseHeaders(response)
    scriptlog(toJson(headers, true))

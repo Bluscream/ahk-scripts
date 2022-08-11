@@ -8,12 +8,19 @@ setHeader(request, header, value) {
     request.setRequestHeader(header, value)
 }
 getResponseHeaders(response) {
-    headers := response.GetAllResponseHeaders()
-    headers := StrSplit(StrReplace(headers, "`r", ""), "`n")
-    for header in headers {
-        scriptlog("Response header " . toJson(header) . ": " . toJson(header))
+    raw := response.GetAllResponseHeaders()
+    raw := StrSplit(raw, "`n", "`r")
+    response := {}
+    for i, header in raw {
+        if (header != "") {
+            split := StrSplit(header, ":", "", 2)
+            if split[1] != "" {
+                response[split[1]] = split[2]
+                scriptlog("Response header " . split[1] . " = " . split[2])
+            }
+        }
     }
-    return headers
+    return response
 }
 class Url {
     url := ""
@@ -105,15 +112,12 @@ class Url {
             }
         }
     }
-
-; domainName := "" ; contains: "example"
-;     domainExt := "" ; contains: "com"
-;     subDomainDir
-
+    
     get(headers := "") {
         whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
         whr.Open("GET", this.url, true)
         setHeader(whr, "Host", this.domain)
+        setHeader(whr, "Cache-Control", "no-cache")
         headers := headers or []
         for header, value in headers {
             setHeader(whr, header, value)
