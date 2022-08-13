@@ -12,7 +12,7 @@ global bloat := { services: ["ALDITALKVerbindungsassistent_Service","DSAUpdateSe
     ,custom: [] }
 
 global semibloat := { services: ["Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter","OpenRGB"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe", "Adguard Service"
-    ,processes: [ "VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp","VirtualDesktop.Service","VirtualDesktop.Streamer.exe"] ; "Adguard"
+    ,processes: [ "VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","OpenRGB","Playnite.DesktopApp"] ; "Adguard", "VirtualDesktop.Service","VirtualDesktop.Streamer.exe"
     ,tasks: []
     ,custom: [] }
 

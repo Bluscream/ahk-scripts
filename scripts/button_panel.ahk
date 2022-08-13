@@ -60,7 +60,7 @@ initUI:
 
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
 
-    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h172, Start`n`nVRChat
+    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h172, Start`n`nCVR
 
     Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
 
@@ -182,10 +182,11 @@ OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ; scriptlog("onBtn10Clicked")
-    KillProcesses(["VRCX","VRChat"])
-    Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
-    Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
+    ; scriptlog("onBtn10Clicked")<
+    KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
+    ; Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
+    ; Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
+    Run % "G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"
     GuiClose(0)
 }
 
