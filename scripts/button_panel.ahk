@@ -142,7 +142,7 @@ OnBtnStartXSOClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnStartVDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtnStartVDClicked")
-    KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
+    KillProcesses(["VirtualDesktop.Server", "VirtualDesktop.Streamer", "VirtualDesktop.Service"])
     StopServices(["VirtualDesktop.Service.exe"])
     StartServices(["VirtualDesktop.Service.exe"])
     GuiClose(0)
@@ -186,7 +186,7 @@ OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
     ; Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
     ; Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
-    Run % "G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"
+    Run % """G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"" -vr -skipsteam --disable-videoplayers"
     GuiClose(0)
 }
 
