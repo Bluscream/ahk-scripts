@@ -172,13 +172,15 @@ OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
-    KillProcesses(["retrobar","explorer","StartMenu"])
+    KillProcesses(["retrobar","explorer","StartMenu","ClassicIE_32","ClassicIE_64","ClassicExplorerSettings"])
     Run explorer
     SleepS(3)
     Run retrobar
     GuiClose(0)
     SleepS(1)
     Run % "C:\Program Files (x86)\Moo0\AlwaysOnTop\WindowMenuPlus.exe"
+    Run % "C:\Program Files\Open-Shell\StartMenu.exe -settings"
+    ; Run % "C:\Program Files\Open-Shell\StartMenu.exe -togglenew"
 }
 
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {

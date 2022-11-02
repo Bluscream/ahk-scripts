@@ -14,7 +14,7 @@ profiles := ["backlight"]
 
 for i, profile in profiles {
     Loop, 25 {
-        server.load_profile(profile)
+        ; server.load_profile(profile)
         Sleep, 50
     }
     Sleep, 1500

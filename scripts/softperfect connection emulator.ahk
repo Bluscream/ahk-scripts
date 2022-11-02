@@ -6,11 +6,11 @@ SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 #Include <bluscream>
 EnforceAdmin()
-
+; SoftPerfect Connection Emulator [Trial Version] ahk_class TSimulatorForm ahk_exe consim.exe ahk_pid 1072
 global window := new Window("SoftPerfect Connection Emulator", "TSimulatorForm", "consim.exe")
 global winstr := window.str()
 global button_startstop := "TButton1"
-global txt_ping := "TlabeledEdit1"
+global txt_ping := "TLabeledEdit3"
 global chk_ping := "TCheckBox1"
 global grp_ping_random := "TGroupButton1"
 global grp_ping_fixed := "TGroupButton2"

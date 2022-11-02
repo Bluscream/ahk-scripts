@@ -42,7 +42,7 @@ return
     Run % "fivem://connect/kzyerv"
     ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
     return
-<#n::
++<#n::
     Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     Return
 
