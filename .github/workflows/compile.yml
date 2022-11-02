@@ -39,7 +39,7 @@ jobs:
         name: "upx.exe"
         url: "https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip"
         pathInArchive: "upx-3.96-win64/upx.exe"
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Compile script
       run: |
         $compiled_dir = "D:\a\ahk-scripts\ahk-scripts\bin"
@@ -54,7 +54,7 @@ jobs:
         Write-Host "WORK DIRR"
         TREE /F
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: bin
         path: "D:/a/ahk-scripts/ahk-scripts/bin/"
