@@ -27,8 +27,13 @@ global vrbloat := { services: ["vorpX Service","OVRLibraryService","OVRService",
     ,tasks: []
     ,custom: [] }
 
-global important := { services: ["cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","VirtualDesktop.Service.exe"]
-,processes: [ "NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB","VirtualDesktop.Server","VirtualDesktop.Streamer" ]
+global vd := { services: ["VirtualDesktop.Service.exe"]
+    ,processes: [ "VirtualDesktop.Server","VirtualDesktop.Streamer"]
+    ,tasks: []
+    ,custom: [] }
+
+global important := { services: ["cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB"]
+,processes: [ "NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB" ]
     ,tasks: []
     ,custom: [] }
 
@@ -100,10 +105,21 @@ KillSemiBloat() {
     KillProcesses(vrbloat.processes, True)
     scriptlog("[UNBLOAT] Running " . vrbloat.custom.Count() . " commands")
     RunWaitLast(vrbloat.custom, True)
-    Msgbox 4, KILL EVERYTHING, Are you sure?
+    Msgbox 4, KILL Virtual Desktop, Are you sure?
     IfMsgBox No
         Return
     CloseScript("vr.ahk")
+    scriptlog("[UNBLOAT] Stopping " . vd.services.Count() . " services")
+    StopServices(vd.services, True)
+    scriptlog("[UNBLOAT] Ending " . vd.tasks.Count() . " tasks")
+    EndTasks(vd.tasks, True)
+    scriptlog("[UNBLOAT] Killing " . vd.processes.Count() . " processes")
+    KillProcesses(vd.processes, True)
+    scriptlog("[UNBLOAT] Running " . vd.custom.Count() . " commands")
+    RunWaitLast(vd.custom, True)
+    Msgbox 4, KILL EVERYTHING, Are you sure?
+    IfMsgBox No
+        Return
     scriptlog("[UNBLOAT] Stopping " . important.services.Count() . " services")
     StopServices(important.services, True)
     scriptlog("[UNBLOAT] Ending " . important.tasks.Count() . " tasks")

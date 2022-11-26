@@ -20,6 +20,8 @@ global idle_time_ms := idle_time_minutes * 60000
 global is_idle := 0
 global twinkle_tray := new Paths.User().localappdata.CombineFile("Programs","twinkle-tray","Twinkle Tray.exe")
 
+global led_strip := false
+
 ; A_Args := [ "/menu" ]
 ; if "/menu" not in A_Args {
 ;     #NoTrayIcon
@@ -54,6 +56,11 @@ CheckMonitorCount:
         goto ToggleScreen
 	  runs := runs + 1
     }
+    Return
+
+ToggleLEDs:
+    led_strip := !led_strip
+    SendIRCommand("led_strip", led_strip?"on":"off")
     Return
 
 ToggleScreen:
@@ -144,10 +151,12 @@ ScreenOff:
     return
 
 ExitSub:
-    If A_ExitReason in Shutdown
+    MsgBox % A_ExitReason
+    if (A_ExitReason == Shutdown) {
         goto ToggleScreen
         ExitApp
         Return
+    }
 
 SetupMenu() {
     I_Icon := "C:\Windows\System32\shell32.dll"
@@ -159,6 +168,7 @@ SetupMenu() {
     Menu, tray, add, Reload WinClose, ReloadWinCloseFunc
     Menu, tray, add, Block Shutdown, BlockShutdown
     Menu, tray, Uncheck, Block Shutdown
+    Menu, tray, add, Toggle LEDs, ToggleLEDs
     Menu, tray, add
     Menu, tray, add, % "Toggle TV", ToggleScreen
     Menu, tray, add, % "Mute TV", MuteScreen

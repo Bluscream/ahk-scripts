@@ -11,6 +11,6 @@ SendMode, Event ; |Play|Input|InputThenPlay
 SetKeyDelay, 50, 50
 return
 
-^b::
-	Send {Raw}%Clipboard%
-	return
+^+b:: ExitApp
+
+^b:: Send {Raw}%Clipboard%

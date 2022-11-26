@@ -49,6 +49,7 @@ populateUI() {
             }
         }
     }
+    LV_Add("","jd-gui", "Decompile JAR")
     LV_ModifyCol()  ; Auto-size each column to fit its contents.
     LV_ModifyCol(1, "Text Center Sort")  ; For sorting purposes, indicate that column 2 is an integer.
 }
@@ -59,14 +60,19 @@ gLVItems(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 LVItems(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     if (GuiEvent = "DoubleClick")
     {
-        LV_GetText(RowText, A_EventInfo, 2)  ; Get the text from the row's first field.
+        LV_GetText(VersionText, A_EventInfo, 1)
+        LV_GetText(JavaPath, A_EventInfo, 2)  ; Get the text from the row's first field.
         if (!A_Args[1]) {
             FileSelectFile, jar_path,,, Select Jar File, *.jar
             jar := new File(jar_path)
         } else {
             jar := new File(A_Args[1])
         }
-        cmd := """" . RowText . """ -jar """ . jar.getTarget() . """"
+        if (VersionText = "jd-gui") {
+            cmd := """" . VersionText . """ """ . jar.getTarget() . """"
+        } else {
+            cmd := """" . JavaPath . """ -jar """ . jar.getTarget() . """"
+        }
         ; scriptlog(cmd)
         OutputDebug, % cmd
         Run % cmd,,Min
