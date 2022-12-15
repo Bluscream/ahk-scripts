@@ -3,19 +3,19 @@
 EnforceAdmin() 
 global noui := false
 #INCLUDE <Acc>
-global mytitle := new Window("SteamVR Status", "Qt5QWindowIcon", "vrmonitor.exe").str()
+global mytitle := new Window("Win32 Disk Imager - 1.0", "Qt5QWindowIcon", "Win32DiskImager.exe").str()
 scriptlog(mytitle)
 loops := 5
 Loop, %loops% {
     i := A_Index-1
     printName(i, mytitle)
-    Loop, %loops/2% {
+    Loop, % loops / 2 {
         ii := i "." . A_Index-1
         printName(ii, mytitle)
-        Loop, %loops/3% {
+        Loop, % loops / 3 {
             iii := ii "." . A_Index-1
             printName(iii, mytitle)
-            Loop, %loops/4% {
+            Loop, % loops / 4 {
                 iiii := iii "." . A_Index-1
                 printName(iiii, mytitle)
             }

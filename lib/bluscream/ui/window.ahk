@@ -91,6 +91,11 @@ class Window {
     alwaysOnTop(toggle := true) {
         WinSet, AlwaysOnTop , % toggle, % this.str()
     }
+    isAlwaysOnTop() {
+		WinGet, windowStyle, ExStyle, % this.str()
+        WS_EX_TOPMOST := 0x8
+		return if (windowStyle & WS_EX_TOPMOST) ? false : true
+	}
     isActive() {
         return WinActive(this.str())
     }
@@ -99,7 +104,7 @@ class Window {
         return (MMX == -1)
     }
     deactivate(wait := false) {
-        this.alwaysOnTfop(false)
+        this.alwaysOnTop(false)
         ; WinSet, Style, 0x10000000, % this.str() ; WS_VISIBLE
         ; WinSet, Style, -0x1000000, % this.str() ; WS_MAXIMIZE
         ; WinSet, Style, 0x20000000, % this.str() ; WS_MINIMIZE

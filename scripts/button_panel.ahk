@@ -107,6 +107,7 @@ OnBtnRebootClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Reboot, Are you sure you want to reboot?
     IfMsgBox No
         Return
+    SendIRCommand("medion%20tv", "on_off", 10)
     Run % "shutdown.exe /r /f /t 0"
 }
 OnBtnHibernateClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -122,7 +123,7 @@ OnBtnShutdownClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Shutdown, Are you sure you want to shut down?
     IfMsgBox No
         Return
-    SendIRCommand("medion%20tv", "on_off", 10)
+    ; SendIRCommand("medion%20tv", "on_off", 10)
     Run % "shutdown.exe /s /f /t 0"
 }
 
