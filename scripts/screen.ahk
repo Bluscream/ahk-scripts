@@ -22,7 +22,7 @@ global twinkle_tray := new Paths.User().localappdata.CombineFile("Programs","twi
 
 global led_strip := false
 
-; A_Args := [ "/menu" ]
+A_Args := [ "/menu" ]
 ; if "/menu" not in A_Args {
 ;     #NoTrayIcon
 ; }
@@ -79,6 +79,22 @@ ScreenDismiss:
     SendIRCommand("medion%20tv", "right", 3)
     SleepS(1)
     SendIRCommand("medion%20tv", "ok", 3)
+    Return
+
+ScreenBlackWhite:
+    SetColor(false)
+    return
+
+ScreenColor:
+    SetColor(true)
+    Return
+
+ScreenBright:
+    SetTVBrightness(true)
+    Return
+
+ScreenDark:
+    SetTVBrightness(false)
     Return
 
 BlockShutdown:
@@ -154,9 +170,9 @@ ExitSub:
     MsgBox % A_ExitReason
     if (A_ExitReason == Shutdown) {
         goto ToggleScreen
-        ExitApp
-        Return
     }
+    ExitApp
+    Return
 
 SetupMenu() {
     I_Icon := "C:\Windows\System32\shell32.dll"
@@ -173,6 +189,10 @@ SetupMenu() {
     Menu, tray, add, % "Toggle TV", ToggleScreen
     Menu, tray, add, % "Mute TV", MuteScreen
     Menu, tray, add, % "Source", ChangeScreenSource
+    Menu, tray, add, % "Black and White", ScreenBlackWhite
+    Menu, tray, add, % "Colored", ScreenColor
+    Menu, tray, add, % "Bright", ScreenBright
+    Menu, tray, add, % "Dark", ScreenDark
     Menu, tray, add, % "Dismiss", ScreenDismiss
     Menu, tray, add
     Menu, tray, add, % "100 %", ScreenFullBright
@@ -208,4 +228,55 @@ SetBrightness(value := 50) {
     cmd := """" . twinkle_tray.path . """ " . arguments
     ; log("Running: " . cmd)
     Run, % cmd, % twinkle_tray.directory.path
+}
+SetSlider(direction := "left", amount := 20) {
+    Sleep 50
+    SendIRCommand("medion%20tv", direction, amount)
+    Sleep 500
+    SendIRCommand("medion%20tv", direction, amount)
+    Sleep 500
+    SendIRCommand("medion%20tv", direction, amount)
+    Sleep 500
+}
+SetColor(enable := true) {
+    direction := (enable ? "right" : "left")
+    SendIRCommand("medion%20tv", "menu", 1)
+    Sleep 250
+    SendIRCommand("medion%20tv", "ok", 1)
+    Sleep 50
+    SendIRCommand("medion%20tv", "down", 1)
+    Sleep 50
+    SendIRCommand("medion%20tv", "down", 1)
+    Sleep 50
+    SendIRCommand("medion%20tv", "down", 1)
+    Sleep 50
+    SendIRCommand("medion%20tv", "down", 1)
+    Sleep 50
+    SetSlider(direction)
+    Sleep 250
+    SendIRCommand("medion%20tv", "return", 1)
+    Sleep 500
+    SendIRCommand("medion%20tv", "return", 1)
+    TrayTip, AutoHotKey - Screen, % "SetColor Done", 5
+}
+SetTVBrightness(high := true) {
+    direction := (high ? "right" : "left")
+    SendIRCommand("medion%20tv", "menu", 1)
+    Sleep 250
+    SendIRCommand("medion%20tv", "ok", 1)
+    Sleep 50
+    SendIRCommand("medion%20tv", "down", 1)
+    Sleep 50
+    SetSlider(direction)
+    Sleep 250
+    SendIRCommand("medion%20tv", "return", 1)
+    ; Sleep 500
+    ; SendIRCommand("medion%20tv", "down", 1)
+    ; Sleep 50
+    ; SetSlider(direction)
+    Sleep 250
+    SendIRCommand("medion%20tv", "return", 1)
+    Sleep 500
+    SendIRCommand("medion%20tv", "return", 1)
+    TrayTip, AutoHotKey - Screen, % "SetBrightness Done", 5
 }

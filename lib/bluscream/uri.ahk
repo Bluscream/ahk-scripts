@@ -102,8 +102,11 @@ class Url {
                 HttpObj.SetRequestHeader("Authorization", "Basic " . auth)
             }
             HttpObj.SetTimeouts(0,5000,5000,10000)
+            HttpObj.Option(4) := 0x0100  + 0x0200 + 0x1000 + 0x2000
             HttpObj.Send(data)
-            scriptlog("Visited " . this.url)
+            if (!no_ui) {
+                scriptlog("Visited " . this.url)
+            }
         } catch e {
             scriptlog("Error: " . e.Message)
             if (retry) {
@@ -153,5 +156,9 @@ class Url {
             scriptlog("Skipping download of " . this.url . " to " . out.Quote() . ": Already exists!")
         }
         return out
+    }
+
+    str() {
+        return this.url
     }
 }
