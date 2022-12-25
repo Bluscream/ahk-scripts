@@ -8,9 +8,15 @@ Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
 SendMode, Event ; |Play|Input|InputThenPlay
-SetKeyDelay, 50, 50
+SetKeyDelay, 24, 26
 return
 
 ^+b:: ExitApp
 
-^b:: Send {Raw}%Clipboard%
+^b::
+    WinGet, winid
+    if (Window.fromId(winid).isFullscreen()) {
+        MsgBox % "Is fullscreen!"
+    }
+    Send {Raw}%Clipboard%
+    Return

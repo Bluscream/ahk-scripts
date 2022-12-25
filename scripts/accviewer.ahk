@@ -1,8 +1,9 @@
 ; Accessible Info Viewer
 ; http://www.autohotkey.com/board/topic/77888-accessible-info-viewer-alpha-release-2012-09-20/
 ; https://dl.dropbox.com/u/47573473/Accessible%20Info%20Viewer/AccViewer%20Source.ahk
-
 #SingleInstance force
+#Include <bluscream>
+EnforceAdmin()
 
 _colTextW := 55
 _col2W := 120
@@ -148,7 +149,7 @@ ShowMainGui:
 			or if RegExMatch(SB_Text, "Id: \K\d+", SB_Text)
 			{
 				ToolTip % "clipboard = " clipboard:=SB_Text
-				SetTimer, RemoveToolTip, -2000
+				SetTimer, RemoveToolTip1, -2000
 			}
 	}
 	else {
@@ -356,7 +357,7 @@ TreeView:
 	}
 	return
 }
-RemoveToolTip:
+RemoveToolTip1:
 {
 	ToolTip
 	return
