@@ -17,7 +17,7 @@ global winbloat := { services: ["LmsaWindowsService","wuauserv","TapiSrv","Spool
     ,custom: [] }
 
 global semibloat := { services: ["TeraCopyService.exe","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter"] ; "OVRLibraryService","OVRService","Steam Client Service","VirtualDesktop.Service.exe", "Adguard Service"
-    ,processes: [ "TeraCopyService.exe","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","BoxToGoRC","nginx","php-cgi","Playnite.DesktopApp"] ; "Adguard", "VirtualDesktop.Service","VirtualDesktop.Streamer.exe"
+    ,processes: [ "TeraCopyService.exe","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","nginx","php-cgi","Playnite.DesktopApp"] ; "Adguard", "VirtualDesktop.Service","VirtualDesktop.Streamer.exe"
     ,tasks: []
     ,custom: [] }
 
