@@ -113,12 +113,13 @@ titles.push({title:"Host message ahk_class Qt5QWindowIcon", text: "", action: "C
 titles.push({title:"Authentication Failure ahk_class Qt631QWindowIcon ahk_exe obs64.exe", text: "", action: "CloseWindow"})
 titles.push({title:"Autoruns ahk_class #32770 ahk_exe Autoruns.exe",text:"Are you sure you want to delete Autoruns entry",action: "Sleep:250;ClickButton:OK"}) ; Focus:Button1
 titles.push({title:"Confirm ahk_class #32770 ahk_exe ImageMagick-",text:"Overwrite the existing file",action: "ClickButton:&Overwrite the existing file"})
-titles.push({title:"DiscordSetup.exe ahk_class #32770 ahk_exe DiscordSetup.exe ",text:"",action: "CloseWindow"})
+titles.push({title:"DiscordSetup.exe ahk_class #32770 ahk_exe DiscordSetup.exe",text:"",action: "CloseWindow"})
 titles.push({title:"Download - ahk_class #32770 ahk_exe sardu_4.exe",text:"",action: "ClickButton:&Yes"})
 titles.push({title:"Information ahk_class #32770 ahk_exe sardu_4.exe",text:"",action: "CloseWindow"}) ; ClickButton:&OK
 ; titles.push({title:"SARDU ahk_class #32770 ahk_exe sardu_4.exe",text:"",action: "ClickButton:&OK"})
 titles.push({title:" | PortableApps.com Installer ahk_class #32770",text:"",action: "ClickButton:I &Agree"})
 titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Program Files\AutoHotkey\Lib\bluscream\json.ahk",action: "ClickButton:&Yes"})
+titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

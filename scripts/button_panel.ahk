@@ -108,7 +108,7 @@ OnBtnRebootClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     IfMsgBox No
         Return
     SendIRCommand("medion%20tv", "on_off", 10)
-    Run % "shutdown.exe /r /f /t 0"
+    Run % "psshutdown -r -f -t 1"
 }
 OnBtnHibernateClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     Msgbox 4, Confirm Hibernation, Are you sure you want to hibernate?
@@ -116,7 +116,7 @@ OnBtnHibernateClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
         Return
     SendIRCommand("medion%20tv", "on_off", 10)
     ; ShellRun("powercfg.exe","/hibernate","on")
-    Run % "shutdown.exe /h /f"
+    Run % "psshutdown -h -f -t 1"
     ;      shutdown.exe [/i | /l | /s | /sg | /r | /g | /a | /p | /h | /e | /o] [/hybrid] [/soft] [/fw] [/f] [/m \\computer][/t xxx][/d [p|u:]xx:yy [/c "comment"]]
 }
 OnBtnShutdownClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -124,7 +124,7 @@ OnBtnShutdownClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     IfMsgBox No
         Return
     ; SendIRCommand("medion%20tv", "on_off", 10)
-    Run % "shutdown.exe /s /f /t 0"
+    Run % "psshutdown -s -f -t 1"
 }
 
 OnBtnStartSteamVRClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
