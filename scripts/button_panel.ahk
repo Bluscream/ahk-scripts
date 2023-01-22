@@ -56,7 +56,8 @@ initUI:
 
     Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, Sound`n`nMixer
 
-    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h172, Start`n`nExplorer
+    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h84, Start Explorer
+    Gui Add, Button, hWndhBtnKillScripts vBtnKillScripts gOnBtnKillScriptsClicked x480 y488 w216 h84, Kill Scripts
 
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
 
@@ -206,6 +207,10 @@ OnBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 OnBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/semibloat")
+}
+
+OnBtnKillScriptsClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    KillProcesses(["AutoHotkeyV2x64","AutoHotkeyV2x86","AutoHotkeyA32","AutoHotkeyU32","AutoHotkey","AutoHotkeyUX","AutoHotkeyU64"])
 }
 
 GuiSize(GuiHwnd, EventInfo, Width, Height) {

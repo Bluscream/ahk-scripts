@@ -2,6 +2,7 @@
 #NoTrayIcon
 #NoEnv
 #Persistent
+; #Warn
 
 #Include <bluscream>
 EnforceAdmin()
@@ -120,6 +121,8 @@ titles.push({title:"Information ahk_class #32770 ahk_exe sardu_4.exe",text:"",ac
 titles.push({title:" | PortableApps.com Installer ahk_class #32770",text:"",action: "ClickButton:I &Agree"})
 titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Program Files\AutoHotkey\Lib\bluscream\json.ahk",action: "ClickButton:&Yes"})
 titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
+titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"CloseWindow"}) ; ClickButton:Cancel ; Click:X1673 Y1006
+
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
@@ -127,8 +130,8 @@ titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk
 SetTimer, runChecks, 500 ; Check every 1/8th second
 ;<=====  Functions  ===========================================================>
 
-DllCall("RegisterShellHookWindow", UInt,hWnd)
-MsgNum := DllCall("RegisterWindowMessage", Str,"SHELLHOOK")
+; DllCall("RegisterShellHookWindow", UInt,hWnd)
+; MsgNum := DllCall("RegisterWindowMessage", Str,"SHELLHOOK")
 ; OnMessage(MsgNum, "ShellMessage")
 global HSHELL_WINDOWCREATED := 1
 return
@@ -139,48 +142,78 @@ ShellMessage(wParam,lParam) {
     }
 }
 
-runChecks(hwnd := 0x0){
+runChecks(_hwnd := 0x0){
   Global
-  for i, window in titles {
-    if (hwnd == 0x0) {
-        title := window["title"]
-        text := window["text"]
-        if (title && text) {
-            hwnd := WinExist(title, text)
-        } else if (title) {
-            hwnd := WinExist(title)
-        } else if (text) {
-            hwnd := WinExist(,text)
+  for i, win in titles {
+    if (_hwnd == 0x0) {
+        title := win["title"]
+        text := win["text"]
+        ext_title := win["ext_title"]
+        if (ext_title) {
+            WinGet, WinList, List
+            Loop % WinList
+            {   
+                WinGetTitle, WinTitle, % "ahk_id " WinList%A_Index%
+                if (InStr(WinTitle, cntrl)) {
+                    WinGet, _hwnd, ID, % "ahk_id " WinList%A_Index%
+                    break
+                }
+                _hwnd := 0x0
+            }
+            ; WinGet, ActiveControlList, ControlList, % title, % text
+            ; Loop, Parse, ActiveControlList, `n
+            ; {
+            ;     ControlGetText, cntrltxt, % A_LoopField, % title, % text
+            ;     if (InStr(cntrltxt, cntrl)) {
+            ;         MsgBox, 4,, Control #%A_Index% is "%A_LoopField%" "%cntrltxt%". Continue?
+            ;         IfMsgBox, No
+            ;             break
+            ;     }
+            ; }
+            ; ControlGet, _hwnd, Hwnd,, % cntrl, % title, % text
+            ; parent := DllCall("user32\GetAncestor", Ptr,_hwnd, UInt,1, Ptr)
+            ; root := DllCall("user32\GetAncestor", Ptr,_hwnd, UInt,2, Ptr) ;GA_ROOT := 2
+            ; owner := DllCall("user32\GetWindow", Ptr,_hwnd, UInt,4, Ptr) ;GW_OWNER = 4
+            ; WinGetClass, vWinClass, % "ahk_id " _hwnd
+            ; MsgBox % "title: " . title . "`ntext: " . text . "`ncntrl: " . cntrl . "`n_hwnd: " . _hwnd . "`nparent: " . parent . "`nroot: " . root . "`nowner: " . owner . "`nclass: " . vWinClass
+        } else {
+            if (title && text) {
+                _hwnd := WinExist(title, text)
+            } else if (title) {
+                _hwnd := WinExist(title)
+            } else if (text) {
+                _hwnd := WinExist(,text)
+            }
         }
     }
-    if (hwnd) {
-      ; MsgBox % title . ":" . text . ":" . action . " = " . hwnd
-      action := window["action"]
+    if (_hwnd) {
+      ; MsgBox % title . ":" . text . ":" . action . " = " . _hwnd
+      action := win["action"]
       if (action) {
         actions := StrSplit(action, ";")
         for i, action in actions {
             action := StrSplit(action, ":")
             if (action[1] == "CloseWindow"){
-                closeWindow(ahk_id %hwnd%)
+                closeWindow(ahk_id %_hwnd%)
                 Continue
             } else if (action[1] == "KillProcess"){
-                WinGet, proc, ProcessName, ahk_id %hwnd%
+                WinGet, proc, ProcessName, ahk_id %_hwnd%
                 Process, Close, % proc
                 Continue
             } else if (action[1] == "ClickButton") {
-                ControlClick, % action[2], ahk_id %hwnd%
+                ControlClick, % action[2], ahk_id %_hwnd%
                 Continue
             }  else if (action[1] == "Click"){
-                ControlClick, % action[2], ahk_id %hwnd%
+                ControlClick, % action[2], ahk_id %_hwnd%
                 Continue
             } else if (action[1] == "SendBase64"){
-                ControlSend,, % b64Decode(action[2]) . "{Enter}", ahk_id %hwnd%
+                ControlSend,, % b64Decode(action[2]) . "{Enter}", ahk_id %_hwnd%
                 Continue
             } else if (action[1] == "Focus"){
                 ; SleepS(1)
-                ; WinActivate, ahk_id %hwnd%
-                ; WinWaitActive, ahk_id %hwnd%
-                ControlFocus, % action[2], ahk_id %hwnd%
+                ; WinActivate, ahk_id %_hwnd%
+                ; WinWaitActive, ahk_id %_hwnd%
+                ControlFocus, % action[2], ahk_id %_hwnd%
                 Continue
             } else if (action[1] == "Sleep"){
                 Sleep, % action[2]
@@ -192,6 +225,7 @@ runChecks(hwnd := 0x0){
   }
 }
 closeWindow(title){
+    ErrorLevel := 0
     WinClose, %title%
     ; MsgBox, , "ErrorLevel", %ErrorLevel%
     if(ErrorLevel == 0) {
