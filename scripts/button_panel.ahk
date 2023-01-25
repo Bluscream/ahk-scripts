@@ -56,7 +56,10 @@ initUI:
 
     Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, Sound`n`nMixer
 
-    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w216 h84, Start Explorer
+    Gui Font, s18
+    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w106 h84, Explorer
+    Gui Add, Button, hWndhBtnStartRetrobar8 vBtnStartRetrobar8 gOnBtnStartRetrobarClicked x590 y400 w106 h84, Retrobar
+    Gui Font, s20
     Gui Add, Button, hWndhBtnKillScripts vBtnKillScripts gOnBtnKillScriptsClicked x480 y488 w216 h84, Kill Scripts
 
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
@@ -174,14 +177,23 @@ OnBtnSoundMixerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnStartExplorerClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("OnBtnStartExplorerClicked")
-    KillProcesses(["retrobar","explorer","StartMenu","ClassicIE_32","ClassicIE_64","ClassicExplorerSettings"])
-    Run explorer
-    SleepS(3)
-    Run retrobar
     GuiClose(0)
+    KillProcesses(["retrobar","explorer","StartMenu","ClassicIE_32","ClassicIE_64","ClassicExplorerSettings"])
+    HideTaskbar(false)
+    Run explorer
+    ; Run % "C:\Program Files\Open-Shell\StartMenu.exe -togglenew"
+    ; C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -command "&{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=2;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f
+}
+
+OnBtnStartRetrobarClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    ; scriptlog("OnBtnStartExplorerClicked")
+    GuiClose(0)
+    KillProcesses(["retrobar"])
     SleepS(1)
-    Run % "C:\Program Files (x86)\Moo0\AlwaysOnTop\WindowMenuPlus.exe"
-    Run % "C:\Program Files\Open-Shell\StartMenu.exe -settings"
+    Run retrobar
+    SleepS(1)
+    ; Run % "C:\Program Files (x86)\Moo0\AlwaysOnTop\WindowMenuPlus.exe"
+    ; Run % "C:\Program Files\Open-Shell\StartMenu.exe -settings"
     ; Run % "C:\Program Files\Open-Shell\StartMenu.exe -togglenew"
 }
 
