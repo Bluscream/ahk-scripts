@@ -35,54 +35,55 @@ initUI:
     Gui Color, 0x000000
     Gui Font, s20
 
-    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gOnBtnStartSteamClicked x16 y16 w216 h84 +Default, Steam
-    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x16 y104 w106 h84, Mini
-    Gui Add, Button, hWndhBtnStartSteamBigPicture vBtnStartSteamBigPicture gOnBtnStartSteamBigPictureClicked x126 y104 w106 h84, BigPic
+    Gui Add, Button, hWndhBtnStartSteam vBtnStartSteam gOnBtnStartSteamClicked x16 y16 w216 h84 +Default, % "Steam"
+    Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x16 y104 w106 h84, % "Mini"
+    ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x248 y16 w216 h172, % "Steam (Mini)"
+    Gui Add, Button, hWndhBtnStartSteamBigPicture vBtnStartSteamBigPicture gOnBtnStartSteamBigPictureClicked x126 y104 w106 h84, % "BigPic"
 
-    ; Gui Add, Button, hWndhBtnStartSteamMini vBtnStartSteamMini gOnBtnStartSteamMiniClicked x248 y16 w216 h172, Start`n`nSteam (Mini)
-    Gui Add, Button, hWndhBtnReboot vBtnReboot gOnBtnRebootClicked x248 y16 w216 h84, REBOOT
+    Gui Add, Button, hWndhBtnReboot vBtnReboot gOnBtnRebootClicked x248 y16 w216 h84, % "REBOOT"
     Gui Font, s15
     Gui Add, Button, hWndhBtnShutdown vBtnShutdown gOnBtnShutdownClicked x248 y104 w105 h84, % "SHUT`nDOWN"
     Gui Add, Button, hWndhBtnHibernate vBtnHibernate gOnBtnHibernateClicked x359 y104 w105 h84, % "HIBER`nNATE"
     Gui Font, s20
 
-    Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gOnBtnStartSteamVRClicked x16 y208 w216 h172, Start`n`nSteamVR
+    Gui Add, Button, hWndhBtnStartSteamvr3 vBtnStartSteamvr3 gOnBtnStartSteamVRClicked x16 y208 w216 h172, % "SteamVR"
 
-    Gui Add, Button, hWndhBtn4 vBtn4 gOnBtnStartVDClicked x480 y16 w216 h172, Start`n`nVirtual Desktop
+    Gui Add, Button, hWndhBtn4 vBtn4 gOnBtnStartVDClicked x480 y16 w216 h172, % "Virtual`n`nDesktop"
 
-    Gui Add, Button, hWndhBtnStartnnparsec5 vBtnStartnnparsec5 gOnBtnStartParsecClicked x712 y16 w216 h172, Start`n`nParsec
+    Gui Add, Button, hWndhBtnStartnnparsec5 vBtnStartnnparsec5 gOnBtnStartParsecClicked x712 y16 w216 h172, % "Parsec"
 
-    Gui Add, Button, hWndhBtnSoundDevices6 vBtnSoundnndevices6 gOnBtnSoundDevicesClicked x16 y400 w216 h172, Sound`n`nDevices
+    Gui Add, Button, hWndhBtnSoundDevices6 vBtnSoundnndevices6 gOnBtnSoundDevicesClicked x16 y400 w216 h172, % "Sound`n`nDevices"
 
-    Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, Sound`n`nMixer
+    Gui Add, Button, hWndhBtnSoundnnmixer7 vBtnSoundnnmixer7 gOnBtnSoundMixerClicked x248 y400 w216 h172, % " Sound`n`nMixer"
 
     Gui Font, s18
-    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w106 h84, Explorer
-    Gui Add, Button, hWndhBtnStartRetrobar8 vBtnStartRetrobar8 gOnBtnStartRetrobarClicked x590 y400 w106 h84, Retrobar
+    Gui Add, Button, hWndhBtnStartExplorer8 vBtnStartExplorer8 gOnBtnStartExplorerClicked x480 y400 w106 h84, % "Explorer"
+    Gui Add, Button, hWndhBtnStartRetrobar8 vBtnStartRetrobar8 gOnBtnStartRetrobarClicked x590 y400 w106 h84, % " Retrobar"
     Gui Font, s20
-    Gui Add, Button, hWndhBtnKillScripts vBtnKillScripts gOnBtnKillScriptsClicked x480 y488 w216 h84, Kill Scripts
+    Gui Add, Button, hWndhBtnKillScripts vBtnKillScripts gOnBtnKillScriptsClicked x480 y488 w216 h84, % "Kill Scripts"
 
-    Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, Start`n`nXSOverlay
+    Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, % "XSOverlay"
 
-    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h172, Start`n`nCVR
+    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h84, % "ChilloutVR"
+    Gui Add, Button, hWndhBtnStartVRChat vBtnStartVRChat gOnBtnStartVRChatClicked x248 y296 w216 h84, % "VRChat"
 
-    Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, Start`n`nYoutube`nMusic
+    Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, % "Youtube`n`nMusic"
 
-    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x712 y400 w216 h84, Kill Services
-    Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gOnBtnKillbloatClicked x712 y488 w216 h84, Kill Bloat
+    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x712 y400 w216 h84, % "Kill Services"
+    Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gOnBtnKillbloatClicked x712 y488 w216 h84, % "Kill Bloat"
     
     Gui Font
     return
 
 showUI() {
-    ; [96] Quick Start Panel (17.05. 14:01:34) ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe ahk_pid 8904
-    IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    ; [96] Quick Panel (17.05. 14:01:34) ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe ahk_pid 8904
+    IfWinNotExist, Quick Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     {
         runs := runs + 1
         FormatTime, timestamp, A_Now, dd.MM. HH:mm:ss
-        Gui Show, w936 h580, % "[" . runs . "] Quick Start Panel (" . timestamp . ")"
+        Gui Show, w936 h580, % "[" . runs . "] Quick Panel (" . timestamp . ")"
     }
-    WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    WinActivate, Quick Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
 }
 
 OnBtnStartSteamClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
@@ -200,9 +201,15 @@ OnBtnStartRetrobarClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("onBtn10Clicked")<
     KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
-    ; Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
-    ; Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
     Run % """G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"" -vr -skipsteam --disable-videoplayers"
+    GuiClose(0)
+}
+
+OnBtnStartVRChatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    ; scriptlog("onBtn10Clicked")<
+    KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
+    Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
+    Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
     GuiClose(0)
 }
 
