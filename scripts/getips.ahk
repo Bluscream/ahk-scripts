@@ -25,12 +25,15 @@ if (macs.MaxIndex() > 0)  {
 }
 ; ShowToolTip(url)
 devices := GetJson(url)
+devices := GetJson("http://minopia.de/api/devices.json")
+; scriptlog(toJson(devices, True))
 
 for i, dev in devices {
     Try
     {
-        Env_UserNew("IP_" . dev.name, dev.ip)
+        if (dev.name != "" and dev.ip != "") {
+            Env_UserNew("IP_" . dev.name, dev.ip)
+        }
     }
 }
-
 ExitApp

@@ -122,6 +122,9 @@ titles.push({title:" | PortableApps.com Installer ahk_class #32770",text:"",acti
 titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Program Files\AutoHotkey\Lib\bluscream\json.ahk",action: "ClickButton:&Yes"})
 titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
 ; titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"CloseWindow"}) ; ClickButton:Cancel ; Click:X1673 Y1006
+titles.push({title:"HASS.Agent ahk_class WindowsForms10.Window.8.app.0.2982bee_r3_ad1 ahk_exe HASS.Agent.exe",text:"Error trying to bind the API to port ",action: "CloseWindow"})
+
+
 
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
