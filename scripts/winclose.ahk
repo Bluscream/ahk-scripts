@@ -80,7 +80,7 @@ titles.push({title:"Tweaking.com - Windows Repair - Thank You! ahk_class Thunder
 titles.push({title:"Bluetooth Manager ahk_class #32770 ahk_exe TosBtMng.exe", text: "Thank you for evaluating the Bluetooth Stack for Windows by Toshiba", action: "CloseWindow"})
 titles.push({title:"PowerLauncher.exe ahk_class #32770 ahk_exe PowerLauncher.exe", text: "To run this application, you must install .NET Core", action: "ClickButton:&No"})
 titles.push({title:"PowerToys Error ahk_class #32770 ahk_exe PowerToys.exe", text: "Could not start PowerToys as an administrator", action: "CloseWindow"})
-titles.push({title:"Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
+; titles.push({title:"Windows Security Alert ahk_class #32770 ahk_exe rundll32.exe", text: "Windows Defender Firewall has blocked some features of this app", action: "ClickButton:&Cancel"})
 titles.push({title:"Ahk2Exe Error ahk_class #32770 ahk_exe Ahk2Exe.exe", text: "", action: "CloseWindow"})
 titles.push({title:"ahk_class #32770 ahk_exe AutoHotkeyU32.exe", text: "Warning in #include file", action: "CloseWindow"})
 titles.push({title:"Microsoft Visual C++ Runtime Library ahk_class #32770 ahk_exe TeaClient.exe", text: "", action: "CloseWindow"})
@@ -123,9 +123,9 @@ titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Progr
 titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
 ; titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"CloseWindow"}) ; ClickButton:Cancel ; Click:X1673 Y1006
 titles.push({title:"HASS.Agent ahk_class WindowsForms10.Window.8.app.0.2982bee_r3_ad1 ahk_exe HASS.Agent.exe",text:"Error trying to bind the API to port ",action: "CloseWindow"})
-
-
-
+titles.push({title:"Taskbar ahk_class #32770 ahk_exe explorer.exe",text:"",action: "CloseWindow"})
+titles.push({title:"RaiDrive ahk_class HwndWrapper[RaiDrive;;4a926fae-babf-4e16-8d32-436648ddf991] ahk_exe RaiDrive.exe",text:"standard 2022.6.92",action: "CloseWindow"})
+titles.push({title:"ShareX - Hotkey registration failed ahk_class #32770 ahk_exe ShareX.exe",text:"",action: "CloseWindow"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

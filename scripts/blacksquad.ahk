@@ -252,7 +252,7 @@ clearStrokes:
 restartGameFunc:
     game.kill()
     game.clearLogs()
-    Run % """C:\Program Files (x86)\Overwolf\OverwolfLauncher.exe"" -launchapp dfkolmeleijfgnbeaodgfcmmhldddhahdcfmldcg" ; -from-desktop
+    ; Run % """C:\Program Files (x86)\Overwolf\OverwolfLauncher.exe"" -launchapp dfkolmeleijfgnbeaodgfcmmhldddhahdcfmldcg" ; -from-desktop
     game.start(true) ; -USEBATTLEYE -GATEWAYIP=gateway.blacksquad.com -PUB=STEAM -LANGFORTEXT=INT 
     return
 
