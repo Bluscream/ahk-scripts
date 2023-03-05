@@ -7,7 +7,7 @@ SetBatchLines -1
 DetectHiddenWindows On
 #Include <bluscream>
 global noui := false
-EnforceAdmin()
+; EnforceAdmin()
 
 global perf_mode := false
 
@@ -23,14 +23,14 @@ vd.failcounter := 0
 global steam := new Steam()
 global steamvr := new SteamVR()
 
-; global game := { name: "vrc_mods"
-;     ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
-;     ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat")
-;         ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
-;         ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX") }
-;     ,processes: { }
-;     ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
-;         ,vrcx: new File("C:\Users\Shadow\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX") } }
+global game := { name: "vrc_mods"
+    ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
+    ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat")
+        ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
+        ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX") }
+    ,processes: { }
+    ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
+        ,vrcx: new File("C:\Program Files\VRCX\VRCX") } }
 
 for n, param in A_Args
 {
@@ -187,12 +187,12 @@ OnVirtualDesktopFullyConnected() {
 OnConnected() {
     no_steamvr := CheckSteamVR()
 
-    ; if (!new Process(vrcx.fullname).exists()) {
-    ;     scriptlog("Starting " . vrcx.path)
-    ;     vrcx.run()
-    ; }
+    if (!new Process(vrcx.fullname).exists()) {
+        scriptlog("Starting " . vrcx.path)
+        vrcx.run()
+    }
 
-    ; CheckGame(no_steamvr)
+    CheckGame(no_steamvr)
 
     if (perf_mode)
         KillBloat()
