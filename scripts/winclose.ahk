@@ -126,6 +126,9 @@ titles.push({title:"Taskbar ahk_class #32770 ahk_exe explorer.exe",text:"",actio
 titles.push({title:"RaiDrive ahk_class HwndWrapper[RaiDrive;;4a926fae-babf-4e16-8d32-436648ddf991] ahk_exe RaiDrive.exe",text:"standard 2022.6.92",action: "CloseWindow"})
 titles.push({title:"ShareX - Hotkey registration failed ahk_class #32770 ahk_exe ShareX.exe",text:"",action: "CloseWindow"})
 ; titles.push({title:"Process Lasso ahk_class #32770 ahk_exe processlasso.exe", text: "", action: "ClickButton:Button3"})
+titles.push({title:"Message ahk_class #32770 ahk_exe BlackSquadGame.exe",text:"This is application must to run from launcher.",action: "CloseWindow"})
+titles.push({title:"BattlEye Launcher ahk_class #32770 ahk_exe BlackSquadGame_BELauncher.exe",text:"",action: "CloseWindow"})
+
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

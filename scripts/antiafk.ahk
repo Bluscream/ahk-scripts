@@ -5,9 +5,10 @@
 SetBatchLines, -1
 SetWorkingDir, % A_ScriptDir
 #Include <bluscream>
+EnforceAdmin()
 
 ; min_idle_seconds := 30 * 1000
-; timer_interval_seconds := 5 * 1000
+timer_interval_seconds := 9 ; 1140000 ; wait 19 minutes (19 * 60 * 1000)
 ; sleep_between_moves_ms := 0
 
 
@@ -28,14 +29,15 @@ LoopToggleHotkey := F1 ; set hotkey to toggle loop state
 LoopNotification := "AntiAFK loop is " ; set notification text
 
 LoopNotify(state) { ; function to display loop state notification
-    ShowToolTip(%LoopNotification%%state%)
-    ; SplashScreen("AntiAFK",state)
+    scriptlog(%LoopNotification%%state%)
+    ; SplashScreen("AntiAFK ".state) ; ToJson(LoopWindow)
+    ; ShowToolTip(%LoopNotification%%state%)
 }
 
 LoopToggle() { ; function to toggle loop state
     LoopActive := !LoopActive ; toggle loop state
     if (LoopActive) {
-        LoopWindow := WinGetTitle("A") ; set loop window to active window
+        WinGet, LoopWindow, ID, A ; set loop window to active window
         LoopNotify("ON") ; display loop activated notification
         Loop()
     } else {
@@ -49,12 +51,12 @@ Loop() {
         WinActivate, %LoopWindow%
         SendInput, {Space}
         WinActivate, A
-        Sleep, 1140000 ; wait 19 minutes (19 * 60 * 1000)
+        Sleep, % timer_interval_seconds
     }
 }
-
+ 
 ; set hotkey to toggle loop state
-Hotkey, %LoopToggleHotkey%, LoopToggle
+F1::LoopToggle()
 
 ; display initial loop state notification
 LoopNotify("OFF")
