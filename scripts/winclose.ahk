@@ -120,7 +120,7 @@ titles.push({title:"Information ahk_class #32770 ahk_exe sardu_4.exe",text:"",ac
 titles.push({title:" | PortableApps.com Installer ahk_class #32770",text:"",action: "ClickButton:I &Agree"})
 titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Program Files\AutoHotkey\Lib\bluscream\json.ahk",action: "ClickButton:&Yes"})
 titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
-; titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"CloseWindow"}) ; ClickButton:Cancel ; Click:X1673 Y1006
+titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"ClickButton:TsListView1"}) ; ClickButton:Cancel ; Click:X1673 Y1006
 titles.push({title:"HASS.Agent ahk_class WindowsForms10.Window.8.app.0.2982bee_r3_ad1 ahk_exe HASS.Agent.exe",text:"Error trying to bind the API to port ",action: "CloseWindow"})
 titles.push({title:"Taskbar ahk_class #32770 ahk_exe explorer.exe",text:"",action: "CloseWindow"})
 titles.push({title:"RaiDrive ahk_class HwndWrapper[RaiDrive;;4a926fae-babf-4e16-8d32-436648ddf991] ahk_exe RaiDrive.exe",text:"standard 2022.6.92",action: "CloseWindow"})
@@ -128,7 +128,6 @@ titles.push({title:"ShareX - Hotkey registration failed ahk_class #32770 ahk_exe
 ; titles.push({title:"Process Lasso ahk_class #32770 ahk_exe processlasso.exe", text: "", action: "ClickButton:Button3"})
 titles.push({title:"Message ahk_class #32770 ahk_exe BlackSquadGame.exe",text:"This is application must to run from launcher.",action: "CloseWindow"})
 titles.push({title:"BattlEye Launcher ahk_class #32770 ahk_exe BlackSquadGame_BELauncher.exe",text:"",action: "CloseWindow"})
-
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
