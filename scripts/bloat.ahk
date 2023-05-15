@@ -21,7 +21,6 @@ global semibloat := { services: ["TeraCopyService.exe","Parsec","AnyDeskMSI","Te
     ,tasks: []
     ,custom: [] }
 
-
 global vrbloat := { services: ["vorpX Service","OVRLibraryService","OVRService","Steam Client Service"]
     ,processes: [ "vorpService","vrwebhelper","vrdashboard","vrmonitor","vrcompositor","vrserver","OVRRedir","OVRServer_x64","OVRServiceLauncher"]
     ,tasks: []
@@ -33,7 +32,12 @@ global vd := { services: ["VirtualDesktop.Service.exe"]
     ,custom: [] }
 
 global cmd: { services: []
-    ,processes: ["conhost","cmd"]
+    ,processes: ["WindowsTerminal","powershell","powershell_ise","conhost","cmd"]
+    ,tasks: []
+    ,custom: [] }
+
+global explorer: { services: []
+    ,processes: ["retrobar","explorer","StartMenu"]
     ,tasks: []
     ,custom: [] }
 
@@ -77,98 +81,50 @@ for n, param in A_Args
 
 return
 
+RunBatch(batch, name:="UNBLOAT") {
+    scriptlog("[".name."] Stopping " . batch.services.Count() . " services")
+    StopServices(batch.services, True)
+    scriptlog("[".name."] Ending " . batch.tasks.Count() . " tasks")
+    EndTasks(batch.tasks, True)
+    scriptlog("[".name."] Killing " . batch.processes.Count() . " processes")
+    KillProcesses(batch.processes, True)
+    scriptlog("[".name."] Running " . batch.custom.Count() . " commands")
+    RunWaitLast(batch.custom, True)
+}
+
 KillBloat() {
-    scriptlog("[UNBLOAT] Stopping " . bloat.services.Count() . " services")
-    StopServices(bloat.services, True)
-    scriptlog("[UNBLOAT] Ending " . bloat.tasks.Count() . " tasks")
-    EndTasks(bloat.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . bloat.processes.Count() . " processes")
-    ; RunWaitLast(bloat.processes, "taskkill /f /im """, """")
-    KillProcesses(bloat.processes, True)
-    scriptlog("[UNBLOAT] Running " . bloat.custom.Count() . " commands")
-    RunWaitLast(bloat.custom, True)
+    RunBatch(bloat, "BLOAT")
     Msgbox 4, KILL WIN STUFF, Are you sure?
     IfMsgBox No
         Return
-    scriptlog("[UNBLOAT] Stopping " . winbloat.services.Count() . " services")
-    StopServices(winbloat.services, True)
-    scriptlog("[UNBLOAT] Ending " . winbloat.tasks.Count() . " tasks")
-    EndTasks(winbloat.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . winbloat.processes.Count() . " processes")
-    KillProcesses(winbloat.processes, True)
-    scriptlog("[UNBLOAT] Running " . winbloat.custom.Count() . " commands")
-    RunWaitLast(winbloat.custom, True)
+    RunBatch(winbloat, "WINBLOAT")
 }
 
 KillSemiBloat() {
-    scriptlog("[UNBLOAT] Stopping " . semibloat.services.Count() . " services")
-    StopServices(semibloat.services, True)
-    scriptlog("[UNBLOAT] Ending " . semibloat.tasks.Count() . " tasks")
-    EndTasks(semibloat.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . semibloat.processes.Count() . " processes")
-    KillProcesses(semibloat.processes, True)
-    scriptlog("[UNBLOAT] Running " . semibloat.custom.Count() . " commands")
-    RunWaitLast(semibloat.custom, True)
+    RunBatch(semibloat, "SEMIBLOAT")
     Msgbox 4, KILL VR STUFF, Are you sure?
     IfMsgBox No
         Return
-    scriptlog("[UNBLOAT] Stopping " . vrbloat.services.Count() . " services")
-    StopServices(vrbloat.services, True)
-    scriptlog("[UNBLOAT] Ending " . vrbloat.tasks.Count() . " tasks")
-    EndTasks(vrbloat.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . vrbloat.processes.Count() . " processes")
-    KillProcesses(vrbloat.processes, True)
-    scriptlog("[UNBLOAT] Running " . vrbloat.custom.Count() . " commands")
-    RunWaitLast(vrbloat.custom, True)
+    RunBatch(vrbloat, "VRBLOAT")
     Msgbox 4, KILL Virtual Desktop, Are you sure?
     IfMsgBox No
         Return
     CloseScript("vr.ahk")
-    scriptlog("[UNBLOAT] Stopping " . vd.services.Count() . " services")
-    StopServices(vd.services, True)
-    scriptlog("[UNBLOAT] Ending " . vd.tasks.Count() . " tasks")
-    EndTasks(vd.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . vd.processes.Count() . " processes")
-    KillProcesses(vd.processes, True)
-    scriptlog("[UNBLOAT] Running " . vd.custom.Count() . " commands")
-    RunWaitLast(vd.custom, True)
+    RunBatch(vd, "VIRTUAL DESKTOP")
     Msgbox 4, KILL EVERYTHING, Are you sure?
     IfMsgBox No
         Return
-    scriptlog("[UNBLOAT] Stopping " . important.services.Count() . " services")
-    StopServices(important.services, True)
-    scriptlog("[UNBLOAT] Ending " . important.tasks.Count() . " tasks")
-    EndTasks(important.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . important.processes.Count() . " processes")
-    KillProcesses(important.processes, True)
-    scriptlog("[UNBLOAT] Running " . important.custom.Count() . " commands")
-    RunWaitLast(important.custom, True)
+    RunBatch(important, "IMPORTANT")
 }
 
 KillScripts() {
-    scriptlog("[UNBLOAT] Stopping " . ahk.services.Count() . " services")
-    StopServices(ahk.services, True)
-    scriptlog("[UNBLOAT] Ending " . ahk.tasks.Count() . " tasks")
-    EndTasks(ahk.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . ahk.processes.Count() . " processes")
-    ; RunWaitLast(ahk.processes, "taskkill /f /im """, """")
-    KillProcesses(ahk.processes, True)
-    scriptlog("[UNBLOAT] Running " . ahk.custom.Count() . " commands")
-    RunWaitLast(ahk.custom, True)
+    RunBatch(ahk, "AHK")
 }
 
 KillCMD() {
-    scriptlog("[UNBLOAT] Stopping " . cmd.services.Count() . " services")
-    StopServices(cmd.services, True)
-    scriptlog("[UNBLOAT] Ending " . cmd.tasks.Count() . " tasks")
-    EndTasks(cmd.tasks, True)
-    scriptlog("[UNBLOAT] Killing " . cmd.processes.Count() . " processes")
-    ; RunWaitLast(ahk.processes, "taskkill /f /im """, """")
-    KillProcesses(cmd.processes, True)
-    scriptlog("[UNBLOAT] Running " . cmd.custom.Count() . " commands")
-    RunWaitLast(cmd.custom, True)
+    RunBatch(cmd, "CMD")
 }
 
 KillExplorer() {
-    KillProcesses(["retrobar","explorer","StartMenu"])
+    RunBatch(explorer, "EXPLORER")
 }

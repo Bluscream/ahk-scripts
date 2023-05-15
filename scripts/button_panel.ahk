@@ -234,7 +234,7 @@ OnBtnKillCMDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/cmd")
 }
 OnBtnKillScriptsClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    KillProcesses(["AutoHotkeyV2x64","AutoHotkeyV2x86","AutoHotkeyA32","AutoHotkeyU32","AutoHotkey","AutoHotkeyUX","AutoHotkeyU64"])
+    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/ahk")
 }
 
 GuiSize(GuiHwnd, EventInfo, Width, Height) {
