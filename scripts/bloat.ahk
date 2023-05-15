@@ -4,7 +4,7 @@ SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
 #Include <bluscream>
-global noui := false
+global noui := true
 
 global bloat := { services: [ "EasyAntiCheat_EOS","MSI_Case_Service","MSI_VoiceControl_Service","MSI_Central_Service","ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService","FoxitReaderUpdateService","EABackgroundService"]
     ,processes: ["bt","ShareX","tomcat8","TecnoManager","PowerToys.PowerOCR","msiexec","msedge","GalaxyClient Helper","GalaxyClient","MSI_Central_Service","MSI_Case_Service","MSI.TerminalServer","MSI.CentralServer","CC_Engine_x64","DCv2","DCv2_Startup","MSI Center","browser_assistant","Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","DSATray", "CefSharp.BrowserSubprocess","lghub_updater","wallpaper64","GlassWire","vsls-agent","webhelper","vrwebhelper","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","wingetui","gamesense-discord-x64","SteelSeriesEngine","SteelSeriesGGClient","SteelSeriesGG","SteelSeriesPrismSync","TECKNET wireless gaming mouse","RaiDrive","CompactGUI","DiskDefrag","TabReports","TabMakePortable","TabCareCenter","Integrator","ActionCenter","AnyDeskMSI"]
@@ -82,13 +82,13 @@ for n, param in A_Args
 return
 
 RunBatch(batch, name:="UNBLOAT") {
-    scriptlog("[".name."] Stopping " . batch.services.Count() . " services")
+    scriptlog("[" . name . "] Stopping " . batch.services.Count() . " services")
     StopServices(batch.services, True)
-    scriptlog("[".name."] Ending " . batch.tasks.Count() . " tasks")
+    scriptlog("[" . name . "] Ending " . batch.tasks.Count() . " tasks")
     EndTasks(batch.tasks, True)
-    scriptlog("[".name."] Killing " . batch.processes.Count() . " processes")
+    scriptlog("[" . name . "] Killing " . batch.processes.Count() . " processes")
     KillProcesses(batch.processes, True)
-    scriptlog("[".name."] Running " . batch.custom.Count() . " commands")
+    scriptlog("[" . name . "] Running " . batch.custom.Count() . " commands")
     RunWaitLast(batch.custom, True)
 }
 

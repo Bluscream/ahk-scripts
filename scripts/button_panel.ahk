@@ -70,8 +70,8 @@ initUI:
     Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, % "Youtube`n`nMusic"
 
     ; Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x712 y400 w216 h84, % "Kill Services"
-    Gui Add, Button, hWndhBtnKillCMD vBtnKillCMD gOnBtnKillCMDClicked x712 y400 w106 h84, `% " Kill CMD"
-    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x824 y400 w110 h84, % "Kill Services"
+    Gui Add, Button, hWndhBtnKillCMD vBtnKillCMD gOnBtnKillCMDClicked x712 y400 w106 h84, % " Kill CMD"
+    Gui Add, Button, hWndhBtnKillSemiBloat vBtnKillSemiBloat gOnBtnKillSemiBloatClicked x824 y400 w110 h84, % "Services"
 
     Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gOnBtnKillbloatClicked x712 y488 w216 h84, % "Kill Bloat"
     
