@@ -31,23 +31,23 @@ global vd := { services: ["VirtualDesktop.Service.exe"]
     ,tasks: []
     ,custom: [] }
 
-global cmd: { services: []
+global cmd := { services: []
     ,processes: ["WindowsTerminal","powershell","powershell_ise","conhost","cmd"]
     ,tasks: []
     ,custom: [] }
 
-global explorer: { services: []
+global explorer := { services: []
     ,processes: ["retrobar","explorer","StartMenu"]
     ,tasks: []
     ,custom: [] }
 
-global ahk: { services: []
+global ahk := { services: []
     ,processes: ["AutoHotkeyV2x64","AutoHotkeyV2x86","AutoHotkeyA32","AutoHotkeyU32","AutoHotkey","AutoHotkeyUX","AutoHotkeyU64"]
     ,tasks: []
     ,custom: [] }
 
 global important := { services: ["RaiDrive.Service","cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","Everything","EFS"]
-,processes: [ "RaiDrive.Service.x64","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB" ]
+    ,processes: [ "RaiDrive.Service.x64","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB" ]
     ,tasks: []
     ,custom: [] }
 
