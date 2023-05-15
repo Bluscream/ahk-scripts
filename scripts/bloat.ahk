@@ -32,6 +32,16 @@ global vd := { services: ["VirtualDesktop.Service.exe"]
     ,tasks: []
     ,custom: [] }
 
+global cmd: { services: []
+    ,processes: ["conhost","cmd"]
+    ,tasks: []
+    ,custom: [] }
+
+global ahk: { services: []
+    ,processes: ["AutoHotkeyV2x64","AutoHotkeyV2x86","AutoHotkeyA32","AutoHotkeyU32","AutoHotkey","AutoHotkeyUX","AutoHotkeyU64"]
+    ,tasks: []
+    ,custom: [] }
+
 global important := { services: ["RaiDrive.Service","cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","Everything","EFS"]
 ,processes: [ "RaiDrive.Service.x64","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB" ]
     ,tasks: []
@@ -53,8 +63,14 @@ for n, param in A_Args
     } else if (param == "/semibloat") {
         KillSemiBloat()
         ExitApp
-    } else if (param == "/semibloat") {
+    } else if (param == "/explorer") {
         KillExplorer()
+        ExitApp
+    } else if (param == "/ahk") {
+        KillScripts()
+        ExitApp
+    } else if (param == "/cmd") {
+        KillCmd()
         ExitApp
     }
 }
@@ -127,6 +143,30 @@ KillSemiBloat() {
     KillProcesses(important.processes, True)
     scriptlog("[UNBLOAT] Running " . important.custom.Count() . " commands")
     RunWaitLast(important.custom, True)
+}
+
+KillScripts() {
+    scriptlog("[UNBLOAT] Stopping " . ahk.services.Count() . " services")
+    StopServices(ahk.services, True)
+    scriptlog("[UNBLOAT] Ending " . ahk.tasks.Count() . " tasks")
+    EndTasks(ahk.tasks, True)
+    scriptlog("[UNBLOAT] Killing " . ahk.processes.Count() . " processes")
+    ; RunWaitLast(ahk.processes, "taskkill /f /im """, """")
+    KillProcesses(ahk.processes, True)
+    scriptlog("[UNBLOAT] Running " . ahk.custom.Count() . " commands")
+    RunWaitLast(ahk.custom, True)
+}
+
+KillCMD() {
+    scriptlog("[UNBLOAT] Stopping " . cmd.services.Count() . " services")
+    StopServices(cmd.services, True)
+    scriptlog("[UNBLOAT] Ending " . cmd.tasks.Count() . " tasks")
+    EndTasks(cmd.tasks, True)
+    scriptlog("[UNBLOAT] Killing " . cmd.processes.Count() . " processes")
+    ; RunWaitLast(ahk.processes, "taskkill /f /im """, """")
+    KillProcesses(cmd.processes, True)
+    scriptlog("[UNBLOAT] Running " . cmd.custom.Count() . " commands")
+    RunWaitLast(cmd.custom, True)
 }
 
 KillExplorer() {
