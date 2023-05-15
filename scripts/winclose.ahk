@@ -6,6 +6,7 @@
 
 #Include <bluscream>
 EnforceAdmin()
+global no_ui := false
 ; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
 ; Big thanks to Dinenon#8239
 ; SetBatchLines, -1
@@ -120,7 +121,7 @@ titles.push({title:"Information ahk_class #32770 ahk_exe sardu_4.exe",text:"",ac
 titles.push({title:" | PortableApps.com Installer ahk_class #32770",text:"",action: "ClickButton:I &Agree"})
 titles.push({title:".ahk ahk_class #32770 ahk_exe AutoHotkey.exe",text:"C:\Program Files\AutoHotkey\Lib\bluscream\json.ahk",action: "ClickButton:&Yes"})
 titles.push({title:"Script Error ahk_class Internet Explorer_TridentDlgFrame ahk_exe updatechecker.exe",text:"",action: "CloseWindow"})
-titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"ClickButton:TsListView1"}) ; ClickButton:Cancel ; Click:X1673 Y1006
+; titles.push({title:"ahk_class TMobaXtermForm ahk_exe MobaXterm.exe",ext_title:"MobaXterm Master Password",action:"ClickButton:TsListView1"}) ; ClickButton:Cancel ; Click:X1673 Y1006
 titles.push({title:"HASS.Agent ahk_class WindowsForms10.Window.8.app.0.2982bee_r3_ad1 ahk_exe HASS.Agent.exe",text:"Error trying to bind the API to port ",action: "CloseWindow"})
 titles.push({title:"Taskbar ahk_class #32770 ahk_exe explorer.exe",text:"",action: "CloseWindow"})
 titles.push({title:"RaiDrive ahk_class HwndWrapper[RaiDrive;;4a926fae-babf-4e16-8d32-436648ddf991] ahk_exe RaiDrive.exe",text:"standard 2022.6.92",action: "CloseWindow"})
@@ -133,6 +134,7 @@ titles.push({title:"BattlEye Launcher ahk_class #32770 ahk_exe BlackSquadGame_BE
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
 ;<=====  Setup our timer  =====================================================>
 SetTimer, runChecks, 500 ; Check every 1/8th second
+scriptlog("Started")
 ;<=====  Functions  ===========================================================>
 
 ; DllCall("RegisterShellHookWindow", UInt,hWnd)
@@ -196,6 +198,8 @@ runChecks(_hwnd := 0x0){
       action := win["action"]
       if (action) {
         actions := StrSplit(action, ";")
+        WinGet, proc, ProcessName, %title%
+        scriptlog("Closing window " . title . " from process " . proc . " with " . action)
         for i, action in actions {
             action := StrSplit(action, ":")
             if (action[1] == "CloseWindow"){
@@ -231,12 +235,15 @@ runChecks(_hwnd := 0x0){
 }
 closeWindow(title){
     ErrorLevel := 0
+    if not title {
+        return
+    }
     WinClose, %title%
     ; MsgBox, , "ErrorLevel", %ErrorLevel%
     if(ErrorLevel == 0) {
-        TrayTip, Closed %title%, , .5
+        TrayTip, % "Closed " . title, , .5
     } else {
-        TrayTip, "Error while closing %title%", "Hiding it instead", 1
+        TrayTip, "Error while closing " . title, "Hiding it instead", 1
         WinHide, %title%
     }
 }
