@@ -8,10 +8,12 @@ Process, Priority,, High
 #Include <bluscream>
 EnforceAdmin()
 SendMode, Event ; |Play|Input|InputThenPlay
+set_next_chunk = True
 SetKeyDelay, 24, 26
 return
 
 ^+b:: ExitApp
+set_next_chunk = True
 
 ^b::
     WinGet, winid

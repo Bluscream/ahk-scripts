@@ -47,6 +47,14 @@ return
     Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     Return
 
+; ^b::
+^+v::
+    Run % "C:\Scripts\copywrite.py",, Min
+    Return
+^!v::
+    Run % "C:\Scripts\split_clipboard.py",, Min
+    Return
+
 3Joy12::
     if GetKeyState("3Joy11") {
         steam.bigpicture()
