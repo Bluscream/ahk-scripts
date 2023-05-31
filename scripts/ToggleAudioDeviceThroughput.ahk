@@ -5,43 +5,51 @@
 ; #NoTrayIcon
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
-; #Include <bluscream>
+#Include <bluscream>
 ; #Include <VA>
 global no_ui := false
 
-SetupMenu()
+global menu_items := SetupMenu()
 return
 
-RemoveToolTip:
+RemoveToolTip2:
     ToolTip
     Return
 
 ; Toggle the "Listen to this device" option for the input device
 ToggleListenToDevice(InputDevice) {
     ; scriptlog("ToggleListenToDevice(" . InputDevice)
-    NewState := !IsMenuChecked("Tray", InputDevice)
+    InputDeviceName := StrSplit(InputDevice," (")[1]
+    NewState := !IsMenuChecked("Tray", menu_items[InputDevice])
+    scriptlog("""" . InputDevice . """ NewState: " . NewState)
     ; Run the PowerShell script passing input and output device names
-    cmd = SoundVolumeView /SetListenToThisDevice "%InputDevice%" %NewState%
+    cmd = SoundVolumeView /SetListenToThisDevice "%InputDeviceName%" %NewState%
     ; scriptlog(cmd)
     RunWait % cmd
     Menu, Tray, ToggleCheck, % InputDevice
     ToolTip % "Listening " . (NewState ? "enabled" : "disabled") . " on " . InputDevice
-    SetTimer, RemoveToolTip, -1000
+    SetTimer, RemoveToolTip2, -1000
     return
 }
 
 SetupMenu() {
+    ret := {}
     Menu, Tray, DeleteAll
-    devices := uniqueArray(GetAudioDevices())
-    for index, element in devices {
-        Menu, Tray, Add , % element, ToggleListenToDevice
+    devices := GetAudioDevices()
+    for device, name in devices {
+        lbl := name . " (" . device . ")"
+        Menu, Tray, Add, % lbl, ToggleListenToDevice
+        ret[lbl] := A_Index
     }
     Menu, Tray, NoStandard
+    return ret
 }
 
 IsMenuChecked(menuName, itemNumber)  {
     static MIIM_STATE := 1, MFS_CHECKED := 0x8
     hMenu := MenuGetHandle(menuName)
+    ; SendMessage, 0x211
+    ; SendMessage, 0x212
     VarSetCapacity(MENUITEMINFO, size := 4*4 + A_PtrSize*8, 0)
     NumPut(size, MENUITEMINFO)
     NumPut(MIIM_STATE, MENUITEMINFO, 4, "UInt")
@@ -50,7 +58,7 @@ IsMenuChecked(menuName, itemNumber)  {
  }
 
 GetAudioDevices(output := false) {
-    ret := []
+    ret := {}
     search := "Capture"
     if (output == true) {
         search := "Render"
@@ -60,29 +68,38 @@ GetAudioDevices(output := false) {
     cmd = SoundVolumeView /scomma "%path%"
     ; scriptlog(cmd)
     RunWait % cmd
+    ; ret := ReadDevicesFromCSV(path)
     CSV_Load(path,"data")
     Rows:=CSV_TotalRows("data")
     Loop, % Rows {
-        is_device := CSV_ReadCell("data",A_Index,2)
+        is_device := (CSV_ReadCell("data",A_Index,2) == "Device")
         if (is_device != 0) { ; found:=CSV_Search("data","Device",A_Index)
             direction := CSV_ReadCell("data",A_Index,3)
             if (direction == search) {
-                ; name := CSV_ReadCell("data",A_Index,1)
-                device := CSV_ReadCell("data",A_Index,1)
+                name := CSV_ReadCell("data",A_Index,1)
+                device := CSV_ReadCell("data",A_Index,4)
                 ; Results .= A_Index . ": " . device . "=" . name . "=" . direction . "`n"
-                ret.push(device)
+                ret[device] := name
             }
         }
     }
     return ret
 }
 
+; ReadDevicesFromCSV(path) {
+;     ret := []
+;     Loop, read, % path
+;     {
+;         columns := StrSplit(A_LoopReadLine , ",")
+;         is_device := columns [2]
+;     }
+; }
+
 uniqueArray(arr) {
     hash := {}, newArr := []
     for e, v in arr
         if (!hash[v])
             hash[(v)] := 1, newArr.push(v)
-
     return newArr
 }
 
