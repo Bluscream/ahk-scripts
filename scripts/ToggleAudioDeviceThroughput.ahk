@@ -6,36 +6,85 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 ; #Include <bluscream>
-; global no_ui := false
+; #Include <VA>
+global no_ui := false
 
-; Set the audio input device name here
-InputDevice := "Audio Mixer [IN]"
-
-; Set the audio output device name here
-; OutputDevice := "Bluetooth Headset [OUT]"
-
-global LastState := 0
-
+SetupMenu()
 return
 
 RemoveToolTip:
     ToolTip
-    return
+    Return
 
 ; Toggle the "Listen to this device" option for the input device
 ToggleListenToDevice(InputDevice) {
-    global LastState
-    LastState := !LastState
+    ; scriptlog("ToggleListenToDevice(" . InputDevice)
+    NewState := !IsMenuChecked("Tray", InputDevice)
     ; Run the PowerShell script passing input and output device names
-    cmd = SoundVolumeView /SetListenToThisDevice "%InputDevice%" %LastState%
+    cmd = SoundVolumeView /SetListenToThisDevice "%InputDevice%" %NewState%
     ; scriptlog(cmd)
-    RunWait, % cmd
-    ToolTip % "Listening " . (LastState ? "enabled" : "disabled") . " on " . InputDevice
+    RunWait % cmd
+    Menu, Tray, ToggleCheck, % InputDevice
+    ToolTip % "Listening " . (NewState ? "enabled" : "disabled") . " on " . InputDevice
     SetTimer, RemoveToolTip, -1000
     return
 }
 
+SetupMenu() {
+    Menu, Tray, DeleteAll
+    devices := uniqueArray(GetAudioDevices())
+    for index, element in devices {
+        Menu, Tray, Add , % element, ToggleListenToDevice
+    }
+    Menu, Tray, NoStandard
+}
 
+IsMenuChecked(menuName, itemNumber)  {
+    static MIIM_STATE := 1, MFS_CHECKED := 0x8
+    hMenu := MenuGetHandle(menuName)
+    VarSetCapacity(MENUITEMINFO, size := 4*4 + A_PtrSize*8, 0)
+    NumPut(size, MENUITEMINFO)
+    NumPut(MIIM_STATE, MENUITEMINFO, 4, "UInt")
+    DllCall("GetMenuItemInfo", Ptr, hMenu, UInt, itemNumber - 1, UInt, true, Ptr, &MENUITEMINFO)
+    Return !!(NumGet(MENUITEMINFO, 4*3, "UInt") & MFS_CHECKED)
+ }
+
+GetAudioDevices(output := false) {
+    ret := []
+    search := "Capture"
+    if (output == true) {
+        search := "Render"
+    }
+    EnvGet, temp, temp
+    path := temp . "\dump.csv"
+    cmd = SoundVolumeView /scomma "%path%"
+    ; scriptlog(cmd)
+    RunWait % cmd
+    CSV_Load(path,"data")
+    Rows:=CSV_TotalRows("data")
+    Loop, % Rows {
+        is_device := CSV_ReadCell("data",A_Index,2)
+        if (is_device != 0) { ; found:=CSV_Search("data","Device",A_Index)
+            direction := CSV_ReadCell("data",A_Index,3)
+            if (direction == search) {
+                ; name := CSV_ReadCell("data",A_Index,1)
+                device := CSV_ReadCell("data",A_Index,1)
+                ; Results .= A_Index . ": " . device . "=" . name . "=" . direction . "`n"
+                ret.push(device)
+            }
+        }
+    }
+    return ret
+}
+
+uniqueArray(arr) {
+    hash := {}, newArr := []
+    for e, v in arr
+        if (!hash[v])
+            hash[(v)] := 1, newArr.push(v)
+
+    return newArr
+}
 
 ; Get the audio device ID based on the device name and type
 ; GetAudioDeviceID(DeviceName, DeviceType) {
@@ -55,5 +104,5 @@ ToggleListenToDevice(InputDevice) {
 ; ^!l::
 ; #q::
 !q::
-    ToggleListenToDevice(InputDevice)
+    ToggleListenToDevice("Audio Mixer [IN]")
     return
