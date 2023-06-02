@@ -121,5 +121,5 @@ uniqueArray(arr) {
 ; ^!l::
 ; #q::
 !q::
-    ToggleListenToDevice("Audio Mixer [IN]")
+    ToggleListenToDevice("Audio Mixer [IN] (F998)")
     return
