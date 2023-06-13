@@ -39,6 +39,38 @@ MatchBetween(Haystack,char1,char2) {
         Matches.push(SubStr(Haystack,pos1+1,pos2-pos1-1)) , pos := pos2 + 1
     return Matches
 }
+regexMatchAll(content_SearchOn, regexPatternStr_MatchFor, ind_MatchFromPosition := 1) {
+    ;~ stdout := FileOpen("*", "w")
+    arr_matcher := []
+    
+    while (true)
+    {
+      ind_RegexGroupAll := RegExMatch(content_SearchOn, regexPatternStr_MatchFor, matcher, ind_MatchFromPosition)
+      ; you cannot use `while (ind_RegexGroupAll != 0)`, cuz its would be evaluated after a Null match already pushed inside the array -> you must `break the loop` soon, before `arr_matcher.Push(matcher)`
+      if (ind_RegexGroupAll == 0) { ; Zero is returned if the pattern is not found.
+        break
+      }
+      arr_matcher.Push(matcher)
+      
+      ;~ ind_RegexGroupAll_Matcher := matcher.Pos ; Dont use this, if no match, all these `matcher.*` are null
+      length_RegexGroupAll := matcher.Len
+      ind_MatchFromPosition := ind_RegexGroupAll + length_RegexGroupAll
+      ;~ stdout.WriteLine("ind_RegexGroupAll: " . ind_RegexGroupAll)
+      ;~ stdout.WriteLine("ind_RegexGroupAll_Matcher: " . ind_RegexGroupAll_Matcher)
+      ;~ stdout.WriteLine("length_RegexGroupAll: " . length_RegexGroupAll)
+      ;~ stdout.WriteLine("ind_MatchFromPosition: " . ind_MatchFromPosition)
+      
+      if (length_RegexGroupAll == 0) { ; avoid zero-width match
+        ind_MatchFromPosition += 1
+        if (ind_MatchFromPosition > StrLen(content_SearchOn)) { ; avoid `ind_MatchFromPosition += 1` leads to out of bound -> inf loop (this happens if a zero-width match is at the end of `content_SearchOn`)
+          ; @performance `StrLen(content_SearchOn)` can be improved
+          break
+        }
+      }
+      
+    }
+    return arr_matcher
+}
 WriteToFile(path, String) {
     if !String {
         return
@@ -451,4 +483,23 @@ GlobalMatches(text, regex){
 		}
 	}
 	return matches
+}
+rgb2hex(Red, Green, Blue)
+{
+    ;store previous setting
+    oldIntFormat := A_FormatInteger
+
+    ;ensures values are in hex
+    SetFormat, IntegerFast, hex
+
+    ;subStr(value, 3) removes the leading "0x"
+    RGB := subStr(Red & 255, 3) . subStr(Green & 255, 3) . subStr(Blue & 255, 3)
+
+    ;restore previous setting
+    SetFormat, IntegerFast, %oldIntFormat%
+
+    return RGB
+}
+decimal2hex(Value) {
+    return (Value * 255) ; / 100
 }
