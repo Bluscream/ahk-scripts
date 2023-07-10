@@ -76,6 +76,11 @@ initUI:
     Gui Add, Button, hWndhBtnKillbloat vBtnKillbloat gOnBtnKillbloatClicked x712 y488 w216 h84, % "Kill Bloat"
     
     Gui Font
+
+    if (A_Args[1] = "-show") {
+        showUI()
+    }
+
     return
 
 showUI() {

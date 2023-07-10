@@ -130,6 +130,9 @@ titles.push({title:"ShareX - Hotkey registration failed ahk_class #32770 ahk_exe
 titles.push({title:"Message ahk_class #32770 ahk_exe BlackSquadGame.exe",text:"This is application must to run from launcher.",action: "CloseWindow"})
 titles.push({title:"BattlEye Launcher ahk_class #32770 ahk_exe BlackSquadGame_BELauncher.exe",text:"",action: "CloseWindow"})
 titles.push({title:"RunDLL ahk_class #32770 ahk_exe rundll32.exe",text:"Missing entry: ",action: "CloseWindow"})
+titles.push({title:"Error ahk_class #32770 ahk_exe iw4x.exe",text:"Fatal error",action: "ClickButton:No"})
+
+
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
