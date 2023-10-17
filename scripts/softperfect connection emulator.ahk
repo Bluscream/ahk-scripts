@@ -1,4 +1,4 @@
-﻿ #SingleInstance Force
+﻿#SingleInstance Force
 #NoEnv
 ; #NoTrayIcon
 #Persistent

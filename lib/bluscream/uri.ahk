@@ -96,6 +96,7 @@ class Url {
     visit(method := "GET", data := "", auth := "", retry := false) {
         try{
             HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+            HttpObj.Option(4) := 0x0100  + 0x0200 + 0x1000 + 0x2000
             HttpObj.Open(method, this.url, 0)
             ; HttpObj.SetRequestHeader("Content-Type", "application/json")
             if (auth != "") {

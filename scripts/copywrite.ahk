@@ -1,6 +1,6 @@
 ﻿; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-copywrite-ahk
 #Persistent
-#NoTrayIcon
+; #NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
@@ -9,7 +9,7 @@ Process, Priority,, High
 EnforceAdmin()
 SendMode, Event ; |Play|Input|InputThenPlay
 set_next_chunk = True
-SetKeyDelay, 24, 26
+SetKeyDelay, 99, 87
 return
 
 ^+b:: ExitApp

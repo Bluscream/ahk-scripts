@@ -237,6 +237,7 @@ OnBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 OnBtnKillCMDClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/cmd")
+    ExitApp
 }
 OnBtnKillScriptsClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/ahk")

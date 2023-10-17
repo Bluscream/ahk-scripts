@@ -9,8 +9,8 @@ EnforceAdmin()
 #Include <steam>
 global steam := new Steam()
 global bspid := 0
-SetTimer, CheckVivecraftInstaller, 1000
-SetTimer, CheckEasyFileLocker, 2500
+; SetTimer, CheckVivecraftInstaller, 1000
+; SetTimer, CheckEasyFileLocker, 2500
 global no_ui := true
 global debug := false
 return
@@ -34,15 +34,15 @@ return
         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
     return
-<#g::
-    new Process("fivem_b2545_dumpserver").kill()
-    new Process("fivem_steamchild").kill()
-    new Process("fivem_chromebrowser").kill()
-    new Process("fivem_b2545_gtaprocess").kill()
-    new Process("FiveM.exe").kill()
-    Run % "fivem://connect/kzyerv"
-    ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
-    return
+; <#g::
+;     new Process("fivem_b2545_dumpserver").kill()
+;     new Process("fivem_steamchild").kill()
+;     new Process("fivem_chromebrowser").kill()
+;     new Process("fivem_b2545_gtaprocess").kill()
+;     new Process("FiveM.exe").kill()
+;     Run % "fivem://connect/kzyerv"
+;     ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
+;     return
 +<#n::
     Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     Return
@@ -113,29 +113,29 @@ return
 ;     return new Process("obs64.exe").exists()
 ; }
 
-CheckVivecraftInstaller:
-    SetTimer, CheckVivecraftInstaller, Off
-    win := new Window("Vivecraft Installer","SunAwtDialog","java.exe")
-    if (win.exists()) {
-        win2 := new Window("Open","SunAwtDialog","java.exe")
-        win2.waitActive()
-        Send ^a
-        SendInput, C:\tools\MultiMC
-        WinWaitClose, % win2.str()
-        WinWaitClose, % win.str()
-    }
-    SetTimer, CheckVivecraftInstaller, 1000
-    return
+; CheckVivecraftInstaller:
+;     SetTimer, CheckVivecraftInstaller, Off
+;     win := new Window("Vivecraft Installer","SunAwtDialog","java.exe")
+;     if (win.exists()) {
+;         win2 := new Window("Open","SunAwtDialog","java.exe")
+;         win2.waitActive()
+;         Send ^a
+;         SendInput, C:\tools\MultiMC
+;         WinWaitClose, % win2.str()
+;         WinWaitClose, % win.str()
+;     }
+;     SetTimer, CheckVivecraftInstaller, 1000
+;     return
 
-CheckEasyFileLocker:
-    SetTimer, CheckEasyFileLocker, Off
-    ; win := new Window("Files & Folders Setting","#32770","FileLocker.exe")
-    win2 := new Window("Browse for Folder","#32770","FileLocker.exe")
-    ; Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
-    if (win2.exists()) {
-        win2.close()
-        FileSelectFolder, dir, ::{20d04fe0-3aea-1069-a2d8-08002b30309d}, 7
-        ControlSetText, Edit1, % dir, % winstr2
-    }
-    SetTimer, CheckEasyFileLocker, 2500
-    return
+; CheckEasyFileLocker:
+    ; SetTimer, CheckEasyFileLocker, Off
+    ; ; win := new Window("Files & Folders Setting","#32770","FileLocker.exe")
+    ; win2 := new Window("Browse for Folder","#32770","FileLocker.exe")
+    ; ; Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
+    ; if (win2.exists()) {
+    ;     win2.close()
+    ;     FileSelectFolder, dir, ::{20d04fe0-3aea-1069-a2d8-08002b30309d}, 7
+    ;     ControlSetText, Edit1, % dir, % winstr2
+    ; }
+    ; SetTimer, CheckEasyFileLocker, 2500
+    ; return

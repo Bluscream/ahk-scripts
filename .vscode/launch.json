@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "ahk2",
+            "request": "launch",
+            "name": "AutoHotkey v2 Debugger",
+            "program": "",
+            "stopOnEntry": true
+        },
+    {
+        "type": "ahk",
+        "request": "launch",
+        "name": "AutoHotkey v1 Debugger",
+        "program": "",
+        "stopOnEntry": true
+    }
+    ]
+}

@@ -6,18 +6,18 @@ DetectHiddenWindows On
 #Include <bluscream>
 global noui := true
 
-global bloat := { services: [ "EasyAntiCheat_EOS","MSI_Case_Service","MSI_VoiceControl_Service","MSI_Central_Service","ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","LGHUBUpdaterService","Wallpaper Engine Service","GlassWire","MBAMService","FoxitReaderUpdateService","EABackgroundService"]
-    ,processes: ["bt","ShareX","tomcat8","TecnoManager","PowerToys.PowerOCR","msiexec","msedge","GalaxyClient Helper","GalaxyClient","MSI_Central_Service","MSI_Case_Service","MSI.TerminalServer","MSI.CentralServer","CC_Engine_x64","DCv2","DCv2_Startup","MSI Center","browser_assistant","Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","DSATray", "CefSharp.BrowserSubprocess","lghub_updater","wallpaper64","GlassWire","vsls-agent","webhelper","vrwebhelper","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","wingetui","gamesense-discord-x64","SteelSeriesEngine","SteelSeriesGGClient","SteelSeriesGG","SteelSeriesPrismSync","TECKNET wireless gaming mouse","RaiDrive","CompactGUI","DiskDefrag","TabReports","TabMakePortable","TabCareCenter","Integrator","ActionCenter","AnyDeskMSI","DiscordCanary","GoogleDriveFS","PowerToys.AlwaysOnTop"]
+global bloat := { services: [ "EasyAntiCheat_EOS","MSI_Case_Service","MSI_VoiceControl_Service","MSI_Central_Service","ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","LGHUBUpdaterService","GlassWire","MBAMService","FoxitReaderUpdateService","EABackgroundService"]
+    ,processes: ["bt","ShareX","tomcat8","TecnoManager","PowerToys.PowerOCR","msiexec","msedge","GalaxyClient Helper","GalaxyClient","MSI_Central_Service","MSI_Case_Service","MSI.TerminalServer","MSI.CentralServer","CC_Engine_x64","DCv2","DCv2_Startup","MSI Center","browser_assistant","Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","Playnite.DesktopApp","DSATray", "CefSharp.BrowserSubprocess","lghub_updater","GlassWire","vsls-agent","webhelper","vrwebhelper","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","gamesense-discord-x64","SteelSeriesEngine","SteelSeriesGGClient","SteelSeriesGG","SteelSeriesPrismSync","TECKNET wireless gaming mouse","RaiDrive","CompactGUI","DiskDefrag","TabReports","TabMakePortable","TabCareCenter","Integrator","ActionCenter","AnyDeskMSI","DiscordCanary","GoogleDriveFS","PowerToys.AlwaysOnTop","fdm"]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
-    ,custom: [] }
+    ,custom: [] }    
 
-global semibloat := { services: ["TeraCopyService.exe","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter"] ;
-    ,processes: [ "TeraCopyService.exe","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","nginx","php-cgi","Playnite.DesktopApp","EarTrumpet","mbamtray","Telegram","TrafficMonitor","wallpaper32","webwallpaper32","WhatsApp"] ;
+global semibloat := { services: ["CloudflareWARP","RaiDrive.Service","TeraCopyService.exe","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","BEService","EasyAntiCheat","fpsVR Service - CPU Temperature Counter"] ;
+    ,processes: [ "Cloudflare WARP","warp-svc","RaiDrive.Service.x64","TeraCopyService","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","nginx","php-cgi","Playnite.DesktopApp","EarTrumpet","mbamtray","Telegram","TrafficMonitor","WhatsApp","wingetui"] ;
     ,tasks: []
     ,custom: [] }
 
 global winbloat := { services: ["LmsaWindowsService","wuauserv","TapiSrv","Spooler","WSearch","EventLog","Schedule","WinHttpAutoProxySvc","wercplsupport","PcaSvc","wscsvc","SstpSvc","OneSyncSvc_57c4d"]
-    ,processes: ["SearchIndexer","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","OneDrive","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","EoAExperiences","conhost","cmd"]
+    ,processes: ["SearchIndexer","MoUsoCoreWorker","SettingSyncHost","StartMenuExperienceHost","SettingSyncHost","TextInputHost","mbamtray","mmc","msiexec","FileCoAuth","dasHost","dllhost","GameBarPresenceWriter","IpOverUsbSvc","EoAExperiences","conhost","cmd"] ; "OneDrive"
     ,tasks: []
     ,custom: [] }
 
@@ -46,8 +46,13 @@ global ahk := { services: []
     ,tasks: []
     ,custom: [] }
 
-global important := { services: ["RaiDrive.Service","cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","Everything","EFS"]
-    ,processes: ["RaiDrive.Service.x64","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB","RestartOnCrash","usbdeview"]
+global important := { services: ["cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","Everything","EFS","Wallpaper Engine Service"]
+    ,processes: ["Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB","RestartOnCrash","usbdeview","wallpaper64","wallpaper32","webwallpaper32"]
+    ,tasks: []
+    ,custom: [] }
+
+global whitelist := { services: []
+    ,processes: ["Adguard.exe","AdguardSvc.exe","AltDrag.exe","ApplicationFrameHost.exe","audiodg.exe","AutoHotkey.exe","backgroundTaskHost.exe","BattleBit.exe","bitsumsessionagent.exe","BoxToGoRC.exe","csrss.exe","ctfmon.exe","dasHost.exe","Discord.exe","dwm.exe","EOSOverlayRenderer-Win64-Shipping.exe","Everything.exe","explorer.exe","FanControl.exe","fontdrvhost.exe","GameOverlayUI.exe","HASS.Agent.exe","HASS.Agent.Satellite.Service.exe","helperservice.exe","jhi_service.exe","LsaIso.exe","lsass.exe","mDNSResponder.exe","Memory Compression","msedgewebview2.exe","MsMpEng.exe","nssm.exe","OpenRGB.exe","PhonerLite.exe","PnkBstrA.exe","PowerToys.exe","PowerToys.KeyboardManagerEngine.exe","PowerToys.Peek.UI.exe","PowerToys.PowerLauncher.exe","ProcessGovernor.exe","ProcessLasso.exe","RaiDrive.Service.x64.exe","Registry","RestartOnCrash.exe","RetroBar.exe","Ripcord.exe","RstMwService.exe","RtkAudUService64.exe","rundll32.exe","RuntimeBroker.exe","SearchHost.exe","Secure System","SecurityHealthService.exe","services.exe","SgrmBroker.exe","ShellExperienceHost.exe","sihost.exe","smss.exe","SoundSwitch.exe","srvstub.exe","StartMenu.exe","StartMenuExperienceHost.exe","steam.exe","steamwebhelper.exe","SuperF4.exe","svchost.exe","System","SystemSettings.exe","taskhostw.exe","TextInputHost.exe","Twinkle Tray.exe","uhssvc.exe","usbdeview.exe","UserOOBEBroker.exe","wallpaper32.exe","wallpaperservice32_c.exe","webwallpaper32.exe","Widgets.exe","WidgetService.exe","wininit.exe","winlogon.exe","WmiPrvSE.exe","WMIRegistrationService.exe","WUDFHost.exe"]
     ,tasks: []
     ,custom: [] }
 
@@ -66,19 +71,16 @@ for n, param in A_Args
         steam.uri := steam.uri_minicon
     } else if (param == "/bloat") {
         KillBloat()
-        ExitApp
     } else if (param == "/semibloat") {
         KillSemiBloat()
-        ExitApp
     } else if (param == "/explorer") {
         KillExplorer()
-        ExitApp
     } else if (param == "/ahk") {
         KillScripts()
-        ExitApp
     } else if (param == "/cmd") {
         KillCmd()
-        ExitApp
+    } else if (param == "/all") {
+        KillNotWhitelisted(whitelist.processes)
     }
 }
 
@@ -130,4 +132,18 @@ KillCMD() {
 
 KillExplorer() {
     RunBatch(explorer, "EXPLORER")
+}
+
+KillNotWhitelisted(list) {
+    ; Process, Exist
+    ; pid := ErrorLevel
+    ; WinGet, id, list, ahk_pid %pid%
+    ; Loop, %id%
+    ; {
+    ;     StringSplit, word, id%A_Index%, `;
+    ;     If Not InStr(list, word1)
+    ;     {
+    ;         Process, Close, %word1%
+    ;     }
+    ; }
 }
