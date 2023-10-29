@@ -7,62 +7,55 @@ cursorIsVisible := true
 F1::
     cursorIsVisible := !cursorIsVisible
     if (cursorIsVisible)
-        ShowCursor()
+    {
+        ToolTip, Cursor is now visible
+        SystemCursor("On")
+    }
     else
-        HideCursor()
-    return
+    {
+        ToolTip, Cursor is now hidden
+        SystemCursor("Off")
+    }
+    SetTimer, RemoveToolTip, 2000
+return
 
 RemoveToolTip:
     SetTimer, RemoveToolTip, Off
     ToolTip
-    return
+return
 
-ShowCursor()
+SystemCursor(OnOff=1)   ; INIT = "I","Init"; OFF = 0,"Off"; TOGGLE = -1,"T","Toggle"; ON = others
 {
-    SystemCursor("On")
-    SetTimer, RemoveToolTip, 2000
-    ToolTip, Cursor is now visible
-}
+    static AndMask, XorMask, $, h_cursor
+        ,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13 ; system cursors
+        , b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13   ; blank cursors
+        , h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13   ; handles of default cursors
 
-HideCursor()
-{
-    SystemCursor("Off")
-    SetTimer, RemoveToolTip, 2000
-    ToolTip, Cursor is now hidden
-}
-
-SystemCursor(OnOff := "On")
-{
-    static AndMask, XorMask, SC_OCR = [32650, 32649, 32651, 32652, 32648, 32646, 32643, 32642, 32644, 32645, 32647, 32641]
-    ,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13 ; system cursors
-    , b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13 ; blank cursors
-    , h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13 ; handles of the system cursors
-    if (OnOff = "Toggle")
-        OnOff := (b1 ? "On" : "Off")
-    if (OnOff = "Off" and !b1) ; create blank cursors
+    if (OnOff = "Init" or OnOff = "I" or $ = "")       ; init when requested or at first call
     {
-        VarSetCapacity(AndMask, 32*4, 0xFF)
-        VarSetCapacity(XorMask, 32*4, 0)
-        system_cursors := DllCall("LoadLibrary", "Str", "user32.dll")
-        Loop 13
+        $ = h                                          ; active default cursors
+        VarSetCapacity( h_cursor,4444, 1 )
+        VarSetCapacity( AndMask, 32*4, 0xFF )
+        VarSetCapacity( XorMask, 32*4, 0 )
+        system_cursors = 32512,32513,32514,32515,32516,32642,32643,32644,32645,32646,32648,32649,32650
+        StringSplit c, system_cursors, `,
+        Loop %c0%
         {
-            h_cursor := DllCall("LoadCursor", "Ptr", system_cursors, "Ptr", SC_OCR[A_Index])
-            hbmMask := DllCall("CreateBitmap", "Int", 32, "Int", 32, "UInt", 1, "UInt", 1, "Ptr", 0)
-            hbmColor := DllCall("CreateBitmap", "Int", 32, "Int", 32, "UInt", 1, "UInt", 1, "Ptr", 0)
-            b%A_Index% := DllCall("CreateIconIndirect", "Ptr", &AndMask, "Ptr", &XorMask, "UInt", hbmMask, "UInt", hbmColor)
-            DllCall("DestroyIcon", "Ptr", h_cursor)
-            DllCall("DeleteObject", "Ptr", hbmMask)
-            DllCall("DeleteObject", "Ptr", hbmColor)
+            h_cursor   := DllCall( "LoadCursor", "uint",0, "uint",c%A_Index% )
+            h%A_Index% := DllCall( "CopyImage",  "uint",h_cursor, "uint",2, "int",0, "int",0, "uint",0 )
+            b%A_Index% := DllCall("CreateCursor","uint",0, "int",0, "int",0
+                , "int",32, "int",32, "uint",&AndMask, "uint",&XorMask )
         }
-        DllCall("FreeLibrary", "Ptr", system_cursors)
     }
-    Loop 13
+
+    if (OnOff = 0 or OnOff = "Off" or $ = "h" and (OnOff < 0 or OnOff = "Toggle" or OnOff = "T"))
+        $ = b  ; use blank cursors
+    else
+        $ = h  ; use the saved cursors
+
+    Loop %c0%
     {
-        if !(c%A_Index% := DllCall("CopyImage", "Ptr", (h%A_Index% := DllCall("LoadCursor", "Ptr", 0, "Ptr", SC_OCR[A_Index])), "UInt", 2, "Int", 0, "Int", 0, "UInt", 0))
-            return
-        if (OnOff = "Off")
-            DllCall("SetSystemCursor", "Ptr", b%A_Index%, "UInt", SC_OCR[A_Index])
-        else
-            DllCall("SetSystemCursor", "Ptr", c%A_Index%, "UInt", SC_OCR[A_Index])
+        h_cursor := DllCall( "CopyImage", "uint",%$%%A_Index%, "uint",2, "int",0, "int",0, "uint",0 )
+        DllCall( "SetSystemCursor", "uint",h_cursor, "uint",c%A_Index% )
     }
 }

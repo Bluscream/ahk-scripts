@@ -81,9 +81,15 @@ for n, param in A_Args
         KillCmd()
     } else if (param == "/all") {
         KillNotWhitelisted(whitelist.processes)
+    } else if (param == "/mybloat") {
+        KillBloat(true)
+        KillSemiBloat(true)
+        KillCmd()
+    } else if (param == "/kill") {
+        CloseScript("bloat.ahk")
     }
 }
-
+ExitApp
 return
 
 RunBatch(batch, name:="UNBLOAT") {
@@ -97,20 +103,26 @@ RunBatch(batch, name:="UNBLOAT") {
     RunWaitLast(batch.custom, True)
 }
 
-KillBloat() {
+KillBloat(skip := false) {
     RunBatch(bloat, "BLOAT")
-    Msgbox 4, KILL WIN STUFF, Are you sure?
-    IfMsgBox No
-        Return
+    if (!skip) {
+        Msgbox 4, KILL WIN STUFF, Are you sure?
+        IfMsgBox No
+            Return
+    }
     RunBatch(winbloat, "WINBLOAT")
 }
 
-KillSemiBloat() {
+KillSemiBloat(skip := false) {
     RunBatch(semibloat, "SEMIBLOAT")
-    Msgbox 4, KILL VR STUFF, Are you sure?
-    IfMsgBox No
-        Return
+    if (!skip) {
+        Msgbox 4, KILL VR STUFF, Are you sure?
+        IfMsgBox No
+            Return
+    }
     RunBatch(vrbloat, "VRBLOAT")
+    if (skip)
+        Return
     Msgbox 4, KILL Virtual Desktop, Are you sure?
     IfMsgBox No
         Return
