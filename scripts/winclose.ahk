@@ -134,7 +134,8 @@ titles.push({title:"Error ahk_class #32770 ahk_exe iw4x.exe",text:"Fatal error",
 titles.push({title:"Error ahk_class #32770 ahk_exe RestartOnCrash.exe",text:"OK",action: "CloseWindow"})
 titles.push({title:"Attention! ahk_class #32770 ahk_exe ADBAppControl.exe",text:"Removing or disabling SYSTEM applications may result in failure of the device and reset to factory settings (with data wipe). Are you sure you want to continue?",action: "ClickButton:&Yes"})
 titles.push({title:"Task completed ahk_class #32770 ahk_exe ADBAppControl.exe",text:"OK",action: "CloseWindow"})
-
+titles.push({title:"AirServer® Universal ahk_class NativeHWNDHost ahk_exe AirServer.exe",text:"",action: "ClickButton:Try;CloseWindow"})
+titles.push({title:"Invalid License Key • DisplayFusion Pro ahk_class WindowsForms10.Window.8.app.0.3c5331e_r3_ad1 ahk_exe DisplayFusion.exe",text:"",action: "ClickButton:Maybe Later"})
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

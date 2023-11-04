@@ -7,8 +7,9 @@
 global buttons := {}
 ;region cheats
 buttons["Half-Life: Alyx - Cheats"] := []
-buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Startup", "sv_cheats 1;vr_enable_volume_fog 0;hl_dissolve_all_dropped_weapons 0;vr_movetype_set 3;vr_head_bubble_fade_enable 0"))
-buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Give all", "impulse 101;hlvr_shotgun_give;hlvr_give_flashlight"))
+buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Startup", "sv_cheats 1;vr_enable_volume_fog 0;hl_dissolve_all_dropped_weapons 0;hlvr_movetype_default 3;vr_movetype_set 3;hlvr_adjust_turn_option 2;vr_quick_turn_continuous_enable 1;vr_head_bubble_fade_enable 0"))
+buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Give all", "impulse 101")) ; hlvr_shotgun_give
+buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Give Flashlight", "hlvr_give_flashlight"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Upgrade all", "impulse 102"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("God Mode", "god 1"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("NO God Mode", "god 0"))
@@ -16,9 +17,10 @@ buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("No Target", "notarge
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Target", "notarget 0"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Infinite Ammo", "sv_infinite_ammo 1"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("NO Infinite Ammo", "sv_infinite_ammo 0"))
-buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Weapons", "give item_hlvr_weapon_energygun;give item_hlvr_weapon_rapidfire;give item_hlvr_weapon_shotgun;give item_hlvr_multitool;give item_hlvr"))
+buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Weapons", "give item_hlvr_weapon_energygun;give item_hlvr_weapon_rapidfire;give item_hlvr_weapon_shotgun;give item_hlvr_multitool"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Ammo", "give item_hlvr_crafting_currency_small;give item_hlvr_crafting_currency_large;give item_hlvr_health_station_vial;give item_hlvr_prop_battery"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Items", "give item_hlvr_clip_energygun;give item_hlvr_clip_rapidfire;give item_hlvr_clip_shotgun_multiple;give item_hlvr_grenade_frag;give item_hlvr_grenade_xen;give item_healthvial"))
+buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Remove Target", "ent_fire !picker kill"))
 ;region props
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Bucket", "ent_create prop_physics {model models/props_junk/metalbucket01a.vmdl CanDepositInItemHolder 1}"))
 buttons["Half-Life: Alyx - Cheats"].push(new CommandButton("Spawn Beer Bottle", "ent_create prop_physics {model models/props_junk/beer_bottle_1.vmdl CanDepositInItemHolder 1}"))
@@ -66,19 +68,19 @@ buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Zombie", "npc_create n
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Zombine (HL2)", "npc_create npc_zombine"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Blind Zombie", "npc_create npc_zombie_blind"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Normal headcrab", "npc_create npc_headcrab"))
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Fast headcrab", "npc_create npc_headcrab_runner"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Fast headcrab", "npc_create npc_headcrab_fast"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Armored headcrab", "npc_create npc_headcrab_armored"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Toxic headcrab", "npc_create npc_headcrab_black"))
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Lightning dog", "npc_create npc_headcrab_fast"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Lightning dog", "npc_create npc_headcrab_runner"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Antlion", "npc_create npc_antlion"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Blue Antlion", "ent_create npc_antlion {spawnflags 262144}"))
 ;endregion zombies
 ;region combine
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Metropolice (HL2)", "ent_create npc_metropolice {additionalequipment weapon_smg1}"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Metropolice (HL2)", "ent_create npc_metropolice"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("White Combine with gas canister", "npc_create npc_combine_s"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Combine Suppressor", "ent_create npc_combine_s {model models/characters/combine_suppressor/combine_suppressor.vmdl}"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Combine Captain", "ent_create npc_combine_s {model models/characters/combine_soldier_captain/combine_captain.vmdl}"))
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Combine Heavy", "npc_combine_s {model models/characters/combine_soldier_heavy/combine_soldier_heavy.vmdl}"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Combine Heavy", "ent_create npc_combine_s {model models/characters/combine_soldier_heavy/combine_soldier_heavy.vmdl}"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Manhack", "npc_create npc_manhack"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Scanner camera", "npc_create npc_cscanner"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Clawscanner (HL2)", "npc_create npc_clawscanner"))
@@ -90,12 +92,12 @@ buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Seagull", "npc_create 
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Pigeon", "npc_create npc_pigeon"))
 ;endregion animals
 ;region resistance
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Barney (HL2)", "ent_create npc_barney {additionalequipment weapon_smg1}"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Barney (HL2)", "ent_create npc_barney"))
 ;endregion resistance
 ;region citizens
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Female Citizen", "npc_create npc_vr_citizen_female"))
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Male Citizen", "npc_create npc_vr_citizen_male"))
-buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Male Citizen (HL2)", "ent_create npc_citizen {additionalequipment weapon_smg1}"))
+buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Male Citizen (HL2)", "ent_create npc_citizen"))
 ;endregion citizens
 buttons["Half-Life: Alyx - NPCs"].push(new CommandButton("Bugbait Grenade", "npc_create npc_grenade_bugbait"))
 ;endregion
@@ -106,6 +108,12 @@ buttons["Half-Life: Alyx - Relationships"].push(new CommandButton("All fear play
 buttons["Half-Life: Alyx - Relationships"].push(new CommandButton("All ignore player", "ent_fire npc_zombie setrelationship ""!player D_NU 99""; ent_fire npc_barnacle setrelationship ""!player D_NU 99""; ent_fire npc_antlion setrelationship ""!player D_NU 99""; ent_fire npc_zombie_blind setrelationship ""!player D_NU 99""; ent_fire npc_headcrab setrelationship ""!player D_NU 99""; ent_fire npc_headcrab_armored setrelationship ""!player D_NU 99""; ent_fire npc_headcrab_black setrelationship ""!player D_NU 99""; ent_fire npc_headcrab_fast setrelationship ""!player D_NU 99""; ent_fire npc_headcrab_runner setrelationship ""!player D_NU 99""; ent_fire npc_combine_s setrelationship ""!player D_NU 99""; ent_fire npc_manhack setrelationship ""!player D_NU 99""; ent_fire npc_cscanner setrelationship ""!player D_NU 99""; ent_fire npc_turret_floor setrelationship ""!player D_NU 99""; ent_fire npc_crow setrelationship ""!player D_NU 99""; ent_fire npc_seagull setrelationship ""!player D_NU 99""; ent_fire npc_pigeon setrelationship ""!player D_NU 99""; ent_fire npc_vr_citizen_female setrelationship ""!player D_NU 99""; ent_fire npc_vr_citizen_male setrelationship ""!player D_NU 99"""))
 buttons["Half-Life: Alyx - Relationships"].push(new CommandButton("All like player", "ent_fire npc_zombie setrelationship ""!player D_LI 99""; ent_fire npc_barnacle setrelationship ""!player D_LI 99""; ent_fire npc_antlion setrelationship ""!player D_LI 99""; ent_fire npc_zombie_blind setrelationship ""!player D_LI 99""; ent_fire npc_headcrab setrelationship ""!player D_LI 99""; ent_fire npc_headcrab_armored setrelationship ""!player D_LI 99""; ent_fire npc_headcrab_black setrelationship ""!player D_LI 99""; ent_fire npc_headcrab_fast setrelationship ""!player D_LI 99""; ent_fire npc_headcrab_runner setrelationship ""!player D_LI 99""; ent_fire npc_combine_s setrelationship ""!player D_LI 99""; ent_fire npc_manhack setrelationship ""!player D_LI 99""; ent_fire npc_cscanner setrelationship ""!player D_LI 99""; ent_fire npc_turret_floor setrelationship ""!player D_LI 99""; ent_fire npc_crow setrelationship ""!player D_LI 99""; ent_fire npc_seagull setrelationship ""!player D_LI 99""; ent_fire npc_pigeon setrelationship ""!player D_LI 99""; ent_fire npc_vr_citizen_female setrelationship ""!player D_LI 99""; ent_fire npc_vr_citizen_male setrelationship ""!player D_LI 99"""))
 ; endregion relationships
+;region equipment
+; buttons["Half-Life: Alyx - NPC Equipment"] := []
+; buttons["Half-Life: Alyx - NPC Equipment"].push(new CommandButton("Stunstick", "{additionalequipment weapon_stunstick}"))
+; buttons["Half-Life: Alyx - NPC Equipment"].push(new CommandButton("SMG1", "{additionalequipment weapon_smg1}"))
+; buttons["Half-Life: Alyx - NPC Equipment"].push(new CommandButton("AR2", "{additionalequipment weapon_ar2}"))
+;endregion equipment
 
 global grids := {}
 
@@ -145,7 +153,7 @@ ButtonHandler() {
         Run, "G:\SteamLibrary\steamapps\common\Half-Life Alyx\game\bin\win64\vconsole2.exe"
         Sleep, 1000 ; Wait for the window to open
     }
-    Tooltip, % button.command
+    ; Tooltip, % button.command
     
     ; bring window to front
     WinActivate, VConsole2 ahk_class QWidget ahk_exe vconsole2.exe
@@ -154,9 +162,13 @@ ButtonHandler() {
     Sleep, 50
 
     oldClip := clipboard
+    Sleep, 50
     clipboard := button.command
+    Sleep, 50
     Send, ^v{Enter}
+    Sleep, 50
     clipboard := oldClip
+    Sleep, 50
 
     ; ControlSetText, QWidget26, Your Text, ahk_class QWidget
     ; ControlSend, QWidget26, {Enter}, ahk_class QWidget
