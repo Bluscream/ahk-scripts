@@ -115,41 +115,6 @@ ButtonHandler() {
     ; SendPlay, %buttonText%{Enter}
 }
 
-AlignGUIs(grids) {
-    ; Assuming you have a list of GUIs stored in the variable `grids`
-    ; and each GUI has a `width` and `height` property
-    
-    screenWidth := A_ScreenWidth
-    screenHeight := A_ScreenHeight
-    
-    currentX := 0
-    currentY := 0
-    maxHeightInRow := 0
-    
-    for index, grid in grids {
-        ahk_id := "ahk_id " . grid.id
-        
-
-        ; If the GUI would go off the right edge of the screen, move it to the next row
-        if (currentX + Width > screenWidth) {
-            currentX := 0
-            currentY += maxHeightInRow
-            maxHeightInRow := 0
-        }
-
-        ; If the GUI would go off the bottom edge of the screen, we've run out of space
-        if (currentY + Height > screenHeight) {
-            break
-        }
-
-        scriptlog("Moving grid " . ahk_id . " to X: " . currentX . ", Y: " . currentY . ", Width: " . grid.width . ", Height: " . grid.height . ", Size: " . grid.size)
-        WinMove, % ahk_id, , %currentX%, %currentY%
-
-        currentX += Width
-        maxHeightInRow := max(maxHeightInRow, Height)
-    }
-}
-
 AlignGUIsSort(grids) {    
     screenWidth := A_ScreenWidth
     screenHeight := A_ScreenHeight
