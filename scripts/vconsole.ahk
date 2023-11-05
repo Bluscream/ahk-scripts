@@ -1,8 +1,8 @@
 ; SetKeyDelay, -1 ; Sets the delay to the smallest possible value}
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Include <bluscream>
-global no_ui := false
-scriptlog("Starting " . A_ScriptName . "...")
+global no_ui := true
+; _scriptlog("Starting " . A_ScriptName . "...")
 
 global buttons := ReadButtons()
 
@@ -20,52 +20,24 @@ for n, param in A_Args {
 for cat, buttons in buttons {
     grids.push(new ButtonGrid(cat, buttons))
 }
-
-AlignGUIsSort(grids)
-
+; AlignGUIsSort(grids)
 return
 
-ReadButtons() {
-    btns := {}
-    ; Get a list of all config files in the buttons/ subfolder
-    Loop, buttons/*.cfg
-    {
-        ; The A_LoopFileName variable contains the name of the current file
-        category := StrReplace(A_LoopFileName, ".cfg", "")
-        btns[category] := []
-        scriptlog("[" . category . "] Loading from file " . A_LoopFileName)
-        
-        ; Open the config file for reading
-        FileRead, config, buttons/%category%.cfg
-        
-        ; Split the config into lines
-        lines := StrSplit(config, "`n", "`r")
-
-        btnCount := 0
-        skipped := 0
-        
-        ; Loop over each line in the config
-        for index, line in lines
-        {
-            line := Trim(line)
-            if (line == "" || SubStr(line, 1, 1) == ";" || SubStr(line, 1, 1) == "#" || SubStr(line, 1, 1) == "/") {
-                ; scriptlog("Skipping line: " . line)
-                skipped++
-                continue
-            }
-            ; Split the line into components
-            components := StrSplit(line, ",")
-            
-            ; Create a new button
-            button := new CommandButton(components[1], components[2], components[3])
-            
-            ; Add the button to the category
-            btns[category].push(button)
-            btnCount++
+F2::AlignGUIsSort(grids)
+F1::
+    guisMinimized := !guisMinimized
+    for index, grid in grids {
+        ahk_id := "ahk_id " . grid.id
+        if (guisMinimized) {
+            WinMinimize, % ahk_id
+        } else {
+            WinRestore, % ahk_id
         }
-        scriptlog("[" . category . "] Added " . btnCount . " buttons (skipped: " . skipped . ")")
     }
-    return btns
+    return
+
+_scriptlog(text) {
+    ; _scriptlog(text)
 }
 
 ButtonHandler() {
@@ -115,6 +87,49 @@ ButtonHandler() {
     ; SendPlay, %buttonText%{Enter}
 }
 
+ReadButtons() {
+    btns := {}
+    ; Get a list of all config files in the buttons/ subfolder
+    Loop, buttons/*.cfg
+    {
+        ; The A_LoopFileName variable contains the name of the current file
+        category := StrReplace(A_LoopFileName, ".cfg", "")
+        btns[category] := []
+        _scriptlog("[" . category . "] Loading from file " . A_LoopFileName)
+        
+        ; Open the config file for reading
+        FileRead, config, buttons/%category%.cfg
+        
+        ; Split the config into lines
+        lines := StrSplit(config, "`n", "`r")
+
+        btnCount := 0
+        skipped := 0
+        
+        ; Loop over each line in the config
+        for index, line in lines
+        {
+            line := Trim(line)
+            if (line == "" || SubStr(line, 1, 1) == ";" || SubStr(line, 1, 1) == "#" || SubStr(line, 1, 1) == "/") {
+                ; _scriptlog("Skipping line: " . line)
+                skipped++
+                continue
+            }
+            ; Split the line into components
+            components := StrSplit(line, ",")
+            
+            ; Create a new button
+            button := new CommandButton(StrReplace(components[1], "<br>", "`n"), components[2], StrReplace(components[3], "<br>", "`n"))
+            
+            ; Add the button to the category
+            btns[category].push(button)
+            btnCount++
+        }
+        _scriptlog("[" . category . "] Added " . btnCount . " buttons (skipped: " . skipped . ")")
+    }
+    return btns
+}
+
 AlignGUIsSort(grids) {    
     screenWidth := A_ScreenWidth
     screenHeight := A_ScreenHeight
@@ -132,7 +147,7 @@ AlignGUIsSort(grids) {
         if (currentY + grid.height > screenHeight) {
             break
         }
-        scriptlog("Moving grid " . ahk_id . " to X: " . currentX . ", Y: " . currentY . ", Width: " . grid.width . ", Height: " . grid.height)
+        ; _scriptlog("Moving grid " . ahk_id . " to X: " . currentX . ", Y: " . currentY . ", Width: " . grid.width . ", Height: " . grid.height)
         WinMove, % ahk_id, , %currentX%, %currentY%
         currentX += grid.width
         maxHeightInRow := max(maxHeightInRow, grid.height)
