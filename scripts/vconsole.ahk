@@ -21,7 +21,7 @@ for cat, buttons in buttons {
     grids.push(new ButtonGrid(cat, buttons))
 }
 
-AlignGUIs(grids)
+AlignGUIsSort(grids)
 
 return
 
@@ -115,7 +115,42 @@ ButtonHandler() {
     ; SendPlay, %buttonText%{Enter}
 }
 
-AlignGUIs(grids) {    
+AlignGUIs(grids) {
+    ; Assuming you have a list of GUIs stored in the variable `grids`
+    ; and each GUI has a `width` and `height` property
+    
+    screenWidth := A_ScreenWidth
+    screenHeight := A_ScreenHeight
+    
+    currentX := 0
+    currentY := 0
+    maxHeightInRow := 0
+    
+    for index, grid in grids {
+        ahk_id := "ahk_id " . grid.id
+        
+
+        ; If the GUI would go off the right edge of the screen, move it to the next row
+        if (currentX + Width > screenWidth) {
+            currentX := 0
+            currentY += maxHeightInRow
+            maxHeightInRow := 0
+        }
+
+        ; If the GUI would go off the bottom edge of the screen, we've run out of space
+        if (currentY + Height > screenHeight) {
+            break
+        }
+
+        scriptlog("Moving grid " . ahk_id . " to X: " . currentX . ", Y: " . currentY . ", Width: " . grid.width . ", Height: " . grid.height . ", Size: " . grid.size)
+        WinMove, % ahk_id, , %currentX%, %currentY%
+
+        currentX += Width
+        maxHeightInRow := max(maxHeightInRow, Height)
+    }
+}
+
+AlignGUIsSort(grids) {    
     screenWidth := A_ScreenWidth
     screenHeight := A_ScreenHeight
     Sort, grids, F CompareSizes D
@@ -124,16 +159,17 @@ AlignGUIs(grids) {
     maxHeightInRow := 0
     for index, grid in grids {
         ahk_id := "ahk_id " . grid.id
-        if (currentX + grid.Width > screenWidth) {
+        if (currentX + grid.width > screenWidth) {
             currentX := 0
             currentY += maxHeightInRow
             maxHeightInRow := 0
         }
-        if (currentY + grid.Height > screenHeight) {
+        if (currentY + grid.height > screenHeight) {
             break
         }
+        scriptlog("Moving grid " . ahk_id . " to X: " . currentX . ", Y: " . currentY . ", Width: " . grid.width . ", Height: " . grid.height)
         WinMove, % ahk_id, , %currentX%, %currentY%
-        currentX += grid.Width
+        currentX += grid.width
         maxHeightInRow := max(maxHeightInRow, grid.height)
     }
 }
@@ -182,9 +218,9 @@ class ButtonGrid {
             this.addButton(button)
         }
         Gui, +AlwaysOnTop  ; Set the GUI to always stay on top
-        Gui, Show,, %name%
+        Gui, Show,, % name
         this.id := WinExist("A")
-        WinGetPos, , , width, height, % this.id
+        WinGetPos, , , width, height, % "ahk_id " . this.id
         this.width := width
         this.height := height
         this.size := this.width * this.height
