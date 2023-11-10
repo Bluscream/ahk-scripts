@@ -1,5 +1,0 @@
-;region equipment
-Stunstick,{additionalequipment weapon_stunstick},
-SMG1,{additionalequipment weapon_smg1},
-AR2,{additionalequipment weapon_ar2},
-;endregion equipment

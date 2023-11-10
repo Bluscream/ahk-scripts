@@ -46,7 +46,7 @@ global ahk := { services: []
     ,tasks: []
     ,custom: [] }
 
-global anticheat := { services: ["PnkBstrA","BEService","EasyAntiCheat_EOS","EasyAntiCheat",]
+global anticheat := { services: ["PnkBstrA","BEService","EasyAntiCheat_EOS","EasyAntiCheat"]
     ,processes: ["PnkBstrA","BEService_bsquad","BEService","EasyAntiCheat","EasyAntiCheat_launc"]
     ,tasks: []
     ,custom: [] }
@@ -72,7 +72,7 @@ for n, param in A_Args
         vd.safe_mode := true
     } else if (param == "/min" || param == "/perf") {
         scriptlog("Performance mode enabled (" . param . ")")
-        perf_mode := truex
+        perf_mode := true
         steam.uri := steam.uri_minicon
     } else if (param == "/bloat") {
         KillBloat()

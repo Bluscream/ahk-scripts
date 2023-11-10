@@ -90,15 +90,15 @@ ButtonHandler() {
 ReadButtons() {
     btns := {}
     ; Get a list of all config files in the buttons/ subfolder
-    Loop, buttons/*.cfg
+    Loop, buttons/*.csv
     {
         ; The A_LoopFileName variable contains the name of the current file
-        category := StrReplace(A_LoopFileName, ".cfg", "")
+        category := StrReplace(A_LoopFileName, ".csv", "")
         btns[category] := []
         _scriptlog("[" . category . "] Loading from file " . A_LoopFileName)
         
         ; Open the config file for reading
-        FileRead, config, buttons/%category%.cfg
+        FileRead, config, buttons/%category%.csv
         
         ; Split the config into lines
         lines := StrSplit(config, "`n", "`r")

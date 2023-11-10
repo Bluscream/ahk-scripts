@@ -230,7 +230,8 @@ OnBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 OnBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/bloat")
+    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/mybloat")
+    GuiClose(0)
 }
 OnBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/semibloat")
