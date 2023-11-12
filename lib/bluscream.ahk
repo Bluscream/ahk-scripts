@@ -9,6 +9,7 @@
 #Include %A_LineFile%\..\bluscream\api.ahk
 #Include %A_LineFile%\..\bluscream\utils.ahk
 #Include %A_LineFile%\..\bluscream\tray.ahk
+#Include %A_LineFile%\..\bluscream\addon.ahk
 
 ObjectCount(object) {
     count := 0

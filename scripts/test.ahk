@@ -1,53 +1,37 @@
-#SingleInstance, force
-#Persistent
-#Include <bluscream>
-#include <utilities>
-global no_ui := False
-global traylib := new TrayLib(Func("OnTrayChanged"))
-traylib.start(Func("OnTrayChanged"))
+#include <bluscream>
+global no_ui := false
+scriptlog("Starting...")
 
-global last_vd_event := ""
+ArrayOfMP3:=Object()
+Loop, 5                                            ;Create fake array
+     ArrayOfMP3.Insert("D:\" . A_Index . ".mp3")
+Gui, Default
+Gui, Add, ListView, W600 H500 Checked Grid -Sort vMylistview gListLabel -Multi, Title|Artist
+Loop, % ArrayOfMP3.MAxIndex()
+	LV_Add("Check","Title " . A_Index,"Artist " . A_Index)        ;Fake listview items
+LV_ModifyCol()
+Gui, show
+GuiControl, +AltSubmit, Mylistview
+return
 
-OnTrayChanged(line) {
-    line := traylib.parseLine(line)
-    if (IsEmptyString(line.event)) {
-        return
+ListLabel:
+if (A_GuiEvent = "I")
+{
+    if InStr(ErrorLevel, "c", true)
+    {
+        LV_GetText(Title, A_EventInfo, 1)
+        LV_GetText(Artist, A_EventInfo, 2)
+        msgbox % "Remove:`nTitle = " . Title "`nArtist = " . Artist
     }
-    if (startsWith(line.msg, "Virtual Desktop")) {
-        scriptlog(line.msg)
-    }
-    if (line.event == "Modified") {
-        if (line.msg == last_vd_event) {
-            return
-        }
-        last_vd_event := line.msg
-        if (line.msg == "Virtual Desktop Streamer is connecting...") {
-            vd.state = "Connecting"
-            OnVirtualDesktopConnecting()
-        } else if (line.msg == "Virtual Desktop Streamer is ready") {
-            vd.state = "Ready"
-            OnVirtualDesktopReady()
-        } else if (line.msg == "Virtual Desktop Streamer is establishing connection...") {
-            vd.state = "EstablishingConnection"
-            OnVirtualDesktopEstablishingConnection()
-        } else if (line.msg == "Virtual Desktop Streamer is connected") {
-            vd.state = "Connected"
-            OnVirtualDesktopConnected()
-        }
+    if InStr(ErrorLevel, "C", true)
+    {
+        LV_GetText(Title, A_EventInfo, 1)
+        LV_GetText(Artist, A_EventInfo, 2)
+        msgbox % "Insert:`nTitle = " . Title "`nArtist = " . Artist
     }
 }
+return
 
-OnVirtualDesktopReady() {
-    scriptlog("OnVirtualDesktopReady")
-}
-OnVirtualDesktopConnecting() {
-    scriptlog("OnVirtualDesktopConnecting")
-}
-OnVirtualDesktopEstablishingConnection() {
-    scriptlog("OnVirtualDesktopEstablishingConnection")
-}
-OnVirtualDesktopConnected() {
-    scriptlog("OnVirtualDesktopConnected")
-}
-
-scriptlog("end")
+ListGUIClose:
+ListGUIEscape:
+ExitApp

@@ -133,7 +133,7 @@ ReadButtons() {
 AlignGUIsSort(grids) {    
     screenWidth := A_ScreenWidth
     screenHeight := A_ScreenHeight
-    Sort, grids, F CompareSizes D
+    ; Sort, grids, F CompareSizes D
     currentX := 0
     currentY := 0
     maxHeightInRow := 0
