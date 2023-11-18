@@ -1,0 +1,126 @@
+#Include <jsongo.v2>
+#Include <Peep.v2>
+
+Hotkey "F1", TranslateWindow
+Hotkey "F2", TranslateAndOutput
+
+TranslateAndOutput(ThisHotkey) {
+	; Get the title of the active window
+	windowTitle := WinGetTitle("A")
+	
+	; Get the text of the active window
+	windowText := WinGetText("A")
+	
+	; Translate the window title and text
+	translatedTitle := LibreTranslate(windowTitle, "auto", "en")
+	translatedText := LibreTranslate(windowText, "auto", "en")
+	
+ ; Write the translated text to a temporary file
+ tempFile := A_Temp . "\\translated_window.txt"
+ if (FileExist(tempFile)) {
+	FileDelete(tempFile)
+ }
+ FileAppend(translatedTitle . "`n" . translatedText, tempFile, "UTF-8")
+ 
+ ; Open the temporary file in Notepad
+ Run("notepad.exe " . tempFile)
+ }
+ 
+
+TranslateWindow(ThisHotkey) {
+	; Get the title of the active window
+	windowTitle := WinGetTitle("A")
+ 
+	OutputDebug("Window Title: " . windowTitle)
+ 
+	; Get the process name of the active window
+	; processName := WinGet("A", "ProcessName")
+ 
+	; Get a list of all controls in the active window
+	controlList := WinGetControls(windowTitle)
+ 
+	; Loop through all controls in the active window
+	for index, control in controlList {
+		OutputDebug("Control: " . control)
+			; Get the text of the current control
+			controlText := ControlGetText(control, windowTitle)
+			OutputDebug("Text: " . controlText)
+ 
+			; Translate the text to English
+			translatedText := LibreTranslate(controlText, "auto", "en")
+			OutputDebug("translatedText: " . translatedText)
+ 
+			; Set the translated text as the new text of the current control
+			ControlSetText(translatedText, control, windowTitle)
+	}
+ 
+	; Translate the window title
+	translatedTitle := LibreTranslate(windowTitle, "auto", "en")
+	OutputDebug("Translated Title: " . translatedTitle)
+ 
+	; Set the translated title as the new title of the window
+	WinSetTitle(translatedTitle, windowTitle)
+ }
+ 
+
+GoogleTranslate(text, sourceLang, targetLang) {
+		; Define the URL of the Google Translate API
+		url := "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" . sourceLang . "&tl=" . targetLang . "&dt=t&q=" . text
+	 
+		; Send a GET request to the Google Translate API
+		response := ComObject("WinHttp.WinHttpRequest.5.1")
+		response.Open("GET", url)
+		response.Send()
+	 
+		OutputDebug("Response: " . response.ResponseText)
+		; Parse the response from the Google Translate API
+		jsonResponse := jsongo.Parse(response.ResponseText)
+	 
+		; Extract the translated text from the JSON response
+		translatedText := jsonResponse[1][1][2]
+	 
+		return translatedText
+} 
+DeepLTranslate(text, sourceLang, targetLang) {
+		Base := "https://www.deepl.com/en/translator#"
+		Path := Base . sourceLang . "/" . targetLang . "/" . text
+		IE := ComObject("InternetExplorer.Application")
+		IE.Navigate(Path)
+		While IE.readyState!=4 || IE.document.readyState!="complete" || IE.busy
+				Sleep 50
+		While (IE.document.getElementsByTagName("textarea")[1].value = "")
+				Sleep 50
+		Result := IE.document.getElementsByTagName("textarea")[1].value
+		IE.Quit
+		Return Result
+ }
+ 
+LibreTranslate(text, sourceLang, targetLang) {
+	; Define the URL of the LibreTranslate API
+	url := "https://translate.minopia.de/translate"
+
+	; Define the headers for the HTTP request
+	headers := "Content-Type: application/json"
+
+	; Define the body of the HTTP request
+	; body := "{`"q`": `"" . text . "`", `"source`": `"" . sourceLang . "`", `"target`": `"" . targetLang . "`"}"
+	body := Map("q",text, "source",sourceLang, "target",targetLang)
+
+	bodyJson := jsongo.Stringify(body)
+	OutputDebug("body: " . bodyJson)
+
+	; Send a POST request to the LibreTranslate API
+	response := ComObject("WinHttp.WinHttpRequest.5.1")
+	response.Open("POST", url)
+	response.SetRequestHeader("Content-Type", "application/json")
+	response.Send(bodyJson)
+
+	OutputDebug("Response: " . response.ResponseText)
+	; Parse the response from the LibreTranslate API
+	jsonResponse := jsongo.Parse(response.ResponseText)
+
+	; Extract the translated text from the JSON response
+	translatedText := jsonResponse["translatedText"]
+
+	return translatedText
+}
