@@ -1,0 +1,13 @@
+Startup,sv_cheats 1;vrjump_falling_enabled 1;vr_enable_volume_fog 0;hl_dissolve_all_dropped_weapons 0;hlvr_movetype_default 3;vr_movetype_set 2;hlvr_adjust_turn_option 2;vr_quick_turn_continuous_enable 1;vr_head_bubble_fade_enable 0,
+Give all,impulse 101;respawn_bow,
+Give Flashlight,hlvr_give_flashlight,
+Upgrade all,impulse 102,
+500 Ammo + Resin,hlvr_setresources 500 500 500 500
+God Mode,god 1,
+NO God Mode,god 0,
+No Target,notarget 1,
+Target,notarget 0,
+Infinite Ammo,sv_infinite_ammo 1,
+NO Infinite Ammo,sv_infinite_ammo 0,
+Remove Target,ent_fire !picker kill,
+Remove Jeff,ent_fire Jeff kill;ent_fire jeff kill,

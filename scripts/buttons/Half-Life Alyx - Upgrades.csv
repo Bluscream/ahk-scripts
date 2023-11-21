@@ -1,0 +1,16 @@
+Pistol<br>Laser Sight,hlvr_energygun_grant_upgrade 0
+Pistol<br>Reflex Sight,hlvr_energygun_grant_upgrade 1
+Pistol<br>Bullet Hopper,hlvr_energygun_grant_upgrade 2
+Pistol<br>Burst Fire,hlvr_energygun_grant_upgrade 3
+
+Shotgun<br>Auto Loader,hlvr_shotgun_grant_upgrade 0
+Shotgun<br>Grenade Launcher,hlvr_shotgun_grant_upgrade 1
+Shotgun<br>Laser Sight,hlvr_shotgun_grant_upgrade 2
+Shotgun<br>Quick Fire,hlvr_shotgun_grant_upgrade 3
+
+SMG<br>Energy Ball,hlvr_rapidfire_grant_upgrade  0
+SMG<br>Tag Dart,hlvr_rapidfire_grant_upgrade 1
+SMG<br>Stun Grenade Clips,hlvr_rapidfire_grant_upgrade 2
+SMG<br>Exploding Bullets,hlvr_rapidfire_grant_upgrade 3
+SMG<br>Reflex Sight,hlvr_rapidfire_grant_upgrade 4
+SMG<br>Laser Sight,hlvr_rapidfire_grant_upgrade 5
