@@ -42,16 +42,16 @@ TranslateWindow(ThisHotkey) {
 	; Loop through all controls in the active window
 	for index, control in controlList {
 		OutputDebug("Control: " . control)
-			; Get the text of the current control
-			controlText := ControlGetText(control, windowTitle)
-			OutputDebug("Text: " . controlText)
- 
-			; Translate the text to English
-			translatedText := LibreTranslate(controlText, "auto", "en")
-			OutputDebug("translatedText: " . translatedText)
- 
-			; Set the translated text as the new text of the current control
-			ControlSetText(translatedText, control, windowTitle)
+		; Get the text of the current control
+		controlText := ControlGetText(control, windowTitle)
+		OutputDebug("Text: " . controlText)
+
+		; Translate the text to English
+		translatedText := LibreTranslate(controlText, "auto", "en")
+		OutputDebug("translatedText: " . translatedText)
+
+		; Set the translated text as the new text of the current control
+		ControlSetText(translatedText, control, windowTitle)
 	}
  
 	; Translate the window title
@@ -60,8 +60,7 @@ TranslateWindow(ThisHotkey) {
  
 	; Set the translated title as the new title of the window
 	WinSetTitle(translatedTitle, windowTitle)
- }
- 
+}
 
 GoogleTranslate(text, sourceLang, targetLang) {
 		; Define the URL of the Google Translate API

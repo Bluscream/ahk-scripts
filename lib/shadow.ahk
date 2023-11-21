@@ -5,6 +5,7 @@ class Channel {
     process := new process()
     setup_filename := ""
     installed := false
+    urls := {}
 
     __New(name, folder, file, setup_filename) {
         this.name := name
@@ -14,7 +15,9 @@ class Channel {
         this.window := new Window("Shadow", "Shadow-Window-Class", file.fullname)
         this.process := this.file.fullname
         this.setup_filename := setup_filename
-        this.installed := FileExist(this.file.path)
+        this.installed := FileExist(this.file.path) ? true : false
+        this.urls["x64"] := this.url("x64")
+        this.urls["x86"] := this.url("x86")
         scriptlog("New Channel: " . ToJson(this, false))
     }
     url(arch) {
