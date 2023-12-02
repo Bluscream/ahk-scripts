@@ -37,6 +37,7 @@ ahkstudio/*
 autohotinterception/*
 scripts/SteamBulkKeyActivator/
 scripts/temp/
+!scripts/buttons/*
 Adventure/
 AutoGUI/
 Lib/TrayIcon.bak.ahk
