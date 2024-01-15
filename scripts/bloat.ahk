@@ -11,8 +11,8 @@ global bloat := { services: ["MSI_Case_Service","MSI_VoiceControl_Service","MSI_
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }    
 
-global semibloat := { services: ["CloudflareWARP","RaiDrive.Service","TeraCopyService","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","fpsVR Service - CPU Temperature Counter"] ;
-    ,processes: ["PowerToys.PowerOCR","PowerToys.Peek.UI","PowerToys.KeyboardManagerEngine","PowerToys.CropAndLock","PowerToys.AlwaysOnTop","PAD.Console.Host","Cloudflare WARP","warp-svc","RaiDrive.Service.x64","TeraCopyService","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","nginx","php-cgi","Playnite.DesktopApp","EarTrumpet","mbamtray","Telegram","TrafficMonitor","WhatsApp","wingetui"] ;
+global semibloat := { services: ["DisplayFusionService","CloudflareWARP","RaiDrive.Service","TeraCopyService","Parsec","AnyDeskMSI","TeamViewer","ZeroTierOneService","Adguard Home","aghome","fpsVR Service - CPU Temperature Counter"] ;
+    ,processes: ["PAD.Console.Host","fritzbox-usb-fernanschluss","displayfusionhookapp64","displayfusionhookapp32","displayfusion","DisplayFusionService","PowerToys.PowerOCR","PowerToys.Peek.UI","PowerToys.KeyboardManagerEngine","PowerToys.CropAndLock","PowerToys.AlwaysOnTop","PAD.Console.Host","Cloudflare WARP","warp-svc","RaiDrive.Service.x64","TeraCopyService","VRCX","parsecd","zerotier_desktop_ui","zerotier-one_x64","AnyDeskMSI","nginx","php-cgi","Playnite.DesktopApp","EarTrumpet","mbamtray","Telegram","TrafficMonitor","WhatsApp","wingetui"] ;
     ,tasks: []
     ,custom: [] }
 

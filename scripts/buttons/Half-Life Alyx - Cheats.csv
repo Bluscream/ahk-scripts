@@ -10,5 +10,4 @@ Target,notarget 0,
 Infinite Ammo,sv_infinite_ammo 1,
 NO Infinite Ammo,sv_infinite_ammo 0,
 Remove Target,ent_fire !picker kill,
-Remove Jeff,ent_fire Jeff kill;ent_fire jeff kill, 
-sad
+Remove Jeff,ent_fire Jeff kill;ent_fire jeff kill,

@@ -136,6 +136,10 @@ titles.push({title:"Attention! ahk_class #32770 ahk_exe ADBAppControl.exe",text:
 titles.push({title:"Task completed ahk_class #32770 ahk_exe ADBAppControl.exe",text:"OK",action: "CloseWindow"})
 titles.push({title:"AirServer® Universal ahk_class NativeHWNDHost ahk_exe AirServer.exe",text:"",action: "ClickButton:Try;CloseWindow"})
 titles.push({title:"Invalid License Key • DisplayFusion Pro ahk_exe DisplayFusion.exe",text:"",action: "ClickButton:Maybe Later"})
+titles.push({title:"VRCX ahk_class #32770 ahk_exe VRCX.exe",text:"VRCX is already running, start another instance?",action: "ClickButton:No"})
+titles.push({title:"Setup ahk_class #32770",text:"Newer or same version already installed. Setup will exit now.",action: "CloseWindow"})
+
+
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})

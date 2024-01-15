@@ -9,16 +9,20 @@ Process, Priority,, High
 EnforceAdmin()
 SendMode, Event ; |Play|Input|InputThenPlay
 set_next_chunk = True
-SetKeyDelay, 99, 87
+SetKeyDelay, 39, 27
 return
 
 ^+b:: ExitApp
-set_next_chunk = True
 
 ^b::
     WinGet, winid
     if (Window.fromId(winid).isFullscreen()) {
         MsgBox % "Is fullscreen!"
+        return
+    }
+    if (StrLen(Clipboard) > 10000) {
+        MsgBox % "Clipboard is too long!"
+        return
     }
     Send {Raw}%Clipboard%
     Return
