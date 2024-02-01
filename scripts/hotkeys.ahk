@@ -13,7 +13,34 @@ global bspid := 0
 ; SetTimer, CheckEasyFileLocker, 2500
 global no_ui := true
 global debug := false
+
+global available_hotkeys := { "Win + H": "List Available Hotkeys"
+, "(Shift) + Win + C": "Run cmd (as admin)"
+, "(Shift) + Win + P": "Run powershell (as admin)"
+, "(Shift) + Win + T": "Run Windows Terminal (as admin)"
+, "(Shift) + Win + E": "Run explorer (as admin)"
+, "Ctrl + Shift + Esc": "Run taskmgr"
+, "Alt + Control + Shift + T": "Toggle Taskbar"
+, "Win + X": "Run Quick Start Panel"
+, "Shift + Win + N": "Run Numpad"
+, "Ctrl + B": "Run copywrite.py"
+, "Ctrl + Shift + V": "Run copywrite.py"
+, "Ctrl + Alt + V": "Run split_clipboard.py"
+, "Steam Button": "Run Steam Big Picture"
+, "Steam Button + LB": "Restart Virtual Desktop"
+, "Steam Button + RB": "Run Virtual Desktop"}
+
 return
+
+showHotKeys() {
+    global available_hotkeys
+    msg := ""
+    for key, value in available_hotkeys {
+        msg .= key . " = " . value . "`n"
+    }
+    MsgBox, % msg, Available Hotkeys
+    return
+}
 
 ; AHK Hotkey Modifier Symbols
 ; # = Win (Windows logo key)
@@ -23,8 +50,11 @@ return
 ; & = When used between two keys, the hotkey will only fire if both keys are pressed together.
 ; ~ = When used between two keys, the hotkey will fire if the user presses the first key and then holds down the second key, but will not fire if the user presses the first key and then releases the second key. The & prefix is equivalent to specifying {Blind} for this hotkey.
 ; * = This prefix character allows the Send command to send {Blind} keystrokes, meaning that it will not wait for the target window to become active before sending. For example: Send *abcdef is equivalent to Send {Blind}abcdef. The * prefix is equivalent to specifying {Blind} for all Send commands in a particular thread.
-; $ = This prefix character forces the keyboard hook to be used to implement this hotkey, which as a side-effect prevents the Send command
+; $ = This prefix character forces the keyboard hook to be used to implement this hotkey, which as a side-effect prevents the Send command from sending its keys to the keyboard hook (however, they might still end up in the hook's queue). This prefix character is equivalent to specifying {Hook} for this hotkey.
+; > = This prefix character causes the hotkey to be triggered even if the user is holding down one or more modifier keys (Ctrl, Alt, Shift, and Win) at the time the hotkey is pressed. This prefix character is equivalent to specifying {Blind} for this hotkey.
+; < = This prefix character causes the hotkey to be triggered by the left-hand version of the key only. This is usually only necessary for keys whose right-hand version might have a different effect such as the NumPad keys. This prefix character is equivalent to specifying {LAlt} for this hotkey.
 
+<#h::showHotKeys() ; Win + H
 <#c::Run cmd ; Win + C
 +#c::ShellRun("cmd") ; Shift + Win + C
 <#p::Run powershell ; Win + P
