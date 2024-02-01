@@ -15,16 +15,28 @@ global no_ui := true
 global debug := false
 return
 
-<#c::Run cmd
-+#c::ShellRun("cmd")
-<#p::Run powershell
-+#p::ShellRun("powershell")
-<#e::Run explorer Shell:::{20d04fe0-3aea-1069-a2d8-08002b30309d}
-+#e::ShellRun("explorer")
+; AHK Hotkey Modifier Symbols
+; # = Win (Windows logo key)
+; ! = Alt
+; ^ = Control
+; + = Shift
+; & = When used between two keys, the hotkey will only fire if both keys are pressed together.
+; ~ = When used between two keys, the hotkey will fire if the user presses the first key and then holds down the second key, but will not fire if the user presses the first key and then releases the second key. The & prefix is equivalent to specifying {Blind} for this hotkey.
+; * = This prefix character allows the Send command to send {Blind} keystrokes, meaning that it will not wait for the target window to become active before sending. For example: Send *abcdef is equivalent to Send {Blind}abcdef. The * prefix is equivalent to specifying {Blind} for all Send commands in a particular thread.
+; $ = This prefix character forces the keyboard hook to be used to implement this hotkey, which as a side-effect prevents the Send command
+
+<#c::Run cmd ; Win + C
++#c::ShellRun("cmd") ; Shift + Win + C
+<#p::Run powershell ; Win + P
++#p::ShellRun("powershell") ; Shift + Win + P
+<#t::Run shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App ; Win + T
++#t::ShellRun("shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App") ; Shift + Win + T
+<#e::Run explorer Shell:::{20d04fe0-3aea-1069-a2d8-08002b30309d} ; Win + E
++#e::ShellRun("explorer") ; Shift + Win + E
 ; <#r::Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
-^+Esc::Run taskmgr
-+#t:: HideTaskbar(hide := !hide)
-<#x::
+^+Esc::Run taskmgr ; Ctrl + Shift + Esc
+!^+t:: HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
+<#x:: ; Win + X
     ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     ; {
     ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
@@ -34,7 +46,7 @@ return
         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
     return
-; <#g::
+; <#g:: ; Win + G
 ;     new Process("fivem_b2545_dumpserver").kill()
 ;     new Process("fivem_steamchild").kill()
 ;     new Process("fivem_chromebrowser").kill()
@@ -43,19 +55,19 @@ return
 ;     Run % "fivem://connect/kzyerv"
 ;     ShellRun("C:\Users\blusc\AppData\Local\FiveM\FiveM.exe", "fivem://connect/kzyerv")
 ;     return
-+<#n::
++<#n:: ; Shift + Win + N
     Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     Return
 
-; ^b::
-^+v::
+; ^b:: ; Ctrl + B
+^+v:: ; Ctrl + Shift + V
     Run % "C:\Scripts\copywrite.py",, Min
     Return
-^!v::
+^!v:: ; Ctrl + Alt + V
     Run % "C:\Scripts\split_clipboard.py",, Min
     Return
 
-3Joy12::
+3Joy12:: ; Steam Button
     if GetKeyState("3Joy11") {
         steam.bigpicture()
     }
@@ -73,14 +85,14 @@ return
         Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     }
     return
-3Joy1::
-    if GetKeyState("3Joy4") and GetKeyState("3Joy11") {
+3Joy1:: ; A
+    if GetKeyState("3Joy4") and GetKeyState("3Joy11") { ; A + LB
         KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
         StopServices(["VirtualDesktop.Service.exe"])
         StartServices(["VirtualDesktop.Service.exe"])
     }
     return
-; <#y::
+; <#y:: ; Win + Y
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
 ; F1::
 ;     if (isOBSRunning())

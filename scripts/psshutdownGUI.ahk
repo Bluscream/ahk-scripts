@@ -56,6 +56,7 @@ MsgBox, 4, Confirm, % "Command to be executed:`n`n" . cmd . "`n`nContinue?", 10
 IfMsgBox, No
     return
 Run, % cmd, , Hide
+ExitApp
 return
 
 ; Function to close the GUI

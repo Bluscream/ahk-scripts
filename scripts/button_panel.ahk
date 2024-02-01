@@ -207,14 +207,14 @@ OnBtnStartRetrobarClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ; scriptlog("onBtn10Clicked")<
+    ; scriptlog("ChilloutVR")
     KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
     Run % """G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"" -vr -skipsteam --disable-videoplayers"
     GuiClose(0)
 }
 
 OnBtnStartVRChatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ; scriptlog("onBtn10Clicked")<
+    ; scriptlog("OnBtnStartVRChatClicked")
     KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
     Run % "D:\OneDrive\Games\VRChat\_TOOLS\VRCX\VRCX.exe"
     Run % "G:\Steam\steamapps\common\VRChat\VRChat.exe"
@@ -222,7 +222,7 @@ OnBtnStartVRChatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 }
 
 OnBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
-    ; scriptlog("onBtn11Clicked")
+    ; scriptlog("YouTube Music")
     KillProcesses(["YouTube Music"])
     SleepS(1)
     ShellRun("C:\Users\blusc\AppData\Local\Programs\youtube-music\YouTube Music.exe", "")
@@ -231,7 +231,11 @@ OnBtn11Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtnKillbloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/mybloat")
+    KillProcesses(["wallpaper32","everything64"])
     GuiClose(0)
+}
+OnBtnKillNonBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
+    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/nonbloat")
 }
 OnBtnKillSemiBloatClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(false, "", "/semibloat")
