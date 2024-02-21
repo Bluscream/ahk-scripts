@@ -5,9 +5,11 @@ class VirtualDesktop {
     dir := new Directory("C:\Program Files\Virtual Desktop Streamer")
     exe := dir.CombineFile(vd.windows.streamer.exe)
     connected := vd.windows.server.process.exists()
-    windows := { server: new Window("", "", "VirtualDesktop.Server")
-        ,streamer: new Window("Virtual Desktop Streamer", "HwndWrapper[VirtualDesktop.Streamer;UI Thread;117aaec4-0fa3-4fdc-b637-eb3c7fd4dc5b]", "VirtualDesktop.Streamer")
-        ,service: new Window("","","VirtualDesktop.Service")}
+    windows := { server: new Window("", "", "VirtualDesktop.Server.exe")
+        ,streamer: new Window("Virtual Desktop Streamer", "HwndWrapper[VirtualDesktop.Streamer;UI Thread;", "VirtualDesktop.Streamer.exe")
+        ,service: new Window("","","VirtualDesktop.Service.exe")}
+    service_name := "VirtualDesktop.Service"
+    streamer_path := new Paths.Public().programs.CombineFile("Virtual Desktop Streamer.lnk")
     doublechecking := false
     safe_mode := false
     args := ""
@@ -20,10 +22,40 @@ class VirtualDesktop {
         }
     }
 
+    ensure() {
+        service := this.windows.service.Process
+        if (!service.exists()) {
+            scriptlog(service.name . " not running, starting " . this.service_name)
+            StartServices([this.service_name])
+        }
+        streamer := this.windows.streamer.Process
+        if (!streamer.exists()) {
+            scriptlog(streamer.name . " not running, starting " . vd.streamer_path.Quote())
+            vd.streamer_path.run()
+        }
+        server := this.windows.server.Process
+        if (!server.exists()) {
+            scriptlog(server.name . " not running!")
+        }
+    
+    }
+
     start() {
-        EnforceAdmin()
         scriptlog("Starting Virtual Desktop")
-        StartServices(["VirtualDesktop.Service.exe"])
+        this.StartService()
+        this.startStreamer()
+    }
+
+    startService() {
+        EnforceAdmin()
+        scriptlog("Starting " . this.service_name)
+        StartServices([this.service_name])
+    }
+
+    startStreamer() {
+        EnforceAdmin()
+        scriptlog("Starting Virtual Desktop Streamer")
+        this.streamer_path.run()
     }
 
     restart() {
@@ -40,6 +72,6 @@ class VirtualDesktop {
             process_closed := window.process.close()
             process_killed := window.process.kill(true, true)
         }
-        StopServices(["VirtualDesktop.Service.exe"])
+        StopServices([this.service_name])
     }
 }

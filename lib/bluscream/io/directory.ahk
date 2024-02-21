@@ -43,4 +43,8 @@ class Directory {
 	        ret.Push(new File(A_LoopFileLongPath))
         return ret
     }
+    create() {
+        if (!this.exists())
+            FileCreateDir, % this.path
+    }
 }

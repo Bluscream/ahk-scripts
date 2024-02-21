@@ -5,12 +5,12 @@
 Acc_Init()
 class SteamVR {
     appid := 250820
-    windows := { vrwebhelper: new Window("", "", "vrwebhelper")
-        ,vrdashboard: new Window("", "", "vrdashboard")
-        ,vrmonitor: new Window("SteamVR Status", "Qt5QWindowIcon", "vrmonitor")
-        ,vrmonitor_extra: new Window("vrmonitor", "Qt5QWindowToolSaveBits", "vrmonitor")
-        ,vrcompositor: new Window("", "", "vrcompositor")
-        ,vrserver: new Window("", "", "vrserver") }
+    windows := { vrwebhelper: new Window("", "", "vrwebhelper.exe")
+        ,vrdashboard: new Window("", "", "vrdashboard.exe")
+        ,vrmonitor: new Window("SteamVR Status", "Qt5QWindowIcon", "vrmonitor.exe")
+        ,vrmonitor_extra: new Window("vrmonitor", "Qt5QWindowToolSaveBits", "vrmonitor.exe")
+        ,vrcompositor: new Window("", "", "vrcompositor.exe")
+        ,vrserver: new Window("", "", "vrserver.exe") }
     __New(exe := "", eventcallback := "") {
         if (exe!="") {
             this.exe := new File(exe) 

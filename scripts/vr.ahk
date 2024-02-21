@@ -41,22 +41,28 @@ for n, param in A_Args
     } else if (param == "/min" || param == "/perf") {
         scriptlog("Performance mode enabled (" . param . ")")
         perf_mode := true
-    } else if (param == "/bloat") {
-        KillBloat()
-        ExitApp
-    } else if (param == "/semibloat") {
-        KillSemiBloat()
-        ExitApp
     }
 }
 scriptlog(toJson(A_Args))
 
+; global events := [ "OnVirtualDesktopStarted", "OnVirtualDesktopReady", "OnVirtualDesktopConnecting", "OnVirtualDesktopEstablishingConnection", "OnVirtualDesktopConnected", "OnVirtualDesktopFullyConnected", "OnConnected", "OnVirtualDesktopDisconnected", "OnVirtualDesktopConnectionLost", "OnVirtualDesktopError", "OnVirtualDesktopInternetLost", "OnVirtualDesktopStopped" ]
+; scriptlog("events: " . toJson(events))
+
+global events_dir := new Paths.User().programs.Combine("VREvents")
+scriptlog("events_dir: " . toJson(events_dir))
+if (!events_dir.exists()) {
+    events_dir.create()
+    scriptlog("Created events_dir: " . events_dir)
+}
+
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()
 scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
 
+EnsureVirtualDesktop()
+
 ; SetTimer, CheckForSteamVR, % 1000*15
-SetTimer, CheckForVirtualDesktop, % 1000
-scriptlog("CheckForVirtualDesktop timer running...")
+SetTimer, CheckForVirtualDesktopServer, % 1000
+scriptlog("CheckForVirtualDesktopServer timer running...")
 ; SetTimer, Debug, 500
 
 Menu, tray, add, Start VD, startVirtualDesktop
@@ -66,8 +72,9 @@ return
 Debug:
     ToolTip, % vd.state " . fails: " . vd.failcounter
     return
-CheckForVirtualDesktop:
+CheckForVirtualDesktopServer:
     connected := vd.windows.server.process.exists()
+    ; scriptlog("Checking for Virtual Desktop server (connected: " . connected . ")...")
     if (vd.doublechecking and !connected) {
         vd.doublechecking := false
         SetTimer, DoubleCheckForConnection, Off
@@ -105,6 +112,11 @@ killAll(item) {
         process_closed := process.close()
         process_killed := process.kill(true, true)
     }
+}
+
+EnsureVirtualDesktop() {
+    global vd
+    vd.ensure()
 }
 
 OnTrayChanged(line) {
@@ -164,27 +176,52 @@ OnTrayChanged(line) {
     }
 }
 
+ExecuteEventDir(event) { ; , args := {}
+    global events_dir
+    event_dir := events_dir.Combine(event)
+    if (!event_dir.exists()) {
+        event_dir.create()
+        scriptlog("Created event_dir: " . event_dir.Quote())
+    } else {
+        argstr := ""
+        for name, val in args {
+            argstr .= Quote(name . "=" . val) . " "
+        }
+        for i, file in event_dir.getFiles() {
+            scriptlog("Executing " . file.Quote() . " " . argstr)
+            file.run() ; Args(False, argstr)
+        }
+    }
+}
+
 OnVirtualDesktopStarted() {
     scriptlog("OnVirtualDesktopStarted")
+    ExecuteEventDir("OnVirtualDesktopStarted")
 }
 OnVirtualDesktopReady() {
     scriptlog("OnVirtualDesktopReady")
+    ExecuteEventDir("OnVirtualDesktopReady")
 }
 OnVirtualDesktopConnecting() {
     scriptlog("OnVirtualDesktopConnecting")
+    ExecuteEventDir("OnVirtualDesktopConnecting")
 }
 OnVirtualDesktopEstablishingConnection() {
     scriptlog("OnVirtualDesktopEstablishingConnection")
+    ExecuteEventDir("OnVirtualDesktopEstablishingConnection")
 }
 OnVirtualDesktopConnected() {
     scriptlog("OnVirtualDesktopConnected")
     vd.doublechecking := true
     SetTimer, DoubleCheckForConnection, % 25000
+    ExecuteEventDir("OnVirtualDesktopConnected")
 }
 OnVirtualDesktopFullyConnected() {
     scriptlog("OnVirtualDesktopFullyConnected")
+    ExecuteEventDir("OnVirtualDesktopFullyConnected")
 }
 OnConnected() {
+    ExecuteEventDir("OnConnected")
     no_steamvr := CheckSteamVR()
 
     if (!new Process(vrcx.fullname).exists()) {
@@ -199,12 +236,14 @@ OnConnected() {
 }
 OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
+    ExecuteEventDir("OnVirtualDesktopDisconnected")
     if (!steamvr.windows.vrmonitor.exists()) {
         vd.restart()
     }
 }
 OnVirtualDesktopConnectionLost(fails) {
     scriptlog("OnVirtualDesktopConnectionLost (" . fails . ")")
+    ExecuteEventDir("OnVirtualDesktopConnectionLost")
     if (!steamvr.windows.vrmonitor.exists()) {
         vd.restart()
     }
@@ -216,12 +255,14 @@ OnVirtualDesktopConnectionLost(fails) {
 }
 OnVirtualDesktopError() {
     scriptlog("OnVirtualDesktopError, restarting...")
+    ExecuteEventDir("OnVirtualDesktopError")
     SleepS(1)
     vd.restart()
 }
 OnVirtualDesktopInternetLost() {
     scriptlog("OnVirtualDesktopInternetLost, restarting every 10 seconds...")
     SetTimer, InternetLostCheck, 15000
+    ExecuteEventDir("OnVirtualDesktopInternetLost")
 }
 InternetLostCheck:
     if (vd.state == "NoInternet" or vd.state == "ConnectionLost") {
@@ -232,6 +273,7 @@ InternetLostCheck:
     Return
 OnVirtualDesktopStopped() {
     scriptlog("OnVirtualDesktopStopped")
+    ExecuteEventDir("OnVirtualDesktopStopped")
     SleepS(5)
     if (!vd.windows.streamer.exists()) {
         vd.restart()
@@ -283,9 +325,6 @@ CheckGame(no_steamvr) {
 
 KillBloat() {
     new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/bloat")
-}
-KillSemiBloat() {
-    new File("C:\Program Files\AutoHotKey\Scripts\bloat.ahk").run(true, "", "/semibloat")
 }
 
 ; fail
