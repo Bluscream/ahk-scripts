@@ -82,7 +82,7 @@ CreateTask() {
     if (RunAsSystem)
         TaskCommand .= " /RU SYSTEM"
     else
-        TaskCommand .= " /RU %A_UserName%"
+        TaskCommand .= " /RU " . A_UserName
 
     ; Run the SCHTASKS command to create the scheduled task
     ; Show user command and ask for confirmation

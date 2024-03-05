@@ -1,0 +1,23 @@
+; AHK v2
+#SingleInstance Force
+; #NoTrayIcon
+Persistent
+InstallKeybdHook
+InstallMouseHook
+ProcessSetPriority("Realtime")
+
+; The following DllCall is optional: it tells the OS to shut down this script first (prior to all other applications).
+DllCall("kernel32.dll\SetProcessShutdownParameters", "UInt", 0x4FF, "UInt", 0)
+OnMessage(0x11, WM_QUERYENDSESSION)
+return
+
+WM_QUERYENDSESSION(wParam, lParam, *)
+{
+    ENDSESSION_LOGOFF := 0x80000000
+    if (lParam & ENDSESSION_LOGOFF)  ; User is logging off.
+        EventType := "Windows user logging off"
+    else  ; System is either shutting down or restarting.
+        EventType := "Windows shutting down"
+    Run("C:\Scripts\notify.bat `"" . EventType . "`"")
+    return true
+}
