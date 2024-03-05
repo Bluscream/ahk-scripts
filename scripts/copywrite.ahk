@@ -15,6 +15,8 @@ return
 ^+b:: ExitApp
 
 ^b::
+^+Insert:: ; # ctrl + shift + insert
+!+Insert:: ; # alt + shift + insert
     WinGet, winid
     if (Window.fromId(winid).isFullscreen()) {
         MsgBox % "Is fullscreen!"
