@@ -1,5 +1,11 @@
 #Persistent
-#SingleInstance, Force
+#NoTrayIcon
+#NoEnv
+#SingleInstance, force
+SetBatchLines, -1
+Process, Priority,, BelowNormal
+; #Include <bluscream>
+; EnforceAdmin()
 
 global title := "ahk_class OperationStatusWindow ahk_exe explorer.exe"
 

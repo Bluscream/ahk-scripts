@@ -139,9 +139,8 @@ titles.push({title:"Invalid License Key • DisplayFusion Pro ahk_exe DisplayFus
 titles.push({title:"VRCX ahk_class #32770 ahk_exe VRCX.exe",text:"VRCX is already running, start another instance?",action: "ClickButton:No"})
 titles.push({title:"Setup ahk_class #32770",text:"Newer or same version already installed. Setup will exit now.",action: "CloseWindow"})
 titles.push({title:"Remote Desktop Connection ahk_class #32770 ahk_exe mstsc.exe",text:"OK",action: "ClickButton:OK"})
-titles.push({title:"About / Registration info... ahk_class #32770 ahk_exe voicemeeter8x64.exe",text:"OK",action: "CloseWindow"}) ; Click:X543 Y432
+titles.push({title:"About / Registration info... ahk_class #32770 ahk_exe voicemeeter8x64.exe",action: "CloseWindow"}) ; Click:X543 Y432
 titles.push({title:"Battle.net ahk_class Qt5151QWindowIcon ahk_exe Battle.net.exe ahk_pid 16320 ahk_id 526450",w:400,h:176,action:"CloseWindow"})
-
 
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})
 ; titles.push({title: "ahk_class CabinetWClass ahk_exe Explorer.EXE", text: "UNREGISTERED VERSION", action: "CloseWindow"})
