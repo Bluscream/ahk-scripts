@@ -14,7 +14,7 @@ Loop {
     OperationStarted("File Operation") ; The window is open, so call the function
     startTime := A_TickCount ; Capture the start time
     WinWaitClose, % title
-    duration := (A_TickCount - startTime) / 1000 ; Calculate the duration in seconds
+    duration := (A_TickCount - startTime) ; Calculate the duration in milliseconds
     OperationCompleted("File Operation", duration) ; Pass the duration to the function
     Sleep, 1000 ; Wait a second before checking again
 }
@@ -30,6 +30,7 @@ OperationStarted(title) {
 }
 
 OperationCompleted(_title, duration) {
+    duration := Round(duration / 1000) ; Convert milliseconds to seconds and round to the nearest whole number
     title := _title . " complete"
     msg := _title . " took " . duration . " seconds to complete."
     WinNotify(title, msg) ; Show a Windows 11 notification

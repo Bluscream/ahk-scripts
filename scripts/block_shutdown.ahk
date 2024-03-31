@@ -11,7 +11,7 @@ global noui := false
 EnforceAdmin()
 
 global block := false
-global ask := true
+global ask := false
 
 ; Check for /block command line argument
 Loop, %A_Args%
@@ -125,9 +125,14 @@ StopBlockingShutdown()
 }
 
 ExitSub:
-    RunWait, shutdown /a,, Hide
-    MsgBox 0x4, Confirm exit?, Something tried to stop %A_ScriptName% (Reason: %A_ExitReason%).`nAllow it?
-    IfMsgBox Yes, {
-        ExitApp
+    if (block) {
+        RunWait, shutdown /a,, Hide
     }
-    Return
+    if (ask) {
+        MsgBox 0x4, Confirm exit?, Something tried to stop %A_ScriptName% (Reason: %A_ExitReason%).`nAllow it?
+        IfMsgBox Yes, {
+            ExitApp
+        }
+        return
+    }
+    ExitApp
