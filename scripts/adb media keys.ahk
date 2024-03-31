@@ -49,6 +49,10 @@ SendADBCommand(command) {
 #NoEnv
 #SingleInstance force
 
+; If you want to disable media controls controlling PC media at the same time,
+; just remove the ~ infront of each hotkey
+; This will make it so the PC media keys no longer control the PC media, only android
+
 ; Play/Pause
 ~Media_Play_Pause::SendADBCommand("play-pause")
 
