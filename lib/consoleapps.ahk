@@ -1,3 +1,5 @@
+; Based on http://www.autohotkey.com/board/topic/96903-simplified-versions-of-seans-stdouttovar/?p=610306
+
 StdOutToVar( sCmd ) { ;  GAHK32 ; Modified Version : SKAN 05-Jul-2013  http://goo.gl/j8XJXY                             
     Static StrGet := "StrGet"     ; Original Author  : Sean 20-Feb-2007  http://goo.gl/mxCdn  
      
