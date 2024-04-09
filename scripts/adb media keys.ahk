@@ -1,4 +1,4 @@
-; #include <consoleapps> ; https://github.com/Bluscream/ahk-scripts/blob/master/lib/consoleapps.ahk
+#include <consoleapps> ; https://github.com/Bluscream/ahk-scripts/blob/master/lib/consoleapps.ahk
 
 ; Define the ADB path. Adjust the path according to your ADB installation.
 adb_path := "adb"
@@ -20,13 +20,13 @@ MakeAdbCommand(command) {
     global adb_path
     return adb_path . " shell cmd media_session dispatch " . command
 }
-SendADBCommand(command) {
-    cmd := MakeAdbCommand(command)
-    RunWait % cmd, , Min UseErrorLevel
-    if (ErrorLevel = "ERROR") {
-        MsgBox, % "ADB command failed with exitcode " . ExitCode
-    }
-}
+; SendADBCommand(command) {
+;     cmd := MakeAdbCommand(command)
+;     RunWait % cmd, , Min UseErrorLevel
+;     if (ErrorLevel = "ERROR") {
+;         MsgBox, % "ADB command failed with exitcode " . ExitCode
+;     }
+; }
 ; SendADBCommand(command) {
 ;     cmd := MakeAdbCommand(command)
 ;     ComOBJ := ComObjCreate("WScript.Shell").Exec(cmd)
@@ -35,13 +35,13 @@ SendADBCommand(command) {
 ;         MsgBox, % "ADB command failed: " . Response
 ;     }
 ; }
-; SendADBCommand(command) { ; Requires http://www.autohotkey.com/board/topic/96903-simplified-versions-of-seans-stdouttovar/?p=610306
-;     cmd := MakeAdbCommand(command)
-;     result := StdOutToVar(MakeAdbCommand(cmd))
-;     if (InStr(result, "err") || InStr(result, "fail")) {
-;         MsgBox, % "ADB command failed:`n`n" . result
-;     }
-; }
+SendADBCommand(command) { ; Requires http://www.autohotkey.com/board/topic/96903-simplified-versions-of-seans-stdouttovar/?p=610306
+    cmd := MakeAdbCommand(command)
+    result := StdOutToVar(cmd)
+    if (InStr(result, "err") || InStr(result, "fail")) {
+        MsgBox, % "ADB command failed:`n`n" . result
+    }
+}
 
 ; Hotkeys for media keys
 #InstallKeybdHook

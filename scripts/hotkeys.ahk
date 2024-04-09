@@ -1,4 +1,4 @@
-﻿#Persistent
+#Persistent
 #NoTrayIcon
 #NoEnv
 #SingleInstance, force
@@ -55,6 +55,7 @@ showHotKeys() {
 ; < = This prefix character causes the hotkey to be triggered by the left-hand version of the key only. This is usually only necessary for keys whose right-hand version might have a different effect such as the NumPad keys. This prefix character is equivalent to specifying {LAlt} for this hotkey.
 
 <#h::showHotKeys() ; Win + H
++#h::Window.fromTop().hide(true) ; Shift + Win + H ; Force hide current window
 <#c::Run cmd ; Win + C
 +#c::ShellRun("cmd") ; Shift + Win + C
 <#p::Run powershell ; Win + P

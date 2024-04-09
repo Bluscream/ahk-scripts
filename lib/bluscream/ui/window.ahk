@@ -26,6 +26,12 @@ class Window {
         this.text := text
     }
 
+    fromTop() {
+        static
+        WinGet, hwnd, ID, A
+        return Window.fromId(hwnd)
+    }
+
     fromId(id) {
         static
         idstr := "ahk_id " . id
@@ -36,6 +42,7 @@ class Window {
     }
 
     fromString(str) {
+        static
         splt := StrSplit(str, " ahk_")
         for i, part in split {
             if (startsWith(part, "class"))
@@ -191,8 +198,17 @@ class Window {
     restore() {
         WinRestore, % this.str()
     }
-    hide() {
-        WinHide, % this.str()
+    hide(force:=false) {
+        winStr := this.str()
+        WinHide, % winStr
+        if (force) {
+            WinSet, Style, -0x80000, % winStr ; Remove WS_VISIBLE style
+            WinSet, ExStyle, -0x80, % winStr ; Remove WS_EX_APPWINDOW style
+            WinSet, ExStyle, -0x20, % winStr ; Remove WS_EX_TOPMOST style
+            WinSet, Transparent, 255, % winStr ; Set transparency level (0-255)
+            WinSet, ExStyle, +0x00000020, % winStr ; Add WS_EX_TRANSPARENT style ; Make the window click-through
+            this.alwaysOnTop(false)
+        }
     }
     show() {
         WinShow, % this.str()
