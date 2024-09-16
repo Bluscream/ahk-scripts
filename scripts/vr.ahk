@@ -1,18 +1,19 @@
 #SingleInstance Force
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
 #Include <bluscream>
-global noui := false
+global noui := true
 ; EnforceAdmin()
 
 global perf_mode := false
 
 #include <virtual_desktop>
 global vd := new VirtualDesktop()
+vd.init()
 global traylib := new TrayLib()
 traylib.start(Func("OnTrayChanged"))
 vd.last_event := ""
@@ -238,14 +239,14 @@ OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
     ExecuteEventDir("OnVirtualDesktopDisconnected")
     if (!steamvr.windows.vrmonitor.exists()) {
-        vd.restart()
+        ; vd.restart()
     }
 }
 OnVirtualDesktopConnectionLost(fails) {
     scriptlog("OnVirtualDesktopConnectionLost (" . fails . ")")
     ExecuteEventDir("OnVirtualDesktopConnectionLost")
     if (!steamvr.windows.vrmonitor.exists()) {
-        vd.restart()
+        ; vd.restart()
     }
     ; if (fails > 1) {
     ;     vd.failcounter := 0
@@ -266,7 +267,7 @@ OnVirtualDesktopInternetLost() {
 }
 InternetLostCheck:
     if (vd.state == "NoInternet" or vd.state == "ConnectionLost") {
-        vd.restart()
+        ; vd.restart()
     } else {
         SetTimer, InternetLostCheck, Off
     }

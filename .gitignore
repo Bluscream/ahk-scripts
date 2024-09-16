@@ -25,20 +25,18 @@
 # custom
 # !lib/*.ahk
 !lib/**/*.ahk
-!lib/**/*.ahk2
-!lib/**/*.ahkv2
 # !scripts/*.ahk
 !scripts/**/*.ahk
-!scripts/**/*.ahk2
-!scripts/**/*.ahkv2
 # !scripts/bin/*.exe
 
 ahkstudio/*
 autohotinterception/*
 scripts/SteamBulkKeyActivator/
 scripts/temp/
-!scripts/buttons/*
 Adventure/
 AutoGUI/
 Lib/TrayIcon.bak.ahk
-scripts/AHK-Rare
+*.mp3
+*.mp4
+*.wav
+/Scripts/sirens

@@ -8,6 +8,9 @@ ESC::
 return
 GetRect() {
     c := ParseCoords(GetCoords())
+    if (!c || c == "") {
+        ExitApp
+    }
     AddRect(c[1],c[2],c[3],c[4])
 }
 GetCoords() {

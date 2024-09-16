@@ -5,6 +5,7 @@
 #NoTrayIcon
 SetTitleMatchMode, 2
 SetWorkingDir %A_ScriptDir%
+SendMode, InputThenPlay ; Event|Play|Input|InputThenPlay
 SetBatchLines -1
 
 #Include %A_ScriptDir%\AutoXYWH.ahk
@@ -64,7 +65,7 @@ initUI:
 
     Gui Add, Button, hWndhBtnStartnnxsoverlay9 vBtnStartnnxsoverlay9 gOnBtnStartXSOClicked x480 y208 w216 h172, % "XSOverlay"
 
-    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h84, % "ChilloutVR"
+    Gui Add, Button, hWndhBtn10 vBtn10 gOnBtn10Clicked x248 y208 w216 h84, % "ChilloutVR (Switch VR)"
     Gui Add, Button, hWndhBtnStartVRChat vBtnStartVRChat gOnBtnStartVRChatClicked x248 y296 w216 h84, % "VRChat"
 
     Gui Add, Button, hWndhBtn11 vBtn11 gOnBtn11Clicked x712 y208 w216 h172, % "Youtube`n`nMusic"
@@ -208,8 +209,17 @@ OnBtnStartRetrobarClicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
 
 OnBtn10Clicked(CtrlHwnd, GuiEvent, EventInfo, ErrLevel := "") {
     ; scriptlog("ChilloutVR")
-    KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
-    Run % """G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"" -vr -skipsteam --disable-videoplayers"
+    ; KillProcesses(["VRCX","VRChat","ChilloutVR","conhost","cmd"])
+    ; Run % """G:\Steam\steamapps\common\ChilloutVR\ChilloutVR.exe"" -vr -skipsteam --disable-videoplayers"
+    WinActivate, ChilloutVR ahk_class UnityWndClass ahk_exe ChilloutVR.exe ; Activates the ChilloutVR window
+    if ErrorLevel ; Checks if the window was found and activated successfully
+    {
+        MsgBox, Could not find the ChilloutVR window. Please check if the window is open and try again.
+        return ; Exits the script if the window could not be found
+    }
+    Send, ^f6 ; Sends CTRL+F6
+    Sleep, 5000 ; Waits for 5 seconds
+    Send, ^f6 ; Sends CTRL+F6 again
     GuiClose(0)
 }
 

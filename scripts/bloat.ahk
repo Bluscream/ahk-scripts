@@ -7,7 +7,7 @@ DetectHiddenWindows On
 global noui := true
 
 global bloat := { services: ["ShadowUSB","CCleanerPerformanceOptimizerService","battlenet_helpersvc","AcrSch2Svc","mmsminisrv","aakore","AcronisActiveProtectionService","MSI_Case_Service","MSI_VoiceControl_Service","MSI_Central_Service","ALDITALKVerbindungsassistent_Service","DSAUpdateService","DSAService","LGHUBUpdaterService","GlassWire","MBAMService","FoxitReaderUpdateService","EABackgroundService"]
-    ,processes: ["ShadowUSB","CCleanerPerformanceOptimizerService","Agent","Battle.net","CCleaner64","adp-agent","aakore","anti_ransomware_service","bt","ShareX","tomcat8","TecnoManager","PowerToys.PowerOCR","msiexec","msedge","GalaxyClient Helper","GalaxyClient","MSI_Central_Service","MSI_Case_Service","MSI.TerminalServer","MSI.CentralServer","CC_Engine_x64","DCv2","DCv2_Startup","MSI Center","browser_assistant","Overwolf","OverwolfBrowser","OverwolfBrowser","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","DSATray", "CefSharp.BrowserSubprocess","lghub_updater","GlassWire","vsls-agent","webhelper","vrwebhelper","winginx","memcached","mongod","mysqld","redis-server","updatechecker","WindowMenuPlus","WindowMenuPlus64","gamesense-discord-x64","SteelSeriesEngine","SteelSeriesGGClient","SteelSeriesGG","SteelSeriesPrismSync","TECKNET wireless gaming mouse","RaiDrive","CompactGUI","DiskDefrag","TabReports","TabMakePortable","TabCareCenter","Integrator","ActionCenter","AnyDeskMSI","DiscordCanary","GoogleDriveFS","PowerToys.AlwaysOnTop","fdm"]
+    ,processes: ["ShadowUSB","CCleanerPerformanceOptimizerService","Agent","Battle.net","CCleaner64","adp-agent","aakore","anti_ransomware_service","bt","ShareX","tomcat8","TecnoManager","PowerToys.PowerOCR","msiexec","msedge","GalaxyClient Helper","GalaxyClient","MSI_Central_Service","MSI_Case_Service","MSI.TerminalServer","MSI.CentralServer","CC_Engine_x64","DCv2","DCv2_Startup","MSI Center","browser_assistant","OverwolfTSHelper","MEGAsync","ALDITALKVerbindungsassistent_Launcher","ALDITALKVerbindungsassistent_Service","DSATray", "CefSharp.BrowserSubprocess","lghub_updater","GlassWire","vsls-agent","webhelper","vrwebhelper","winginx","memcached","mongod","mysqld","redis-server","updatechecker","gamesense-discord-x64","SteelSeriesEngine","SteelSeriesGGClient","SteelSeriesGG","SteelSeriesPrismSync","TECKNET wireless gaming mouse","RaiDrive","CompactGUI","DiskDefrag","TabReports","TabMakePortable","TabCareCenter","Integrator","ActionCenter","AnyDeskMSI","DiscordCanary","GoogleDriveFS","PowerToys.AlwaysOnTop","fdm"]
     ,tasks: ["AuroraStartup","GoogleUpdateTaskMachineCore","GoogleUpdateTaskMachineUA","MicrosoftEdgeUpdateTaskMachineCore","MicrosoftEdgeUpdateTaskMachineUA","OneDrive Per-Machine Standalone Update Task","Onward Custom Map Sync","Paranoid-SafetyNet","\Microsoft\VisualStudio\VSIX Auto Update"]
     ,custom: [] }    
 
@@ -47,12 +47,12 @@ global ahk := { services: []
     ,custom: [] }
 
 global anticheat := { services: ["PnkBstrA","BEService","EasyAntiCheat_EOS","EasyAntiCheat"]
-    ,processes: ["PnkBstrA","BEService_bsquad","BEService","EasyAntiCheat","EasyAntiCheat_launc"]
+    ,processes: ["PnkBstrA","BEService_bsquad","BEService","EasyAntiCheat","EasyAntiCheat_launc","EasyAntiCheat_launcher"]
     ,tasks: []
     ,custom: [] }
 
 global important := { services: ["DisplayFusionService","cbdhsvc_14aa56","Adguard Service","BoxToGoRC","DiagTrack","OpenRGB","Everything","EFS","Wallpaper Engine Service"]
-    ,processes: ["DisplayFusionService","DisplayFusion","DisplayFusionHookApp64","DisplayFusionHookApp32","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB","RestartOnCrash","usbdeview","wallpaper64","wallpaper32","webwallpaper32"]
+    ,processes: ["Overwolf","OverwolfBrowser","OverwolfHelper","OverwolfHelper64","WindowMenuPlus","WindowMenuPlus64","DisplayFusionService","DisplayFusion","DisplayFusionHookApp64","DisplayFusionHookApp32","Everything","java","javaw","NVIDIA RTX Voice","CCUpdate","AdguardSvc","Adguard","EpicWebHelper","EpicGamesLauncher","Twinkle Tray","SuperF4","BoxToGoRCService","RetroBar","OpenRGB","RestartOnCrash","usbdeview","wallpaper64","wallpaper32","webwallpaper32"]
     ,tasks: []
     ,custom: [] }
 

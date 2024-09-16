@@ -1,5 +1,5 @@
 #Persistent
-#NoTrayIcon
+; #NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1

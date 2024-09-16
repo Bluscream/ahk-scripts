@@ -149,4 +149,5 @@ HideTaskbar(hide) {
    NumPut(hide ? ABS_AUTOHIDE : ABS_ALWAYSONTOP, APPBARDATA, size - A_PtrSize)
    DllCall("Shell32\SHAppBarMessage", UInt, ABM_SETSTATE, Ptr, &APPBARDATA)
 }
+
 initialized := true

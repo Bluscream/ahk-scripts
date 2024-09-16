@@ -10,6 +10,7 @@
 #Include %A_LineFile%\..\bluscream\utils.ahk
 #Include %A_LineFile%\..\bluscream\tray.ahk
 #Include %A_LineFile%\..\bluscream\addon.ahk
+#Include %A_LineFile%\..\bluscream\toast.ahk
 
 ObjectCount(object) {
     count := 0
@@ -204,7 +205,7 @@ ProcessExists(PID_or_Name){
    Process, Exist, % PID_or_Name
    Return Errorlevel
 }
-StdOutToVar( sCmd ) { ;  GAHK32 ; Modified Version : SKAN 05-Jul-2013  http://goo.gl/j8XJXY                             
+StdOutToVar2( sCmd ) { ;  GAHK32 ; Modified Version : SKAN 05-Jul-2013  http://goo.gl/j8XJXY                             
   Static StrGet := "StrGet"     ; Original Author  : Sean 20-Feb-2007  http://goo.gl/mxCdn  
    
   DllCall( "CreatePipe", UIntP,hPipeRead, UIntP,hPipeWrite, UInt,0, UInt,0 )
@@ -245,7 +246,7 @@ StdOutToVar( sCmd ) { ;  GAHK32 ; Modified Version : SKAN 05-Jul-2013  http://go
 
 Return sOutput,  DllCall( "SetLastError", UInt,ExitCode )
 }
-StdOutStream( sCmd, Callback = "" ) { ; Modified  :  SKAN 31-Aug-2013 http://goo.gl/j8XJXY                             
+StdOutStream2( sCmd, Callback = "" ) { ; Modified  :  SKAN 31-Aug-2013 http://goo.gl/j8XJXY                             
   Static StrGet := "StrGet"           ; Thanks to :  HotKeyIt         http://goo.gl/IsH1zs                                   
                                       ; Original  :  Sean 20-Feb-2007 http://goo.gl/mxCdn
                                     

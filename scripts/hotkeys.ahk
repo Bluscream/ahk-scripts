@@ -14,21 +14,7 @@ global bspid := 0
 global no_ui := true
 global debug := false
 
-global available_hotkeys := { "Win + H": "List Available Hotkeys"
-, "(Shift) + Win + C": "Run cmd (as admin)"
-, "(Shift) + Win + P": "Run powershell (as admin)"
-, "(Shift) + Win + T": "Run Windows Terminal (as admin)"
-, "(Shift) + Win + E": "Run explorer (as admin)"
-, "Ctrl + Shift + Esc": "Run taskmgr"
-, "Alt + Control + Shift + T": "Toggle Taskbar"
-, "Win + X": "Run Quick Start Panel"
-, "Shift + Win + N": "Run Numpad"
-, "Ctrl + B": "Run copywrite.py"
-, "Ctrl + Shift + V": "Run copywrite.py"
-, "Ctrl + Alt + V": "Run split_clipboard.py"
-, "Steam Button": "Run Steam Big Picture"
-, "Steam Button + LB": "Restart Virtual Desktop"
-, "Steam Button + RB": "Run Virtual Desktop"}
+global available_hotkeys := { "Win + H": "List Available Hotkeys", "(Shift) + Win + C": "Run cmd (as admin)", "(Shift) + Win + P": "Run powershell (as admin)", "(Shift) + Win + T": "Run Windows Terminal (as admin)", "(Shift) + Win + E": "Run explorer (as admin)", "Ctrl + Shift + Esc": "Run taskmgr", "Alt + Control + Shift + T": "Toggle Taskbar", "Win + X": "Run Quick Start Panel", "Shift + Win + N": "Run Numpad", "Ctrl + B": "Run copywrite.py", "Ctrl + Shift + V": "Run copywrite.py", "Ctrl + Alt + V": "Run split_clipboard.py", "Steam Button": "Run Steam Big Picture", "Steam Button + LB": "Restart Virtual Desktop", "Steam Button + RB": "Run Virtual Desktop"}
 
 return
 
@@ -54,11 +40,12 @@ showHotKeys() {
 ; > = This prefix character causes the hotkey to be triggered even if the user is holding down one or more modifier keys (Ctrl, Alt, Shift, and Win) at the time the hotkey is pressed. This prefix character is equivalent to specifying {Blind} for this hotkey.
 ; < = This prefix character causes the hotkey to be triggered by the left-hand version of the key only. This is usually only necessary for keys whose right-hand version might have a different effect such as the NumPad keys. This prefix character is equivalent to specifying {LAlt} for this hotkey.
 
+; ~LWin:: Run "C:\Program Files\Open-Shell\StartMenu.exe" -toggle ; Win
 <#h::showHotKeys() ; Win + H
 +#h::Window.fromTop().hide(true) ; Shift + Win + H ; Force hide current window
 <#c::Run cmd ; Win + C
 +#c::ShellRun("cmd") ; Shift + Win + C
-<#p::Run powershell ; Win + P
+<#p::Run pwsh ; powershell ; Win + P
 +#p::ShellRun("powershell") ; Shift + Win + P
 <#t::Run shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App ; Win + T
 +#t::ShellRun("shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App") ; Shift + Win + T
@@ -66,11 +53,13 @@ showHotKeys() {
 +#e::ShellRun("explorer") ; Shift + Win + E
 ; <#r::Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
 ^+Esc::Run taskmgr ; Ctrl + Shift + Esc
-!^+t:: HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
+!^+t::HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
+^Space::ShowPowerLauncher()
+#Space::ShowPowerLauncher()
 <#x:: ; Win + X
     ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     ; {
-    ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exesssasd
     ; }
     IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     {
@@ -149,12 +138,6 @@ showHotKeys() {
 ;     else
 ;         Send {Media_Next}
 ;     return
-; isExplorerRunning() {
-;     return new Process("explorer.exe").exists()
-; }
-; isOBSRunning() {
-;     return new Process("obs64.exe").exists()
-; }
 
 ; CheckVivecraftInstaller:
 ;     SetTimer, CheckVivecraftInstaller, Off
@@ -182,3 +165,18 @@ showHotKeys() {
     ; }
     ; SetTimer, CheckEasyFileLocker, 2500
     ; return
+
+return
+; isExplorerRunning() {
+;     return new Process("explorer.exe").exists()
+; }
+; isOBSRunning() {
+;     return new Process("obs64.exe").exists()
+; }
+ShowPowerLauncher() {
+    Run % "C:\Program Files\PowerToys\PowerToys.PowerLauncher.exe"
+    ; WinWait, PowerToys.PowerLauncher ahk_exe PowerToys.PowerLauncher
+    Sleep, 50
+    WinRestore, PowerToys.PowerLauncher ahk_exe PowerToys.PowerLauncher
+    WinActivate, PowerToys.PowerLauncher ahk_exe PowerToys.PowerLauncher
+}

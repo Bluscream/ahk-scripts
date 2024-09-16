@@ -114,7 +114,7 @@ SetFields(a) {
     GuiControl,,txt_hexa, % color.hexa
     ; Gui Add, Edit, hWndhEdtValue8 vtxt_hexrgba gOnTxtEdited x104 y168 w120 h21 -VScroll
     GuiControl,,txt_hexrgba, % color.hexrgba
-    GuiControl, Color, img_color, % color.hexrgba
+    GuiControl,, img_color, % color.hexrgba ; Color
     editing := false
 }
 
