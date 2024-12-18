@@ -6,7 +6,7 @@ SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
 #Include <bluscream>
-global noui := true
+global noui := false
 ; EnforceAdmin()
 
 global perf_mode := false
@@ -75,10 +75,22 @@ scriptlog("CheckForVirtualDesktopServer timer running...")
 
 Menu, tray, add, Start VD, startVirtualDesktop
 Menu, tray, add, Stop VD, stopVirtualDesktop
+Menu, tray, add, Fill VD, fillVirtualDesktop
 
 return
 Debug:
     ToolTip, % vd.state " . fails: " . vd.failcounter
+    return
+fillVirtualDesktop:
+    vd.streamer_path.run()
+    SleepS(1)
+    WinGet, streamer_id, ID, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    if (streamer_id) {
+        scriptlog("Found Virtual Desktop Streamer window: " . streamer_id)
+        FillVirtualDesktop(streamer_id) ; FillVirtualDesktop2() ; 
+    } else {
+        scriptlog("Could not find Virtual Desktop Streamer window")
+    }
     return
 CheckForVirtualDesktopServer:
     connected := vd.windows.server.process.exists()
@@ -154,22 +166,42 @@ Created(Win_Hwnd, Win_Title, Win_Class, Win_Exe, Win_Event) {
     }
     if (!hasEnteredUsername && OculusUserName) {
         scriptlog("Found VD window for the first time since script startup, filling in user " . OculusUserName . "...")
-        WinActivate, ahk_id %Win_Hwnd%
-        SetKeyDelay, 0 ; SendMode, InputThenPlay
-        WinWaitActive, ahk_id %Win_Hwnd%,, 2
-        Sleep, 250
-        ControlSend,, {Tab 2}, ahk_id %Win_Hwnd%
-        Sleep, 50
-        Send, {Tab 2}
-        Sleep, 150
-        ControlSend,, % OculusUserName, ahk_id %Win_Hwnd%
-        Sleep, 150
-        ControlSend,, {Enter}, ahk_id %Win_Hwnd%
-        hasEnteredUsername := true
-        WinMinimize, ahk_id %Win_Hwnd%
+        FillVirtualDesktop("ahk_id " . Win_Hwnd)
     }
 }
 
+FillVirtualDesktop(win) {
+    scriptlog("Filling in vd to " . win)
+    WinActivate, % win
+    SetKeyDelay, 0 ; SendMode, InputThenPlay
+    WinWaitActive, % win,, 2
+    Sleep, 250  bluscream
+    ControlSend,, {Tab 2}, % win
+    Sleep, 50
+    Send, {Tab 2}
+    Sleep, 150
+    ControlSend,, % OculusUserName, % win
+    Sleep, 150
+    ControlSend,, {Enter}, % win
+    hasEnteredUsername := true
+    WinMinimize, % win
+    scriptlog("Filled in vd to " . win)
+}
+
+FillVirtualDesktop2() {
+    streamerPath := "C:\Program Files\Virtual Desktop Streamer\VirtualDesktop.Streamer.exe"
+    ; Process, Close, VirtualDesktop.Streamer.exe
+    Run, %streamerPath%
+    WinWait, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    WinActivate, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    WinWaitActive, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe,, 2
+    Sleep, 250
+    Click, 10, 10
+    Sleep, 50
+    Send, {Tab}
+    Sleep, 50
+    Send, bluscream{Enter}
+}
 
 OnTrayChanged(line) {
     line := traylib.parseLine(line)
