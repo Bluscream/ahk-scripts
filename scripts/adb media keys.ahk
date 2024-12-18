@@ -11,7 +11,7 @@ adb_path := "adb"
 ; Default behavior for volume keys
 HandleVolumeKeys := false
 device_id := "7bb16eeeb8e9c86c7578552408caede5"
-global no_ui := true
+global no_ui := false
 
 ; Check for command line switches
 Loop, %0%
@@ -25,7 +25,8 @@ Loop, %0%
     }
 }
 adb_devices := Trim(ComCommand(adb_path . " devices"))
-adb_devices := StrReplace(adb_devices, "`r`n" , "")
+adb_devices := StrReplace(adb_devices, "`r" , "")
+adb_devices := StrReplace(adb_devices, "`n" , "")
 if (adb_devices == "List of devices attached") { ; \r\n\r\n
     result = ConnectAdb()
     if (result != "")

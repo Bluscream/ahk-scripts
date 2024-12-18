@@ -3,7 +3,8 @@
 #Include %A_LineFile%\..\ui\window.ahk
 #Include %A_LineFile%\..\ui\coord.ahk
 global initialized := false
-global ui := False
+global ui := false
+global noui := true
 global lastToolTip := ""
 global splashscreenqueue := []
 global lastsplashscreen := ""

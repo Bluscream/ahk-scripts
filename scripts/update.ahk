@@ -18,7 +18,7 @@ If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 
-compile := false
+compile := true
 ; RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "C:\Program Files\AutoHotkey\scripts\shadow_client.ahk" /out "C:\Program Files\AutoHotkey\scripts\bin\shadow_client.exe" /mpress 1
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"

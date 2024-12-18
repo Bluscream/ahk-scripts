@@ -10,7 +10,7 @@ scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 #Include <shadow>
 CoordMode, mouse, Client
 global channels := {}
-channels["prod"] := new Channel("prod", "shadow", "Shadow.exe", "ShadowSetup.exe")
+channels["prod"] := new Channel("prod", "shadow", "Shadow PC.exe", "ShadowSetup.exe")
 channels["beta"] := new Channel("beta", "shadow-preprod", "Shadow Beta.exe", "ShadowBetaSetup.exe")
 channels["testing"] := new Channel("testing", "shadow-testing", "Shadow Alpha.exe", "ShadowAlphaSetup.exe")
 Menu, tray, add

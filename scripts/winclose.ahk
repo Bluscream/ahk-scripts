@@ -5,8 +5,8 @@
 ; #Warn
 
 #Include <bluscream>
-EnforceAdmin()
 global no_ui := true
+EnforceAdmin()
 ; https://gist.github.com/Bluscream/119f09441c512ef267ade38bd4a5c9ce#file-winclose-ahk
 ; Big thanks to Dinenon#8239
 ; SetBatchLines, -1
@@ -16,8 +16,8 @@ DetectHiddenWindows, Off
 CoordMode, Mouse, Client
 ;<=====  Set up our arrays  ===================================================>
 titles := []
-;titles.push({title:"DF ahk_class #32770 ahk_exe df.exe", text: "", action: "CloseWindow"}
-;titles.push({title:"ConEmu [64] ahk_class #32770 ahk_exe ConEmu64.exe", text: "", action: "ClickButton:&Ignore"}
+;titles.push({title:"DF ahk_class #32770 ahk_exe df.exe", text: "", action: "CloseWindow"})
+;titles.push({title:"ConEmu [64] ahk_class #32770 ahk_exe ConEmu64.exe", text: "", action: "ClickButton:&Ignore"})
 titles.push({title:"ahk_class ClassAdvert",        text: "",action: "CloseWindow"})
 titles.push({title:"ahk_class MainFrameInstall",   text: "",action: "CloseWindow"})
 titles.push({title:"ahk_class RarReminder",        text: "",action: "CloseWindow"})
@@ -155,6 +155,9 @@ titles.push({title:"ahk_exe WWAHost.exe",text:"",action:"CloseWindow;KillProcess
 titles.push({title:"Safe Mode ahk_class Qt663QWindowIcon ahk_exe obs64.exe",text:"",action:"CloseWindow"}) ; Click$X428 Y112
 titles.push({title:"ahk_exe RaiDrive.exe",text:"ads.raidrive.com/standard/c/widget_",action:"CloseWindow"}) ; Intermediate D3D Window2
 titles.push({title:"Process Lasso ahk_class #32770 ahk_exe ProcessLasso.exe",text:"Purchase now",action:"CloseWindow"})
+titles.push({title:"Task Scheduler ahk_class #32770 ahk_exe mmc.exe",text:"Do you want to end all instances of this",action:"ClickButton$Yes"})
+titles.push({title:"PowerToys Run - Plugin Initialization Error ahk_class #32770 ahk_exe PowerToys.PowerLauncher.exe",text:"",action:"CloseWindow"})
+
 
 
 ; ahk_class HwndWrapper[RaiDrive;;098cd9be-3432-4d65-8a52-9db506143841]

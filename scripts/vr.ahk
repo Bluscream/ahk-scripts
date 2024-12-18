@@ -20,6 +20,13 @@ vd.last_event := ""
 vd.state := "Unknown"
 vd.failcounter := 0
 
+#include <WinHook> ; https://www.autohotkey.com/boards/viewtopic.php?t=59149
+global OculusUserName := "bluscream"
+global hasEnteredUsername := false
+WinHook.Shell.Add("Created",,, "VirtualDesktop.Streamer.exe",1)
+scriptlog("Waiting for streamer window to enter username")
+
+; region start
 #Include <steam>
 global steam := new Steam()
 global steamvr := new SteamVR()
@@ -115,10 +122,54 @@ killAll(item) {
     }
 }
 
+; endregion start
+
 EnsureVirtualDesktop() {
     global vd
     vd.ensure()
 }
+
+; Virtual Desktop Streamer
+; ahk_class HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;ff0a437e-4fcb-4961-a8d2-31096b27c9ec]
+; ahk_exe VirtualDesktop.Streamer.exe
+; ahk_pid 4908
+; ahk_id 132228
+; 620, 208
+; [06:36:11] [
+; 	132228,
+; 	"Virtual Desktop Streamer",
+; 	"HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;ff0a437e-4fcb-4961-a8d2-31096b27c9ec]",
+; 	"VirtualDesktop.Streamer.exe",
+; 	1,
+; 	4908
+; ]
+    ; SendMode, Event
+    ; BlockInput, MouseMove
+    ; ControlClick, X620 Y208, ahk_id %Win_Hwnd%,,,, Pos
+    ; BlockInput, MouseMoveOff
+Created(Win_Hwnd, Win_Title, Win_Class, Win_Exe, Win_Event) {
+    global hasEnteredUsername, OculusUserName
+    if (!startsWith(Win_Class, "HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;")) {
+        return
+    }
+    if (!hasEnteredUsername && OculusUserName) {
+        scriptlog("Found VD window for the first time since script startup, filling in user " . OculusUserName . "...")
+        WinActivate, ahk_id %Win_Hwnd%
+        SetKeyDelay, 0 ; SendMode, InputThenPlay
+        WinWaitActive, ahk_id %Win_Hwnd%,, 2
+        Sleep, 250
+        ControlSend,, {Tab 2}, ahk_id %Win_Hwnd%
+        Sleep, 50
+        Send, {Tab 2}
+        Sleep, 150
+        ControlSend,, % OculusUserName, ahk_id %Win_Hwnd%
+        Sleep, 150
+        ControlSend,, {Enter}, ahk_id %Win_Hwnd%
+        hasEnteredUsername := true
+        WinMinimize, ahk_id %Win_Hwnd%
+    }
+}
+
 
 OnTrayChanged(line) {
     line := traylib.parseLine(line)
