@@ -15,6 +15,7 @@ channels["beta"] := new Channel("beta", "shadow-preprod", "Shadow Beta.exe", "Sh
 channels["testing"] := new Channel("testing", "shadow-testing", "Shadow Alpha.exe", "ShadowAlphaSetup.exe")
 Menu, tray, add
 Menu, tray, add, Main Timer, ToggleCheckForShadow
+Menu, tray, add, Anti AFK, ToggleAntiAFK
 Menu, tray, add, Auto Connect, ToggleForceConnect
 Menu, tray, add, Auto Kill, ToggleAutoKill
 Menu, tray, add
@@ -79,7 +80,7 @@ for n, param in A_Args
         }
         else if (param == "/afk") {
             scriptlog("/afk was set. Anti idle")
-            anti_afk := true
+            gosub ToggleAntiAFK
         }
     }
 }
@@ -98,6 +99,14 @@ ToggleCheckForShadow:
     } else {
         main_timer := false
         SetTimer, CheckForShadow, Off
+    }
+    return
+ToggleAntiAFK:
+    SplashScreen("Shadow", "Anti AFK " . (anti_afk ? "disabled" : "enabled"), 500)
+    if (!anti_afk) {
+        anti_afk := true
+    } else {
+        anti_afk := false
     }
     return
 ToggleAutoKill:
@@ -142,7 +151,7 @@ InstallShadow:
 CheckForShadow:
     SetTimer, CheckForShadow, Off
     if (shadow.exists()) {
-        if (A_TimeIdle > 600 && anti_afk) {
+        if (anti_afk && A_TimeIdle > 600) {
             scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
             AntiAFK()
         }
