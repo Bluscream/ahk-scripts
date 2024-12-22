@@ -54,6 +54,7 @@ global main_timer := false
 global force_connect := false
 global auto_kill := false
 global start_channel := ""
+global anti_afk := false
 
 ; CreateInterval()
 ; AntiAFK()
@@ -75,6 +76,10 @@ for n, param in A_Args
         else if (param == "/kill") {
             scriptlog("/kill was set. Force killing every 30 mins")
             gosub ToggleAutoKill
+        }
+        else if (param == "/afk") {
+            scriptlog("/afk was set. Anti idle")
+            anti_afk := true
         }
     }
 }
@@ -137,10 +142,10 @@ InstallShadow:
 CheckForShadow:
     SetTimer, CheckForShadow, Off
     if (shadow.exists()) {
-        ; if (A_TimeIdle > 600) {
-            ; scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
-            ; AntiAFK()
-        ; }
+        if (A_TimeIdle > 600 && anti_afk) {
+            scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
+            AntiAFK()
+        }
     } else if (shadow_launcher.exists()) {
         if (force_connect) {
             scriptlog("Clicking button " . button.str())

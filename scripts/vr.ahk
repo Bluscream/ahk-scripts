@@ -73,6 +73,9 @@ SetTimer, CheckForVirtualDesktopServer, % 1000
 scriptlog("CheckForVirtualDesktopServer timer running...")
 ; SetTimer, Debug, 500
 
+SetTimer, fillVirtualDesktop, % 1000*60*3 ; Run fillVirtualDesktop after 3 minutes
+
+
 Menu, tray, add, Start VD, startVirtualDesktop
 Menu, tray, add, Stop VD, stopVirtualDesktop
 Menu, tray, add, Fill VD, fillVirtualDesktop
@@ -82,6 +85,7 @@ Debug:
     ToolTip, % vd.state " . fails: " . vd.failcounter
     return
 fillVirtualDesktop:
+    SetTimer, fillVirtualDesktop, Off
     vd.streamer_path.run()
     SleepS(1)
     WinGet, streamer_id, ID, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
