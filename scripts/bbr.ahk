@@ -12,7 +12,7 @@ SetWorkingDir, %A_ScriptDir%
 global no_ui := false
 scriptlog("bbr.ahk::start")
 
-global net_log_path := "D:\WSCC\Apps\NirSoft Utilities\CurrPorts (x64)\cports.log" ; "H:\WSCC\Apps\x64\cports.log"
+global net_log_path := "C:\Users\blusc\scoop\apps\currports\current\cports.log" ; "D:\WSCC\Apps\NirSoft Utilities\CurrPorts (x64)\cports.log" ; "H:\WSCC\Apps\x64\cports.log"
 ; global net_ref_keys:=["prefix","Added_On","State","Protocol","Local_Address","Local_Port","Local_Port_Name","Remote_Address","Remote_Port","Remote_Port_Name","Remote_Host_Name","Remote_IPCountry","Process_Created_On","Process_ID","Process_Name","Process_Path","Process_Services","Process_Attributes","Window_Title","Product_Name","File_Description","File_Version","Company","Module_Filename","User_Name"]
 ;                                 ;"%Added_On%";"%State%";"%Protocol%";"%Local_Address%";"%Local_Port%";"%Local_Port_Name%";"%Remote_Address%";"%Remote_Port%";"%Remote_Port_Name%";"%Remote_Host_Name%";"%Remote_IP Country%";"%Process_Created_On%";"%Process_ID%";"%Process_Name%";"%Process_Path%";"%Process_Services%";"%Process_Attributes%";"%Window_Title%";"%Product_Name%";"%File_Description%";"%File_Version%";"%Company%";"%Module_Filename%";"%User_Name%";
 global net_process_name := "BattleBit.exe"

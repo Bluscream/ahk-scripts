@@ -1,5 +1,6 @@
 ﻿#SingleInstance Force
 #NoEnv
+#NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 Process Priority,, Low
@@ -49,19 +50,19 @@ Process Priority,, Low
 ::!::❕
 ::?::❔
 
-::ab::🆎
-::cl::🆑
-::sos::🆘
-::wc::🚾
-::atm::🏧
-::100::💯
-::abc::🔤
-::abcd::🔠
-::ng::🆖
-::ok::🆗
-::up::🆙
-::cool::🆒
-::new::🆕
-::free::🆓
-::id::🆔
-::vs::🆚
+; ::ab::🆎
+; ::cl::🆑
+; ::sos::🆘
+; ::wc::🚾
+; ::atm::🏧
+; ::100::💯
+; ::abc::🔤
+; ::abcd::🔠
+; ::ng::🆖
+; ::ok::🆗
+; ::up::🆙
+; ::cool::🆒
+; ::new::🆕
+; ::free::🆓
+; ::id::🆔
+; ::vs::🆚

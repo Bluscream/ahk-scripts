@@ -27,7 +27,7 @@
 !lib/**/*.ahk
 # !scripts/*.ahk
 !scripts/**/*.ahk
-!scripts/bin/*.exe
+# !scripts/bin/*.exe
 
 ahkstudio/*
 autohotinterception/*
@@ -36,8 +36,3 @@ scripts/temp/
 Adventure/
 AutoGUI/
 Lib/TrayIcon.bak.ahk
-*.mp3
-*.mp4
-*.wav
-/Scripts/sirens
-scripts/AHK-Rare

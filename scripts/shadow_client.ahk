@@ -10,12 +10,11 @@ scriptlog(A_ScriptFullPath . " " .  Join(" ", A_Args))
 #Include <shadow>
 CoordMode, mouse, Client
 global channels := {}
-channels["prod"] := new Channel("prod", "shadow", "Shadow PC.exe", "ShadowSetup.exe")
+channels["prod"] := new Channel("prod", "shadow", "Shadow.exe", "ShadowSetup.exe")
 channels["beta"] := new Channel("beta", "shadow-preprod", "Shadow Beta.exe", "ShadowBetaSetup.exe")
 channels["testing"] := new Channel("testing", "shadow-testing", "Shadow Alpha.exe", "ShadowAlphaSetup.exe")
 Menu, tray, add
 Menu, tray, add, Main Timer, ToggleCheckForShadow
-Menu, tray, add, Anti AFK, ToggleAntiAFK
 Menu, tray, add, Auto Connect, ToggleForceConnect
 Menu, tray, add, Auto Kill, ToggleAutoKill
 Menu, tray, add
@@ -55,7 +54,6 @@ global main_timer := false
 global force_connect := false
 global auto_kill := false
 global start_channel := ""
-global anti_afk := false
 
 ; CreateInterval()
 ; AntiAFK()
@@ -78,10 +76,6 @@ for n, param in A_Args
             scriptlog("/kill was set. Force killing every 30 mins")
             gosub ToggleAutoKill
         }
-        else if (param == "/afk") {
-            scriptlog("/afk was set. Anti idle")
-            gosub ToggleAntiAFK
-        }
     }
 }
 gosub ToggleCheckForShadow
@@ -99,14 +93,6 @@ ToggleCheckForShadow:
     } else {
         main_timer := false
         SetTimer, CheckForShadow, Off
-    }
-    return
-ToggleAntiAFK:
-    SplashScreen("Shadow", "Anti AFK " . (anti_afk ? "disabled" : "enabled"), 500)
-    if (!anti_afk) {
-        anti_afk := true
-    } else {
-        anti_afk := false
     }
     return
 ToggleAutoKill:
@@ -151,10 +137,10 @@ InstallShadow:
 CheckForShadow:
     SetTimer, CheckForShadow, Off
     if (shadow.exists()) {
-        if (anti_afk && A_TimeIdle > 600) {
-            scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
-            AntiAFK()
-        }
+        ; if (A_TimeIdle > 600) {
+            ; scriptlog(A_Now . " > " . toJson(GetIdleTimes()))
+            ; AntiAFK()
+        ; }
     } else if (shadow_launcher.exists()) {
         if (force_connect) {
             scriptlog("Clicking button " . button.str())
