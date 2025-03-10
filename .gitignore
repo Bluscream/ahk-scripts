@@ -27,7 +27,7 @@
 !lib/**/*.ahk
 # !scripts/*.ahk
 !scripts/**/*.ahk
-# !scripts/bin/*.exe
+!scripts/bin/*.exe
 
 ahkstudio/*
 autohotinterception/*
