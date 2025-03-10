@@ -34,21 +34,20 @@ UpdateTrayMenu() {
     OutputDebug, % "Found " . profiles.profiles.Count() . " power profiles"
     
     for id, profile in profiles.profiles {
-        isActive := (profile.id = activeProfile.id)
+        isActive := profile.IsActive()
 
-        OutputDebug, % "Profile: " . id 
+        OutputDebug, % "Profile: " . id . "`tActive: " . isActive
             . "`n`tName: " . profile.name
             . "`n`tDescription: " . profile.description
-            . "`n`tIcon: " . profile.icon
-            . "`n`tActive: " . profile.IsActive()
+            ; . "`n`tIcon: " . profile.icon
 
         Menu, Tray, Add, % profile.name, MenuHandler, ; +Radio +Right
-        icon := profile.GetIcon()
-        if FileExist(icon[1]) {
-            OutputDebug, % "Setting icon for " . profile.name . " from " . icon[1] . ", " . icon[2]
-            Menu, Tray, Icon, % profile.name, % icon[1],, 20 ; % icon[2] ; , 16
-        }
-        if (profile.IsActive())
+        ; icon := profile.GetIcon()
+        ; if FileExist(icon[1]) {
+        ;     OutputDebug, % "Setting icon for " . profile.name . " from " . icon[1] . ", " . icon[2]
+        ;     Menu, Tray, Icon, % profile.name, % icon[1], -512, 20 ; % icon[2] ; , 16
+        ; }
+        if (isActive)
             Menu, Tray, Check, % profile.name
     }
 }

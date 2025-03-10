@@ -21,15 +21,15 @@ class PowerProfile {
     id := ""
     name := "Unknown"
     description := "Unknown Power Plan"
-    icon := A_WinDir . "\System32\SHELL32.dll,235"
+    ; icon := A_WinDir . "\System32\SHELL32.dll,235"
     
     static RegKey = "HKLM\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes"
 
-    __New(id := "", name := "", description := "", icon := "") {
+    __New(id := "", name := "", description := "") { ; , icon := ""
         this.id := id
         this.name := name 
         this.description := description
-        this.icon := icon
+        ; this.icon := icon
     }
 
     SetActive() {
@@ -46,12 +46,12 @@ class PowerProfile {
         return (active = this.id)
     }
 
-    GetIcon() {
-        if (InStr(this.icon, ",")) {
-            return StrSplit(this.icon, ",")
-        }
-        return [this.icon]
-    }
+    ; GetIcon() {
+    ;     if (InStr(this.icon, ",")) {
+    ;         return StrSplit(this.icon, ",")
+    ;     }
+    ;     return [this.icon]
+    ; }
 }
 
 class PowerProfiles {
@@ -88,8 +88,8 @@ class PowerProfiles {
             if (!ErrorLevel && RegExMatch(name, "^[^\x00-\x1F\x7F]+$")) {
                 if (InStr(name, ",")) {
                     split := StrSplit(name, ",")
-                    icon := RegExReplace(split[1], "^@", "") . "," . (split[2] + 0)
-                    icon := StrReplace(icon, "%SystemRoot%", A_WinDir)
+                    ; icon := RegExReplace(split[1], "^@", "") . "," . (split[2] + 0)
+                    ; icon := StrReplace(icon, "%SystemRoot%", A_WinDir)
                     name := split[3]
                 }
                 if (InStr(description, ",")) {
@@ -101,7 +101,7 @@ class PowerProfiles {
                 name := A_LoopRegName
             }
             
-            this.profiles[id] := new PowerProfile(id, name, description, icon)
+            this.profiles[id] := new PowerProfile(id, name, description) ; , icon)
 
             OutputDebug, % "Found profile: " . name . " (" . id . ")"
         }
