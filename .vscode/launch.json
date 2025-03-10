@@ -12,7 +12,8 @@
         "request": "launch",
         "name": "AutoHotkey v1 Debugger",
         "program": "",
-        "stopOnEntry": true
+        "stopOnEntry": true,
+        "runtimeArgs": ["/extra"]
     }
     ]
 }

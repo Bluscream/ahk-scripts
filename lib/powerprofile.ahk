@@ -1,7 +1,21 @@
+; region HELPERS
 EndsWith(haystack, needle) {
     return SubStr(haystack, -StrLen(needle) + 1) = needle
 }
-
+A_Args_Contains(val) {
+    for _, param in A_Args {
+        if (param = val)
+            return true
+    }
+    return false
+}
+StrJoin(arr, delim) {
+    str := ""
+    for i, v in arr
+        str .= (i=1 ? "" : delim) v
+    return str
+}
+; endregion HELPERS
 
 class PowerProfile {
     id := ""
@@ -74,7 +88,7 @@ class PowerProfiles {
             if (!ErrorLevel && RegExMatch(name, "^[^\x00-\x1F\x7F]+$")) {
                 if (InStr(name, ",")) {
                     split := StrSplit(name, ",")
-                    icon := RegExReplace(split[1], "^@", "") . "," . (split[2] + 32768)
+                    icon := RegExReplace(split[1], "^@", "") . "," . (split[2] + 0)
                     icon := StrReplace(icon, "%SystemRoot%", A_WinDir)
                     name := split[3]
                 }

@@ -22,9 +22,14 @@ UpdateTrayMenu() {
     activeProfile := profiles.GetActive()
     
     Menu, Tray, DeleteAll
-    Menu, Tray, Add, Exit, MenuHandler
-    Menu, Tray, Add, Reload, MenuHandler
-    Menu, Tray, Add
+
+    for _, arg in A_Args {
+        if (arg = "/extra") {
+            Menu, Tray, Add, Reload, MenuHandler
+            Menu, Tray, Add, Exit, MenuHandler
+            Menu, Tray, Add
+        }
+    }
 
     OutputDebug, % "Found " . profiles.profiles.Count() . " power profiles"
     
@@ -37,11 +42,11 @@ UpdateTrayMenu() {
             . "`n`tIcon: " . profile.icon
             . "`n`tActive: " . profile.IsActive()
 
-        Menu, Tray, Add, % profile.name, MenuHandler, +Radio +Right
+        Menu, Tray, Add, % profile.name, MenuHandler, ; +Radio +Right
         icon := profile.GetIcon()
         if FileExist(icon[1]) {
             OutputDebug, % "Setting icon for " . profile.name . " from " . icon[1] . ", " . icon[2]
-            Menu, Tray, Icon, % profile.name, % icon[1] ;, % icon[2] ; , 16
+            Menu, Tray, Icon, % profile.name, % icon[1],, 20 ; % icon[2] ; , 16
         }
         if (profile.IsActive())
             Menu, Tray, Check, % profile.name
