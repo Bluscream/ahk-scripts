@@ -1,5 +1,5 @@
 ﻿#Persistent
-#NoTrayIcon
+; #NoTrayIcon
 #NoEnv
 #SingleInstance, force
 SetBatchLines, -1
@@ -14,21 +14,7 @@ global bspid := 0
 global no_ui := true
 global debug := false
 
-global available_hotkeys := { "Win + H": "List Available Hotkeys"
-, "(Shift) + Win + C": "Run cmd (as admin)"
-, "(Shift) + Win + P": "Run powershell (as admin)"
-, "(Shift) + Win + T": "Run Windows Terminal (as admin)"
-, "(Shift) + Win + E": "Run explorer (as admin)"
-, "Ctrl + Shift + Esc": "Run taskmgr"
-, "Alt + Control + Shift + T": "Toggle Taskbar"
-, "Win + X": "Run Quick Start Panel"
-, "Shift + Win + N": "Run Numpad"
-, "Ctrl + B": "Run copywrite.py"
-, "Ctrl + Shift + V": "Run copywrite.py"
-, "Ctrl + Alt + V": "Run split_clipboard.py"
-, "Steam Button": "Run Steam Big Picture"
-, "Steam Button + LB": "Restart Virtual Desktop"
-, "Steam Button + RB": "Run Virtual Desktop"}
+global available_hotkeys := { "Win + H": "List Available Hotkeys", "(Shift) + Win + C": "Run cmd (as admin)", "(Shift) + Win + P": "Run powershell (as admin)", "(Shift) + Win + T": "Run Windows Terminal (as admin)", "(Shift) + Win + E": "Run explorer (as admin)", "Ctrl + Shift + Esc": "Run taskmgr", "Alt + Control + Shift + T": "Toggle Taskbar", "Win + X": "Run Quick Start Panel", "Shift + Win + N": "Run Numpad", "Ctrl + B": "Run copywrite.py", "Ctrl + Shift + V": "Run copywrite.py", "Ctrl + Alt + V": "Run split_clipboard.py", "Steam Button": "Run Steam Big Picture", "Steam Button + LB": "Restart Virtual Desktop", "Steam Button + RB": "Run Virtual Desktop"}
 
 return
 
@@ -54,10 +40,15 @@ showHotKeys() {
 ; > = This prefix character causes the hotkey to be triggered even if the user is holding down one or more modifier keys (Ctrl, Alt, Shift, and Win) at the time the hotkey is pressed. This prefix character is equivalent to specifying {Blind} for this hotkey.
 ; < = This prefix character causes the hotkey to be triggered by the left-hand version of the key only. This is usually only necessary for keys whose right-hand version might have a different effect such as the NumPad keys. This prefix character is equivalent to specifying {LAlt} for this hotkey.
 
+; ~LWin:: Run "C:\Program Files\Open-Shell\StartMenu.exe" -toggle ; Win
 <#h::showHotKeys() ; Win + H
++#h::Window.fromTop().hide(true) ; Shift + Win + H ; Force hide current window
 <#c::Run cmd ; Win + C
 +#c::ShellRun("cmd") ; Shift + Win + C
-<#p::Run powershell ; Win + P
+<#p::return ; Override Win + P with nothing
+<#o::
+^<#p::
+    Run pwsh ; powershell ; Ctrl + Win + P
 +#p::ShellRun("powershell") ; Shift + Win + P
 <#t::Run shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App ; Win + T
 +#t::ShellRun("shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App") ; Shift + Win + T
@@ -65,17 +56,19 @@ showHotKeys() {
 +#e::ShellRun("explorer") ; Shift + Win + E
 ; <#r::Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
 ^+Esc::Run taskmgr ; Ctrl + Shift + Esc
-!^+t:: HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
+!^+t::HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
+^Space::ShowPowerLauncher()
+#Space::ShowPowerLauncher()
 <#x:: ; Win + X
     ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     ; {
-    ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
+    ;     WinActivate, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exesssasd
     ; }
     IfWinNotExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     {
         Run % "C:\Program Files\AutoHotKey\Scripts\button_panel.ahk"
     }
-    return
+return
 ; <#g:: ; Win + G
 ;     new Process("fivem_b2545_dumpserver").kill()
 ;     new Process("fivem_steamchild").kill()
@@ -87,21 +80,39 @@ showHotKeys() {
 ;     return
 +<#n:: ; Shift + Win + N
     Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
-    Return
+Return
 
 ; ^b:: ; Ctrl + B
 ^+v:: ; Ctrl + Shift + V
     Run % "C:\Scripts\copywrite.py",, Min
-    Return
+Return
 ^!v:: ; Ctrl + Alt + V
     Run % "C:\Scripts\split_clipboard.py",, Min
-    Return
+Return
+
+!v::
+    ShellRun("SoundVolumeView", "/SetDefault ""Voicemeeter Input"" 1")
+    ShellRun("SoundVolumeView", "/SetDefault ""Voicemeeter AUX Input"" 2")
+    ; ShellRun("SoundVolumeView", "/SetDefault ""Voicemeeter VAIO3 Input"" 0")
+
+    ; ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter VAIO3 Input"" all ""LibreWolf.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter VAIO3 Input"" all ""YouTube Music.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter VAIO3 Input"" all ""player.exe""")
+
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter AUX Input"" all ""Discord.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter AUX Input"" all ""DiscordCanary.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter AUX Input"" all ""DiscordPTB.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter AUX Input"" all ""Vesktop.exe""")
+
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter Input"" all ""cod.exe""")
+    ShellRun("SoundVolumeView", "/SetAppDefault ""Voicemeeter Input"" all ""VRChat.exe""")
+Return
 
 3Joy12:: ; Steam Button
     if GetKeyState("3Joy11") {
         steam.bigpicture()
     }
-    return
+return
 
 3Joy15::
     if GetKeyState("3Joy11") {
@@ -114,14 +125,14 @@ showHotKeys() {
     } else if GetKeyState("3Joy10") {
         Run "C:\Program Files\AutoHotkey\AutoHotkeyU64.exe" "C:\Program Files\AutoHotkey\Scripts\numpad.ahk"
     }
-    return
+return
 3Joy1:: ; A
     if GetKeyState("3Joy4") and GetKeyState("3Joy11") { ; A + LB
         KillProcesses(["VirtualDesktop.Streamer", "VirtualDesktop.Service"])
         StopServices(["VirtualDesktop.Service.exe"])
         StartServices(["VirtualDesktop.Service.exe"])
     }
-    return
+return
 ; <#y:: ; Win + Y
 ;     ShellRun("C:\Program Files\Open-Shell\StartMenu.exe", "-togglenew")
 ; F1::
@@ -148,12 +159,6 @@ showHotKeys() {
 ;     else
 ;         Send {Media_Next}
 ;     return
-; isExplorerRunning() {
-;     return new Process("explorer.exe").exists()
-; }
-; isOBSRunning() {
-;     return new Process("obs64.exe").exists()
-; }
 
 ; CheckVivecraftInstaller:
 ;     SetTimer, CheckVivecraftInstaller, Off
@@ -170,14 +175,35 @@ showHotKeys() {
 ;     return
 
 ; CheckEasyFileLocker:
-    ; SetTimer, CheckEasyFileLocker, Off
-    ; ; win := new Window("Files & Folders Setting","#32770","FileLocker.exe")
-    ; win2 := new Window("Browse for Folder","#32770","FileLocker.exe")
-    ; ; Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
-    ; if (win2.exists()) {
-    ;     win2.close()
-    ;     FileSelectFolder, dir, ::{20d04fe0-3aea-1069-a2d8-08002b30309d}, 7
-    ;     ControlSetText, Edit1, % dir, % winstr2
-    ; }
-    ; SetTimer, CheckEasyFileLocker, 2500
-    ; return
+; SetTimer, CheckEasyFileLocker, Off
+; ; win := new Window("Files & Folders Setting","#32770","FileLocker.exe")
+; win2 := new Window("Browse for Folder","#32770","FileLocker.exe")
+; ; Run % "C:\Program Files\Easy File Locker\FileLocker.exe"
+; if (win2.exists()) {
+;     win2.close()
+;     FileSelectFolder, dir, ::{20d04fe0-3aea-1069-a2d8-08002b30309d}, 7
+;     ControlSetText, Edit1, % dir, % winstr2
+; }
+; SetTimer, CheckEasyFileLocker, 2500
+; return
+
+return
+; isExplorerRunning() {
+;     return new Process("explorer.exe").exists()
+; }
+; isOBSRunning() {
+;     return new Process("obs64.exe").exists()
+; }
+ShowPowerLauncher() {
+    path := "C:\Program Files\WindowsApps\Microsoft.CommandPalette_0.2.0.0_x64__8wekyb3d8bbwe\Microsoft.CmdPal.UI.exe"
+    win := "Command Palette ahk_class WinUIDesktopWin32WindowClass ahk_exe Microsoft.CmdPal.UI.exe"
+    if (!FileExist(path)) {
+        path := "C:\Program Files\PowerToys\PowerToys.PowerLauncher.exe"
+        win := "PowerToys.PowerLauncher ahk_exe PowerToys.PowerLauncher"
+    }
+    Run % path
+    ; WinWait, % win
+    Sleep, 50
+    WinRestore, % win
+    WinActivate, % win
+}

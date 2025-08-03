@@ -7,13 +7,12 @@
             "program": "",
             "stopOnEntry": true
         },
-    {
-        "type": "ahk",
-        "request": "launch",
-        "name": "AutoHotkey v1 Debugger",
-        "program": "",
-        "stopOnEntry": true,
-        "runtimeArgs": ["/extra"]
-    }
+        {
+            "type": "ahk",
+            "request": "launch",
+            "name": "AutoHotkey v1 Debugger",
+            "program": "",
+            "stopOnEntry": true
+        }
     ]
 }

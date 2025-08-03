@@ -22,6 +22,7 @@ class VirtualDesktop {
             this.streamer_path := this.dir.CombineFile(this.windows.streamer.exe)
         }
         this.connected := this.windows.server.process.exists()
+        scriptlog("Loaded VD Lib")
     }
 
     init() {

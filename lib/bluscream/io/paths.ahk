@@ -1,10 +1,13 @@
 EnvGet, localappdata, % "LOCALAPPDATA"
+EnvGet, userprofile, % "USERPROFILE"
+
 class Paths {
     class User {
         name := A_UserName                   ; blusc
+        userprofile := new Directory(userprofile)
         appdata := new Directory(A_AppData)           ; C:\Users\blusc\AppData\Roaming
         localappdata := new Directory(localappdata)   ; C:\Users\blusc\AppData\Local
-        ; locallowappdata := new Directory(localappdata)    ; C:\Users\blusc\AppData\LocalLow
+        locallowappdata := new Directory(StrReplace(localappdata, "\Local", "\LocalLow"))   ; C:\Users\blusc\AppData\LocalLow
         temp := new Directory(A_Temp)                 ; C:\Users\blusc\AppData\Local\Temp
         desktop := new Directory(A_Desktop)           ; C:\Users\blusc\Desktop
         startmenu := new Directory(A_StartMenu)       ; C:\Users\blusc\AppData\Roaming\Microsoft\Windows\Start Menu

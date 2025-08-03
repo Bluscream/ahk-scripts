@@ -34,7 +34,7 @@ global vd := { services: ["VirtualDesktop.Service.exe"]
     ,custom: [] }
 
 global cmd := { services: []
-    ,processes: ["WindowsTerminal","powershell","powershell_ise","conhost","cmd"]
+    ,processes: ["WindowsTerminal","pwsh","powershell","powershell_ise","conhost","cmd"]
     ,tasks: []
     ,custom: [] }
 

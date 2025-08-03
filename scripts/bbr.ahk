@@ -1,4 +1,4 @@
-#NoEnv
+; #NoEnv
 #SingleInstance, Force
 #Persistent
 SendMode, Input
@@ -10,25 +10,38 @@ SetWorkingDir, %A_ScriptDir%
 #Include <bluscream>
 
 global no_ui := false
+global userpaths := new Paths().User
+userpaths := new userpaths()
+
 scriptlog("bbr.ahk::start")
 
-global net_log_path := "C:\Users\blusc\scoop\apps\currports\current\cports.log" ; "D:\WSCC\Apps\NirSoft Utilities\CurrPorts (x64)\cports.log" ; "H:\WSCC\Apps\x64\cports.log"
+global net_log_path := userpaths.userprofile.CombineFile("scoop","apps","currports","current","cports.csv").Path ; .temp ; "C:\Users\blusc\scoop\apps\currports\current\cports.log" ; "D:\WSCC\Apps\NirSoft Utilities\CurrPorts (x64)\cports.log" ; "H:\WSCC\Apps\x64\cports.log"
 ; global net_ref_keys:=["prefix","Added_On","State","Protocol","Local_Address","Local_Port","Local_Port_Name","Remote_Address","Remote_Port","Remote_Port_Name","Remote_Host_Name","Remote_IPCountry","Process_Created_On","Process_ID","Process_Name","Process_Path","Process_Services","Process_Attributes","Window_Title","Product_Name","File_Description","File_Version","Company","Module_Filename","User_Name"]
 ;                                 ;"%Added_On%";"%State%";"%Protocol%";"%Local_Address%";"%Local_Port%";"%Local_Port_Name%";"%Remote_Address%";"%Remote_Port%";"%Remote_Port_Name%";"%Remote_Host_Name%";"%Remote_IP Country%";"%Process_Created_On%";"%Process_ID%";"%Process_Name%";"%Process_Path%";"%Process_Services%";"%Process_Attributes%";"%Window_Title%";"%Product_Name%";"%File_Description%";"%File_Version%";"%Company%";"%Module_Filename%";"%User_Name%";
 global net_process_name := "BattleBit.exe"
 
-global log_path := "C:\Users\blusc\AppData\LocalLow\BattleBitDevTeam\BattleBit\Player.log"
+global log_path := userpaths.locallowappdata.CombineFile("BattleBitDevTeam","BattleBit","Player.log").Path ; "C:\Users\blusc\AppData\LocalLow\BattleBitDevTeam\BattleBit\Player.log"
 global title := "BattleBit Remastered"
-global icon := "G:\SteamLibrary\steamapps\common\BattleBit Remastered\IconGroup103.ico"
-Menu, Tray, Icon, % icon
+global icon := new File("D:\SteamLibrary\steamapps\common\BattleBit Remastered\IconGroup103.ico").Path
+if (FileExist(icon)) {
+    Menu, Tray, Icon, % icon
+}
 
 ; global last_join_addr := ""
+OnExit("ExitFunc")
 
 lt := new LogTailer(log_path, Func("OnNewLine"), true)
-lt := new LogTailer(net_log_path, Func("OnNewNetLine"), true)
+lt2 := new LogTailer(net_log_path, Func("OnNewNetLine"), true)
 ShowToast(title, "AutoHotkey", icon, "topleft", 5)
 scriptlog("bbr.ahk::end")
 return
+
+ExitFunc() {
+    if (FileExist(net_log_path)) {
+        FileDelete, % net_log_path
+    }
+    ExitApp
+}
 
 Toast(message, _title := "BattleBit Remastered", time_seconds := 10) {
     global icon, title

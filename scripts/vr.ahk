@@ -1,36 +1,48 @@
 #SingleInstance Force
 #NoEnv
-#NoTrayIcon
+; #NoTrayIcon
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows On
 #Include <bluscream>
-global noui := false
+global noui := true
 ; EnforceAdmin()
 
 global perf_mode := false
 
 #include <virtual_desktop>
 global vd := new VirtualDesktop()
-global traylib := new TrayLib()
-traylib.start(Func("OnTrayChanged"))
-vd.last_event := ""
-vd.state := "Unknown"
-vd.failcounter := 0
+vd.init()
+; global traylib := new TrayLib()
+; traylib.start(Func("OnTrayChanged"))
+; vd.last_event := ""
+; vd.state := "Unknown"
+; vd.failcounter := 0
 
+scriptlog("VD Loaded")
+
+; #include <WinHook> ; https://www.autohotkey.com/boards/viewtopic.php?t=59149
+; global OculusUserName := "bluscream"
+; global hasEnteredUsername := false
+; WinHook.Shell.Add("Created",,, "VirtualDesktop.Streamer.exe",1)
+; scriptlog("Waiting for streamer window to enter username")
+
+; region start
 #Include <steam>
 global steam := new Steam()
 global steamvr := new SteamVR()
 
-global game := { name: "vrc_mods"
-    ,uri : "steam://rungameid/10282156117588967424" ; --quitfix --enable-sdk-log-levels
+scriptlog("Steam Loaded")
+
+global game := { name: "vrc"
+    ,uri : "steam://rungameid/438100" ; --quitfix --enable-sdk-log-levels
     ,windows: { game: new Window("VRChat", "UnityWndClass", "VRChat")
-        ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
-        ,vrcx: new Window("VRCX", "WindowsForms10.Window.8.app.0.370a08c_r6_ad1", "VRCX") }
+    ,console: new Window("MelonLoader", "ConsoleWindowClass", vrchat.game)
+    ,vrcx: new Window("VRCX") }
     ,processes: { }
-    ,files: { game: new Directory("S:\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
-        ,vrcx: new File("C:\Program Files\VRCX\VRCX") } }
+    ,files: { game: new Directory("D:\Games\Steam\steamapps\common\VRChat").CombineFile(vrchat.windows.game)
+    ,vrcx: new File("C:\Program Files\VRCX\VRCX") } }
 
 for n, param in A_Args
 {
@@ -48,12 +60,25 @@ scriptlog(toJson(A_Args))
 ; global events := [ "OnVirtualDesktopStarted", "OnVirtualDesktopReady", "OnVirtualDesktopConnecting", "OnVirtualDesktopEstablishingConnection", "OnVirtualDesktopConnected", "OnVirtualDesktopFullyConnected", "OnConnected", "OnVirtualDesktopDisconnected", "OnVirtualDesktopConnectionLost", "OnVirtualDesktopError", "OnVirtualDesktopInternetLost", "OnVirtualDesktopStopped" ]
 ; scriptlog("events: " . toJson(events))
 
-global events_dir := new Paths.User().programs.Combine("VREvents")
-scriptlog("events_dir: " . toJson(events_dir))
-if (!events_dir.exists()) {
-    events_dir.create()
-    scriptlog("Created events_dir: " . events_dir)
+global events_dirs := [ new Paths.User().userprofile.Combine("Events") , new Paths().programdata.Combine("Events") ]
+scriptlog("events_dirs: " . toJson(events_dirs))
+
+CreateEventDirs() {
+    global events_dirs
+    for i, dir in events_dirs {
+        try {
+            if (!dir.exists()) {
+                dir.create()
+                scriptlog("Created event_dir: " . dir)
+            }
+        } catch e {
+            scriptlog("Failed to create event_dir: " . dir . " | Error: " . e.Message)
+            continue
+        }
+    }
 }
+
+CreateEventDirs()
 
 global steamvr_vrmonitor_str := steamvr.windows.vrmonitor.str()
 scriptlog("steamvr_vrmonitor_str: " . steamvr_vrmonitor_str)
@@ -65,12 +90,28 @@ SetTimer, CheckForVirtualDesktopServer, % 1000
 scriptlog("CheckForVirtualDesktopServer timer running...")
 ; SetTimer, Debug, 500
 
+; SetTimer, fillVirtualDesktop, % 1000*60*3 ; Run fillVirtualDesktop after 3 minutes
+
+
 Menu, tray, add, Start VD, startVirtualDesktop
 Menu, tray, add, Stop VD, stopVirtualDesktop
+Menu, tray, add, Fill VD, fillVirtualDesktop
 
 return
 Debug:
     ToolTip, % vd.state " . fails: " . vd.failcounter
+    return
+fillVirtualDesktop:
+    SetTimer, fillVirtualDesktop, Off
+    vd.streamer_path.run()
+    SleepS(1)
+    WinGet, streamer_id, ID, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    if (streamer_id) {
+        scriptlog("Found Virtual Desktop Streamer window: " . streamer_id)
+        FillVirtualDesktop(streamer_id) ; FillVirtualDesktop2() ; 
+    } else {
+        scriptlog("Could not find Virtual Desktop Streamer window")
+    }
     return
 CheckForVirtualDesktopServer:
     connected := vd.windows.server.process.exists()
@@ -114,9 +155,73 @@ killAll(item) {
     }
 }
 
+; endregion start
+
 EnsureVirtualDesktop() {
     global vd
     vd.ensure()
+}
+
+; Virtual Desktop Streamer
+; ahk_class HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;ff0a437e-4fcb-4961-a8d2-31096b27c9ec]
+; ahk_exe VirtualDesktop.Streamer.exe
+; ahk_pid 4908
+; ahk_id 132228
+; 620, 208
+; [06:36:11] [
+; 	132228,
+; 	"Virtual Desktop Streamer",
+; 	"HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;ff0a437e-4fcb-4961-a8d2-31096b27c9ec]",
+; 	"VirtualDesktop.Streamer.exe",
+; 	1,
+; 	4908
+; ]
+    ; SendMode, Event
+    ; BlockInput, MouseMove
+    ; ControlClick, X620 Y208, ahk_id %Win_Hwnd%,,,, Pos
+    ; BlockInput, MouseMoveOff
+Created(Win_Hwnd, Win_Title, Win_Class, Win_Exe, Win_Event) {
+    global hasEnteredUsername, OculusUserName
+    if (!startsWith(Win_Class, "HwndWrapper[VirtualDesktop.Streamer.exe;UI Thread;")) {
+        return
+    }
+    if (!hasEnteredUsername && OculusUserName) {
+        scriptlog("Found VD window for the first time since script startup, filling in user " . OculusUserName . "...")
+        FillVirtualDesktop("ahk_id " . Win_Hwnd)
+    }
+}
+
+FillVirtualDesktop(win) {
+    scriptlog("Filling in vd to " . win)
+    WinActivate, % win
+    SetKeyDelay, 0 ; SendMode, InputThenPlay
+    WinWaitActive, % win,, 2
+    Sleep, 250  bluscream
+    ControlSend,, {Tab 2}, % win
+    Sleep, 50
+    Send, {Tab 2}
+    Sleep, 150
+    ControlSend,, % OculusUserName, % win
+    Sleep, 150
+    ControlSend,, {Enter}, % win
+    hasEnteredUsername := true
+    WinMinimize, % win
+    scriptlog("Filled in vd to " . win)
+}
+
+FillVirtualDesktop2() {
+    streamerPath := "C:\Program Files\Virtual Desktop Streamer\VirtualDesktop.Streamer.exe"
+    ; Process, Close, VirtualDesktop.Streamer.exe
+    Run, %streamerPath%
+    WinWait, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    WinActivate, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe
+    WinWaitActive, Virtual Desktop Streamer ahk_exe VirtualDesktop.Streamer.exe,, 2
+    Sleep, 250
+    Click, 10, 10
+    Sleep, 50
+    Send, {Tab}
+    Sleep, 50
+    Send, bluscream{Enter}
 }
 
 OnTrayChanged(line) {
@@ -177,19 +282,26 @@ OnTrayChanged(line) {
 }
 
 ExecuteEventDir(event) { ; , args := {}
-    global events_dir
-    event_dir := events_dir.Combine(event)
-    if (!event_dir.exists()) {
-        event_dir.create()
-        scriptlog("Created event_dir: " . event_dir.Quote())
-    } else {
-        argstr := ""
-        for name, val in args {
-            argstr .= Quote(name . "=" . val) . " "
-        }
-        for i, file in event_dir.getFiles() {
-            scriptlog("Executing " . file.Quote() . " " . argstr)
-            file.run() ; Args(False, argstr)
+    global events_dirs
+    for i, events_dir in events_dirs {
+        event_dir := events_dir.Combine(event)
+        try {
+            if (!event_dir.exists()) {
+                event_dir.create()
+                scriptlog("Created event_dir: " . event_dir.Quote())
+            } else {
+                argstr := ""
+                for name, val in args {
+                    argstr .= Quote(name . "=" . val) . " "
+                }
+                for j, file in event_dir.getFiles() {
+                    scriptlog("Executing " . file.Quote() . " " . argstr)
+                    file.run() ; Args(False, argstr)
+                }
+            }
+        } catch e {
+            scriptlog("Failed to handle event_dir: " . event_dir . " | Error: " . e.Message)
+            continue
         }
     }
 }
@@ -238,14 +350,14 @@ OnVirtualDesktopDisconnected() {
     scriptlog("OnVirtualDesktopDisconnected")
     ExecuteEventDir("OnVirtualDesktopDisconnected")
     if (!steamvr.windows.vrmonitor.exists()) {
-        vd.restart()
+        ; vd.restart()
     }
 }
 OnVirtualDesktopConnectionLost(fails) {
     scriptlog("OnVirtualDesktopConnectionLost (" . fails . ")")
     ExecuteEventDir("OnVirtualDesktopConnectionLost")
     if (!steamvr.windows.vrmonitor.exists()) {
-        vd.restart()
+        ; vd.restart()
     }
     ; if (fails > 1) {
     ;     vd.failcounter := 0
@@ -266,7 +378,7 @@ OnVirtualDesktopInternetLost() {
 }
 InternetLostCheck:
     if (vd.state == "NoInternet" or vd.state == "ConnectionLost") {
-        vd.restart()
+        ; vd.restart()
     } else {
         SetTimer, InternetLostCheck, Off
     }

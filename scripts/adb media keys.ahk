@@ -10,7 +10,7 @@
 adb_path := "adb"
 ; Default behavior for volume keys
 HandleVolumeKeys := false
-device_id := "7bb16eeeb8e9c86c7578552408caede5"
+device_id := "dcc49f55215af97fbf50095be07931db"
 global no_ui := false
 
 ; Check for command line switches
@@ -46,19 +46,19 @@ if (adb_devices == "List of devices attached") { ; \r\n\r\n
         SendCommand("volume_up")
     else
         Send, {Volume_Up}
-    return
+return
 ~Volume_Down:: ; Volume Down
     if (HandleVolumeKeys)
         SendCommand("volume_down")
     else
         Send, {Volume_Down}
-    return
+return
 ~Volume_Mute:: ; Mute
     if (HandleVolumeKeys)
         SendCommand("mute")
     else
         Send, {Volume_Mute}
-    return
+return
 
 return ; Ensure the script keeps running
 
@@ -140,19 +140,21 @@ MakeHASSCommand(command) {
 SendHASSCommand(action) {
     global device_id
     EnvGet, HASS_SERVER, HASS_SERVER
+    EnvGet, HASS_IP, HASS_IP
+    EnvGet, HASS_PORT, HASS_PORT
     EnvGet, HASS_TOKEN, HASS_TOKEN
     HASS_TOKEN := "Bearer " . HASS_TOKEN
 
-    url := HASS_SERVER . "/api/services/" . action
-    ; scriptlog(url)
+    url := "http://" HASS_IP . ":" . HASS_PORT . "/api/services/" . action
+    ; url := HASS_SERVER . "/api/services/" . action
+    scriptlog(url)
     payload := { "device_id": device_id }
     jsonPayload := toJson(payload, false) ; "{""target"": {""device_id"": """ device_id """}}"
     ; scriptlog(jsonPayload)
 
     ; scriptlog("Sending hass command: " . jsonPayload)
     if (startsWith(url, "https:")) {
-        ; Set up the HTTP request headers
-        http := ComObjCreate("MSXML2.XMLHTTP")
+        http := ComObjCreate("MSXML2.XMLHTTP") ; Set up the HTTP request headers
         http.Open("POST", url, true)
         http.setRequestHeader("Authorization", HASS_TOKEN)
         http.setRequestHeader("Content-Type", "application/json")
