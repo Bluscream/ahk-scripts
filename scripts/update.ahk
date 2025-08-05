@@ -1,24 +1,11 @@
-﻿
-CommandLine := DllCall("GetCommandLine", "Str")
-
-If !(A_IsAdmin || RegExMatch(CommandLine, " /restart(?!\S)")) {
-    Try {
-        If (A_IsCompiled) {
-            Run *RunAs "%A_ScriptFullPath%" /restart
-        } Else {
-            Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
-        }
-    }
-    ExitApp
-}
-#Include <bluscream>
+﻿#Include <bluscream>
 #SingleInstance Force
 ; #NoEnv
 #Persistent
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
-
-compile := false
+global no_ui := false
+compile := true
 ; RunWait, C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "C:\Program Files\AutoHotkey\scripts\shadow_client.ahk" /out "C:\Program Files\AutoHotkey\scripts\bin\shadow_client.exe" /mpress 1
 
 ; MsgBox,,, powershell "%A_ScriptDir%\release.ps1"
@@ -26,11 +13,11 @@ compile := false
 Scripts := Array()
 Loop, Scripts\*.ahk
 {
-      Scripts.Push(A_LoopFileLongPath)
+    Scripts.Push(A_LoopFileLongPath)
 }
 Loop, *.ahk
 {
-      Scripts.Push(A_LoopFileLongPath)
+    Scripts.Push(A_LoopFileLongPath)
 }
 ; Binaries := ""
 scripts_count := Scripts.Length()
@@ -42,7 +29,7 @@ if (compile) {
         binary := StrReplace(binary, ".ahk" , ".exe")
         binary := "C:\Program Files\AutoHotkey\scripts\bin\" . binary ; "C:\Program Files\AutoHotkey\Scripts\bin\" . binary
         scriptlog("Into " . binary)
-        cmd = C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1
+        cmd = C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe /in "%script%" /out "%binary%" /mpress 1 /compress 2 /silent verbose
         scriptlog(cmd)
         RunWait, % cmd
         ; binary := StrReplace(binary, " " , "`` ")
@@ -60,7 +47,7 @@ RunWaitOne("git remote -v")
 scriptlog("Pushed to origin/master")
 scriptlog("https://github.com/bluscream/ahk-scripts/commits/master")
 WaitForKey("Finished, you can close this window now or ", "Enter")
-RunWaitOne("git log") ; gitlog := 
+RunWaitOne("git log") ; gitlog :=
 ; MsgBox % gitlog
 WaitForKey("", "Enter")
 ExitApp
