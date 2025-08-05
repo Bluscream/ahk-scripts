@@ -35,5 +35,5 @@ scripts/SteamBulkKeyActivator/
 scripts/temp/
 Adventure/
 AutoGUI/
-Lib/TrayIcon.bak.ahk
+*.bak.ahk
 scripts/AHK-Rare
