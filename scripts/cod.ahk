@@ -3,6 +3,9 @@
 #Persistent
 
 #Include <bluscream>
+EnforceAdmin()
+SendMode, Event ; |Play|Input|InputThenPlay
+SetKeyDelay, 39, 27
 
 SetDefaultMouseSpeed, 50
 SendMode InputThenPlay
@@ -13,7 +16,27 @@ OutputDebug, % """" . gamewindow . """"
 findmatchbuttonpos := [290, 859]
 findmatchbuttoncolor := "0C1E23"
 
+; Timer variables for middle mouse button automation
+timerActive := false
+timerInterval := 30000  ; 30 seconds in milliseconds
+
 F8:: Click, findmatchbuttonpos[1], findmatchbuttonpos[2]
+
+F12::
+    timerActive := !timerActive
+    if (timerActive) {
+        SetTimer, MiddleMouseTimer, %timerInterval%
+        OutputDebug, Middle mouse timer started - pressing every 30 seconds
+    } else {
+        SetTimer, MiddleMouseTimer, Off
+        OutputDebug, Middle mouse timer stopped
+    }
+return
+
+MiddleMouseTimer:
+    Click, Middle
+    OutputDebug, Middle mouse button pressed
+return
 
 return
 

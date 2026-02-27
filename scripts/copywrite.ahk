@@ -27,4 +27,4 @@ return
         return
     }
     Send {Raw}%Clipboard%
-    Return
+Return

@@ -145,6 +145,9 @@ titles.push({title:"PowerToys Run - Plugin Initialization Error ahk_class #32770
 titles.push({title:"Run In Safe Mode? ahk_class #32770 ahk_exe cod.exe",action:"ClickButton:No"})
 titles.push({title:"TrafficMonitor ahk_class #32770 ahk_exe TrafficMonitor.exe",text:"Error getting hardware monitoring data!",action:"CloseWindow"})
 titles.push({title:"Roblox ahk_class #32770",text:"If the issue persists",action:"CloseWindow"})
+titles.push({title:"VRCOSC has experienced a non-critical exception ahk_class #32770 ahk_exe VRCOSC.exe",text:"",action:"CloseWindow"})
+titles.push({title:"VRCOSC has experienced a critical exception ahk_class #32770 ahk_exe VRCOSC.exe",text:"",action:"CloseWindow"})
+titles.push({title:"GPU driver version ahk_class #32770 ahk_exe cod.exe",text:"Ignore",action:"ClickButton:Ignore"})
 
 ; titles.push({title:"Error ahk_class TdecShellFileErrorMessageBoxForm ahk_exe explorer.exe", text: "", action: "ClickButton:&Skip"})
 ; titles.push({title: "DB Browser for SQLite ahk_class Qt5QWindowIcon ahk_exe DB Browser for SQLite.exe", text: "", action: "Click:X232 Y67"})

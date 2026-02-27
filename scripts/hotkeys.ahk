@@ -52,13 +52,14 @@ showHotKeys() {
 +#p::ShellRun("powershell") ; Shift + Win + P
 <#t::Run shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App ; Win + T
 +#t::ShellRun("shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App") ; Shift + Win + T
-<#e::Run explorer Shell:::{20d04fe0-3aea-1069-a2d8-08002b30309d} ; Win + E
+<#e::Run explorer Shell:::{20d04fe0-3aea-1069-a2d8-0802025-08-21_00-44-4302b30309d} ; Win + E
 +#e::ShellRun("explorer") ; Shift + Win + E
 ; <#r::Run explorer.exe Shell:::{2559a1f3-21d7-11d4-bdaf-00c04f60b9f0}
 ^+Esc::Run taskmgr ; Ctrl + Shift + Esc
 !^+t::HideTaskbar(hide := !hide) ; Alt + Control + Shift + T
 ^Space::ShowPowerLauncher()
 #Space::ShowPowerLauncher()
+^!d::CopyDateTimeFilenameSafe() ; Example hotkey: Ctrl+Alt+D
 <#x:: ; Win + X
     ; IfWinExist, Quick Start Panel ahk_class AutoHotkeyGUI ahk_exe AutoHotkey.exe
     ; {
@@ -206,4 +207,15 @@ ShowPowerLauncher() {
     Sleep, 50
     WinRestore, % win
     WinActivate, % win
+}
+CopyDateTimeFilenameSafe() {
+    ; Get current date and time in YYYY-MM-DD_HH-MM-SS format (filename safe)
+    FormatTime, dt, , yyyy-MM-dd_HH-mm-ss
+    ; Copy to clipboard
+    Clipboard := dt
+    ClipWait, 1
+    if ErrorLevel {
+        MsgBox, Failed to copy date/time to clipboard.
+    }
+    return
 }
